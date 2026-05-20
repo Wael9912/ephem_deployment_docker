@@ -35,6 +35,8 @@ services:
     volumes:
       - odoo-data:/var/lib/odoo
       - ./custom-addons:/mnt/extra-addons:ro
+      - /Users/waelabdalla/Documents/Projects/cmp/cmp:/mnt/extra-addons/cmp:ro
+      - /Users/waelabdalla/Documents/Projects/cmp/cmp_core:/mnt/extra-addons/cmp_core:ro
       - ./odoo.conf:/etc/odoo/odoo.conf
     networks:
       - ephem-internal
