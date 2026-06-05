@@ -1,12 +1,18 @@
-# Passwords
+# Secrets — NEVER commit the real config. Use the committed templates
+# (odoo.conf.example / .prod / .dev) which carry only CHANGE_ME placeholders.
 .env
+odoo.conf
+
+# Developer-only compose override (machine-specific build)
+docker-compose.override.yml
 
 # Data (lives on the server, not in Git)
 postgres-data/
 odoo-data/
 backups/*.gz
 backups/*.log
-.env
+backups/*.dump
+backups/*.sql.gz
 custom-addons/
 
 # NGINX HTTP-only backup (created by ssl-setup.sh)

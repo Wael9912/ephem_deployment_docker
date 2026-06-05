@@ -1,0 +1,58 @@
+[options]
+; ──────────────────────────────────────────────────────────────────────────
+;  ePHEM odoo.conf TEMPLATE  (committed — safe, contains NO real secrets)
+; ──────────────────────────────────────────────────────────────────────────
+;  HOW TO USE
+;    cp odoo.conf.example odoo.conf      # then edit the two CHANGE_ME values
+;  OR pick a posture directly:
+;    cp odoo.conf.prod odoo.conf         # production-hardened
+;    cp odoo.conf.dev  odoo.conf         # local development
+;
+;  The real odoo.conf is .gitignored. NEVER commit a file with live secrets.
+;  Generate strong values with:  openssl rand -base64 30 | tr -d '/+=' | cut -c1-32
+; ──────────────────────────────────────────────────────────────────────────
+
+; === Secrets — REPLACE BOTH before going live ============================
+admin_passwd = CHANGE_ME
+db_password = CHANGE_ME
+
+; === Database connection =================================================
+db_host = db
+db_port = 5432
+db_user = odoo
+
+; === Addons ==============================================================
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+
+; === Networking / reverse proxy =========================================
+; Production runs behind NGINX → proxy_mode MUST be True so Odoo trusts the
+; X-Forwarded-* headers and builds correct absolute URLs / cookies.
+proxy_mode = True
+xmlrpc_port = 8069
+gevent_port = 8072
+
+; === Workers / limits (production defaults) =============================
+; workers > 0 enables the multiprocess prefork server (required for real load).
+; Rule of thumb: workers = (CPU cores * 2) + 1. Start at 2 and tune.
+workers = 2
+max_cron_threads = 1
+
+limit_memory_soft = 2147483648
+limit_memory_hard = 2684354560
+limit_time_cpu = 60
+limit_time_real = 120
+limit_request = 8192
+
+; === Logging ============================================================
+log_level = info
+
+; === Security ===========================================================
+; list_db = False hides the database manager and the DB selector — critical
+; in production so the master password / DB list are not exposed.
+list_db = False
+
+; Pin the active database so the app auto-loads and the selector is never
+; reachable. Adjust to your live DB name.
+dbfilter = ^ephem_uganda$
+
+; NOTE: no dev_mode line in this template — dev_mode is for odoo.conf.dev only.

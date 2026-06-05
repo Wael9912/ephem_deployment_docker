@@ -1,0 +1,46 @@
+# ──────────────────────────────────────────────────────────────────────────
+#  ePHEM nightly database backup — cron + systemd-timer snippets.
+# ──────────────────────────────────────────────────────────────────────────
+#
+# ── Option A: classic cron (run `crontab -e` as the deploy user) ──────────
+#   Adjust the repo path. Logs go to backups/backup.log via the script itself;
+#   the >> here captures any cron-level errors.
+#
+#   0 2 * * *  cd /opt/ephem-deploy && /usr/bin/env bash scripts/backup_db.sh >> backups/cron.log 2>&1
+#
+#   (runs every night at 02:00, keeps newest 14 dumps by default)
+#
+#
+# ── Option B: systemd service + timer (preferred on systemd hosts) ─────────
+# Create /etc/systemd/system/ephem-backup.service :
+#
+#   [Unit]
+#   Description=ePHEM database backup
+#   After=docker.service
+#   Requires=docker.service
+#
+#   [Service]
+#   Type=oneshot
+#   WorkingDirectory=/opt/ephem-deploy
+#   ExecStart=/usr/bin/env bash /opt/ephem-deploy/scripts/backup_db.sh
+#   # Optional tuning:
+#   # Environment=RETENTION=30
+#   # Environment=DB_NAME=ephem_uganda
+#
+# Create /etc/systemd/system/ephem-backup.timer :
+#
+#   [Unit]
+#   Description=Run ePHEM database backup nightly
+#
+#   [Timer]
+#   OnCalendar=*-*-* 02:00:00
+#   Persistent=true
+#
+#   [Install]
+#   WantedBy=timers.target
+#
+# Enable it:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now ephem-backup.timer
+#   systemctl list-timers ephem-backup.timer
+#   sudo systemctl start ephem-backup.service   # run once now to test

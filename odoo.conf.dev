@@ -1,0 +1,40 @@
+[options]
+; ──────────────────────────────────────────────────────────────────────────
+;  ePHEM DEVELOPMENT config template (local machine only — NOT for servers).
+;    cp odoo.conf.dev odoo.conf
+;  Secrets here are still .gitignored; do not put production passwords in dev.
+; ──────────────────────────────────────────────────────────────────────────
+
+; === Secrets =============================================================
+admin_passwd = CHANGE_ME
+db_password = CHANGE_ME
+
+; === Database connection =================================================
+db_host = db
+db_port = 5432
+db_user = odoo
+
+; === Addons ==============================================================
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+
+; === Networking =========================================================
+; No reverse proxy in local dev — Odoo is exposed directly.
+proxy_mode = False
+xmlrpc_port = 8069
+gevent_port = 8072
+
+; === Workers ============================================================
+; workers = 0 uses threading mode — required for dev_mode, simpler locally.
+workers = 0
+max_cron_threads = 1
+
+; === Logging ============================================================
+log_level = debug
+
+; === Developer conveniences ============================================
+; dev_mode enables asset reload, qweb edits, werkzeug debugger, xml reload.
+dev_mode = reload,qweb,werkzeug,xml
+
+; === Database listing (dev convenience) ================================
+list_db = True
+dbfilter = ^ephem_uganda$

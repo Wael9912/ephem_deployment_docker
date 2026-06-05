@@ -1,0 +1,45 @@
+[options]
+; ──────────────────────────────────────────────────────────────────────────
+;  ePHEM PRODUCTION config template.
+;  Copy to the live odoo.conf, then set the two CHANGE_ME secrets:
+;    cp odoo.conf.prod odoo.conf
+;  This file is .gitignored as a precaution — keep secrets out of it anyway.
+;  Generate secrets:  openssl rand -base64 30 | tr -d '/+=' | cut -c1-32
+; ──────────────────────────────────────────────────────────────────────────
+
+; === Secrets — REPLACE BOTH ==============================================
+admin_passwd = CHANGE_ME
+db_password = CHANGE_ME
+
+; === Database connection =================================================
+db_host = db
+db_port = 5432
+db_user = odoo
+
+; === Addons ==============================================================
+addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+
+; === Reverse proxy (NGINX terminates TLS) ===============================
+proxy_mode = True
+xmlrpc_port = 8069
+gevent_port = 8072
+
+; === Workers / limits ===================================================
+; Multiprocess prefork. Tune workers to (cores * 2) + 1.
+workers = 2
+max_cron_threads = 1
+
+limit_memory_soft = 2147483648
+limit_memory_hard = 2684354560
+limit_time_cpu = 60
+limit_time_real = 120
+limit_request = 8192
+
+; === Logging ============================================================
+log_level = info
+
+; === Security ===========================================================
+list_db = False
+dbfilter = ^ephem_uganda$
+
+; (no dev_mode — production)
