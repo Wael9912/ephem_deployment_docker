@@ -32,6 +32,7 @@ Deploy and develop ePHEM using Docker. The setup script handles everything — j
   - [Useful Developer Commands](#useful-developer-commands)
   - [Git Workflow](#git-workflow)
 - [ePHEM Custom Modules](#ephem-custom-modules)
+- [Medical-Supply ERP (Sudan demo)](#medical-supply-erp-sudan-demo)
 - [Adding Domains](#adding-domains)
 - [Duplicating Databases](#duplicating-databases)
 - [Updating ePHEM](#updating-ephem)
@@ -411,6 +412,71 @@ The ePHEM custom modules live in a private repository.
 **For developers (mode 3):** You need collaborator access on `borse/ePHEM`. Request this from the ePHEM team before running setup. Once granted, the script clones using your personal SSH key.
 
 > **While waiting for access**, ePHEM runs with standard Odoo modules. You can create databases, configure users, and explore the interface. ePHEM-specific modules appear in **Apps** after access is granted and setup is re-run.
+
+---
+
+## Medical-Supply ERP (Sudan demo)
+
+A complete medical-supply distribution ERP built on **Odoo 18 Community** (Community + OCA/Odoo-Mates modules only — no Enterprise licences). It covers configuration, inventory, warehousing, procurement, sales and accounting, with **multi-currency** support: **SDG** as the base currency and **USD** as a reference currency with an easy, dated exchange-rate history.
+
+### User manual
+
+A full, professionally formatted user manual describing every feature lives in [`docs/manual/`](docs/manual/):
+
+- **Word:** `docs/manual/Sudan_MedSupply_ERP_User_Manual.docx`
+- **PDF:** `docs/manual/Sudan_MedSupply_ERP_User_Manual.pdf`
+
+Regenerate both from the single source (`scripts/build_manual.py`) any time — DOCX is produced with `python-docx`, the PDF via the Odoo container's `wkhtmltopdf`:
+
+```bash
+pip3 install --user python-docx
+python3 scripts/build_manual.py
+docker cp docs/manual/_manual.html ephem-app:/tmp/manual.html
+docker compose exec -T odoo wkhtmltopdf --enable-local-file-access --dpi 150 \
+  /tmp/manual.html /tmp/manual.pdf
+docker cp ephem-app:/tmp/manual.pdf docs/manual/Sudan_MedSupply_ERP_User_Manual.pdf
+```
+
+### Modules
+
+Installed on top of the base image (the `bank-payment` OCA modules require the nested
+`addons_path` entry — see below):
+
+| Area | Modules |
+|---|---|
+| Core apps | `account`, `contacts`, `stock`, `purchase`, `sale_management` |
+| Inventory | `product_expiry` (lot/expiry + FEFO), `stock_landed_costs`, auto: `stock_account` |
+| Accounting | `om_account_accountant` suite (`accounting_pdf_reports`, `om_account_asset`, `om_account_budget`, `om_fiscal_year`, `om_account_daily_reports`, `om_account_followup`) |
+| Bank reconciliation | `account_statement_base` → `account_reconcile_model_oca` → `account_reconcile_oca` |
+
+> **`addons_path` is not recursive.** The `bank-payment-18.0` OCA modules are nested one level deep, so `odoo.conf` / `odoo.conf.prod` include `/mnt/extra-addons/bank-payment-18.0` in `addons_path`. Run **Apps → Update Apps List** after changing it.
+
+### Build / reseed the demo database
+
+The whole demo (`erpmedsupply`) is reproducible from scratch. See the
+**`erp-medsupply-demo`** runbook in [`.claude/skills/`](.claude/skills/erp-medsupply-demo/SKILL.md), or:
+
+```bash
+docker compose up -d db                       # start Postgres
+docker compose run --rm -T odoo odoo -d erpmedsupply \
+  -i account,contacts,stock,purchase,sale_management,product_expiry,stock_landed_costs,\
+om_account_accountant,account_reconcile_oca,account_statement_base,account_reconcile_model_oca \
+  --without-demo=all --stop-after-init        # create + install
+docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http \
+  < scripts/seed_medsupply.py                 # seed master data + transactions
+docker compose up -d odoo                     # serve the app
+```
+
+Then open **http://localhost:8069**, choose database **`erpmedsupply`**, and log in (`admin` / `admin` on the demo — change before any real use).
+
+### What the demo contains
+
+- **Sudan MedSupply Co.**, base currency **SDG**, **USD** reference with 5 dated rates (600 → 700 SDG).
+- 2 warehouses (Khartoum, Port Sudan) + Cold Storage / Quarantine / Expired locations.
+- 10 lot- & expiry-tracked medical products; insulin auto-routed to Cold Storage.
+- 4 customers, 3 suppliers (one priced in USD), vendor price lists.
+- 2 bank journals (SDG/USD) + 2 cash "money safe" journals (SDG/USD).
+- 3 purchase orders → receipts (with lots/expiry) → a vendor bill; 2 sales orders → FEFO deliveries → posted SDG invoices; 1 draft quotation.
 
 ---
 
