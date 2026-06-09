@@ -59,19 +59,30 @@ docker compose stop odoo
 docker compose exec -T db psql -U odoo -d postgres -c "DROP DATABASE IF EXISTS erpmedsupply WITH (FORCE);"
 ```
 
-## Regenerate the user manual (Word + PDF)
-Single source: `scripts/build_manual.py` (edit content blocks there).
+## Regenerate the user manual (Word + PDF, EN + AR)
+Single source: `scripts/build_manual.py` — `fill_en()` / `fill_ar()` hold the content;
+renderers emit DOCX (python-docx) and HTML for both languages. Arabic is RTL.
 ```bash
 pip3 install --user python-docx        # host, once
-python3 scripts/build_manual.py        # -> docs/manual/*.docx + _manual.html
-docker cp docs/manual/_manual.html ephem-app:/tmp/manual.html
-docker compose exec -T odoo wkhtmltopdf --enable-local-file-access --dpi 150 \
-  /tmp/manual.html /tmp/manual.pdf
-docker cp ephem-app:/tmp/manual.pdf docs/manual/Sudan_MedSupply_ERP_User_Manual.pdf
+python3 scripts/build_manual.py        # -> docs/manual/*_EN/_AR.docx + _manual_EN/AR.html
+
+# container: WeasyPrint renders correct Arabic bidi (wkhtmltopdf here is unpatched Qt
+# and garbles RTL inline runs + mixed Latin/Arabic headings — do NOT use it for AR).
+docker compose exec -u root odoo bash -lc \
+  'apt-get update -qq && apt-get install -y -qq libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 && pip install --break-system-packages -q weasyprint'
+docker compose exec -T odoo mkdir -p /tmp/fonts
+docker cp scripts/fonts/Tajawal-Regular.ttf ephem-app:/tmp/fonts/Tajawal-Regular.ttf
+docker cp scripts/fonts/Tajawal-Bold.ttf    ephem-app:/tmp/fonts/Tajawal-Bold.ttf
+for L in EN AR; do
+  docker cp docs/manual/_manual_$L.html ephem-app:/tmp/manual_$L.html
+  docker compose exec -T odoo python3 -m weasyprint /tmp/manual_$L.html /tmp/manual_$L.pdf
+  docker cp ephem-app:/tmp/manual_$L.pdf docs/manual/Medical-Supply_ERP_User_Manual_$L.pdf
+done
 ```
-Note: the container's `wkhtmltopdf` is **unpatched Qt** — no multi-input (cover/toc as
-separate files) and footer/header switches are ignored. The HTML is therefore a single
-self-contained file with CSS page-breaks and an in-page TOC.
+Notes:
+- The Arabic PDF embeds the bundled **Tajawal** font (`scripts/fonts/`, referenced via
+  `@font-face` at `file:///tmp/fonts/...`). The container has no Arabic system font.
+- The manuals must **not** mention "ePHEM" (per client request) — keep `META`/content clean.
 
 ## Gotchas learned
 - Default pricelist is created in the chart's currency (USD) → forces invoices to USD.

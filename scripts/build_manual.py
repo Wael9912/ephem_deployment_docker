@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Build the Sudan Medical-Supply ERP User Manual from a single content source
-into a professionally formatted Word document (.docx) and an HTML file that is
-converted to PDF with the Odoo container's wkhtmltopdf.
+Build the Medical-Supply ERP User Manual (English + Arabic) from a single
+content source into professionally formatted Word (.docx) and HTML files.
+The HTML is converted to PDF with the Odoo container's wkhtmltopdf.
 
-Usage:
-    python3 scripts/build_manual.py
+Outputs (docs/manual/):
+    Medical-Supply_ERP_User_Manual_EN.docx / _EN.html
+    Medical-Supply_ERP_User_Manual_AR.docx / _AR.html   (right-to-left)
+
+Usage:  python3 scripts/build_manual.py
 """
 import html as _html
 import os
@@ -13,352 +16,600 @@ import os
 BRAND = "0E6E8E"        # teal
 BRAND_DARK = "094E66"
 ACCENT = "1F7A4D"       # medical green
-LIGHT = "EAF3F6"        # light teal band
+LIGHT = "EAF3F6"
 GREY = "F4F6F7"
 
-OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "manual")
-TITLE = "Medical-Supply ERP"
-SUBTITLE = "User Manual"
-ORG = "Sudan MedSupply Co."
-PLATFORM = "Built on ePHEM / Odoo 18 Community"
-VERSION = "Version 1.0"
-DATE = "June 2026"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+OUT_DIR = os.path.join(ROOT, "docs", "manual")
+FONT_DIR = os.path.join(ROOT, "scripts", "fonts")
+
+META = {
+    "en": dict(title="Medical-Supply ERP", subtitle="User Manual",
+               org="Sudan MedSupply Co.", platform="Built on Odoo 18 Community",
+               version="Version 1.0", date="June 2026", toc="Table of Contents",
+               labels={"tip": "TIP", "warn": "IMPORTANT", "note": "NOTE"}),
+    "ar": dict(title="نظام إدارة موارد المستلزمات الطبية", subtitle="دليل المستخدم",
+               org="شركة السودان للمستلزمات الطبية", platform="مبني على أودو 18 المجتمعي",
+               version="الإصدار 1.0", date="يونيو 2026", toc="جدول المحتويات",
+               labels={"tip": "نصيحة", "warn": "هام", "note": "ملاحظة"}),
+}
 
 # ----------------------------------------------------------------------------
-# CONTENT SOURCE  — list of blocks. Block types:
-#   ("h1"|"h2"|"h3", text)
-#   ("p", text)
-#   ("ul"|"ol", [items])
-#   ("table", [headers], [[row], ...])
-#   ("tip"|"warn"|"note", title, text)
-# Inline **bold** is supported in p / list / callout / table text.
-# ----------------------------------------------------------------------------
-C = []
-def h1(t): C.append(("h1", t))
-def h2(t): C.append(("h2", t))
-def h3(t): C.append(("h3", t))
-def p(t): C.append(("p", t))
-def ul(items): C.append(("ul", items))
-def ol(items): C.append(("ol", items))
-def table(headers, rows): C.append(("table", headers, rows))
-def tip(title, t): C.append(("tip", title, t))
-def warn(title, t): C.append(("warn", title, t))
-def note(title, t): C.append(("note", title, t))
+class Content:
+    """Collects manual blocks. Inline **bold** is supported in text."""
+    def __init__(self):
+        self.C = []
+    def h1(self, t): self.C.append(("h1", t))
+    def h2(self, t): self.C.append(("h2", t))
+    def h3(self, t): self.C.append(("h3", t))
+    def p(self, t): self.C.append(("p", t))
+    def ul(self, items): self.C.append(("ul", items))
+    def ol(self, items): self.C.append(("ol", items))
+    def table(self, headers, rows): self.C.append(("table", headers, rows))
+    def tip(self, title, t): self.C.append(("tip", title, t))
+    def warn(self, title, t): self.C.append(("warn", title, t))
+    def note(self, title, t): self.C.append(("note", title, t))
 
-# ============================================================ 1. INTRODUCTION
-h1("1. Introduction")
-p("This manual describes the **Medical-Supply ERP** — an integrated business system for a "
-  "company that imports, stores, and distributes medical supplies and pharmaceuticals. "
-  "The system covers the full operational chain: master-data configuration, inventory and "
-  "warehousing, procurement, sales, and accounting, with native **multi-currency** support "
-  "(Sudanese Pound as the base currency and US Dollar as a reference currency).")
-p("The system is built on **Odoo 18 Community** (the ePHEM deployment) and uses only "
-  "Community and open-source (OCA / Odoo-Mates) modules — no proprietary Enterprise "
-  "licences are required.")
-h2("1.1 Who this manual is for")
-ul(["**Administrators** who configure master data — warehouses, items, partners, banks, "
-    "currencies and exchange rates.",
-    "**Procurement officers** who raise purchase orders and receive goods.",
-    "**Sales staff** who quote, sell, and deliver to customers.",
-    "**Accountants** who manage invoices, payments, bank reconciliation and reports."])
-h2("1.2 Key capabilities at a glance")
-table(["Area", "What you can do"],
-      [["Configuration", "Define company, currencies & rates, customers, suppliers, banks, cash safes, units, warehouses and product categories."],
-       ["Inventory", "Register items with lot/batch and expiry tracking; manage on-hand stock and valuation."],
-       ["Warehouse", "Run multiple warehouses and internal locations (e.g. cold storage, quarantine); receipts, deliveries and internal transfers."],
-       ["Procurement", "RFQ → Purchase Order → Receipt → Vendor Bill, with vendor price lists and multi-currency purchasing."],
-       ["Sales", "Quotation → Sales Order → Delivery → Customer Invoice, with price lists per currency."],
-       ["Accounting", "Customer invoices, vendor bills, payments, bank reconciliation, financial reports, fiscal year and dunning."],
-       ["Multi-currency", "SDG base + USD reference; dated exchange-rate history that is easy to update."]])
+# ============================================================ ENGLISH CONTENT
+def fill_en(d):
+    d.h1("1. Introduction")
+    d.p("This manual describes the **Medical-Supply ERP** — an integrated business system "
+        "for a company that imports, stores, and distributes medical supplies and "
+        "pharmaceuticals. The system covers the full operational chain: master-data "
+        "configuration, inventory and warehousing, procurement, sales, and accounting, with "
+        "native **multi-currency** support (Sudanese Pound as the base currency and US Dollar "
+        "as a reference currency).")
+    d.p("The system is built on **Odoo 18 Community** and uses only Community and open-source "
+        "(OCA / Odoo-Mates) modules — no proprietary Enterprise licences are required.")
+    d.h2("1.1 Who this manual is for")
+    d.ul(["**Administrators** who configure master data — warehouses, items, partners, banks, "
+          "currencies and exchange rates.",
+          "**Procurement officers** who raise purchase orders and receive goods.",
+          "**Sales staff** who quote, sell, and deliver to customers.",
+          "**Accountants** who manage invoices, payments, bank reconciliation and reports."])
+    d.h2("1.2 Key capabilities at a glance")
+    d.table(["Area", "What you can do"],
+            [["Configuration", "Define company, currencies & rates, customers, suppliers, banks, cash safes, units, warehouses and product categories."],
+             ["Inventory", "Register items with lot/batch and expiry tracking; manage on-hand stock and valuation."],
+             ["Warehouse", "Run multiple warehouses and internal locations (e.g. cold storage, quarantine); receipts, deliveries and internal transfers."],
+             ["Procurement", "RFQ → Purchase Order → Receipt → Vendor Bill, with vendor price lists and multi-currency purchasing."],
+             ["Sales", "Quotation → Sales Order → Delivery → Customer Invoice, with price lists per currency."],
+             ["Accounting", "Customer invoices, vendor bills, payments, bank reconciliation, financial reports, fiscal year and dunning."],
+             ["Multi-currency", "SDG base + USD reference; dated exchange-rate history that is easy to update."]])
 
-# ============================================================ 2. SYSTEM OVERVIEW
-h1("2. System Overview")
-h2("2.1 Building blocks")
-p("The ERP is organised into cooperating Odoo applications. Each application adds menus, "
-  "documents and reports, but they share the same products, partners and accounting.")
-table(["Application", "Purpose"],
-      [["Inventory", "Items, stock, warehouses, locations, lots, expiry, transfers."],
-       ["Purchase", "Supplier orders and goods receipts."],
-       ["Sales", "Customer quotations, orders and deliveries."],
-       ["Invoicing / Accounting", "Invoices, bills, payments, journals, reports."],
-       ["Contacts", "Customers and suppliers (a single contact can be both)."],
-       ["Settings", "Company, currencies, users, and feature switches."]])
-h2("2.2 Logging in")
-ol(["Open the system URL in a web browser (for the local demo: **http://localhost:8069**).",
-    "If a database list appears, choose **erpmedsupply**.",
-    "Enter your user name and password. The default administrator is **admin / admin** "
-    "on the demo database — change this password before going live."])
-warn("Change default credentials", "The demo administrator password (**admin**) and the "
-     "database master password must be changed before the system is used with real data.")
-h2("2.3 Finding your way around")
-ul(["The **top menu bar** switches between applications (Inventory, Purchase, Sales, Accounting…).",
-    "Each application has its own **Configuration** sub-menu for setup tasks.",
-    "Lists can be filtered, grouped and exported; most documents follow a "
-    "**draft → confirmed → done** lifecycle shown by status buttons in the top-right."])
+    d.h1("2. System Overview")
+    d.h2("2.1 Building blocks")
+    d.p("The ERP is organised into cooperating applications. Each application adds menus, "
+        "documents and reports, but they share the same products, partners and accounting.")
+    d.table(["Application", "Purpose"],
+            [["Inventory", "Items, stock, warehouses, locations, lots, expiry, transfers."],
+             ["Purchase", "Supplier orders and goods receipts."],
+             ["Sales", "Customer quotations, orders and deliveries."],
+             ["Invoicing / Accounting", "Invoices, bills, payments, journals, reports."],
+             ["Contacts", "Customers and suppliers (a single contact can be both)."],
+             ["Settings", "Company, currencies, users, and feature switches."]])
+    d.h2("2.2 Logging in")
+    d.ol(["Open the system URL in a web browser (for the local demo: **http://localhost:8069**).",
+          "If a database list appears, choose **erpmedsupply**.",
+          "Enter your user name and password. The default administrator is **admin / admin** "
+          "on the demo database — change this password before going live."])
+    d.warn("Change default credentials", "The demo administrator password (**admin**) and the "
+           "database master password must be changed before the system is used with real data.")
+    d.h2("2.3 Finding your way around")
+    d.ul(["The **top menu bar** switches between applications (Inventory, Purchase, Sales, Accounting…).",
+          "Each application has its own **Configuration** sub-menu for setup tasks.",
+          "Most documents follow a **draft → confirmed → done** lifecycle shown by status "
+          "buttons in the top-right."])
 
-# ============================================================ 3. CONFIGURATION
-h1("3. Configuration (Central Admin)")
-p("Configuration is the heart of the system. Complete these steps **in order** before "
-  "recording day-to-day transactions, because some settings (especially the base currency "
-  "and chart of accounts) are difficult to change once transactions exist.")
+    d.h1("3. Configuration (Central Admin)")
+    d.p("Configuration is the heart of the system. Complete these steps **in order** before "
+        "recording day-to-day transactions, because some settings (especially the base "
+        "currency and chart of accounts) are difficult to change once transactions exist.")
+    d.h2("3.1 Company")
+    d.ol(["Go to **Settings → Users & Companies → Companies** and open your company.",
+          "Set the legal name, address, tax number and logo.",
+          "Set the **Country** to Sudan."])
+    d.h2("3.2 Currencies and exchange rates")
+    d.p("The system uses **SDG (Sudanese Pound)** as the company base currency and **USD** as "
+        "a reference currency for imports and price quotations.")
+    d.ol(["Enable multi-currency: **Settings → Accounting → Currencies → tick Multi-Currencies**.",
+          "Activate the currencies you use: **Settings → Currencies**, switch on **SDG** and **USD**.",
+          "Confirm the company base currency is **SDG**."])
+    d.h3("Recording a new USD exchange rate")
+    d.p("Exchange rates are stored as **dated records**, so the full history is preserved and "
+        "any past document is valued at the rate that applied on its date.")
+    d.ol(["Open **Accounting → Configuration → Currencies** and click **USD**.",
+          "Go to the **Rates** tab and click **Add a line**.",
+          "Enter the **date** and the rate — type the intuitive figure: **how many SDG equal "
+          "1 USD** (e.g. 700).",
+          "Save. The new rate applies to all documents dated on or after that day."])
+    d.tip("Easy rate updates", "Because each change is a new dated line, you simply add a line "
+          "whenever the rate moves — you never overwrite history. Reports and documents "
+          "automatically use the correct rate for their date.")
+    d.note("Automatic rates (optional)", "Community Odoo does not fetch rates automatically. If "
+           "you want scheduled updates, the OCA **currency_rate_update** module can be added "
+           "later; otherwise rates are maintained by hand as above.")
+    d.h2("3.3 Customers and suppliers")
+    d.p("Customers and suppliers are both **Contacts**. A single contact can be both a customer "
+        "and a supplier — do not create duplicates.")
+    d.ol(["Open **Contacts → New**.",
+          "Choose **Company** or **Individual** and enter name, address and phone.",
+          "On the **Sales & Purchasing** tab set the price list, payment terms and (for "
+          "foreign suppliers) the purchase currency.",
+          "On the **Accounting** tab set receivable/payable accounts and add bank accounts."])
+    d.table(["Field", "Used for"],
+            [["Customer / Vendor", "Determines whether the contact appears in Sales or Purchase."],
+             ["Purchase currency", "Default currency for that supplier's orders (e.g. USD for imports)."],
+             ["Price list", "Which selling prices and currency apply to this customer."],
+             ["Bank accounts", "Needed to register or batch payments."]])
+    d.h2("3.4 Banks and money safes")
+    d.p("Money flows are tracked through **journals**. A **bank** needs both a bank record and "
+        "a bank journal; a **money safe / cash box** is a **cash journal**.")
+    d.ol(["Create the institution: **Accounting → Configuration → Banks → New** (name, SWIFT/BIC).",
+          "Create a **Bank** journal: Type = **Bank**. Set a currency for a foreign-currency "
+          "account (e.g. a USD bank account).",
+          "Create a **Cash** journal for each physical safe: Type = **Cash** (e.g. *Main Cash "
+          "Safe (SDG)*, *USD Cash Safe*)."])
+    d.note("Why a cash journal is a 'safe'", "There is no separate 'safe' object. Each physical "
+           "cash box or till is represented by its own **Cash journal**, so its balance and "
+           "movements are tracked and reconciled independently.")
+    d.h2("3.5 Units of measure")
+    d.p("Enable **Units of Measure** to buy, stock and sell in different units — for example "
+        "purchase a *Box of 100* but issue *units*. Define units and conversion factors under "
+        "**Inventory → Configuration → Units of Measure**.")
+    d.h2("3.6 Warehouses and locations")
+    d.ol(["Go to **Inventory → Configuration → Warehouses** and create one per physical site "
+          "(name + short code, e.g. *Khartoum Central / KRT*).",
+          "Set the number of receipt and delivery steps on each warehouse as needed.",
+          "Create internal **Locations**: **Cold Storage (2-8°C)**, **Quarantine**, "
+          "**Expired / Damaged**."])
+    d.tip("Cold chain", "Temperature-controlled storage is modelled as an internal "
+          "**location**. A **putaway rule** can automatically route a product (e.g. insulin) "
+          "into Cold Storage when it is received.")
+    d.h2("3.7 Product categories")
+    d.p("Product categories control how stock is costed and removed.")
+    d.table(["Setting", "Recommended value", "Effect"],
+            [["Costing Method", "FIFO", "Stock is valued first-in-first-out."],
+             ["Inventory Valuation", "Manual / Periodic*", "Avoids needing valuation accounts up front."],
+             ["Force Removal Strategy", "FEFO", "Goods nearest to expiry are issued first."]])
+    d.note("Automated valuation", "*The demo uses periodic valuation so goods movements post "
+           "without extra account setup. To post stock value in real time, set the category's "
+           "Stock Input/Output/Valuation accounts and a Stock journal, then switch Valuation "
+           "to **Automated**.")
 
-h2("3.1 Company")
-ol(["Go to **Settings → Users & Companies → Companies** and open your company.",
-    "Set the legal name, address, tax number and logo.",
-    "Set the **Country** to Sudan."])
+    d.h1("4. Inventory & Items")
+    d.h2("4.1 Registering an item")
+    d.ol(["Open **Inventory → Products → Products → New**.",
+          "Enter the name, **Internal Reference** (SKU) and **Barcode**.",
+          "Set **Product Type = Goods** and switch on **Track Inventory**.",
+          "Assign the **Product Category** (e.g. Pharmaceuticals).",
+          "Set the **Cost** and **Sales Price**.",
+          "On the **Inventory** tab set **Tracking = By Lots** and enable **Expiration Date** "
+          "for medicines and consumables."])
+    d.h2("4.2 Lot / batch and expiry tracking")
+    d.p("Lot tracking records which **batch** each unit belongs to; expiry tracking records the "
+        "**expiration date** of each batch. Together they give full traceability and drive FEFO.")
+    d.ul(["On receipt the system asks for the **lot number** and **expiry date**.",
+          "Stock can be traced by lot for recalls and audits.",
+          "Near-expiry stock is highlighted and issued first under FEFO."])
+    d.h2("4.3 Checking stock on hand")
+    d.p("Open a product and use the **On Hand** / **Forecasted** smart buttons, or review the "
+        "on-hand column in the product list. **Inventory → Reporting** provides valuation and "
+        "movement analysis.")
 
-h2("3.2 Currencies and exchange rates")
-p("The system uses **SDG (Sudanese Pound)** as the company base currency and **USD** as a "
-  "reference currency for imports and price quotations.")
-ol(["Enable multi-currency: **Settings → Accounting → Currencies → tick Multi-Currencies**.",
-    "Activate the currencies you use: **Settings → Currencies**, switch on **SDG** and **USD**.",
-    "Confirm the company base currency is **SDG** (set on the company / chart of accounts)."])
-h3("Recording a new USD exchange rate")
-p("Exchange rates are stored as **dated records**, so the full history is preserved and any "
-  "past document is valued at the rate that applied on its date.")
-ol(["Open **Accounting → Configuration → Currencies** and click **USD**.",
-    "Go to the **Rates** tab and click **Add a line**.",
-    "Enter the **date** and the rate. The system lets you type the intuitive figure — "
-    "**how many SDG equal 1 USD** (e.g. 700).",
-    "Save. The new rate applies to all documents dated on or after that day."])
-tip("Easy rate updates", "Because each change is a new dated line, you simply add a line "
-    "whenever the rate moves — you never overwrite history. Reports and documents "
-    "automatically use the correct rate for their date.")
-note("Automatic rates (optional)", "Community Odoo does not fetch rates automatically. If you "
-     "want scheduled updates from a provider, the OCA **currency_rate_update** module can be "
-     "added later; otherwise rates are maintained by hand as above.")
+    d.h1("5. Warehouse Operations")
+    d.h2("5.1 Receipts (goods in)")
+    d.ol(["Receipts are generated from confirmed purchase orders.",
+          "Open the receipt, enter the **lot number** and **expiry date** for each line, then "
+          "**Validate**.",
+          "Stock is added to the destination; putaway rules may route it (e.g. to Cold Storage)."])
+    d.h2("5.2 Deliveries (goods out)")
+    d.ol(["Deliveries are generated from confirmed sales orders.",
+          "The system reserves stock — under **FEFO** it selects the soonest-to-expire lots.",
+          "**Validate** the delivery to ship the goods and reduce stock."])
+    d.h2("5.3 Internal transfers")
+    d.p("Move stock between locations or warehouses — for example from the main store to "
+        "**Cold Storage**. Use **Inventory → Operations → Transfers**, choose the source and "
+        "destination, add the product and lot, and validate.")
+    d.h2("5.4 Reordering rules")
+    d.p("Set minimum/maximum levels on critical items. When stock falls below the minimum the "
+        "system proposes a purchase to top up to the maximum, preventing stock-outs.")
 
-h2("3.3 Customers and suppliers")
-p("Customers and suppliers are both **Contacts**. A single contact can be both a customer and "
-  "a supplier — do not create duplicates.")
-ol(["Open **Contacts → New**.",
-    "Choose **Company** or **Individual** and enter name, address and phone.",
-    "On the **Sales & Purchasing** tab set the price list, payment terms and (for foreign "
-    "suppliers) the purchase currency.",
-    "On the **Accounting** tab set receivable/payable accounts and add bank accounts if needed."])
-table(["Field", "Used for"],
-      [["Customer / Vendor", "Determines whether the contact appears in Sales or Purchase."],
-       ["Purchase currency", "Default currency for that supplier's orders (e.g. USD for imports)."],
-       ["Price list", "Which selling prices and currency apply to this customer."],
-       ["Bank accounts", "Needed to register or batch payments."]])
+    d.h1("6. Procurement")
+    d.h2("6.1 The purchasing flow")
+    d.ol(["**Purchase → Orders → New** creates a Request for Quotation (RFQ).",
+          "Select the supplier; add products and quantities.",
+          "**Confirm Order** turns the RFQ into a Purchase Order and creates a **Receipt**.",
+          "Receive the goods (entering lots and expiry).",
+          "**Create Bill** generates the vendor bill; post it and register payment."])
+    d.h2("6.2 Vendor price lists")
+    d.p("On a product's **Purchase** tab, add one line per supplier with the price, currency, "
+        "minimum quantity and lead time. Import suppliers can be priced in **USD**.")
+    d.h2("6.3 Multi-currency purchasing")
+    d.p("A purchase order can be issued in the supplier's currency (e.g. USD). The amount is "
+        "converted to SDG using the exchange rate on the order/bill date, so the accounting "
+        "value is always correct in the base currency.")
+    d.tip("Bill control", "Set **Bill Control = Received quantities** so you only pay for what "
+          "actually arrived — important for medical goods.")
 
-h2("3.4 Banks and money safes")
-p("Money flows are tracked through **journals**. A **bank** needs both a bank record and a "
-  "bank journal; a **money safe / cash box** is a **cash journal**.")
-ol(["Create the institution: **Accounting → Configuration → Banks → New** (name, SWIFT/BIC).",
-    "Create a **Bank** journal: **Accounting → Configuration → Journals → New**, Type = **Bank**. "
-    "Set a currency for a foreign-currency account (e.g. a USD bank account).",
-    "Create a **Cash** journal for each physical safe: Type = **Cash** (e.g. *Main Cash Safe (SDG)*, "
-    "*USD Cash Safe*)."])
-note("Why a cash journal is a 'safe'", "There is no separate 'safe' object. Each physical cash "
-     "box or till is represented by its own **Cash journal**, so its balance and movements are "
-     "tracked and reconciled independently.")
+    d.h1("7. Sales")
+    d.h2("7.1 The selling flow")
+    d.ol(["**Sales → Orders → New** creates a quotation.",
+          "Select the customer; the customer's price list sets prices and currency.",
+          "Add products and quantities and confirm the quotation.",
+          "**Confirm** creates the Sales Order and a **Delivery**.",
+          "Validate the delivery (FEFO selects the lots), then **Create Invoice** and post it."])
+    d.h2("7.2 Price lists and currency")
+    d.p("Each price list has a currency. Domestic sales use an **SDG** price list. The sales "
+        "order's currency follows its price list, so assign the correct price list to each "
+        "customer.")
+    d.warn("Currency comes from the price list", "If invoices appear in the wrong currency, "
+           "check the price list assigned to the customer — the order currency follows the "
+           "price list, not the contact's country.")
 
-h2("3.5 Units of measure")
-p("Enable **Units of Measure** (Settings) to buy, stock and sell in different units — for "
-  "example purchase a *Box of 100* but issue *units*. Define units and their conversion "
-  "factors under **Inventory → Configuration → Units of Measure**.")
+    d.h1("8. Accounting")
+    d.h2("8.1 What is included")
+    d.p("Community Odoo provides **Invoicing**; the bundled OCA / Odoo-Mates modules extend it "
+        "into a full **Accounting** system.")
+    d.table(["Capability", "Provided by"],
+            [["Customer invoices, vendor bills, payments, taxes", "Invoicing (core)"],
+             ["Full Accounting menu, asset, budget, fiscal year, recurring", "om_account_accountant suite"],
+             ["Financial reports (Balance Sheet, P&L, ledgers, tax, aged)", "accounting_pdf_reports"],
+             ["Cash Book / Day Book / Bank Book", "om_account_daily_reports"],
+             ["Bank reconciliation (interactive matching)", "account_reconcile_oca"],
+             ["Customer follow-up / dunning", "om_account_followup"]])
+    d.h2("8.2 Customer invoices and vendor bills")
+    d.ul(["Customer invoices are normally created from sales orders and posted from Accounting.",
+          "Vendor bills are created from purchase orders / receipts and posted before payment.",
+          "Each posted document generates the matching journal entries automatically."])
+    d.h2("8.3 Payments and the money safe")
+    d.p("Register a payment from an invoice or bill and choose the journal — a **bank** account "
+        "or a **cash safe**. Reconcile cash safes daily using the **Cash Book / Day Book**.")
+    d.h2("8.4 Bank reconciliation")
+    d.p("Use **Accounting → Bank** to match bank-statement lines against invoices and payments "
+        "with the interactive reconciliation screen.")
+    d.h2("8.5 Reports")
+    d.ul(["**Balance Sheet** and **Profit & Loss** for financial position and performance.",
+          "**General / Partner Ledger**, **Trial Balance**, **Aged Receivable / Payable**.",
+          "**Tax Report** for filing; **Day/Cash/Bank Book** for daily cash control."])
+    d.h2("8.6 Fiscal year and follow-up")
+    d.ul(["Define the **Fiscal Year** and set **lock dates** after each period close.",
+          "Configure **Follow-up levels** (e.g. 15 / 30 / 60 days) to chase overdue customers."])
 
-h2("3.6 Warehouses and locations")
-ol(["Go to **Inventory → Configuration → Warehouses** and create one per physical site "
-    "(name + short code, e.g. *Khartoum Central / KRT*).",
-    "Set the number of receipt and delivery steps on each warehouse as needed.",
-    "Create internal **Locations** under a warehouse for special storage: "
-    "**Cold Storage (2-8°C)**, **Quarantine**, **Expired / Damaged**."])
-tip("Cold chain", "Temperature-controlled storage is modelled as an internal **location**. "
-    "A **putaway rule** can automatically route a product (e.g. insulin) into Cold Storage "
-    "when it is received.")
+    d.h1("9. Multi-Currency Operations")
+    d.p("The system keeps accounts in **SDG** while letting you transact in **USD**.")
+    d.ul(["**Base currency:** SDG — all ledgers and reports are in SDG.",
+          "**Reference currency:** USD — used for import purchases and quotations.",
+          "**Rates:** stored as dated lines; the rate on a document's date is used for conversion.",
+          "**Foreign journals:** a USD bank or cash journal holds balances in USD and is "
+          "revalued to SDG at period close."])
+    d.table(["Document", "Currency source"],
+            [["Purchase order", "Supplier's purchase currency / vendor price list"],
+             ["Vendor bill", "Inherited from the purchase order"],
+             ["Sales order", "Customer's price list"],
+             ["Customer invoice", "Inherited from the sales order"]])
 
-h2("3.7 Product categories")
-p("Product categories control how stock is costed and removed.")
-table(["Setting", "Recommended value", "Effect"],
-      [["Costing Method", "FIFO", "Stock is valued first-in-first-out."],
-       ["Inventory Valuation", "Manual / Periodic*", "Avoids needing valuation accounts up front."],
-       ["Force Removal Strategy", "FEFO", "Goods nearest to expiry are issued first."]])
-note("Automated valuation", "*The demo uses periodic valuation so goods movements post without "
-     "extra account setup. To post stock value to the ledger in real time, set the category's "
-     "Stock Input/Output/Valuation accounts and a Stock journal, then switch Valuation to "
-     "**Automated**.")
+    d.h1("10. Medical-Supply Specifics")
+    d.ul(["**Batch traceability** — every medicine is tracked by lot for recalls and audits.",
+          "**Expiry control** — expiration dates are captured per lot and near-expiry stock is flagged.",
+          "**FEFO** — deliveries automatically issue the earliest-expiring stock first.",
+          "**Cold chain** — temperature-sensitive items (e.g. insulin) are stored in a Cold "
+          "Storage location, with putaway rules routing them there on receipt.",
+          "**Quarantine / damaged** — separate locations isolate non-sellable stock.",
+          "**Imports** — purchases in USD are valued in SDG at the current rate; landed costs "
+          "(freight, customs) can be folded into unit cost."])
 
-# ============================================================ 4. INVENTORY
-h1("4. Inventory & Items")
-h2("4.1 Registering an item")
-ol(["Open **Inventory → Products → Products → New**.",
-    "Enter the name and **Internal Reference** (SKU) and **Barcode**.",
-    "Set **Product Type = Goods** and switch on **Track Inventory** so stock is counted.",
-    "Assign the **Product Category** (e.g. Pharmaceuticals).",
-    "Set the **Cost** and **Sales Price**.",
-    "On the **Inventory** tab set **Tracking = By Lots** and enable **Expiration Date** for "
-    "medicines and consumables."])
-h2("4.2 Lot / batch and expiry tracking")
-p("Lot tracking records which **batch** each unit belongs to; expiry tracking records the "
-  "**expiration date** of each batch. Together they give full traceability and drive FEFO.")
-ul(["On receipt the system asks for the **lot number** and **expiry date**.",
-    "Stock can be traced by lot for recalls and audits.",
-    "Near-expiry stock is highlighted and issued first under FEFO."])
-h2("4.3 Checking stock on hand")
-p("Open a product and use the **On Hand** / **Forecasted** smart buttons, or go to "
-  "**Inventory → Products → Products** and review the on-hand column. "
-  "**Inventory → Reporting** provides valuation and movement analysis.")
+    d.h1("11. Demo Data Reference")
+    d.p("The demonstration database **erpmedsupply** is pre-loaded with realistic data so every "
+        "feature can be explored immediately.")
+    d.table(["Item", "Details"],
+            [["Company", "Sudan MedSupply Co. (base currency SDG)"],
+             ["Currencies", "SDG (base) + USD (reference), with 5 dated USD rates (600 → 700 SDG)"],
+             ["Warehouses", "Khartoum Central (KRT), Port Sudan (PRT)"],
+             ["Locations", "Cold Storage (2-8°C), Quarantine, Expired/Damaged"],
+             ["Products", "10 medical items with lot & expiry tracking"],
+             ["Customers", "Khartoum Teaching Hospital, Omdurman Family Clinic, Sudanese Red Crescent, Bahri Community Pharmacy"],
+             ["Suppliers", "Nile Medical Supplies, Khartoum Pharma Imports, Gulf MedTrade (USD)"],
+             ["Banks & safes", "2 bank journals (SDG/USD) + 2 cash safes (SDG/USD)"],
+             ["Purchases", "3 purchase orders received (incl. one in USD); 1 vendor bill"],
+             ["Sales", "2 delivered & invoiced orders (SDG) + 1 draft quotation"]])
 
-# ============================================================ 5. WAREHOUSE
-h1("5. Warehouse Operations")
-h2("5.1 Receipts (goods in)")
-ol(["Receipts are generated from confirmed purchase orders (see Procurement).",
-    "Open the receipt, enter the **lot number** and **expiry date** for each line, then "
-    "**Validate**.",
-    "Stock is added to the destination location; putaway rules may route it (e.g. to Cold Storage)."])
-h2("5.2 Deliveries (goods out)")
-ol(["Deliveries are generated from confirmed sales orders.",
-    "The system reserves stock — under **FEFO** it selects the soonest-to-expire lots.",
-    "**Validate** the delivery to ship the goods and reduce stock."])
-h2("5.3 Internal transfers")
-p("Move stock between locations or warehouses — for example from the main store to **Cold "
-  "Storage**. Use **Inventory → Operations → Transfers**, choose the source and destination "
-  "locations, add the product and lot, and validate.")
-h2("5.4 Reordering rules")
-p("Set minimum/maximum levels on critical items (**Reordering Rules**). When stock falls "
-  "below the minimum the system proposes a purchase (for *Buy* products) to top up to the "
-  "maximum, preventing stock-outs of essential supplies.")
+    d.h1("12. Administration & Maintenance")
+    d.h2("12.1 Users and access")
+    d.p("Create users under **Settings → Users**. Assign application access rights so each role "
+        "sees only the menus it needs.")
+    d.h2("12.2 Backups")
+    d.p("Back up the database regularly and keep off-site copies before upgrades.")
+    d.h2("12.3 Rebuilding the demo")
+    d.p("The demo database can be recreated from scratch using the project's seed script. See "
+        "the project documentation for the exact commands.")
+    d.warn("Production hardening", "Before real use: change all default passwords, disable the "
+           "database manager, enable HTTPS, and restrict the database filter.")
 
-# ============================================================ 6. PROCUREMENT
-h1("6. Procurement")
-h2("6.1 The purchasing flow")
-ol(["**Purchase → Orders → New** creates a Request for Quotation (RFQ).",
-    "Select the supplier; add products and quantities. Prices come from the vendor price list.",
-    "**Confirm Order** turns the RFQ into a Purchase Order and creates a **Receipt**.",
-    "Receive the goods (entering lots and expiry).",
-    "**Create Bill** generates the vendor bill; post it and register payment."])
-h2("6.2 Vendor price lists")
-p("On a product's **Purchase** tab, add one line per supplier with the price, currency, "
-  "minimum quantity and lead time. Import suppliers can be priced in **USD**.")
-h2("6.3 Multi-currency purchasing")
-p("A purchase order can be issued in the supplier's currency (e.g. USD). The amount is "
-  "converted to SDG using the exchange rate on the order/bill date, so the accounting "
-  "value is always correct in the base currency.")
-tip("Bill control", "Set **Bill Control = Received quantities** so you only pay for what "
-    "actually arrived — important for medical goods.")
+    d.h1("13. Glossary")
+    d.table(["Term", "Meaning"],
+            [["SKU / Internal Reference", "Your unique product code."],
+             ["Lot / Batch", "A group of units received together, tracked as one."],
+             ["FEFO", "First Expiry First Out — issue soonest-to-expire stock first."],
+             ["FIFO", "First In First Out — valuation using oldest cost first."],
+             ["Putaway rule", "Automatic routing of received goods to a specific location."],
+             ["Journal", "A book of account entries (Sales, Purchase, Bank, Cash, Misc)."],
+             ["RFQ", "Request for Quotation — a draft purchase order."],
+             ["Reconciliation", "Matching bank-statement lines to invoices and payments."],
+             ["Base currency", "The currency the accounts are kept in (SDG)."]])
 
-# ============================================================ 7. SALES
-h1("7. Sales")
-h2("7.1 The selling flow")
-ol(["**Sales → Orders → New** creates a quotation.",
-    "Select the customer; the customer's price list sets prices and currency.",
-    "Add products and quantities and send or confirm the quotation.",
-    "**Confirm** creates the Sales Order and a **Delivery**.",
-    "Validate the delivery (FEFO selects the lots), then **Create Invoice** and post it."])
-h2("7.2 Price lists and currency")
-p("Each price list has a currency. Domestic sales use an **SDG** price list. The sales "
-  "order's currency follows its price list, so assign the correct price list to each customer.")
-warn("Currency comes from the price list", "If invoices appear in the wrong currency, check "
-     "the price list assigned to the customer — the order currency follows the price list, "
-     "not the contact's country.")
+# ============================================================ ARABIC CONTENT
+def fill_ar(d):
+    d.h1("1. مقدمة")
+    d.p("يصف هذا الدليل **نظام إدارة موارد المستلزمات الطبية** — وهو نظام أعمال متكامل لشركة "
+        "تستورد وتخزّن وتوزّع المستلزمات الطبية والأدوية. يغطي النظام سلسلة العمليات الكاملة: "
+        "إعداد البيانات الأساسية، والمخزون والمستودعات، والمشتريات، والمبيعات، والمحاسبة، مع دعم "
+        "أصيل **لتعدد العملات** (الجنيه السوداني كعملة أساسية والدولار الأمريكي كعملة مرجعية).")
+    d.p("النظام مبني على **أودو 18 المجتمعي** ويستخدم وحدات مجتمعية ومفتوحة المصدر فقط "
+        "(OCA / Odoo-Mates) — دون الحاجة إلى أي تراخيص Enterprise مملوكة.")
+    d.h2("1.1 لمن هذا الدليل")
+    d.ul(["**المسؤولون** الذين يهيئون البيانات الأساسية — المستودعات والأصناف والعملاء والموردين "
+          "والبنوك والعملات وأسعار الصرف.",
+          "**موظفو المشتريات** الذين ينشئون أوامر الشراء ويستلمون البضائع.",
+          "**موظفو المبيعات** الذين يعرضون الأسعار ويبيعون ويسلّمون للعملاء.",
+          "**المحاسبون** الذين يديرون الفواتير والمدفوعات والتسوية البنكية والتقارير."])
+    d.h2("1.2 لمحة سريعة عن القدرات")
+    d.table(["المجال", "ما يمكنك عمله"],
+            [["الإعدادات", "تعريف الشركة والعملات والأسعار والعملاء والموردين والبنوك وخزائن النقد والوحدات والمستودعات وفئات المنتجات."],
+             ["المخزون", "تسجيل الأصناف مع تتبّع الدفعات وتواريخ الانتهاء؛ وإدارة الرصيد المتاح والتقييم."],
+             ["المستودعات", "تشغيل عدة مستودعات ومواقع داخلية (مثل التخزين المبرّد والحجر)؛ والاستلام والتسليم والتحويلات الداخلية."],
+             ["المشتريات", "طلب عرض سعر ← أمر شراء ← استلام ← فاتورة مورّد، مع قوائم أسعار الموردين والشراء بعملات متعددة."],
+             ["المبيعات", "عرض سعر ← أمر بيع ← تسليم ← فاتورة عميل، مع قوائم أسعار لكل عملة."],
+             ["المحاسبة", "فواتير العملاء وفواتير الموردين والمدفوعات والتسوية البنكية والتقارير المالية والسنة المالية والمطالبات."],
+             ["تعدد العملات", "الجنيه السوداني أساسية والدولار مرجعية؛ مع سجل مؤرّخ لأسعار الصرف يسهل تحديثه."]])
 
-# ============================================================ 8. ACCOUNTING
-h1("8. Accounting")
-h2("8.1 What is included")
-p("Community Odoo provides **Invoicing**; the bundled OCA / Odoo-Mates modules extend it into "
-  "a full **Accounting** system.")
-table(["Capability", "Provided by"],
-      [["Customer invoices, vendor bills, payments, taxes", "Invoicing (core)"],
-       ["Full Accounting menu, asset, budget, fiscal year, recurring", "om_account_accountant suite"],
-       ["Financial reports (Balance Sheet, P&L, ledgers, tax, aged)", "accounting_pdf_reports"],
-       ["Cash Book / Day Book / Bank Book", "om_account_daily_reports"],
-       ["Bank reconciliation (interactive matching)", "account_reconcile_oca"],
-       ["Customer follow-up / dunning", "om_account_followup"]])
-h2("8.2 Customer invoices and vendor bills")
-ul(["Customer invoices are normally created from sales orders and posted from the Accounting app.",
-    "Vendor bills are created from purchase orders / receipts and posted before payment.",
-    "Each posted document generates the matching journal entries automatically."])
-h2("8.3 Payments and the money safe")
-p("Register a payment from an invoice or bill and choose the journal — a **bank** account or "
-  "a **cash safe**. Reconcile cash safes daily using the **Cash Book / Day Book** reports.")
-h2("8.4 Bank reconciliation")
-p("Use **Accounting → Bank** to match bank-statement lines against invoices and payments with "
-  "the interactive reconciliation screen (account_reconcile_oca).")
-h2("8.5 Reports")
-ul(["**Balance Sheet** and **Profit & Loss** for financial position and performance.",
-    "**General / Partner Ledger**, **Trial Balance**, **Aged Receivable / Payable**.",
-    "**Tax Report** for filing; **Day/Cash/Bank Book** for daily cash control."])
-h2("8.6 Fiscal year and follow-up")
-ul(["Define the **Fiscal Year** and set **lock dates** after each period close.",
-    "Configure **Follow-up levels** (e.g. 15 / 30 / 60 days) to chase overdue customers."])
+    d.h1("2. نظرة عامة على النظام")
+    d.h2("2.1 المكوّنات الأساسية")
+    d.p("ينقسم النظام إلى تطبيقات متعاونة. يضيف كل تطبيق قوائمه ومستنداته وتقاريره، لكنها تتشارك "
+        "نفس المنتجات وجهات الاتصال والمحاسبة.")
+    d.table(["التطبيق", "الغرض"],
+            [["المخزون", "الأصناف والرصيد والمستودعات والمواقع والدفعات وتواريخ الانتهاء والتحويلات."],
+             ["المشتريات", "أوامر الموردين واستلام البضائع."],
+             ["المبيعات", "عروض الأسعار وأوامر البيع والتسليمات."],
+             ["الفوترة / المحاسبة", "الفواتير والمدفوعات ودفاتر اليومية والتقارير."],
+             ["جهات الاتصال", "العملاء والموردون (يمكن أن تكون الجهة عميلًا ومورّدًا معًا)."],
+             ["الإعدادات", "الشركة والعملات والمستخدمون ومفاتيح تفعيل الخصائص."]])
+    d.h2("2.2 تسجيل الدخول")
+    d.ol(["افتح رابط النظام في المتصفح (للنسخة التجريبية المحلية: **http://localhost:8069**).",
+          "إذا ظهرت قائمة قواعد البيانات، اختر **erpmedsupply**.",
+          "أدخل اسم المستخدم وكلمة المرور. المسؤول الافتراضي في النسخة التجريبية هو "
+          "**admin / admin** — غيّر كلمة المرور قبل التشغيل الفعلي."])
+    d.warn("غيّر بيانات الدخول الافتراضية", "يجب تغيير كلمة مرور المسؤول التجريبية (**admin**) "
+           "وكلمة المرور الرئيسية لقاعدة البيانات قبل استخدام النظام ببيانات حقيقية.")
+    d.h2("2.3 التنقّل في النظام")
+    d.ul(["**شريط القوائم العلوي** ينقلك بين التطبيقات (المخزون، المشتريات، المبيعات، المحاسبة…).",
+          "لكل تطبيق قائمة فرعية **الإعدادات** الخاصة به لمهام التهيئة.",
+          "تتبع معظم المستندات دورة حياة **مسودة ← مؤكد ← منجز** تظهر عبر أزرار الحالة أعلى اليسار."])
 
-# ============================================================ 9. MULTI-CURRENCY
-h1("9. Multi-Currency Operations")
-p("The system keeps accounts in **SDG** while letting you transact in **USD**.")
-ul(["**Base currency:** SDG — all ledgers and reports are in SDG.",
-    "**Reference currency:** USD — used for import purchases and quotations.",
-    "**Rates:** stored as dated lines; the rate on a document's date is used for conversion.",
-    "**Foreign journals:** a USD bank or cash journal holds balances in USD and is revalued "
-    "to SDG at period close."])
-table(["Document", "Currency source"],
-      [["Purchase order", "Supplier's purchase currency / vendor price list"],
-       ["Vendor bill", "Inherited from the purchase order"],
-       ["Sales order", "Customer's price list"],
-       ["Customer invoice", "Inherited from the sales order"]])
+    d.h1("3. الإعدادات (الإدارة المركزية)")
+    d.p("الإعدادات هي قلب النظام. أكمل هذه الخطوات **بالترتيب** قبل تسجيل العمليات اليومية، لأن "
+        "بعض الإعدادات (خاصة العملة الأساسية وشجرة الحسابات) يصعب تغييرها بعد وجود عمليات.")
+    d.h2("3.1 الشركة")
+    d.ol(["اذهب إلى **الإعدادات ← المستخدمون والشركات ← الشركات** وافتح شركتك.",
+          "أدخل الاسم القانوني والعنوان والرقم الضريبي والشعار.",
+          "اضبط **الدولة** على السودان."])
+    d.h2("3.2 العملات وأسعار الصرف")
+    d.p("يستخدم النظام **الجنيه السوداني (SDG)** كعملة أساسية للشركة و**الدولار الأمريكي (USD)** "
+        "كعملة مرجعية للاستيراد وعروض الأسعار.")
+    d.ol(["فعّل تعدد العملات: **الإعدادات ← المحاسبة ← العملات ← فعّل تعدد العملات**.",
+          "فعّل العملات المستخدمة: **الإعدادات ← العملات**، فعّل **SDG** و**USD**.",
+          "تأكد أن العملة الأساسية للشركة هي **SDG**."])
+    d.h3("تسجيل سعر صرف جديد للدولار")
+    d.p("تُخزَّن أسعار الصرف كـ**سجلات مؤرّخة**، فيُحفَظ التاريخ الكامل ويُقيَّم أي مستند سابق "
+        "بالسعر الذي كان ساريًا في تاريخه.")
+    d.ol(["افتح **المحاسبة ← الإعدادات ← العملات** واضغط **USD**.",
+          "انتقل إلى تبويب **الأسعار** واضغط **إضافة سطر**.",
+          "أدخل **التاريخ** والسعر — اكتب الرقم البديهي: **كم جنيهًا يساوي دولارًا واحدًا** (مثلًا 700).",
+          "احفظ. ينطبق السعر الجديد على كل المستندات المؤرخة في ذلك اليوم أو بعده."])
+    d.tip("تحديث سهل للأسعار", "بما أن كل تغيير سطر مؤرّخ جديد، فأنت تضيف سطرًا كلما تحرّك السعر "
+          "— دون أن تطمس التاريخ. تستخدم التقارير والمستندات السعر الصحيح لتاريخها تلقائيًا.")
+    d.note("الأسعار التلقائية (اختياري)", "لا يجلب أودو المجتمعي الأسعار تلقائيًا. إن رغبت بتحديث "
+           "مجدول، يمكن إضافة وحدة **currency_rate_update** من OCA لاحقًا؛ وإلا تُحدَّث الأسعار يدويًا.")
+    d.h2("3.3 العملاء والموردون")
+    d.p("العملاء والموردون كلاهما **جهات اتصال**. يمكن أن تكون الجهة الواحدة عميلًا ومورّدًا معًا "
+        "— لا تنشئ نسخًا مكررة.")
+    d.ol(["افتح **جهات الاتصال ← جديد**.",
+          "اختر **شركة** أو **فرد** وأدخل الاسم والعنوان والهاتف.",
+          "في تبويب **المبيعات والمشتريات** اضبط قائمة الأسعار وشروط الدفع و(للموردين الأجانب) "
+          "عملة الشراء.",
+          "في تبويب **المحاسبة** اضبط حسابات المدينين/الدائنين وأضف الحسابات البنكية."])
+    d.table(["الحقل", "يُستخدم في"],
+            [["عميل / مورّد", "يحدد ظهور الجهة في المبيعات أو المشتريات."],
+             ["عملة الشراء", "العملة الافتراضية لأوامر هذا المورّد (مثل USD للاستيراد)."],
+             ["قائمة الأسعار", "أسعار البيع والعملة التي تنطبق على هذا العميل."],
+             ["الحسابات البنكية", "لازمة لتسجيل المدفوعات أو الدُفعات المجمّعة."]])
+    d.h2("3.4 البنوك وخزائن النقد")
+    d.p("تُتابَع الحركات المالية عبر **دفاتر اليومية**. يحتاج **البنك** إلى سجل بنك ودفتر يومية "
+        "بنكي؛ أما **خزينة النقد / الصندوق** فهي **دفتر يومية نقدي**.")
+    d.ol(["أنشئ المؤسسة: **المحاسبة ← الإعدادات ← البنوك ← جديد** (الاسم، SWIFT/BIC).",
+          "أنشئ دفتر يومية من نوع **بنك**. اضبط عملة للحساب بالعملة الأجنبية (مثل حساب بالدولار).",
+          "أنشئ دفتر يومية **نقدي** لكل خزينة فعلية: النوع = **نقد** (مثل *الخزينة الرئيسية "
+          "(SDG)*، *خزينة الدولار*)."])
+    d.note("لماذا يمثّل الدفتر النقدي 'خزينة'", "لا يوجد كائن منفصل اسمه 'خزينة'. تُمثَّل كل خزينة "
+           "أو صندوق فعلي بدفتر يومية **نقدي** خاص به، فيُتابَع رصيده وحركاته وتُسوّى باستقلالية.")
+    d.h2("3.5 وحدات القياس")
+    d.p("فعّل **وحدات القياس** للشراء والتخزين والبيع بوحدات مختلفة — مثلًا الشراء *بصندوق من "
+        "100* والصرف *بالوحدة*. عرّف الوحدات ومعاملات التحويل من **المخزون ← الإعدادات ← وحدات القياس**.")
+    d.h2("3.6 المستودعات والمواقع")
+    d.ol(["اذهب إلى **المخزون ← الإعدادات ← المستودعات** وأنشئ مستودعًا لكل موقع فعلي "
+          "(اسم + رمز مختصر، مثل *الخرطوم المركزي / KRT*).",
+          "اضبط عدد خطوات الاستلام والتسليم لكل مستودع حسب الحاجة.",
+          "أنشئ **مواقع** داخلية: **تخزين مبرّد (2-8°م)**، **حجر**، **منتهي/تالف**."])
+    d.tip("سلسلة التبريد", "يُمثَّل التخزين المتحكَّم بحرارته كـ**موقع** داخلي. ويمكن لقاعدة "
+          "**تخزين** أن توجّه منتجًا (مثل الإنسولين) تلقائيًا إلى التخزين المبرّد عند الاستلام.")
+    d.h2("3.7 فئات المنتجات")
+    d.p("تتحكم فئات المنتجات في كيفية تسعير المخزون وتكلفته وطريقة صرفه.")
+    d.table(["الإعداد", "القيمة الموصى بها", "الأثر"],
+            [["طريقة التكلفة", "FIFO", "يُقيَّم المخزون بطريقة الوارد أولًا صادر أولًا."],
+             ["تقييم المخزون", "يدوي / دوري*", "يتجنّب الحاجة لحسابات التقييم مسبقًا."],
+             ["استراتيجية الصرف", "FEFO", "تُصرَف البضائع الأقرب انتهاءً أولًا."]])
+    d.note("التقييم الآلي", "*تستخدم النسخة التجريبية التقييم الدوري لتُرحَّل حركات البضائع دون "
+           "إعداد حسابات إضافية. لترحيل قيمة المخزون لحظيًا، اضبط حسابات الإدخال/الإخراج/التقييم "
+           "ودفتر يومية المخزون للفئة، ثم بدّل التقييم إلى **آلي**.")
 
-# ============================================================ 10. MEDICAL SPECIFICS
-h1("10. Medical-Supply Specifics")
-ul(["**Batch traceability** — every medicine is tracked by lot for recalls and audits.",
-    "**Expiry control** — expiration dates are captured per lot and stock nearing expiry is flagged.",
-    "**FEFO** — deliveries automatically issue the earliest-expiring stock first.",
-    "**Cold chain** — temperature-sensitive items (e.g. insulin) are stored in a Cold Storage "
-    "location, with putaway rules routing them there on receipt.",
-    "**Quarantine / damaged** — separate locations isolate non-sellable stock.",
-    "**Imports** — purchases in USD are valued in SDG at the current rate; landed costs "
-    "(freight, customs) can be folded into unit cost."])
+    d.h1("4. المخزون والأصناف")
+    d.h2("4.1 تسجيل صنف")
+    d.ol(["افتح **المخزون ← المنتجات ← المنتجات ← جديد**.",
+          "أدخل الاسم و**المرجع الداخلي** (SKU) و**الباركود**.",
+          "اضبط **نوع المنتج = بضاعة** وفعّل **تتبّع المخزون**.",
+          "عيّن **فئة المنتج** (مثل الأدوية).",
+          "اضبط **التكلفة** و**سعر البيع**.",
+          "في تبويب **المخزون** اضبط **التتبّع = بالدفعات** وفعّل **تاريخ الانتهاء** للأدوية والمستهلكات."])
+    d.h2("4.2 تتبّع الدفعات وتواريخ الانتهاء")
+    d.p("يسجّل تتبّع الدفعات أي **دفعة** تنتمي إليها كل وحدة؛ ويسجّل تتبّع الانتهاء **تاريخ "
+        "انتهاء** كل دفعة. ويوفّران معًا تتبّعًا كاملًا ويشغّلان آلية FEFO.")
+    d.ul(["عند الاستلام يطلب النظام **رقم الدفعة** و**تاريخ الانتهاء**.",
+          "يمكن تتبّع المخزون بالدفعة لأغراض السحب من السوق والتدقيق.",
+          "يُبرَز المخزون القريب من الانتهاء ويُصرَف أولًا وفق FEFO."])
+    d.h2("4.3 مراجعة الرصيد المتاح")
+    d.p("افتح منتجًا واستخدم أزرار **المتاح** / **المتوقع**، أو راجع عمود الرصيد في قائمة "
+        "المنتجات. توفّر **المخزون ← التقارير** تحليل التقييم والحركة.")
 
-# ============================================================ 11. DEMO DATA
-h1("11. Demo Data Reference")
-p("The demonstration database **erpmedsupply** is pre-loaded with realistic data so every "
-  "feature can be explored immediately.")
-table(["Item", "Details"],
-      [["Company", "Sudan MedSupply Co. (base currency SDG)"],
-       ["Currencies", "SDG (base) + USD (reference), with 5 dated USD rates (600 → 700 SDG)"],
-       ["Warehouses", "Khartoum Central (KRT), Port Sudan (PRT)"],
-       ["Locations", "Cold Storage (2-8°C), Quarantine, Expired/Damaged"],
-       ["Products", "10 medical items with lot & expiry tracking"],
-       ["Customers", "Khartoum Teaching Hospital, Omdurman Family Clinic, Sudanese Red Crescent, Bahri Community Pharmacy"],
-       ["Suppliers", "Nile Medical Supplies, Khartoum Pharma Imports, Gulf MedTrade (USD)"],
-       ["Banks & safes", "2 bank journals (SDG/USD) + 2 cash safes (SDG/USD)"],
-       ["Purchases", "3 purchase orders received (incl. one in USD); 1 vendor bill"],
-       ["Sales", "2 delivered & invoiced orders (SDG) + 1 draft quotation"]])
+    d.h1("5. عمليات المستودع")
+    d.h2("5.1 الاستلام (بضاعة واردة)")
+    d.ol(["تُنشأ عمليات الاستلام من أوامر الشراء المؤكدة.",
+          "افتح الاستلام، وأدخل **رقم الدفعة** و**تاريخ الانتهاء** لكل سطر، ثم **تحقّق**.",
+          "يُضاف المخزون إلى الوجهة؛ وقد توجّهه قواعد التخزين (مثلًا إلى التخزين المبرّد)."])
+    d.h2("5.2 التسليم (بضاعة صادرة)")
+    d.ol(["تُنشأ عمليات التسليم من أوامر البيع المؤكدة.",
+          "يحجز النظام المخزون — ووفق **FEFO** يختار الدفعات الأقرب انتهاءً.",
+          "**تحقّق** من التسليم لشحن البضائع وخفض المخزون."])
+    d.h2("5.3 التحويلات الداخلية")
+    d.p("انقل المخزون بين المواقع أو المستودعات — مثلًا من المخزن الرئيسي إلى **التخزين "
+        "المبرّد**. استخدم **المخزون ← العمليات ← التحويلات**، واختر المصدر والوجهة، وأضف المنتج "
+        "والدفعة، ثم تحقّق.")
+    d.h2("5.4 قواعد إعادة الطلب")
+    d.p("اضبط حدودًا دنيا/عليا للأصناف الحرجة. عندما يهبط المخزون دون الحد الأدنى يقترح النظام "
+        "أمر شراء لرفعه إلى الحد الأعلى، مانعًا نفاد المخزون.")
 
-# ============================================================ 12. ADMIN
-h1("12. Administration & Maintenance")
-h2("12.1 Users and access")
-p("Create users under **Settings → Users**. Assign application access rights so each role "
-  "sees only the menus it needs (e.g. sales staff vs accountants).")
-h2("12.2 Backups")
-p("Back up the database regularly. The deployment includes backup scripts; on the demo you can "
-  "also back up from **Database Manager**. Keep off-site copies before upgrades.")
-h2("12.3 Rebuilding the demo")
-p("The demo database can be recreated from scratch using the project's seed script "
-  "(**scripts/seed_medsupply.py**). See the project README and the *erp-medsupply-demo* "
-  "runbook for the exact commands.")
-warn("Production hardening", "Before real use: change all default passwords, disable the "
-     "database manager (list_db = False), enable HTTPS, and restrict the database filter.")
+    d.h1("6. المشتريات")
+    d.h2("6.1 مسار الشراء")
+    d.ol(["**المشتريات ← الأوامر ← جديد** ينشئ طلب عرض سعر (RFQ).",
+          "اختر المورّد؛ أضف المنتجات والكميات.",
+          "**تأكيد الأمر** يحوّل الطلب إلى أمر شراء وينشئ **استلامًا**.",
+          "استلم البضائع (مع إدخال الدفعات وتواريخ الانتهاء).",
+          "**إنشاء فاتورة** يولّد فاتورة المورّد؛ رحّلها وسجّل الدفع."])
+    d.h2("6.2 قوائم أسعار الموردين")
+    d.p("في تبويب **المشتريات** للمنتج، أضف سطرًا لكل مورّد يتضمن السعر والعملة والكمية الدنيا "
+        "ومدة التوريد. يمكن تسعير موردي الاستيراد **بالدولار**.")
+    d.h2("6.3 الشراء بعملات متعددة")
+    d.p("يمكن إصدار أمر الشراء بعملة المورّد (مثل الدولار). ويُحوَّل المبلغ إلى الجنيه السوداني "
+        "بسعر الصرف في تاريخ الأمر/الفاتورة، فتكون القيمة المحاسبية صحيحة دائمًا بالعملة الأساسية.")
+    d.tip("ضبط الفوترة", "اضبط **ضبط الفوترة = الكميات المستلمة** لتدفع فقط مقابل ما وصل فعلًا "
+          "— وهو أمر مهم للبضائع الطبية.")
 
-# ============================================================ 13. GLOSSARY
-h1("13. Glossary")
-table(["Term", "Meaning"],
-      [["SKU / Internal Reference", "Your unique product code."],
-       ["Lot / Batch", "A group of units received together, tracked as one."],
-       ["FEFO", "First Expiry First Out — issue soonest-to-expire stock first."],
-       ["FIFO", "First In First Out — valuation method using oldest cost first."],
-       ["Putaway rule", "Automatic routing of received goods to a specific location."],
-       ["Journal", "A book of account entries (Sales, Purchase, Bank, Cash, Misc)."],
-       ["RFQ", "Request for Quotation — a draft purchase order."],
-       ["Reconciliation", "Matching bank-statement lines to invoices and payments."],
-       ["Base currency", "The currency the accounts are kept in (SDG)."]])
+    d.h1("7. المبيعات")
+    d.h2("7.1 مسار البيع")
+    d.ol(["**المبيعات ← الأوامر ← جديد** ينشئ عرض سعر.",
+          "اختر العميل؛ تحدد قائمة أسعار العميل الأسعار والعملة.",
+          "أضف المنتجات والكميات وأكّد العرض.",
+          "**التأكيد** ينشئ أمر البيع و**تسليمًا**.",
+          "تحقّق من التسليم (يختار FEFO الدفعات)، ثم **إنشاء فاتورة** ورحّلها."])
+    d.h2("7.2 قوائم الأسعار والعملة")
+    d.p("لكل قائمة أسعار عملة. تستخدم المبيعات المحلية قائمة أسعار **بالجنيه السوداني**. تتبع "
+        "عملة أمر البيع قائمة أسعاره، فعيّن لكل عميل القائمة الصحيحة.")
+    d.warn("العملة تأتي من قائمة الأسعار", "إن ظهرت الفواتير بعملة خاطئة، فتحقّق من قائمة الأسعار "
+           "المعيّنة للعميل — تتبع عملة الأمر قائمة الأسعار لا دولة الجهة.")
 
-# ----------------------------------------------------------------------------
-# Inline bold parser
+    d.h1("8. المحاسبة")
+    d.h2("8.1 ما الذي يتضمنه")
+    d.p("يوفّر أودو المجتمعي **الفوترة**؛ وتوسّعها وحدات OCA / Odoo-Mates المرفقة إلى نظام "
+        "**محاسبة** كامل.")
+    d.table(["القدرة", "مصدرها"],
+            [["فواتير العملاء والموردين والمدفوعات والضرائب", "الفوترة (أساسي)"],
+             ["قائمة محاسبة كاملة، الأصول، الموازنة، السنة المالية، المتكرر", "حزمة om_account_accountant"],
+             ["تقارير مالية (الميزانية، الأرباح والخسائر، الدفاتر، الضريبة، الأعمار)", "accounting_pdf_reports"],
+             ["دفتر النقد / اليومية / البنك", "om_account_daily_reports"],
+             ["التسوية البنكية (المطابقة التفاعلية)", "account_reconcile_oca"],
+             ["متابعة العملاء / المطالبات", "om_account_followup"]])
+    d.h2("8.2 فواتير العملاء والموردين")
+    d.ul(["تُنشأ فواتير العملاء عادةً من أوامر البيع وتُرحَّل من المحاسبة.",
+          "تُنشأ فواتير الموردين من أوامر الشراء/الاستلام وتُرحَّل قبل الدفع.",
+          "يولّد كل مستند مُرحَّل قيود اليومية المطابقة تلقائيًا."])
+    d.h2("8.3 المدفوعات وخزينة النقد")
+    d.p("سجّل دفعة من فاتورة واختر الدفتر — حساب **بنكي** أو **خزينة نقد**. سوِّ خزائن النقد "
+        "يوميًا باستخدام **دفتر النقد / اليومية**.")
+    d.h2("8.4 التسوية البنكية")
+    d.p("استخدم **المحاسبة ← البنك** لمطابقة سطور كشف الحساب البنكي مع الفواتير والمدفوعات عبر "
+        "شاشة التسوية التفاعلية.")
+    d.h2("8.5 التقارير")
+    d.ul(["**الميزانية العمومية** و**الأرباح والخسائر** للمركز والأداء الماليين.",
+          "**دفتر الأستاذ العام / دفتر الشركاء**، **ميزان المراجعة**، **أعمار المدينين / الدائنين**.",
+          "**تقرير الضريبة** للإقرار؛ و**دفتر اليومية/النقد/البنك** للرقابة النقدية اليومية."])
+    d.h2("8.6 السنة المالية والمتابعة")
+    d.ul(["عرّف **السنة المالية** واضبط **تواريخ الإقفال** بعد إغلاق كل فترة.",
+          "هيّئ **مستويات المتابعة** (مثل 15 / 30 / 60 يومًا) لمطالبة العملاء المتأخرين."])
+
+    d.h1("9. عمليات تعدّد العملات")
+    d.p("يحتفظ النظام بالحسابات **بالجنيه السوداني** مع السماح لك بالتعامل **بالدولار**.")
+    d.ul(["**العملة الأساسية:** SDG — كل الدفاتر والتقارير بالجنيه السوداني.",
+          "**العملة المرجعية:** USD — تُستخدم لمشتريات الاستيراد وعروض الأسعار.",
+          "**الأسعار:** تُخزَّن كسطور مؤرّخة؛ ويُستخدم سعر تاريخ المستند للتحويل.",
+          "**الدفاتر الأجنبية:** يحتفظ دفتر بنك أو نقد بالدولار بأرصدته بالدولار ويُعاد تقييمه "
+          "إلى الجنيه عند إقفال الفترة."])
+    d.table(["المستند", "مصدر العملة"],
+            [["أمر الشراء", "عملة شراء المورّد / قائمة أسعار المورّد"],
+             ["فاتورة المورّد", "موروثة من أمر الشراء"],
+             ["أمر البيع", "قائمة أسعار العميل"],
+             ["فاتورة العميل", "موروثة من أمر البيع"]])
+
+    d.h1("10. خصوصيات المستلزمات الطبية")
+    d.ul(["**تتبّع الدفعات** — يُتتبَّع كل دواء بالدفعة لأغراض السحب والتدقيق.",
+          "**ضبط الانتهاء** — تُسجَّل تواريخ الانتهاء لكل دفعة ويُبرَز المخزون القريب من الانتهاء.",
+          "**FEFO** — تصرف التسليمات المخزون الأقرب انتهاءً أولًا تلقائيًا.",
+          "**سلسلة التبريد** — تُخزَّن الأصناف الحساسة للحرارة (مثل الإنسولين) في موقع تخزين "
+          "مبرّد، مع قواعد تخزين توجّهها إليه عند الاستلام.",
+          "**الحجر / التالف** — مواقع منفصلة تعزل المخزون غير القابل للبيع.",
+          "**الاستيراد** — تُقيَّم المشتريات بالدولار بالجنيه بالسعر الحالي؛ ويمكن دمج تكاليف "
+          "الشحن والجمارك في تكلفة الوحدة."])
+
+    d.h1("11. مرجع البيانات التجريبية")
+    d.p("قاعدة البيانات التجريبية **erpmedsupply** محمّلة مسبقًا ببيانات واقعية لاستكشاف كل "
+        "الخصائص فورًا.")
+    d.table(["العنصر", "التفاصيل"],
+            [["الشركة", "شركة السودان للمستلزمات الطبية (العملة الأساسية SDG)"],
+             ["العملات", "SDG (أساسية) + USD (مرجعية)، مع 5 أسعار دولار مؤرّخة (600 ← 700 جنيه)"],
+             ["المستودعات", "الخرطوم المركزي (KRT)، بورتسودان (PRT)"],
+             ["المواقع", "تخزين مبرّد (2-8°م)، حجر، منتهي/تالف"],
+             ["المنتجات", "10 أصناف طبية بتتبّع الدفعات والانتهاء"],
+             ["العملاء", "مستشفى الخرطوم التعليمي، عيادة أم درمان، الهلال الأحمر السوداني، صيدلية بحري"],
+             ["الموردون", "النيل للمستلزمات الطبية، الخرطوم للاستيراد الدوائي، غلف ميد تريد (بالدولار)"],
+             ["البنوك والخزائن", "دفترا بنك (SDG/USD) + خزينتا نقد (SDG/USD)"],
+             ["المشتريات", "3 أوامر شراء مستلمة (منها واحد بالدولار)؛ فاتورة مورّد واحدة"],
+             ["المبيعات", "أمرا بيع مُسلَّمان ومُفوتران (بالجنيه) + عرض سعر مسودة"]])
+
+    d.h1("12. الإدارة والصيانة")
+    d.h2("12.1 المستخدمون والصلاحيات")
+    d.p("أنشئ المستخدمين من **الإعدادات ← المستخدمون**. وعيّن صلاحيات الوصول للتطبيقات بحيث يرى "
+        "كل دور القوائم التي يحتاجها فقط.")
+    d.h2("12.2 النسخ الاحتياطي")
+    d.p("خذ نسخًا احتياطية لقاعدة البيانات بانتظام واحتفظ بنسخ خارج الموقع قبل الترقيات.")
+    d.h2("12.3 إعادة بناء النسخة التجريبية")
+    d.p("يمكن إعادة إنشاء قاعدة البيانات التجريبية من الصفر باستخدام سكربت التهيئة الخاص "
+        "بالمشروع. راجع وثائق المشروع للأوامر الدقيقة.")
+    d.warn("تجهيز الإنتاج", "قبل الاستخدام الفعلي: غيّر كل كلمات المرور الافتراضية، وعطّل مدير "
+           "قواعد البيانات، وفعّل HTTPS، وقيّد مرشّح قاعدة البيانات.")
+
+    d.h1("13. مسرد المصطلحات")
+    d.table(["المصطلح", "المعنى"],
+            [["SKU / المرجع الداخلي", "رمز المنتج الفريد لديك."],
+             ["الدفعة (Lot/Batch)", "مجموعة وحدات مستلمة معًا وتُتتبَّع كوحدة واحدة."],
+             ["FEFO", "الأقرب انتهاءً صادر أولًا — يُصرَف المخزون الأقرب انتهاءً أولًا."],
+             ["FIFO", "الوارد أولًا صادر أولًا — تقييم بأقدم تكلفة أولًا."],
+             ["قاعدة التخزين", "توجيه آلي للبضائع المستلمة إلى موقع محدد."],
+             ["دفتر اليومية", "سجل قيود محاسبية (مبيعات، مشتريات، بنك، نقد، متنوع)."],
+             ["RFQ", "طلب عرض سعر — أمر شراء مسودة."],
+             ["التسوية", "مطابقة سطور كشف الحساب البنكي مع الفواتير والمدفوعات."],
+             ["العملة الأساسية", "العملة التي تُمسَك بها الحسابات (SDG)."]])
+
 # ----------------------------------------------------------------------------
 def runs(text):
-    parts = []
-    bold = False
+    parts, bold = [], False
     for seg in text.split("**"):
         if seg:
             parts.append((seg, bold))
@@ -366,44 +617,67 @@ def runs(text):
     return parts or [(text, False)]
 
 # ============================================================ DOCX RENDERER
-def build_docx(path):
+def build_docx(blocks, meta, path, rtl, font_name):
     from docx import Document
-    from docx.shared import Pt, RGBColor, Inches
+    from docx.shared import Pt, RGBColor
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.enum.table import WD_TABLE_ALIGNMENT
     from docx.oxml.ns import qn
     from docx.oxml import OxmlElement
 
     doc = Document()
-    # base style
     normal = doc.styles["Normal"]
-    normal.font.name = "Calibri"
+    normal.font.name = font_name
     normal.font.size = Pt(11)
 
-    def set_heading_color(style_name, size, color):
-        st = doc.styles[style_name]
-        st.font.name = "Calibri"
+    def style_heading(name, size, color):
+        st = doc.styles[name]
+        st.font.name = font_name
         st.font.size = Pt(size)
         st.font.color.rgb = RGBColor.from_string(color)
         st.font.bold = True
-
-    set_heading_color("Heading 1", 18, BRAND_DARK)
-    set_heading_color("Heading 2", 14, BRAND)
-    set_heading_color("Heading 3", 12, ACCENT)
+    style_heading("Heading 1", 18, BRAND_DARK)
+    style_heading("Heading 2", 14, BRAND)
+    style_heading("Heading 3", 12, ACCENT)
 
     def shade(cell, color):
-        tcpr = cell._tc.get_or_add_tcPr()
         sh = OxmlElement("w:shd")
-        sh.set(qn("w:val"), "clear")
-        sh.set(qn("w:fill"), color)
-        tcpr.append(sh)
+        sh.set(qn("w:val"), "clear"); sh.set(qn("w:fill"), color)
+        cell._tc.get_or_add_tcPr().append(sh)
 
-    def add_runs(paragraph, text, color=None, bold_all=False):
+    def set_rtl_par(par):
+        pPr = par._p.get_or_add_pPr()
+        pPr.append(OxmlElement("w:bidi"))
+        par.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+
+    def cs_font(run):
+        rpr = run._r.get_or_add_rPr()
+        rfonts = rpr.find(qn("w:rFonts"))
+        if rfonts is None:
+            rfonts = OxmlElement("w:rFonts"); rpr.append(rfonts)
+        rfonts.set(qn("w:cs"), font_name)
+        rfonts.set(qn("w:ascii"), font_name)
+        rfonts.set(qn("w:hAnsi"), font_name)
+        if rtl:
+            rpr.append(OxmlElement("w:rtl"))
+
+    def add_runs(par, text, color=None, bold_all=False):
         for seg, b in runs(text):
-            r = paragraph.add_run(seg)
-            r.bold = b or bold_all
+            r = par.add_run(seg)
+            if b or bold_all:
+                r.bold = True
             if color:
                 r.font.color.rgb = RGBColor.from_string(color)
+            cs_font(r)
+        if rtl:
+            set_rtl_par(par)
+
+    def heading(text, level):
+        if level == 1:
+            doc.add_page_break()
+        par = doc.add_paragraph(style="Heading %d" % level)
+        add_runs(par, text)
+        return par
 
     # ---- Cover ----
     band = doc.add_table(rows=1, cols=1)
@@ -411,48 +685,36 @@ def build_docx(path):
     cell = band.rows[0].cells[0]
     shade(cell, BRAND)
     cell.paragraphs[0].text = ""
-    for _ in range(2):
-        cell.add_paragraph("")
-    pt = cell.add_paragraph()
-    pt.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = pt.add_run(TITLE)
-    r.bold = True; r.font.size = Pt(34); r.font.color.rgb = RGBColor.from_string("FFFFFF")
-    ps = cell.add_paragraph()
-    ps.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = ps.add_run(SUBTITLE)
-    r.font.size = Pt(20); r.font.color.rgb = RGBColor.from_string("FFFFFF")
-    for _ in range(2):
-        cell.add_paragraph("")
-
-    for txt, sz in [(ORG, 16), (PLATFORM, 12), ("", 6), (VERSION, 12), (DATE, 12)]:
-        pp = doc.add_paragraph()
-        pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        if txt:
-            rr = pp.add_run(txt)
-            rr.font.size = Pt(sz)
-            if txt == ORG:
-                rr.bold = True; rr.font.color.rgb = RGBColor.from_string(BRAND_DARK)
+    cell.add_paragraph(""); cell.add_paragraph("")
+    for txt, sz in [(meta["title"], 32), (meta["subtitle"], 20)]:
+        pp = cell.add_paragraph(); pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = pp.add_run(txt); r.bold = True; r.font.size = Pt(sz)
+        r.font.color.rgb = RGBColor.from_string("FFFFFF"); cs_font(r)
+    cell.add_paragraph("")
+    for txt, sz, col in [(meta["org"], 16, BRAND_DARK), (meta["platform"], 12, "333333"),
+                         (meta["version"] + "  •  " + meta["date"], 12, "333333")]:
+        pp = doc.add_paragraph(); pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        r = pp.add_run(txt); r.font.size = Pt(sz)
+        r.font.color.rgb = RGBColor.from_string(col)
+        if txt == meta["org"]:
+            r.bold = True
+        cs_font(r)
     doc.add_page_break()
 
     # ---- TOC ----
     htoc = doc.add_paragraph()
-    rr = htoc.add_run("Table of Contents")
-    rr.bold = True; rr.font.size = Pt(16); rr.font.color.rgb = RGBColor.from_string(BRAND_DARK)
+    if rtl:
+        set_rtl_par(htoc)
+    r = htoc.add_run(meta["toc"]); r.bold = True; r.font.size = Pt(16)
+    r.font.color.rgb = RGBColor.from_string(BRAND_DARK); cs_font(r)
     par = doc.add_paragraph()
-    run = par.add_run()
-    fld = OxmlElement("w:fldSimple")
-    fld.set(qn("w:instr"), r'TOC \o "1-3" \h \z \u')
-    placeholder = OxmlElement("w:r")
-    t = OxmlElement("w:t")
-    t.text = "Right-click and choose 'Update Field' to build the table of contents."
-    placeholder.append(t)
-    fld.append(placeholder)
-    par._p.append(fld)
+    fld = OxmlElement("w:fldSimple"); fld.set(qn("w:instr"), r'TOC \o "1-3" \h \z \u')
+    ph = OxmlElement("w:r"); t = OxmlElement("w:t")
+    t.text = meta["toc"]; ph.append(t); fld.append(ph); par._p.append(fld)
     doc.add_page_break()
 
-    # ---- Footer page numbers ----
-    footer = doc.sections[0].footer
-    fp = footer.paragraphs[0]
+    # ---- Footer page number ----
+    fp = doc.sections[0].footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = fp.add_run()
     for el, attrs in [("w:fldChar", {"w:fldCharType": "begin"}),
@@ -465,163 +727,168 @@ def build_docx(path):
                 e.set(qn(k), v)
         run._r.append(e)
 
-    # ---- Content ----
     def callout(title, text, fill, bar):
         tbl = doc.add_table(rows=1, cols=1)
+        if rtl:
+            tbl._tbl.tblPr.append(OxmlElement("w:bidiVisual"))
         c = tbl.rows[0].cells[0]
         shade(c, fill)
-        tp = c.paragraphs[0]
-        add_runs(tp, title, color=bar, bold_all=True)
-        bp = c.add_paragraph()
-        add_runs(bp, text)
+        add_runs(c.paragraphs[0], title, color=bar, bold_all=True)
+        add_runs(c.add_paragraph(), text)
         doc.add_paragraph("")
 
-    for block in C:
-        kind = block[0]
-        if kind == "h1":
-            doc.add_page_break()
-            doc.add_heading(block[1], level=1)
-        elif kind == "h2":
-            doc.add_heading(block[1], level=2)
-        elif kind == "h3":
-            doc.add_heading(block[1], level=3)
-        elif kind == "p":
-            par = doc.add_paragraph()
-            add_runs(par, block[1])
-        elif kind == "ul":
+    lab = meta["labels"]
+    for block in blocks:
+        k = block[0]
+        if k == "h1":
+            heading(block[1], 1)
+        elif k == "h2":
+            heading(block[1], 2)
+        elif k == "h3":
+            heading(block[1], 3)
+        elif k == "p":
+            add_runs(doc.add_paragraph(), block[1])
+        elif k == "ul":
             for it in block[1]:
-                par = doc.add_paragraph(style="List Bullet")
-                add_runs(par, it)
-        elif kind == "ol":
+                add_runs(doc.add_paragraph(style="List Bullet"), it)
+        elif k == "ol":
             for it in block[1]:
-                par = doc.add_paragraph(style="List Number")
-                add_runs(par, it)
-        elif kind == "table":
-            headers, rows = block[1], block[2]
-            tbl = doc.add_table(rows=1, cols=len(headers))
-            tbl.style = "Table Grid"
+                add_runs(doc.add_paragraph(style="List Number"), it)
+        elif k == "table":
+            headers, rows_ = block[1], block[2]
+            tbl = doc.add_table(rows=1, cols=len(headers)); tbl.style = "Table Grid"
             tbl.alignment = WD_TABLE_ALIGNMENT.CENTER
+            if rtl:
+                tbl._tbl.tblPr.append(OxmlElement("w:bidiVisual"))
             for i, htext in enumerate(headers):
-                c = tbl.rows[0].cells[i]
-                shade(c, BRAND)
-                pr = c.paragraphs[0]
-                add_runs(pr, htext, color="FFFFFF", bold_all=True)
-            for ri, row in enumerate(rows):
+                c = tbl.rows[0].cells[i]; shade(c, BRAND)
+                add_runs(c.paragraphs[0], htext, color="FFFFFF", bold_all=True)
+            for ri, row in enumerate(rows_):
                 cells = tbl.add_row().cells
                 for ci, val in enumerate(row):
                     if ri % 2 == 1:
                         shade(cells[ci], GREY)
                     add_runs(cells[ci].paragraphs[0], val)
             doc.add_paragraph("")
-        elif kind == "tip":
-            callout("TIP — " + block[1], block[2], LIGHT, ACCENT)
-        elif kind == "warn":
-            callout("IMPORTANT — " + block[1], block[2], "FBEAEA", "B00020")
-        elif kind == "note":
-            callout("NOTE — " + block[1], block[2], GREY, BRAND_DARK)
+        elif k == "tip":
+            callout(lab["tip"] + " — " + block[1], block[2], LIGHT, ACCENT)
+        elif k == "warn":
+            callout(lab["warn"] + " — " + block[1], block[2], "FBEAEA", "B00020")
+        elif k == "note":
+            callout(lab["note"] + " — " + block[1], block[2], GREY, BRAND_DARK)
 
     doc.save(path)
 
 # ============================================================ HTML RENDERER
-def esc(t):
-    out = []
-    for seg, b in runs(t):
-        s = _html.escape(seg)
-        out.append("<strong>%s</strong>" % s if b else s)
-    return "".join(out)
-
 def slug(text):
-    s = "".join(c.lower() if c.isalnum() else "-" for c in text)
+    s = "".join(c.lower() if (c.isalnum()) else "-" for c in text)
     while "--" in s:
         s = s.replace("--", "-")
-    return s.strip("-")
+    return s.strip("-") or "sec"
 
-def build_html(out_path):
+def esc(t):
+    return "".join(("<strong>%s</strong>" % _html.escape(s)) if b else _html.escape(s)
+                   for s, b in runs(t))
+
+def build_html(blocks, meta, out_path, rtl, font_face, font_family):
+    direction = "rtl" if rtl else "ltr"
+    align = "right" if rtl else "left"
+    side = "right" if rtl else "left"
     css = """
+    %(face)s
     @page { margin: 18mm 16mm 16mm 16mm; }
-    body { font-family:'Helvetica Neue',Arial,sans-serif; color:#1a1a1a; font-size:11pt; line-height:1.5; margin:0; }
+    body { font-family:%(ff)s; color:#1a1a1a; font-size:11pt; line-height:1.6;
+           margin:0; direction:%(dir)s; text-align:%(al)s; }
     h1 { color:#%(bd)s; font-size:21pt; border-bottom:3px solid #%(br)s; padding-bottom:6px;
          margin-top:0; page-break-before:always; }
     h2 { color:#%(br)s; font-size:15pt; margin-top:20px; }
     h3 { color:#%(ac)s; font-size:12.5pt; margin-top:14px; }
     p, li { font-size:11pt; }
     table { border-collapse:collapse; width:100%%; margin:12px 0; page-break-inside:avoid; }
-    th { background:#%(br)s; color:#fff; text-align:left; padding:7px 9px; font-size:10.5pt; }
+    th { background:#%(br)s; color:#fff; text-align:%(al)s; padding:7px 9px; font-size:10.5pt; }
     td { border:1px solid #d6dde0; padding:6px 9px; vertical-align:top; font-size:10.5pt; }
     tr:nth-child(even) td { background:#%(gr)s; }
-    .callout { border-radius:6px; padding:10px 14px; margin:12px 0; border-left:5px solid; page-break-inside:avoid; }
-    .tip  { background:#%(lt)s; border-color:#%(ac)s; }
-    .warn { background:#FBEAEA; border-color:#B00020; }
-    .note { background:#%(gr)s; border-color:#%(bd)s; }
-    .callout .t { font-weight:bold; display:block; margin-bottom:3px; }
-    .tip .t { color:#%(ac)s; } .warn .t { color:#B00020; } .note .t { color:#%(bd)s; }
-    /* cover */
-    .cover { page-break-after:always; }
-    .cover .band { background:#%(br)s; color:#fff; padding:150px 50px 80px; text-align:center; }
-    .cover .band .t1 { font-size:42pt; font-weight:bold; }
-    .cover .band .t2 { font-size:24pt; margin-top:10px; }
-    .cover .meta { text-align:center; margin-top:80px; }
-    .cover .meta .org { font-size:22pt; font-weight:bold; color:#%(bd)s; }
-    .cover .meta .sub { font-size:13pt; margin-top:6px; color:#333; }
-    .cover .meta .ver { font-size:13pt; margin-top:46px; color:#333; }
-    /* toc */
-    .toc { page-break-after:always; }
-    .toc h2 { color:#%(bd)s; border-bottom:2px solid #%(br)s; padding-bottom:4px; }
-    .toc ul { list-style:none; padding-left:0; }
-    .toc li.l1 { font-weight:bold; color:#%(bd)s; margin-top:8px; font-size:11.5pt; }
-    .toc li.l2 { padding-left:20px; font-weight:normal; color:#333; font-size:10.5pt; }
-    .toc a { text-decoration:none; color:inherit; }
-    """ % {"bd": BRAND_DARK, "br": BRAND, "ac": ACCENT, "gr": GREY, "lt": LIGHT}
+    .callout { border-radius:6px; padding:10px 14px; margin:12px 0; border-%(side)s:5px solid;
+               page-break-inside:avoid; }
+    .tip{background:#%(lt)s;border-color:#%(ac)s;} .warn{background:#FBEAEA;border-color:#B00020;}
+    .note{background:#%(gr)s;border-color:#%(bd)s;}
+    .callout .t{font-weight:bold;display:block;margin-bottom:3px;}
+    .tip .t{color:#%(ac)s;} .warn .t{color:#B00020;} .note .t{color:#%(bd)s;}
+    .cover{page-break-after:always;}
+    .cover .band{background:#%(br)s;color:#fff;padding:150px 50px 80px;text-align:center;}
+    .cover .band .t1{font-size:40pt;font-weight:bold;} .cover .band .t2{font-size:23pt;margin-top:10px;}
+    .cover .meta{text-align:center;margin-top:80px;}
+    .cover .meta .org{font-size:22pt;font-weight:bold;color:#%(bd)s;}
+    .cover .meta .sub{font-size:13pt;margin-top:6px;color:#333;}
+    .cover .meta .ver{font-size:13pt;margin-top:46px;color:#333;}
+    .toc{page-break-after:always;}
+    .toc h2{color:#%(bd)s;border-bottom:2px solid #%(br)s;padding-bottom:4px;}
+    .toc ul{list-style:none;padding:0;} .toc li.l1{font-weight:bold;color:#%(bd)s;margin-top:8px;}
+    .toc li.l2{padding-%(side)s:20px;color:#333;font-size:10.5pt;}
+    .toc a{text-decoration:none;color:inherit;}
+    """ % {"face": font_face, "ff": font_family, "dir": direction, "al": align, "side": side,
+           "bd": BRAND_DARK, "br": BRAND, "ac": ACCENT, "gr": GREY, "lt": LIGHT}
 
-    # table of contents from h1/h2
-    toc_items = []
-    for block in C:
-        if block[0] in ("h1", "h2"):
-            sid = slug(block[1])
-            cls = "l1" if block[0] == "h1" else "l2"
-            toc_items.append('<li class="%s"><a href="#%s">%s</a></li>' % (cls, sid, _html.escape(block[1])))
+    toc = []
+    for b in blocks:
+        if b[0] in ("h1", "h2"):
+            toc.append('<li class="%s"><a href="#%s">%s</a></li>'
+                       % ("l1" if b[0] == "h1" else "l2", slug(b[1]), _html.escape(b[1])))
 
-    parts = ['<!doctype html><html><head><meta charset="utf-8"><style>%s</style></head><body>' % css]
-    # cover
-    parts.append(
-        '<div class="cover"><div class="band"><div class="t1">%s</div><div class="t2">%s</div></div>'
-        '<div class="meta"><div class="org">%s</div><div class="sub">%s</div>'
-        '<div class="ver">%s &middot; %s</div></div></div>'
-        % (_html.escape(TITLE), _html.escape(SUBTITLE), _html.escape(ORG),
-           _html.escape(PLATFORM), _html.escape(VERSION), _html.escape(DATE)))
-    # toc
-    parts.append('<div class="toc"><h2>Table of Contents</h2><ul>%s</ul></div>' % "".join(toc_items))
-    # body
-    for block in C:
-        kind = block[0]
-        if kind in ("h1", "h2", "h3"):
-            parts.append('<%s id="%s">%s</%s>' % (kind, slug(block[1]), esc(block[1]), kind))
-        elif kind == "p":
-            parts.append("<p>%s</p>" % esc(block[1]))
-        elif kind == "ul":
-            parts.append("<ul>%s</ul>" % "".join("<li>%s</li>" % esc(i) for i in block[1]))
-        elif kind == "ol":
-            parts.append("<ol>%s</ol>" % "".join("<li>%s</li>" % esc(i) for i in block[1]))
-        elif kind == "table":
-            headers, rows = block[1], block[2]
-            th = "".join("<th>%s</th>" % esc(h) for h in headers)
-            trs = "".join("<tr>%s</tr>" % "".join("<td>%s</td>" % esc(c) for c in r) for r in rows)
+    parts = ['<!doctype html><html dir="%s"><head><meta charset="utf-8"><style>%s</style></head><body>'
+             % (direction, css)]
+    parts.append('<div class="cover"><div class="band"><div class="t1">%s</div>'
+                 '<div class="t2">%s</div></div><div class="meta"><div class="org">%s</div>'
+                 '<div class="sub">%s</div><div class="ver">%s &middot; %s</div></div></div>'
+                 % (_html.escape(meta["title"]), _html.escape(meta["subtitle"]),
+                    _html.escape(meta["org"]), _html.escape(meta["platform"]),
+                    _html.escape(meta["version"]), _html.escape(meta["date"])))
+    parts.append('<div class="toc"><h2>%s</h2><ul>%s</ul></div>' % (_html.escape(meta["toc"]), "".join(toc)))
+
+    lab = meta["labels"]
+    for b in blocks:
+        k = b[0]
+        if k in ("h1", "h2", "h3"):
+            parts.append('<%s id="%s">%s</%s>' % (k, slug(b[1]), esc(b[1]), k))
+        elif k == "p":
+            parts.append("<p>%s</p>" % esc(b[1]))
+        elif k == "ul":
+            parts.append("<ul>%s</ul>" % "".join("<li>%s</li>" % esc(i) for i in b[1]))
+        elif k == "ol":
+            parts.append("<ol>%s</ol>" % "".join("<li>%s</li>" % esc(i) for i in b[1]))
+        elif k == "table":
+            th = "".join("<th>%s</th>" % esc(h) for h in b[1])
+            trs = "".join("<tr>%s</tr>" % "".join("<td>%s</td>" % esc(c) for c in r) for r in b[2])
             parts.append("<table><tr>%s</tr>%s</table>" % (th, trs))
-        elif kind in ("tip", "warn", "note"):
-            label = {"tip": "TIP", "warn": "IMPORTANT", "note": "NOTE"}[kind]
+        elif k in ("tip", "warn", "note"):
             parts.append('<div class="callout %s"><span class="t">%s — %s</span>%s</div>'
-                         % (kind, label, esc(block[1]), esc(block[2])))
+                         % (k, lab[k], esc(b[1]), esc(b[2])))
     parts.append("</body></html>")
-
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("".join(parts))
 
+# ============================================================ MAIN
 if __name__ == "__main__":
     os.makedirs(OUT_DIR, exist_ok=True)
-    docx_path = os.path.join(OUT_DIR, "Sudan_MedSupply_ERP_User_Manual.docx")
-    html_path = os.path.join(OUT_DIR, "_manual.html")
-    build_docx(docx_path)
-    build_html(html_path)
-    print("DOCX :", docx_path)
-    print("HTML :", html_path)
-    print("BLOCKS:", len(C))
+    base = "Medical-Supply_ERP_User_Manual"
+
+    # English
+    en = Content(); fill_en(en)
+    build_docx(en.C, META["en"], os.path.join(OUT_DIR, base + "_EN.docx"),
+               rtl=False, font_name="Calibri")
+    build_html(en.C, META["en"], os.path.join(OUT_DIR, "_manual_EN.html"),
+               rtl=False, font_face="", font_family="'Helvetica Neue',Arial,sans-serif")
+
+    # Arabic (RTL). PDF uses the bundled Tajawal font copied into the container.
+    ar_face = ("@font-face{font-family:'Tajawal';font-weight:normal;"
+               "src:url('file:///tmp/fonts/Tajawal-Regular.ttf');}"
+               "@font-face{font-family:'Tajawal';font-weight:bold;"
+               "src:url('file:///tmp/fonts/Tajawal-Bold.ttf');}")
+    ar = Content(); fill_ar(ar)
+    build_docx(ar.C, META["ar"], os.path.join(OUT_DIR, base + "_AR.docx"),
+               rtl=True, font_name="Arial")
+    build_html(ar.C, META["ar"], os.path.join(OUT_DIR, "_manual_AR.html"),
+               rtl=True, font_face=ar_face, font_family="'Tajawal',sans-serif")
+
+    print("EN blocks:", len(en.C), "| AR blocks:", len(ar.C))
+    print("Outputs in", OUT_DIR)

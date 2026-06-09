@@ -421,20 +421,32 @@ A complete medical-supply distribution ERP built on **Odoo 18 Community** (Commu
 
 ### User manual
 
-A full, professionally formatted user manual describing every feature lives in [`docs/manual/`](docs/manual/):
+A full, professionally formatted user manual describing every feature lives in [`docs/manual/`](docs/manual/), in **English and Arabic** (Arabic is right-to-left):
 
-- **Word:** `docs/manual/Sudan_MedSupply_ERP_User_Manual.docx`
-- **PDF:** `docs/manual/Sudan_MedSupply_ERP_User_Manual.pdf`
+| Language | Word | PDF |
+|---|---|---|
+| English | `Medical-Supply_ERP_User_Manual_EN.docx` | `Medical-Supply_ERP_User_Manual_EN.pdf` |
+| Arabic (RTL) | `Medical-Supply_ERP_User_Manual_AR.docx` | `Medical-Supply_ERP_User_Manual_AR.pdf` |
 
-Regenerate both from the single source (`scripts/build_manual.py`) any time — DOCX is produced with `python-docx`, the PDF via the Odoo container's `wkhtmltopdf`:
+Both languages are generated from a single source (`scripts/build_manual.py`). DOCX is produced with `python-docx`; the PDFs are rendered with **WeasyPrint** (Pango/HarfBuzz) inside the Odoo container — it handles Arabic bidi/shaping correctly, unlike the container's stock `wkhtmltopdf`. The Arabic PDF embeds the bundled **Tajawal** font (`scripts/fonts/`).
 
 ```bash
-pip3 install --user python-docx
-python3 scripts/build_manual.py
-docker cp docs/manual/_manual.html ephem-app:/tmp/manual.html
-docker compose exec -T odoo wkhtmltopdf --enable-local-file-access --dpi 150 \
-  /tmp/manual.html /tmp/manual.pdf
-docker cp ephem-app:/tmp/manual.pdf docs/manual/Sudan_MedSupply_ERP_User_Manual.pdf
+pip3 install --user python-docx          # host: build the .docx files
+python3 scripts/build_manual.py          # -> docs/manual/*.docx + _manual_EN/AR.html
+
+# one-time container setup for PDF rendering
+docker compose exec -u root odoo bash -lc \
+  'apt-get update -qq && apt-get install -y -qq libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 && pip install --break-system-packages -q weasyprint'
+
+# copy the Arabic font + HTML in, render, copy the PDFs back
+docker compose exec -T odoo mkdir -p /tmp/fonts
+docker cp scripts/fonts/Tajawal-Regular.ttf ephem-app:/tmp/fonts/Tajawal-Regular.ttf
+docker cp scripts/fonts/Tajawal-Bold.ttf    ephem-app:/tmp/fonts/Tajawal-Bold.ttf
+for L in EN AR; do
+  docker cp docs/manual/_manual_$L.html ephem-app:/tmp/manual_$L.html
+  docker compose exec -T odoo python3 -m weasyprint /tmp/manual_$L.html /tmp/manual_$L.pdf
+  docker cp ephem-app:/tmp/manual_$L.pdf docs/manual/Medical-Supply_ERP_User_Manual_$L.pdf
+done
 ```
 
 ### Modules
