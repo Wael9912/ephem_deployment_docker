@@ -421,16 +421,22 @@ A complete medical-supply distribution ERP built on **Odoo 18 Community** (Commu
 
 ### User manual
 
-A full, professionally formatted user manual describing every feature lives in [`docs/manual/`](docs/manual/), in **English and Arabic** (Arabic is right-to-left):
+A full, professionally formatted user manual describing every feature lives in [`docs/manual/`](docs/manual/), in **English and Arabic** (Arabic is right-to-left). Each edition embeds **real screenshots captured from the running system** and includes **end-to-end worked examples** that follow the actual demo records (USD purchase `P00002`, sales order `S00001` → invoice `INV/2026/00001`):
 
 | Language | Word | PDF |
 |---|---|---|
 | English | `Medical-Supply_ERP_User_Manual_EN.docx` | `Medical-Supply_ERP_User_Manual_EN.pdf` |
 | Arabic (RTL) | `Medical-Supply_ERP_User_Manual_AR.docx` | `Medical-Supply_ERP_User_Manual_AR.pdf` |
 
-Both languages are generated from a single source (`scripts/build_manual.py`). DOCX is produced with `python-docx`; the PDFs are rendered with **WeasyPrint** (Pango/HarfBuzz) inside the Odoo container — it handles Arabic bidi/shaping correctly, unlike the container's stock `wkhtmltopdf`. The Arabic PDF embeds the bundled **Tajawal** font (`scripts/fonts/`).
+Both languages are generated from a single source (`scripts/build_manual.py`). DOCX is produced with `python-docx` (screenshots embedded); the PDFs are rendered with **WeasyPrint** (Pango/HarfBuzz) inside the Odoo container — it handles Arabic bidi/shaping correctly, unlike the container's stock `wkhtmltopdf`. Screenshots are base64-inlined into the HTML, so the PDF step needs no image copy. The Arabic edition uses the bundled **Tajawal** font (`scripts/fonts/`) in both the PDF and the DOCX, and its screenshots show the **Arabic UI** (the system is bilingual — see *Languages* below).
 
 ```bash
+# 1. capture real screenshots (Playwright/headless Chromium) -> docs/manual/img/{en,ar}/
+pip3 install --user playwright && python3 -m playwright install chromium
+python3 scripts/capture_screens.py en     # admin language must be en_US
+# for Arabic shots: set admin.lang=ar_001, restart odoo, run `capture_screens.py ar`, reset to en_US
+
+# 2. build the documents
 pip3 install --user python-docx          # host: build the .docx files
 python3 scripts/build_manual.py          # -> docs/manual/*.docx + _manual_EN/AR.html
 
@@ -483,7 +489,8 @@ Then open **http://localhost:8069**, choose database **`erpmedsupply`**, and log
 
 ### What the demo contains
 
-- **Sudan MedSupply Co.**, base currency **SDG**, **USD** reference with 5 dated rates (600 → 700 SDG).
+- **Sudan MedSupply Co.** (Khartoum, Sudan), base currency **SDG**, **USD** reference with 5 dated rates (1 USD = 600 → 700 SDG).
+- **Bilingual UI** — English + Arabic (`ar_001`) are both active; switch per user under *Preferences*. Activate Arabic with the language-install wizard, then restart the Odoo worker so the web UI picks it up.
 - 2 warehouses (Khartoum, Port Sudan) + Cold Storage / Quarantine / Expired locations.
 - 10 lot- & expiry-tracked medical products; insulin auto-routed to Cold Storage.
 - 4 customers, 3 suppliers (one priced in USD), vendor price lists.

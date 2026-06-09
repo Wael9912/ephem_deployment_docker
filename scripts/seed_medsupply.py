@@ -21,8 +21,11 @@ else:
     # ============================================================ PHASE A
     # ---- Company / country -------------------------------------------
     sudan = env["res.country"].search([("code", "=", "SD")], limit=1)
-    if sudan:
-        company.country_id = sudan.id
+    company.write({
+        "name": "Sudan MedSupply Co.",
+        "city": "Khartoum",
+        "country_id": sudan.id if sudan else False,
+    })
     out("Company: %s  country=%s" % (company.name, company.country_id.name))
 
     # ---- Currencies: SDG (base) + USD (reference) --------------------
@@ -77,9 +80,12 @@ else:
     cfg.execute()
     out("Enabled: multi-currency, multi-locations, lots, UoM.")
 
-    # ---- USD exchange-rate history (company_rate = SDG per 1 USD) ----
+    # ---- USD exchange-rate history (1 USD = N SDG) -------------------
+    # Odoo's canonical `rate` field is foreign-per-company (USD per 1 SDG),
+    # so 1 USD = N SDG is stored as rate = 1/N. Setting `company_rate`
+    # directly inverts the conversion on this build (1 USD would read as
+    # 1/N SDG), so we always write the `rate` field.
     Rate = env["res.currency.rate"]
-    rate_field = "company_rate" if "company_rate" in Rate._fields else "rate"
     usd_history = [
         ("2025-06-01", 600.0),
         ("2025-09-01", 620.0),
@@ -92,11 +98,8 @@ else:
                                 ("company_id", "=", company.id)], limit=1)
         if existing:
             continue
-        vals = {"currency_id": usd.id, "name": d, "company_id": company.id}
-        if rate_field == "company_rate":
-            vals["company_rate"] = sdg_per_usd
-        else:
-            vals["rate"] = 1.0 / sdg_per_usd
+        vals = {"currency_id": usd.id, "name": d, "company_id": company.id,
+                "rate": 1.0 / sdg_per_usd}
         Rate.create(vals)
     out("Seeded %d USD rate records (1 USD = 600..700 SDG over time)." % len(usd_history))
 

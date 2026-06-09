@@ -59,9 +59,38 @@ docker compose stop odoo
 docker compose exec -T db psql -U odoo -d postgres -c "DROP DATABASE IF EXISTS erpmedsupply WITH (FORCE);"
 ```
 
+## Install Arabic in the system (bilingual UI / Arabic screenshots)
+`ar_001` (generic Arabic, maps to the `ar` .po files) is the Sudan UI language. Activate
+it with the language-install wizard — `--load-language=ar_001` alone loads only part
+(field labels but not menus):
+```bash
+docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http <<'PY'
+lang = env["res.lang"].with_context(active_test=False).search([("code","=","ar_001")],limit=1)
+env["base.language.install"].create({"lang_ids":[(6,0,[lang.id])],"overwrite":True}).lang_install()
+env.cr.commit()
+PY
+```
+The app name "Sales" stays English (Odoo default); everything else translates.
+
+## Capture real screenshots (EN + AR)
+`scripts/capture_screens.py` drives headless Chromium (Playwright) and deep-links into the
+actual demo records → `docs/manual/img/{en,ar}/`, embedded by the manual builder.
+```bash
+pip3 install --user playwright && python3 -m playwright install chromium   # host, once
+python3 scripts/capture_screens.py en                                       # admin must be en_US
+# Arabic UI: set admin.lang=ar_001, RESTART odoo (the web worker caches user lang AND
+# currency rates — a separate-process commit is NOT seen without a restart), then
+# `capture_screens.py ar`, finally reset admin.lang=en_US and restart again.
+```
+Gotchas: `dbfilter` matches 2 DBs, so the script logs in via `/web/login?db=erpmedsupply`;
+Odoo holds a long-poll socket, so after login wait on `.o_main_navbar`, never `networkidle`.
+
 ## Regenerate the user manual (Word + PDF, EN + AR)
 Single source: `scripts/build_manual.py` — `fill_en()` / `fill_ar()` hold the content;
-renderers emit DOCX (python-docx) and HTML for both languages. Arabic is RTL.
+`d.fig(file, caption)` embeds a numbered screenshot from `docs/manual/img/<lang>/`.
+Renderers emit DOCX (python-docx, images embedded) and HTML (images base64-inlined, so the
+PDF step needs no image copy). Inline `**bold**` and paired `*italic*` are supported.
+Arabic is RTL and uses Tajawal in both DOCX and PDF.
 ```bash
 pip3 install --user python-docx        # host, once
 python3 scripts/build_manual.py        # -> docs/manual/*_EN/_AR.docx + _manual_EN/AR.html
@@ -85,6 +114,14 @@ Notes:
 - The manuals must **not** mention "ePHEM" (per client request) — keep `META`/content clean.
 
 ## Gotchas learned
+- **USD FX rate direction**: store the USD `res.currency.rate` as `rate = 1/N` so 1 USD = N
+  SDG. Writing `company_rate = N` inverts it on this build (the PO `amount_total_cc` is a
+  **stored** field = `amount_total / currency_rate`, set at seed time and NOT recomputed on
+  later rate edits) → e.g. $1,288 showed as 1.84 SDG. Verify with
+  `usd._convert(1.0, sdg, company, date) == N`. Stale stored conversions only clear on a
+  rebuild, so re-seed rather than patch live records.
+- The seed sets the company to **Sudan MedSupply Co.** (Khartoum, Sudan) — don't leave it
+  as "My Company".
 - Default pricelist is created in the chart's currency (USD) → forces invoices to USD.
   The seed sets all pricelists to SDG; the SO/invoice currency follows the **pricelist**.
 - Manually creating receipt move lines bypasses **putaway** rules; the seed adds an

@@ -26,12 +26,14 @@ FONT_DIR = os.path.join(ROOT, "scripts", "fonts")
 META = {
     "en": dict(title="Medical-Supply ERP", subtitle="User Manual",
                org="Sudan MedSupply Co.", platform="Built on Odoo 18 Community",
-               version="Version 1.0", date="June 2026", toc="Table of Contents",
-               labels={"tip": "TIP", "warn": "IMPORTANT", "note": "NOTE"}),
+               version="Version 2.0", date="June 2026", toc="Table of Contents",
+               figures="List of Figures",
+               labels={"tip": "TIP", "warn": "IMPORTANT", "note": "NOTE", "fig": "Figure"}),
     "ar": dict(title="نظام إدارة موارد المستلزمات الطبية", subtitle="دليل المستخدم",
                org="شركة السودان للمستلزمات الطبية", platform="مبني على أودو 18 المجتمعي",
-               version="الإصدار 1.0", date="يونيو 2026", toc="جدول المحتويات",
-               labels={"tip": "نصيحة", "warn": "هام", "note": "ملاحظة"}),
+               version="الإصدار 2.0", date="يونيو 2026", toc="جدول المحتويات",
+               figures="قائمة الأشكال",
+               labels={"tip": "نصيحة", "warn": "هام", "note": "ملاحظة", "fig": "شكل"}),
 }
 
 # ----------------------------------------------------------------------------
@@ -49,6 +51,7 @@ class Content:
     def tip(self, title, t): self.C.append(("tip", title, t))
     def warn(self, title, t): self.C.append(("warn", title, t))
     def note(self, title, t): self.C.append(("note", title, t))
+    def fig(self, filename, caption): self.C.append(("fig", filename, caption))
 
 # ============================================================ ENGLISH CONTENT
 def fill_en(d):
@@ -93,6 +96,7 @@ def fill_en(d):
           "If a database list appears, choose **erpmedsupply**.",
           "Enter your user name and password. The default administrator is **admin / admin** "
           "on the demo database — change this password before going live."])
+    d.fig("login.png", "The sign-in screen — choose the **erpmedsupply** database and log in.")
     d.warn("Change default credentials", "The demo administrator password (**admin**) and the "
            "database master password must be changed before the system is used with real data.")
     d.h2("2.3 Finding your way around")
@@ -100,6 +104,7 @@ def fill_en(d):
           "Each application has its own **Configuration** sub-menu for setup tasks.",
           "Most documents follow a **draft → confirmed → done** lifecycle shown by status "
           "buttons in the top-right."])
+    d.fig("apps_home.png", "The applications home screen, showing the installed business apps.")
 
     d.h1("3. Configuration (Central Admin)")
     d.p("Configuration is the heart of the system. Complete these steps **in order** before "
@@ -126,6 +131,8 @@ def fill_en(d):
     d.tip("Easy rate updates", "Because each change is a new dated line, you simply add a line "
           "whenever the rate moves — you never overwrite history. Reports and documents "
           "automatically use the correct rate for their date.")
+    d.fig("currency_rates.png", "The USD currency record with its dated rate history "
+          "(1 USD = 600 → 700 SDG). Type the rate into the **SDG per Unit** column.")
     d.note("Automatic rates (optional)", "Community Odoo does not fetch rates automatically. If "
            "you want scheduled updates, the OCA **currency_rate_update** module can be added "
            "later; otherwise rates are maintained by hand as above.")
@@ -142,6 +149,7 @@ def fill_en(d):
              ["Purchase currency", "Default currency for that supplier's orders (e.g. USD for imports)."],
              ["Price list", "Which selling prices and currency apply to this customer."],
              ["Bank accounts", "Needed to register or batch payments."]])
+    d.fig("contacts.png", "The Contacts directory — customers and suppliers share one list.")
     d.h2("3.4 Banks and money safes")
     d.p("Money flows are tracked through **journals**. A **bank** needs both a bank record and "
         "a bank journal; a **money safe / cash box** is a **cash journal**.")
@@ -166,6 +174,8 @@ def fill_en(d):
     d.tip("Cold chain", "Temperature-controlled storage is modelled as an internal "
           "**location**. A **putaway rule** can automatically route a product (e.g. insulin) "
           "into Cold Storage when it is received.")
+    d.fig("locations.png", "Internal locations under Khartoum Central — including "
+          "**Cold Storage (2-8°C)**, **Quarantine** and **Expired / Damaged**.")
     d.h2("3.7 Product categories")
     d.p("Product categories control how stock is costed and removed.")
     d.table(["Setting", "Recommended value", "Effect"],
@@ -186,18 +196,24 @@ def fill_en(d):
           "Set the **Cost** and **Sales Price**.",
           "On the **Inventory** tab set **Tracking = By Lots** and enable **Expiration Date** "
           "for medicines and consumables."])
+    d.fig("products_list.png", "The medical product catalogue with on-hand quantities.")
+    d.fig("product_insulin.png", "Product form for **Insulin Vial 10ml** — tracked by lot, "
+          "with expiry control and a cost in SDG.")
     d.h2("4.2 Lot / batch and expiry tracking")
     d.p("Lot tracking records which **batch** each unit belongs to; expiry tracking records the "
         "**expiration date** of each batch. Together they give full traceability and drive FEFO.")
     d.ul(["On receipt the system asks for the **lot number** and **expiry date**.",
           "Stock can be traced by lot for recalls and audits.",
           "Near-expiry stock is highlighted and issued first under FEFO."])
+    d.fig("lots_expiry.png", "Lot / batch records, each carrying an expiration date that drives FEFO.")
     d.h2("4.3 Checking stock on hand")
     d.p("Open a product and use the **On Hand** / **Forecasted** smart buttons, or review the "
         "on-hand column in the product list. **Inventory → Reporting** provides valuation and "
         "movement analysis.")
 
     d.h1("5. Warehouse Operations")
+    d.fig("inventory.png", "The Inventory overview — each card is an operation type "
+          "(receipts, deliveries, internal transfers) with its count of work to process.")
     d.h2("5.1 Receipts (goods in)")
     d.ol(["Receipts are generated from confirmed purchase orders.",
           "Open the receipt, enter the **lot number** and **expiry date** for each line, then "
@@ -211,6 +227,8 @@ def fill_en(d):
     d.p("Move stock between locations or warehouses — for example from the main store to "
         "**Cold Storage**. Use **Inventory → Operations → Transfers**, choose the source and "
         "destination, add the product and lot, and validate.")
+    d.fig("transfers.png", "The Transfers list — receipts, deliveries and internal moves, "
+          "each with its status (Done, Ready, Waiting).")
     d.h2("5.4 Reordering rules")
     d.p("Set minimum/maximum levels on critical items. When stock falls below the minimum the "
         "system proposes a purchase to top up to the maximum, preventing stock-outs.")
@@ -231,6 +249,20 @@ def fill_en(d):
         "value is always correct in the base currency.")
     d.tip("Bill control", "Set **Bill Control = Received quantities** so you only pay for what "
           "actually arrived — important for medical goods.")
+    d.h2("6.4 Worked example — importing insulin in USD")
+    d.p("This walkthrough uses the demo purchase order **P00002** placed with the import "
+        "supplier **Gulf MedTrade FZE**, priced in **USD**.")
+    d.ol(["In **Purchase → Orders**, the order **P00002** lists **50 × Insulin Vial 10ml** "
+          "at **$14.00** and **10 × Digital Blood Pressure Monitor** at **$42.00**.",
+          "Because Gulf MedTrade's purchase currency is **USD**, the order total is **$1,288.00**; "
+          "the system shows the SDG value beneath it using the rate on the order date "
+          "(1 USD = 700 SDG → about **901,600 SDG**).",
+          "On **Confirm Order** a **Receipt** is created. Validating it (with lot **LOT-GULF-01** "
+          "and the expiry date) adds the insulin to stock; the putaway rule routes it to "
+          "**Cold Storage**.",
+          "**Create Bill** generates the vendor bill in USD; it is valued in SDG when posted."])
+    d.fig("purchase_usd.png", "Purchase order **P00002** from Gulf MedTrade — a USD order "
+          "($1,288) automatically valued in the company's SDG accounts.")
 
     d.h1("7. Sales")
     d.h2("7.1 The selling flow")
@@ -246,6 +278,16 @@ def fill_en(d):
     d.warn("Currency comes from the price list", "If invoices appear in the wrong currency, "
            "check the price list assigned to the customer — the order currency follows the "
            "price list, not the contact's country.")
+    d.h2("7.3 Worked example — selling to Khartoum Teaching Hospital")
+    d.p("This walkthrough follows the demo sales order **S00001** through to its posted invoice.")
+    d.ol(["In **Sales → Orders**, order **S00001** sells to **Khartoum Teaching Hospital**: "
+          "**50 × Paracetamol 500mg**, **20 × Surgical Gloves** and **30 × Syringe 5ml** — "
+          "all priced from the **SDG** price list.",
+          "Confirming the order creates a **Delivery**; under FEFO the system reserves the "
+          "soonest-to-expire lots and is validated to ship the goods.",
+          "**Create Invoice** then posts **INV/2026/00001** for **317,400 SDG** "
+          "(276,000 net + 41,400 VAT at 15%)."])
+    d.fig("sale_order.png", "Sales order **S00001** for Khartoum Teaching Hospital, priced in SDG.")
 
     d.h1("8. Accounting")
     d.h2("8.1 What is included")
@@ -258,10 +300,14 @@ def fill_en(d):
              ["Cash Book / Day Book / Bank Book", "om_account_daily_reports"],
              ["Bank reconciliation (interactive matching)", "account_reconcile_oca"],
              ["Customer follow-up / dunning", "om_account_followup"]])
+    d.fig("accounting.png", "The Accounting dashboard — one card per journal "
+          "(Customer Invoices, Vendor Bills, Bank, Cash) with quick actions.")
     d.h2("8.2 Customer invoices and vendor bills")
     d.ul(["Customer invoices are normally created from sales orders and posted from Accounting.",
           "Vendor bills are created from purchase orders / receipts and posted before payment.",
           "Each posted document generates the matching journal entries automatically."])
+    d.fig("customer_invoice.png", "Posted customer invoice **INV/2026/00001** in SDG, "
+          "linked back to its sales order.")
     d.h2("8.3 Payments and the money safe")
     d.p("Register a payment from an invoice or bill and choose the journal — a **bank** account "
         "or a **cash safe**. Reconcile cash safes daily using the **Cash Book / Day Book**.")
@@ -379,12 +425,14 @@ def fill_ar(d):
           "إذا ظهرت قائمة قواعد البيانات، اختر **erpmedsupply**.",
           "أدخل اسم المستخدم وكلمة المرور. المسؤول الافتراضي في النسخة التجريبية هو "
           "**admin / admin** — غيّر كلمة المرور قبل التشغيل الفعلي."])
+    d.fig("login.png", "شاشة تسجيل الدخول — اختر قاعدة البيانات **erpmedsupply** وسجّل الدخول.")
     d.warn("غيّر بيانات الدخول الافتراضية", "يجب تغيير كلمة مرور المسؤول التجريبية (**admin**) "
            "وكلمة المرور الرئيسية لقاعدة البيانات قبل استخدام النظام ببيانات حقيقية.")
     d.h2("2.3 التنقّل في النظام")
     d.ul(["**شريط القوائم العلوي** ينقلك بين التطبيقات (المخزون، المشتريات، المبيعات، المحاسبة…).",
           "لكل تطبيق قائمة فرعية **الإعدادات** الخاصة به لمهام التهيئة.",
           "تتبع معظم المستندات دورة حياة **مسودة ← مؤكد ← منجز** تظهر عبر أزرار الحالة أعلى اليسار."])
+    d.fig("apps_home.png", "الشاشة الرئيسية للتطبيقات، وتعرض تطبيقات الأعمال المثبّتة.")
 
     d.h1("3. الإعدادات (الإدارة المركزية)")
     d.p("الإعدادات هي قلب النظام. أكمل هذه الخطوات **بالترتيب** قبل تسجيل العمليات اليومية، لأن "
@@ -408,6 +456,8 @@ def fill_ar(d):
           "احفظ. ينطبق السعر الجديد على كل المستندات المؤرخة في ذلك اليوم أو بعده."])
     d.tip("تحديث سهل للأسعار", "بما أن كل تغيير سطر مؤرّخ جديد، فأنت تضيف سطرًا كلما تحرّك السعر "
           "— دون أن تطمس التاريخ. تستخدم التقارير والمستندات السعر الصحيح لتاريخها تلقائيًا.")
+    d.fig("currency_rates.png", "سجل أسعار صرف الدولار المؤرّخ (1 دولار = 600 ← 700 جنيه). "
+          "أدخل السعر في عمود **جنيه لكل وحدة**.")
     d.note("الأسعار التلقائية (اختياري)", "لا يجلب أودو المجتمعي الأسعار تلقائيًا. إن رغبت بتحديث "
            "مجدول، يمكن إضافة وحدة **currency_rate_update** من OCA لاحقًا؛ وإلا تُحدَّث الأسعار يدويًا.")
     d.h2("3.3 العملاء والموردون")
@@ -423,6 +473,7 @@ def fill_ar(d):
              ["عملة الشراء", "العملة الافتراضية لأوامر هذا المورّد (مثل USD للاستيراد)."],
              ["قائمة الأسعار", "أسعار البيع والعملة التي تنطبق على هذا العميل."],
              ["الحسابات البنكية", "لازمة لتسجيل المدفوعات أو الدُفعات المجمّعة."]])
+    d.fig("contacts.png", "دليل جهات الاتصال — العملاء والموردون في قائمة واحدة.")
     d.h2("3.4 البنوك وخزائن النقد")
     d.p("تُتابَع الحركات المالية عبر **دفاتر اليومية**. يحتاج **البنك** إلى سجل بنك ودفتر يومية "
         "بنكي؛ أما **خزينة النقد / الصندوق** فهي **دفتر يومية نقدي**.")
@@ -442,6 +493,8 @@ def fill_ar(d):
           "أنشئ **مواقع** داخلية: **تخزين مبرّد (2-8°م)**، **حجر**، **منتهي/تالف**."])
     d.tip("سلسلة التبريد", "يُمثَّل التخزين المتحكَّم بحرارته كـ**موقع** داخلي. ويمكن لقاعدة "
           "**تخزين** أن توجّه منتجًا (مثل الإنسولين) تلقائيًا إلى التخزين المبرّد عند الاستلام.")
+    d.fig("locations.png", "المواقع الداخلية ضمن مستودع الخرطوم المركزي — منها "
+          "**التخزين المبرّد (2-8°م)** و**الحجر** و**منتهي/تالف**.")
     d.h2("3.7 فئات المنتجات")
     d.p("تتحكم فئات المنتجات في كيفية تسعير المخزون وتكلفته وطريقة صرفه.")
     d.table(["الإعداد", "القيمة الموصى بها", "الأثر"],
@@ -460,17 +513,23 @@ def fill_ar(d):
           "عيّن **فئة المنتج** (مثل الأدوية).",
           "اضبط **التكلفة** و**سعر البيع**.",
           "في تبويب **المخزون** اضبط **التتبّع = بالدفعات** وفعّل **تاريخ الانتهاء** للأدوية والمستهلكات."])
+    d.fig("products_list.png", "كتالوج المنتجات الطبية مع الكميات المتاحة.")
+    d.fig("product_insulin.png", "نموذج المنتج **قارورة إنسولين 10 مل** — متتبَّع بالدفعة "
+          "مع ضبط الانتهاء وتكلفة بالجنيه.")
     d.h2("4.2 تتبّع الدفعات وتواريخ الانتهاء")
     d.p("يسجّل تتبّع الدفعات أي **دفعة** تنتمي إليها كل وحدة؛ ويسجّل تتبّع الانتهاء **تاريخ "
         "انتهاء** كل دفعة. ويوفّران معًا تتبّعًا كاملًا ويشغّلان آلية FEFO.")
     d.ul(["عند الاستلام يطلب النظام **رقم الدفعة** و**تاريخ الانتهاء**.",
           "يمكن تتبّع المخزون بالدفعة لأغراض السحب من السوق والتدقيق.",
           "يُبرَز المخزون القريب من الانتهاء ويُصرَف أولًا وفق FEFO."])
+    d.fig("lots_expiry.png", "سجلات الدفعات، ويحمل كل منها تاريخ انتهاء يشغّل آلية FEFO.")
     d.h2("4.3 مراجعة الرصيد المتاح")
     d.p("افتح منتجًا واستخدم أزرار **المتاح** / **المتوقع**، أو راجع عمود الرصيد في قائمة "
         "المنتجات. توفّر **المخزون ← التقارير** تحليل التقييم والحركة.")
 
     d.h1("5. عمليات المستودع")
+    d.fig("inventory.png", "نظرة عامة على المخزون — كل بطاقة نوع عملية (استلام، تسليم، "
+          "تحويلات داخلية) مع عدد المهام المطلوب إنجازها.")
     d.h2("5.1 الاستلام (بضاعة واردة)")
     d.ol(["تُنشأ عمليات الاستلام من أوامر الشراء المؤكدة.",
           "افتح الاستلام، وأدخل **رقم الدفعة** و**تاريخ الانتهاء** لكل سطر، ثم **تحقّق**.",
@@ -483,6 +542,7 @@ def fill_ar(d):
     d.p("انقل المخزون بين المواقع أو المستودعات — مثلًا من المخزن الرئيسي إلى **التخزين "
         "المبرّد**. استخدم **المخزون ← العمليات ← التحويلات**، واختر المصدر والوجهة، وأضف المنتج "
         "والدفعة، ثم تحقّق.")
+    d.fig("transfers.png", "قائمة التحويلات — الاستلام والتسليم والتحويلات الداخلية مع حالة كل منها.")
     d.h2("5.4 قواعد إعادة الطلب")
     d.p("اضبط حدودًا دنيا/عليا للأصناف الحرجة. عندما يهبط المخزون دون الحد الأدنى يقترح النظام "
         "أمر شراء لرفعه إلى الحد الأعلى، مانعًا نفاد المخزون.")
@@ -502,6 +562,19 @@ def fill_ar(d):
         "بسعر الصرف في تاريخ الأمر/الفاتورة، فتكون القيمة المحاسبية صحيحة دائمًا بالعملة الأساسية.")
     d.tip("ضبط الفوترة", "اضبط **ضبط الفوترة = الكميات المستلمة** لتدفع فقط مقابل ما وصل فعلًا "
           "— وهو أمر مهم للبضائع الطبية.")
+    d.h2("6.4 مثال تطبيقي — استيراد الإنسولين بالدولار")
+    d.p("يستخدم هذا الشرح أمر الشراء التجريبي **P00002** الصادر للمورّد المستورد "
+        "**Gulf MedTrade FZE** والمسعَّر **بالدولار**.")
+    d.ol(["في **المشتريات ← الأوامر**، يتضمن الأمر **P00002**: **50 × قارورة إنسولين 10 مل** "
+          "بسعر **14.00 دولار** و**10 × جهاز قياس ضغط رقمي** بسعر **42.00 دولار**.",
+          "بما أن عملة شراء Gulf MedTrade هي **الدولار**، يبلغ إجمالي الأمر **1,288.00 دولار**؛ "
+          "ويعرض النظام قيمته بالجنيه أسفله بسعر تاريخ الأمر (1 دولار = 700 جنيه ← نحو "
+          "**901,600 جنيه**).",
+          "عند **تأكيد الأمر** يُنشأ **استلام**. والتحقق منه (بالدفعة **LOT-GULF-01** وتاريخ "
+          "الانتهاء) يضيف الإنسولين للمخزون؛ وتوجّهه قاعدة التخزين إلى **التخزين المبرّد**.",
+          "**إنشاء فاتورة** يولّد فاتورة المورّد بالدولار؛ وتُقيَّم بالجنيه عند ترحيلها."])
+    d.fig("purchase_usd.png", "أمر الشراء **P00002** من Gulf MedTrade — أمر بالدولار "
+          "(1,288 دولار) يُقيَّم تلقائيًا في حسابات الشركة بالجنيه.")
 
     d.h1("7. المبيعات")
     d.h2("7.1 مسار البيع")
@@ -515,6 +588,16 @@ def fill_ar(d):
         "عملة أمر البيع قائمة أسعاره، فعيّن لكل عميل القائمة الصحيحة.")
     d.warn("العملة تأتي من قائمة الأسعار", "إن ظهرت الفواتير بعملة خاطئة، فتحقّق من قائمة الأسعار "
            "المعيّنة للعميل — تتبع عملة الأمر قائمة الأسعار لا دولة الجهة.")
+    d.h2("7.3 مثال تطبيقي — البيع لمستشفى الخرطوم التعليمي")
+    d.p("يتابع هذا الشرح أمر البيع التجريبي **S00001** حتى فاتورته المُرحَّلة.")
+    d.ol(["في **المبيعات ← الأوامر**، يبيع الأمر **S00001** لـ**مستشفى الخرطوم التعليمي**: "
+          "**50 × باراسيتامول 500مغ** و**20 × قفازات جراحية** و**30 × محقن 5مل** — وكلها "
+          "مسعّرة من قائمة أسعار **الجنيه السوداني**.",
+          "تأكيد الأمر ينشئ **تسليمًا**؛ ووفق FEFO يحجز النظام الدفعات الأقرب انتهاءً ثم "
+          "يُتحقَّق منه لشحن البضائع.",
+          "ثم **إنشاء فاتورة** يرحّل **INV/2026/00001** بمبلغ **317,400 جنيه** "
+          "(276,000 صافٍ + 41,400 ضريبة بنسبة 15%)."])
+    d.fig("sale_order.png", "أمر البيع **S00001** لمستشفى الخرطوم التعليمي، مسعّر بالجنيه السوداني.")
 
     d.h1("8. المحاسبة")
     d.h2("8.1 ما الذي يتضمنه")
@@ -527,10 +610,14 @@ def fill_ar(d):
              ["دفتر النقد / اليومية / البنك", "om_account_daily_reports"],
              ["التسوية البنكية (المطابقة التفاعلية)", "account_reconcile_oca"],
              ["متابعة العملاء / المطالبات", "om_account_followup"]])
+    d.fig("accounting.png", "لوحة المحاسبة — بطاقة لكل دفتر يومية (فواتير العملاء، فواتير "
+          "الموردين، البنك، النقد) مع إجراءات سريعة.")
     d.h2("8.2 فواتير العملاء والموردين")
     d.ul(["تُنشأ فواتير العملاء عادةً من أوامر البيع وتُرحَّل من المحاسبة.",
           "تُنشأ فواتير الموردين من أوامر الشراء/الاستلام وتُرحَّل قبل الدفع.",
           "يولّد كل مستند مُرحَّل قيود اليومية المطابقة تلقائيًا."])
+    d.fig("customer_invoice.png", "فاتورة عميل مُرحَّلة **INV/2026/00001** بالجنيه السوداني، "
+          "مرتبطة بأمر بيعها.")
     d.h2("8.3 المدفوعات وخزينة النقد")
     d.p("سجّل دفعة من فاتورة واختر الدفتر — حساب **بنكي** أو **خزينة نقد**. سوِّ خزائن النقد "
         "يوميًا باستخدام **دفتر النقد / اليومية**.")
@@ -608,18 +695,31 @@ def fill_ar(d):
              ["العملة الأساسية", "العملة التي تُمسَك بها الحسابات (SDG)."]])
 
 # ----------------------------------------------------------------------------
+import re as _re
+# paired single-asterisk italics: *text* (won't match lone footnote asterisks)
+_ITALIC = _re.compile(r"\*([^*\s][^*]*?)\*")
+
 def runs(text):
-    parts, bold = [], False
+    """Yield (segment, bold, italic). Supports **bold** and paired *italic*."""
+    out = []
+    bold = False
     for seg in text.split("**"):
         if seg:
-            parts.append((seg, bold))
+            pos = 0
+            for m in _ITALIC.finditer(seg):
+                if m.start() > pos:
+                    out.append((seg[pos:m.start()], bold, False))
+                out.append((m.group(1), bold, True))
+                pos = m.end()
+            if pos < len(seg):
+                out.append((seg[pos:], bold, False))
         bold = not bold
-    return parts or [(text, False)]
+    return out or [(text, False, False)]
 
 # ============================================================ DOCX RENDERER
-def build_docx(blocks, meta, path, rtl, font_name):
+def build_docx(blocks, meta, path, rtl, font_name, img_dir):
     from docx import Document
-    from docx.shared import Pt, RGBColor
+    from docx.shared import Pt, RGBColor, Inches
     from docx.enum.text import WD_ALIGN_PARAGRAPH
     from docx.enum.table import WD_TABLE_ALIGNMENT
     from docx.oxml.ns import qn
@@ -662,10 +762,12 @@ def build_docx(blocks, meta, path, rtl, font_name):
             rpr.append(OxmlElement("w:rtl"))
 
     def add_runs(par, text, color=None, bold_all=False):
-        for seg, b in runs(text):
+        for seg, b, it in runs(text):
             r = par.add_run(seg)
             if b or bold_all:
                 r.bold = True
+            if it:
+                r.italic = True
             if color:
                 r.font.color.rgb = RGBColor.from_string(color)
             cs_font(r)
@@ -737,10 +839,29 @@ def build_docx(blocks, meta, path, rtl, font_name):
         add_runs(c.add_paragraph(), text)
         doc.add_paragraph("")
 
+    def figure(filename, caption, n):
+        src = os.path.join(img_dir, filename)
+        if not os.path.exists(src):
+            return
+        pp = doc.add_paragraph(); pp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        run = pp.add_run()
+        run.add_picture(src, width=Inches(6.1))
+        cap = doc.add_paragraph(); cap.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if rtl:
+            set_rtl_par(cap)
+        label = "%s %d — %s" % (lab["fig"], n, caption)
+        r = cap.add_run(label); r.italic = True; r.font.size = Pt(9.5)
+        r.font.color.rgb = RGBColor.from_string("555555"); cs_font(r)
+        doc.add_paragraph("")
+
     lab = meta["labels"]
+    fig_no = 0
     for block in blocks:
         k = block[0]
-        if k == "h1":
+        if k == "fig":
+            fig_no += 1
+            figure(block[1], block[2], fig_no)
+        elif k == "h1":
             heading(block[1], 1)
         elif k == "h2":
             heading(block[1], 2)
@@ -787,10 +908,18 @@ def slug(text):
     return s.strip("-") or "sec"
 
 def esc(t):
-    return "".join(("<strong>%s</strong>" % _html.escape(s)) if b else _html.escape(s)
-                   for s, b in runs(t))
+    out = []
+    for s, b, it in runs(t):
+        seg = _html.escape(s)
+        if b:
+            seg = "<strong>%s</strong>" % seg
+        if it:
+            seg = "<em>%s</em>" % seg
+        out.append(seg)
+    return "".join(out)
 
-def build_html(blocks, meta, out_path, rtl, font_face, font_family):
+def build_html(blocks, meta, out_path, rtl, font_face, font_family, img_dir):
+    import base64
     direction = "rtl" if rtl else "ltr"
     align = "right" if rtl else "left"
     side = "right" if rtl else "left"
@@ -826,6 +955,10 @@ def build_html(blocks, meta, out_path, rtl, font_face, font_family):
     .toc ul{list-style:none;padding:0;} .toc li.l1{font-weight:bold;color:#%(bd)s;margin-top:8px;}
     .toc li.l2{padding-%(side)s:20px;color:#333;font-size:10.5pt;}
     .toc a{text-decoration:none;color:inherit;}
+    figure{margin:14px 0;text-align:center;page-break-inside:avoid;}
+    figure img{max-width:100%%;border:1px solid #cfd8dc;border-radius:5px;
+               box-shadow:0 1px 4px rgba(0,0,0,0.12);}
+    figcaption{font-size:9.5pt;color:#555;font-style:italic;margin-top:5px;}
     """ % {"face": font_face, "ff": font_family, "dir": direction, "al": align, "side": side,
            "bd": BRAND_DARK, "br": BRAND, "ac": ACCENT, "gr": GREY, "lt": LIGHT}
 
@@ -846,9 +979,20 @@ def build_html(blocks, meta, out_path, rtl, font_face, font_family):
     parts.append('<div class="toc"><h2>%s</h2><ul>%s</ul></div>' % (_html.escape(meta["toc"]), "".join(toc)))
 
     lab = meta["labels"]
+    fig_no = 0
     for b in blocks:
         k = b[0]
-        if k in ("h1", "h2", "h3"):
+        if k == "fig":
+            src = os.path.join(img_dir, b[1])
+            if not os.path.exists(src):
+                continue
+            fig_no += 1
+            with open(src, "rb") as fh:
+                data = base64.b64encode(fh.read()).decode("ascii")
+            parts.append('<figure><img src="data:image/png;base64,%s"/>'
+                         '<figcaption>%s %d — %s</figcaption></figure>'
+                         % (data, _html.escape(lab["fig"]), fig_no, esc(b[2])))
+        elif k in ("h1", "h2", "h3"):
             parts.append('<%s id="%s">%s</%s>' % (k, slug(b[1]), esc(b[1]), k))
         elif k == "p":
             parts.append("<p>%s</p>" % esc(b[1]))
@@ -872,12 +1016,16 @@ if __name__ == "__main__":
     os.makedirs(OUT_DIR, exist_ok=True)
     base = "Medical-Supply_ERP_User_Manual"
 
+    img_en = os.path.join(OUT_DIR, "img", "en")
+    img_ar = os.path.join(OUT_DIR, "img", "ar")
+
     # English
     en = Content(); fill_en(en)
     build_docx(en.C, META["en"], os.path.join(OUT_DIR, base + "_EN.docx"),
-               rtl=False, font_name="Calibri")
+               rtl=False, font_name="Calibri", img_dir=img_en)
     build_html(en.C, META["en"], os.path.join(OUT_DIR, "_manual_EN.html"),
-               rtl=False, font_face="", font_family="'Helvetica Neue',Arial,sans-serif")
+               rtl=False, font_face="", font_family="'Helvetica Neue',Arial,sans-serif",
+               img_dir=img_en)
 
     # Arabic (RTL). PDF uses the bundled Tajawal font copied into the container.
     ar_face = ("@font-face{font-family:'Tajawal';font-weight:normal;"
@@ -886,9 +1034,10 @@ if __name__ == "__main__":
                "src:url('file:///tmp/fonts/Tajawal-Bold.ttf');}")
     ar = Content(); fill_ar(ar)
     build_docx(ar.C, META["ar"], os.path.join(OUT_DIR, base + "_AR.docx"),
-               rtl=True, font_name="Arial")
+               rtl=True, font_name="Tajawal", img_dir=img_ar)
     build_html(ar.C, META["ar"], os.path.join(OUT_DIR, "_manual_AR.html"),
-               rtl=True, font_face=ar_face, font_family="'Tajawal',sans-serif")
+               rtl=True, font_face=ar_face, font_family="'Tajawal',sans-serif",
+               img_dir=img_ar)
 
     print("EN blocks:", len(en.C), "| AR blocks:", len(ar.C))
     print("Outputs in", OUT_DIR)
