@@ -57,6 +57,15 @@ else:
     company.currency_id = sdg.id
     out("Company base currency set to SDG.")
 
+    # ---- Force all pricelists to SDG --------------------------------
+    # The default pricelist is created in the chart-template currency (USD)
+    # at install time; domestic sales must be in SDG, and the sale order's
+    # currency follows its pricelist.
+    plists = env["product.pricelist"].search([])
+    if plists:
+        plists.write({"currency_id": sdg.id})
+    out("All pricelists set to SDG (%d)." % len(plists))
+
     # ---- Enable multi-currency + inventory groups -------------------
     settings_vals = {
         "group_multi_currency": True,
@@ -329,6 +338,34 @@ else:
         assign_lots_and_validate_receipt(pk, "LOT-GULF")
     out("PO2 %s (USD) confirmed & received. Amount=%s %s" % (
         po2.name, po2.amount_total, po2.currency_id.name))
+
+    # ---- Internal transfer: insulin -> Cold Storage (cold chain) ---
+    itype = env["stock.picking.type"].search(
+        [("code", "=", "internal"), ("warehouse_id", "=", wh_main.id)], limit=1)
+    ins_q = env["stock.quant"].search(
+        [("product_id", "=", P["insulin"].id),
+         ("location_id", "=", wh_main.lot_stock_id.id),
+         ("quantity", ">", 0)], limit=1)
+    if itype and ins_q:
+        tr = env["stock.picking"].create({
+            "picking_type_id": itype.id,
+            "location_id": wh_main.lot_stock_id.id,
+            "location_dest_id": loc_cold.id,
+            "move_ids": [(0, 0, {
+                "name": "Insulin to Cold Storage",
+                "product_id": P["insulin"].id,
+                "product_uom_qty": ins_q.quantity,
+                "product_uom": P["insulin"].uom_id.id,
+                "location_id": wh_main.lot_stock_id.id,
+                "location_dest_id": loc_cold.id,
+            })],
+        })
+        tr.action_confirm()
+        tr.action_assign()
+        for move in tr.move_ids:
+            move.picked = True
+        tr.with_context(skip_backorder=True, skip_sms=True).button_validate()
+        out("Internal transfer %s: Insulin -> Cold Storage." % tr.name)
 
     # ---- Receive consumables so we have sellable stock -------------
     po3 = PO.create({
