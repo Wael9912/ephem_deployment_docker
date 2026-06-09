@@ -17,7 +17,7 @@ db_port = 5432
 db_user = odoo
 
 ; === Addons ==============================================================
-addons_path = /mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons
+addons_path = /mnt/extra-addons,/mnt/extra-addons/bank-payment-18.0,/usr/lib/python3/dist-packages/odoo/addons
 
 ; === Reverse proxy (NGINX terminates TLS) ===============================
 proxy_mode = True
