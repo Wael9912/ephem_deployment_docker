@@ -1,6 +1,6 @@
 ---
 name: erp-medsupply-demo
-description: Build, seed, verify, and document the Sudan medical-supply ERP demo on this Odoo 18 Community stack. Use when asked to (re)create the erpmedsupply database, run/seed demo data, verify the demo, or regenerate the user manual (Word/PDF).
+description: Build, seed, verify, and document the Sudan medical-supply ERP demo on this Odoo 18 Community stack. Use when asked to (re)create the erpmedsupply database, run/seed demo data, verify the demo, regenerate the user manual (Word/PDF), or build the customer sales/demo deck (PDF).
 ---
 
 # Medical-Supply ERP demo runbook
@@ -165,6 +165,35 @@ bash scripts/build_manual_pdf.sh   # -> docs/manual/Medical-Supply_ERP_User_Manu
 Notes:
 - The container has no Arabic system font, so the AR PDF embeds Alexandria from `scripts/fonts/`.
 - The manuals must **not** mention "ePHEM" (per client request) — keep `META`/content clean.
+
+## Build the customer demo / sales deck (PDF)
+A 16:9 live-demo deck for selling the platform (audience: an Excel-only manager) lives at
+`docs/deck/Medical-Supply_ERP_Demo_Deck.{pdf,html}` (24 slides) + a presenter cheat-sheet
+`docs/deck/PRESENTER_GUIDE.md`. `scripts/build_deck.py` assembles a **self-contained** HTML
+(real EN screenshots from `docs/manual/img/en/` + the Alexandria font, all base64-inlined),
+and `scripts/build_deck_pdf.sh` renders it with **WeasyPrint inside the odoo container** (same
+renderer as the manual). One command does both:
+```bash
+bash scripts/build_deck_pdf.sh   # -> docs/deck/Medical-Supply_ERP_Demo_Deck.{html,pdf}
+```
+Story arc: problem (Excel cracks) → hidden cost → "one connected system" → 9 capability slides
+(each grounds a **real** demo number and carries a **▶ SHOW LIVE** cue with the exact click-path)
+→ major-question slides (no per-user licence fees, extensibility, Excel migration, training,
+deployment) → Excel-vs-ERP table → 4-week roadmap → CTA. **Every figure is real demo data** from
+`docs/manual/_ground_truth/demo.json` (e.g. P00002 $1,288 ⇄ 5,796,000 SDG; insulin reorder 20/80;
+dashboard 3,966,350 unpaid / 3,924,950 SDG bank), so re-verify those numbers after a reseed.
+
+Gotchas:
+- **WeasyPrint renders `display:inline-flex` as full-width block flex** → chip/pill rows blow up to
+  one-per-line. Use `display:inline-block` + an inline-block dot (`vertical-align:middle`); keep flex
+  for fixed-size boxes only.
+- Slides are absolutely positioned on a **1280×720 canvas** (`@page size:1280px 720px`). Compute each
+  screenshot's display height from its PNG IHDR header (`png_size`/`disp_h` in the script) and place
+  captions just below — don't hardcode Y, or they collide with tall shots / the live-cue band.
+- QA: the host has **no poppler / pdftoppm** and no importable WeasyPrint, so rasterize pages **in the
+  container** (`pdftoppm -png -r 80 deck.pdf pg`) and `docker compose cp` the PNGs out to inspect.
+- Use **inline SVG line icons**, never emoji (the container has no emoji font).
+- To brand it for a specific client, edit `DATE`/the cover/footer text and drop in a logo in `build_deck.py`.
 
 ## Gotchas learned
 - **USD FX rate direction**: store the USD `res.currency.rate` as `rate = 1/N` so 1 USD = N
