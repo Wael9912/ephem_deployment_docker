@@ -1,0 +1,288 @@
+{
+ "model": "account.bank.statement",
+ "fields": [
+  {
+   "name": "problem_description",
+   "label": "Problem Description",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "date",
+   "label": "Date",
+   "type": "date",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "journal_id",
+   "label": "Journal",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.journal"
+  },
+  {
+   "name": "balance_start",
+   "label": "Starting Balance",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "balance_end_real",
+   "label": "Ending Balance",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "line_ids",
+   "label": "Statement lines",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.bank.statement.line"
+  },
+  {
+   "name": "sequence",
+   "label": "sequence",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "statement_id",
+   "label": "statement_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "move_id",
+   "label": "move_id",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "payment_ref",
+   "label": "payment_ref",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "ref",
+   "label": "ref",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "transaction_type",
+   "label": "transaction_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "account_number",
+   "label": "account_number",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "partner_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "amount",
+   "label": "amount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "foreign_currency_id",
+   "label": "foreign_currency_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "amount_currency",
+   "label": "amount_currency",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "running_balance",
+   "label": "running_balance",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "narration",
+   "label": "Notes",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_bank_id",
+   "label": "partner_bank_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "Company related to this journal",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "is_reconciled",
+   "label": "is_reconciled",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "country_code",
+   "label": "country_code",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "state",
+   "label": "state",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "suitable_journal_ids",
+   "label": "suitable_journal_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "balance_end",
+   "label": "Computed Balance",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "attachment_ids",
+   "label": "Attachments",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "ir.attachment"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Revert reconciliation",
+   "name": "action_undo_reconciliation",
+   "type": "object",
+   "class": ""
+  }
+ ],
+ "statusbar_states": [],
+ "smart_buttons": [
+  {
+   "label": "Transactions",
+   "name": "action_open_statement_lines",
+   "type": "object",
+   "class": "oe_stat_button"
+  }
+ ]
+}

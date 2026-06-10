@@ -86,12 +86,13 @@ else:
     # directly inverts the conversion on this build (1 USD would read as
     # 1/N SDG), so we always write the `rate` field.
     Rate = env["res.currency.rate"]
+    # Realistic Sudanese-pound depreciation, ending at the real ~4,500 SDG/USD.
     usd_history = [
-        ("2025-06-01", 600.0),
-        ("2025-09-01", 620.0),
-        ("2026-01-01", 650.0),
-        ("2026-04-01", 680.0),
-        ("2026-06-01", 700.0),
+        ("2025-06-01", 2400.0),
+        ("2025-09-01", 3000.0),
+        ("2026-01-01", 3600.0),
+        ("2026-04-01", 4200.0),
+        ("2026-06-01", 4500.0),
     ]
     for d, sdg_per_usd in usd_history:
         existing = Rate.search([("currency_id", "=", usd.id), ("name", "=", d),
@@ -180,17 +181,21 @@ else:
             vals["expiration_time"] = expiry_days
         return Product.create(vals)
 
+    # Prices in SDG, set for the real ~4,500 SDG/USD economy. Imported items
+    # (insulin, BP monitor) are bought in USD; their SDG cost is re-derived by the
+    # receipt at 4,500 (insulin 14*4500=63,000; BP monitor 42*4500=189,000) — the
+    # seed cost below matches so the product form reads sensibly either way.
     P = {}
-    P["para"] = make_product("Paracetamol 500mg Tablets (100s)", "MED-PARA-500", cat_pharma, 1200, 1800, "lot", 730)
-    P["amox"] = make_product("Amoxicillin 250mg Capsules (100s)", "MED-AMOX-250", cat_pharma, 2500, 3600, "lot", 540)
-    P["insulin"] = make_product("Insulin Vial 10ml", "MED-INSULIN", cat_pharma, 8000, 11000, "lot", 365, cold=True)
-    P["antisep"] = make_product("Antiseptic Solution 500ml", "MED-ANTISEP", cat_pharma, 1500, 2300, "lot", 365)
-    P["gloves"] = make_product("Surgical Gloves (Box of 100)", "CON-GLOVES", cat_consum, 3000, 4500, "lot", 1095)
-    P["mask"] = make_product("N95 Face Mask (Box of 20)", "CON-N95", cat_consum, 5000, 7500, "lot", 1460)
-    P["syringe"] = make_product("Syringe 5ml (Box of 100)", "CON-SYR-5", cat_consum, 2000, 3200, "lot", 1825)
-    P["cannula"] = make_product("IV Cannula 18G (Box of 50)", "CON-IVCAN", cat_consum, 4000, 6000, "lot", 1460)
-    P["bpmon"] = make_product("Digital Blood Pressure Monitor", "DEV-BPMON", cat_device, 25000, 38000, "none", 0)
-    P["thermo"] = make_product("Digital Thermometer", "DEV-THERMO", cat_device, 3500, 5500, "none", 0)
+    P["para"] = make_product("Paracetamol 500mg Tablets (100s)", "MED-PARA-500", cat_pharma, 7700, 11500, "lot", 730)
+    P["amox"] = make_product("Amoxicillin 250mg Capsules (100s)", "MED-AMOX-250", cat_pharma, 16000, 23000, "lot", 540)
+    P["insulin"] = make_product("Insulin Vial 10ml", "MED-INSULIN", cat_pharma, 63000, 90000, "lot", 365, cold=True)
+    P["antisep"] = make_product("Antiseptic Solution 500ml", "MED-ANTISEP", cat_pharma, 9600, 14800, "lot", 365)
+    P["gloves"] = make_product("Surgical Gloves (Box of 100)", "CON-GLOVES", cat_consum, 19300, 29000, "lot", 1095)
+    P["mask"] = make_product("N95 Face Mask (Box of 20)", "CON-N95", cat_consum, 32000, 48000, "lot", 1460)
+    P["syringe"] = make_product("Syringe 5ml (Box of 100)", "CON-SYR-5", cat_consum, 12900, 20600, "lot", 1825)
+    P["cannula"] = make_product("IV Cannula 18G (Box of 50)", "CON-IVCAN", cat_consum, 25700, 38600, "lot", 1460)
+    P["bpmon"] = make_product("Digital Blood Pressure Monitor", "DEV-BPMON", cat_device, 189000, 285000, "none", 0)
+    P["thermo"] = make_product("Digital Thermometer", "DEV-THERMO", cat_device, 22500, 35400, "none", 0)
     out("Created %d medical products." % len(P))
 
     # ---- Cold-chain putaway: insulin -> Cold Storage ----------------
@@ -246,10 +251,10 @@ else:
         if currency and "currency_id" in SupplierInfo._fields:
             vals["currency_id"] = currency.id
         SupplierInfo.create(vals)
-    vendor_price(P["para"], sup_local, 1200)
-    vendor_price(P["amox"], sup_local, 2500)
-    vendor_price(P["antisep"], sup_khpharma, 1500)
-    vendor_price(P["gloves"], sup_khpharma, 3000)
+    vendor_price(P["para"], sup_local, 7700)
+    vendor_price(P["amox"], sup_local, 16000)
+    vendor_price(P["antisep"], sup_khpharma, 9600)
+    vendor_price(P["gloves"], sup_khpharma, 19300)
     vendor_price(P["insulin"], sup_gulf, 14.0, currency=usd, delay=21)   # priced in USD
     vendor_price(P["bpmon"], sup_gulf, 42.0, currency=usd, delay=21)     # priced in USD
     out("Vendor pricelists set (Gulf MedTrade priced in USD).")
@@ -316,9 +321,9 @@ else:
     po1 = PO.create({
         "partner_id": sup_local.id,
         "order_line": [
-            (0, 0, {"product_id": P["para"].id, "product_qty": 200, "price_unit": 1200}),
-            (0, 0, {"product_id": P["amox"].id, "product_qty": 150, "price_unit": 2500}),
-            (0, 0, {"product_id": P["antisep"].id, "product_qty": 100, "price_unit": 1500}),
+            (0, 0, {"product_id": P["para"].id, "product_qty": 200, "price_unit": 7700}),
+            (0, 0, {"product_id": P["amox"].id, "product_qty": 150, "price_unit": 16000}),
+            (0, 0, {"product_id": P["antisep"].id, "product_qty": 100, "price_unit": 9600}),
         ],
     })
     po1.button_confirm()
@@ -374,9 +379,9 @@ else:
     po3 = PO.create({
         "partner_id": sup_khpharma.id,
         "order_line": [
-            (0, 0, {"product_id": P["gloves"].id, "product_qty": 80, "price_unit": 3000}),
-            (0, 0, {"product_id": P["mask"].id, "product_qty": 60, "price_unit": 5000}),
-            (0, 0, {"product_id": P["syringe"].id, "product_qty": 120, "price_unit": 2000}),
+            (0, 0, {"product_id": P["gloves"].id, "product_qty": 80, "price_unit": 19300}),
+            (0, 0, {"product_id": P["mask"].id, "product_qty": 60, "price_unit": 32000}),
+            (0, 0, {"product_id": P["syringe"].id, "product_qty": 120, "price_unit": 12900}),
         ],
     })
     po3.button_confirm()
@@ -401,9 +406,9 @@ else:
     so1 = SO.create({
         "partner_id": cus_hosp.id,
         "order_line": [
-            (0, 0, {"product_id": P["para"].id, "product_uom_qty": 50, "price_unit": 1800}),
-            (0, 0, {"product_id": P["gloves"].id, "product_uom_qty": 20, "price_unit": 4500}),
-            (0, 0, {"product_id": P["syringe"].id, "product_uom_qty": 30, "price_unit": 3200}),
+            (0, 0, {"product_id": P["para"].id, "product_uom_qty": 50, "price_unit": 11500}),
+            (0, 0, {"product_id": P["gloves"].id, "product_uom_qty": 20, "price_unit": 29000}),
+            (0, 0, {"product_id": P["syringe"].id, "product_uom_qty": 30, "price_unit": 20600}),
         ],
     })
     so1.action_confirm()
@@ -417,8 +422,8 @@ else:
     so2 = SO.create({
         "partner_id": cus_clinic.id,
         "order_line": [
-            (0, 0, {"product_id": P["amox"].id, "product_uom_qty": 40, "price_unit": 3600}),
-            (0, 0, {"product_id": P["mask"].id, "product_uom_qty": 15, "price_unit": 7500}),
+            (0, 0, {"product_id": P["amox"].id, "product_uom_qty": 40, "price_unit": 23000}),
+            (0, 0, {"product_id": P["mask"].id, "product_uom_qty": 15, "price_unit": 48000}),
         ],
     })
     so2.action_confirm()
@@ -433,8 +438,8 @@ else:
     SO.create({
         "partner_id": cus_redc.id,
         "order_line": [
-            (0, 0, {"product_id": P["insulin"].id, "product_uom_qty": 10, "price_unit": 11000}),
-            (0, 0, {"product_id": P["bpmon"].id, "product_uom_qty": 3, "price_unit": 38000}),
+            (0, 0, {"product_id": P["insulin"].id, "product_uom_qty": 10, "price_unit": 90000}),
+            (0, 0, {"product_id": P["bpmon"].id, "product_uom_qty": 3, "price_unit": 285000}),
         ],
     })
     out("Draft quotation for Sudanese Red Crescent created.")

@@ -1,0 +1,539 @@
+{
+  "key": "journeys",
+  "title_en": "15. Everyday Workflows by Role",
+  "title_ar": "15. مسارات العمل اليومية حسب الدور",
+  "blocks_en": [
+    {"t": "p", "text": "The earlier chapters explained each screen on its own. This chapter ties them together: it walks through a typical *day in the life* of every member of the *Sudan MedSupply Co.* team, following the real demo records from start to finish. Each journey is a numbered list of the exact clicks and menus to follow, so a newcomer can sit down and reproduce the whole flow. Together they show how one purchase, sale, delivery or payment travels automatically across **Purchase**, **Inventory**, **Sales** and **Accounting** without anyone re-typing the same numbers twice."},
+    {"t": "note", "title": "How to read a path", "text": "Menu navigation is written as **App → Menu → Sub-menu**. Open the **9-dot app launcher** (the grid icon in the top-left of the dark navbar) to switch between apps, or use the side quick-action rail. Each person below only sees the apps their role allows."},
+    {"t": "table", "headers": ["Person", "Role", "Main apps they use"], "rows": [
+      ["*Amira Hassan*", "Procurement Officer", "Purchase, Inventory, Invoicing"],
+      ["*Khalid Osman*", "Sales Representative", "Sales, Inventory"],
+      ["*Sara Ahmed*", "Warehouse Keeper", "Inventory (Administrator)"],
+      ["*Mohammed Ali*", "Accountant", "Accounting, Purchase, Sales"],
+      ["*Layla Ibrahim*", "General Manager", "All apps (full access)"]
+    ]},
+
+    {"t": "h2", "text": "1. Procurement Officer — Amira's day"},
+    {"t": "p", "text": "Amira keeps the shelves stocked. She watches what is running low, asks vendors for prices, turns the best offer into a confirmed order, and makes sure that when the goods arrive they are booked in correctly — including the foreign-currency import from *Gulf MedTrade FZE (USD)* in Dubai. A **vendor bill** (the supplier's invoice that we owe) is the last step she prepares for the accountant."},
+
+    {"t": "h3", "text": "Step A — Review what needs reordering"},
+    {"t": "p", "text": "A **reordering rule** is a simple instruction: \"keep at least *this many* on hand, and top up to *that many* when we drop below.\" The system watches stock for her and proposes orders automatically."},
+    {"t": "ol", "items": [
+      "Open **Inventory → Operations → Procurement → Replenishment**. This is the list the system builds for her of items at or below their minimum.",
+      "Each line on that screen is a saved **reordering rule** with its minimum and maximum: *Paracetamol 500mg Tablets (100s)* keeps 50–200, *Insulin Vial 10ml* keeps 20–80, and *Surgical Gloves (Box of 100)* keeps 30–120. (You can also reach the rule for one item from the **Reordering** smart button on its product page in **Inventory → Products → Products**.)",
+      "For any line that needs topping up, click **Order Once** (or **Buy**) to let the system draft a purchase for the suggested quantity, or note it down to create the request manually in the next step."
+    ]},
+    {"t": "tip", "title": "It watches stock for you", "text": "Because Insulin is set to keep 20–80 units on hand and is bought from *Gulf MedTrade*, the system already knows who to buy it from and how much to order — Amira only has to approve the suggestion."},
+
+    {"t": "h3", "text": "Step B — Create a Request for Quotation (RFQ)"},
+    {"t": "p", "text": "An **RFQ (Request for Quotation)** is a draft purchase order — a price request you send to a vendor before you commit. In the demo, *P00004* for *Nile Medical Supplies Co.* (241,500 SDG) is still a draft RFQ, ready to confirm."},
+    {"t": "ol", "items": [
+      "Open **Purchase → Orders → Requests for Quotation** and click **New**.",
+      "In **Vendor**, choose the supplier (e.g. *Nile Medical Supplies Co.*). The **Currency** fills in from the vendor — SDG for local suppliers.",
+      "Check the **Order Deadline** (the date the quotation should be confirmed by) and **Expected Arrival** (the delivery date the vendor promises).",
+      "On the **Products** tab, add a line per item: pick the **Product**, set the quantity, and the price (**Amount**) and **Tax** are proposed from the product's vendor pricelist.",
+      "Use **Send by Email** to email the RFQ to the vendor, or **Print RFQ** to produce a PDF. The status bar moves **RFQ → RFQ Sent**."
+    ]},
+    {"t": "fig", "file": "po_usd.png", "caption": "A purchase order form. The lines, currency and totals are visible, with the status bar running RFQ → Purchase Order and the header buttons that confirm it and create the receipt/bill."},
+
+    {"t": "h3", "text": "Step C — Confirm the purchase order (the USD import from Gulf MedTrade)"},
+    {"t": "p", "text": "When the price is agreed, the RFQ becomes a real commitment. The flagship example is *P00002* for *Gulf MedTrade FZE (USD)*: 50 Insulin at $14 and 10 Blood Pressure Monitors at $42, totalling **$1,288.00**. Because the company books in SDG, the system shows the SDG equivalent beneath the total and will value everything at the exchange rate on the order's date — Amira never does the currency maths herself."},
+    {"t": "ol", "items": [
+      "Open the RFQ and review the lines, the **Currency** (USD for Gulf MedTrade) and the total.",
+      "Click **Confirm Order**. The status bar moves to **Purchase Order** and the **Order Deadline** label becomes the **Confirmation Date**.",
+      "Two header actions now appear: **Receive Products** (to book the goods in) and **Create Bill** (to record the vendor's invoice). The **Receipt** smart button at the top shows the incoming shipment was created automatically."
+    ]},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Confirm Order**", "Turns the RFQ into a firm purchase order and creates the incoming receipt."],
+      ["**Send by Email** / **Print RFQ**", "Emails or prints the quotation/order for the vendor."],
+      ["**Receive Products**", "Opens the goods receipt so the warehouse can book the items in."],
+      ["**Create Bill**", "Drafts the vendor bill from the order lines, ready for Accounting."],
+      ["**Set to Draft** / **Cancel** / **Lock**", "Re-open, cancel, or lock the order to prevent edits."]
+    ]},
+    {"t": "warn", "title": "Foreign-currency orders", "text": "For USD orders such as *Gulf MedTrade*, always confirm the **Currency** reads USD before clicking **Confirm Order**. The SDG value shown is calculated from the exchange-rate table for the order date and updates by itself."},
+
+    {"t": "h3", "text": "Step D — Receive the goods with lot and expiry"},
+    {"t": "p", "text": "When the shipment arrives, Amira (or the warehouse keeper) books it in. A **lot** is a batch number that lets us trace a group of items and, for medicines, carry an **expiry date**. The Insulin from *Gulf MedTrade* arrives as batch *LOT-GULF-01*, expiring 09 June 2027."},
+    {"t": "ol", "items": [
+      "From the confirmed order click **Receive Products**, or open **Inventory → Operations → Transfers → Receipts**.",
+      "On the **Operations** tab, for each tracked product type in (or scan) the **Lot/Serial Number** (e.g. *LOT-GULF-01* for Insulin) and confirm the quantity.",
+      "Set the **Expiration Date** for the batch (for Insulin, 09 June 2027) — the system already pre-fills it because the product is set to expire 365 days after receipt.",
+      "Click **Validate**. The status bar moves to **Done** and the on-hand stock rises automatically."
+    ]},
+    {"t": "fig", "file": "receipt_form.png", "caption": "A validated goods receipt created from a purchase order, showing the source/destination locations, the product moves and the assigned lot numbers."},
+
+    {"t": "h3", "text": "Step E — Create the vendor bill"},
+    {"t": "p", "text": "Finally Amira records the supplier's invoice so the accountant can pay it. In the demo this is *BILL/2026/05/0002* from *Gulf MedTrade FZE (USD)* for **483 USD**, valued in SDG at the rate on its date."},
+    {"t": "ol", "items": [
+      "Open the confirmed purchase order and click **Create Bill** (or open **Purchase → Orders → Purchase Orders** and use the **Vendor Bills** smart button).",
+      "Check that the lines, quantities and **Currency** match the vendor's paper invoice.",
+      "Enter the vendor's invoice number in the **Reference** field and set the **Invoice/Bill Date**.",
+      "Leave the bill in **Draft** for the accountant to review and post, or hand it over directly. The journey then passes to Mohammed (Section 4)."
+    ]},
+    {"t": "note", "title": "Nothing is re-typed", "text": "The bill is pre-filled from the purchase order, so quantities and prices already match. Amira's job is only to check it against the vendor's paper invoice."},
+
+    {"t": "h2", "text": "2. Sales Representative — Khalid's day"},
+    {"t": "p", "text": "Khalid sells to hospitals, clinics and pharmacies. He prepares a price offer (a **quotation**), confirms it into a **sales order** once the customer agrees, hands the delivery to the warehouse, and finally raises the **invoice** (the bill we send the customer)."},
+
+    {"t": "h3", "text": "Step A — Create a quotation for a hospital"},
+    {"t": "p", "text": "A **quotation** is a draft sale — a priced offer the customer has not yet accepted. The demo quotation *S00003* for the *Sudanese Red Crescent* (2,018,250 SDG) is still in draft and ready to confirm; the confirmed order *S00001* for *Khartoum Teaching Hospital* (2,038,950 SDG) shows what a finished one looks like, with lines for *Paracetamol*, *Surgical Gloves* and *Syringe 5ml*."},
+    {"t": "ol", "items": [
+      "Open **Sales → Orders → Quotations** and click **New**.",
+      "In **Customer**, choose the buyer (e.g. *Khartoum Teaching Hospital*). The **Invoice Address**, **Pricelist** and **Payment Terms** fill in from the contact.",
+      "On the **Order Lines** tab, add a line per product (e.g. *Paracetamol 500mg Tablets (100s)*), set the quantity, and the unit price and 15% tax fill in automatically.",
+      "Watch the **Tax Totals** box recompute the untaxed amount, tax and grand total in SDG as you add lines.",
+      "Click **Send by Email** to email the customer a branded quotation, or **Preview** to see it as the customer will. The status bar moves **Quotation → Quotation Sent**."
+    ]},
+    {"t": "fig", "file": "sale_order.png", "caption": "Sales order S00001 for Khartoum Teaching Hospital: the order lines in SDG, the status bar Quotation → Sales Order, the Delivery and Invoice smart buttons and the order total."},
+
+    {"t": "h3", "text": "Step B — Confirm the sales order"},
+    {"t": "p", "text": "When the customer agrees, the quotation becomes a binding **sales order** and the warehouse delivery is created automatically."},
+    {"t": "ol", "items": [
+      "Open the quotation and re-check the customer, lines and total.",
+      "Click **Confirm**. The status bar moves to **Sales Order** and the **Order Date** becomes the confirmation date.",
+      "A **Delivery** smart button appears at the top — the delivery order was generated automatically for the warehouse to pick and ship."
+    ]},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Confirm**", "Turns the quotation into a sales order and creates the delivery."],
+      ["**Send by Email**", "Emails the customer a branded PDF quotation."],
+      ["**Preview**", "Shows the quotation exactly as the customer sees it online."],
+      ["**Create Invoice**", "Raises the customer invoice from the order (after delivery)."],
+      ["**Update Prices** / **Update Taxes**", "Refreshes line prices/taxes if the pricelist or fiscal rules change."],
+      ["**Cancel** / **Set to Quotation**", "Cancels the order or sends it back to draft for edits."]
+    ]},
+
+    {"t": "h3", "text": "Step C — Hand off the delivery"},
+    {"t": "p", "text": "Khalid does not pack boxes himself — he hands the delivery to the warehouse. He can follow its progress from the order at any time."},
+    {"t": "ol", "items": [
+      "On the confirmed sales order, click the **Delivery** smart button to open the linked delivery order.",
+      "Check the products and quantities, then leave it for *Sara* in the warehouse to pick and **Validate** (see Section 3).",
+      "Once she validates, the **Delivery Status** on the order becomes **Fully Delivered**."
+    ]},
+    {"t": "fig", "file": "delivery_form.png", "caption": "A validated delivery order created from a sales order, showing the picked products and the lots reserved under FEFO."},
+
+    {"t": "h3", "text": "Step D — Create and send the invoice"},
+    {"t": "p", "text": "Once the goods are delivered, Khalid raises the **invoice**. The demo invoice *INV/2026/00001* for *Khartoum Teaching Hospital* totals **2,038,950 SDG** (including 265,950 SDG of 15% tax) and is already marked **Paid**."},
+    {"t": "ol", "items": [
+      "On the sales order click **Create Invoice**, choose **Regular invoice**, and confirm. A draft invoice opens.",
+      "Review the lines and the **Invoice Totals** box (untaxed amount, 15% tax and grand total), then click **Confirm** (Post) — the status bar moves **Draft → Posted** and the invoice gets its number (e.g. *INV/2026/00001*).",
+      "Click **Send** to email the customer a PDF invoice, or **Print** for a paper copy.",
+      "Payment is then handled by Accounting; once received, a green **Paid** banner appears on the invoice."
+    ]},
+    {"t": "tip", "title": "The order is the single source of truth", "text": "The invoice is built from the sales order lines, so prices, quantities and the 15% tax all match the order without retyping. If a line was not delivered, it simply will not be invoiced."},
+
+    {"t": "h2", "text": "3. Warehouse Keeper — Sara's day"},
+    {"t": "p", "text": "Sara runs the *Khartoum Central Warehouse (KRT)*. She receives incoming goods (entering batch and expiry), moves temperature-sensitive items into **Cold Storage (2-8C)**, ships customer deliveries oldest-batch-first, and keeps an eye on what is physically on the shelves."},
+
+    {"t": "h3", "text": "Step A — Process receipts (enter lots and expiry, validate)"},
+    {"t": "p", "text": "A **receipt** is an incoming transfer — goods arriving from a vendor. Sara enters the batch number (**lot**) and **expiry date** so every medicine can be traced and rotated."},
+    {"t": "ol", "items": [
+      "Open **Inventory → Overview** and click the **Receipts** card (it shows a count of shipments waiting), or go to **Inventory → Operations → Transfers → Receipts**.",
+      "Open the receipt. The **Source Location** is the vendor and the **Destination Location** is *KRT/Stock*.",
+      "On the **Operations** tab, for each tracked product enter the **Lot/Serial Number** (e.g. *LOT-NILE-01* for Paracetamol, *LOT-KHP-01* for Gloves) and its **Expiration Date**.",
+      "If quantities differ from the order, adjust the **Quantity** done.",
+      "Click **Validate**. The status bar moves to **Done** and on-hand stock updates instantly."
+    ]},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Mark as Todo**", "Confirms a draft transfer so it can be reserved/processed."],
+      ["**Check Availability**", "Reserves the stock the transfer needs."],
+      ["**Validate**", "Completes the transfer and moves the stock (sets it to Done)."],
+      ["**Print**", "Prints the picking/operations sheet for the floor."],
+      ["**Return** / **Cancel**", "Creates a return transfer, or cancels this one."]
+    ]},
+
+    {"t": "h3", "text": "Step B — Internal transfer to Cold Storage"},
+    {"t": "p", "text": "Some products must be kept cold. *Insulin Vial 10ml* belongs in **KRT/Stock/Cold Storage (2-8C)**. An **internal transfer** simply moves stock from one location to another inside the same warehouse — and a **putaway rule** (an automatic \"send this product to that shelf\" instruction) can route cold items there on receipt."},
+    {"t": "ol", "items": [
+      "Open **Inventory → Operations → Transfers → Internal** and click **New**.",
+      "Set the **Source Location** to *KRT/Stock* and the **Destination Location** to *KRT/Stock/Cold Storage (2-8C)*.",
+      "On the **Operations** tab add the product (*Insulin Vial 10ml*), pick its **Lot/Serial Number** (*LOT-GULF-01*) and the quantity.",
+      "Click **Mark as Todo**, then **Check Availability**, then **Validate**. The insulin now shows in Cold Storage on the on-hand view."
+    ]},
+    {"t": "note", "title": "Other special locations", "text": "*KRT/Stock* also has **Quarantine** (for goods awaiting checks) and **Expired / Damaged** (for stock pulled from sale). Use an internal transfer the same way to move items there."},
+
+    {"t": "h3", "text": "Step C — Validate deliveries under FEFO"},
+    {"t": "p", "text": "A **delivery** is an outgoing transfer to a customer. **FEFO (First Expired, First Out)** means the system reserves the batch that expires soonest, so older medicines leave first and nothing expires on the shelf. Sara does not have to choose batches by hand — the system proposes them."},
+    {"t": "ol", "items": [
+      "Open **Inventory → Operations → Transfers → Deliveries** (or click the **Delivery** smart button on a confirmed sales order such as *S00001*).",
+      "Click **Check Availability** — the system reserves the earliest-expiring lots under FEFO.",
+      "On the **Operations** tab, confirm the proposed **Lot/Serial Numbers** and quantities against the physical pick.",
+      "Click **Validate**. The status bar moves to **Done**, stock leaves the warehouse, and the sales order shows **Fully Delivered**."
+    ]},
+    {"t": "fig", "file": "delivery_form.png", "caption": "A validated delivery order, showing the picked products and the lots the system reserved automatically under FEFO."},
+
+    {"t": "h3", "text": "Step D — Check on-hand stock"},
+    {"t": "p", "text": "Throughout the day Sara checks what is physically available and where it sits."},
+    {"t": "ol", "items": [
+      "Open **Inventory → Products → Products** and use the **On Hand** smart button on any item, or open **Inventory → Reporting → Stock** for the current-stock (quants) view.",
+      "Read the on-hand quantity per **Location** — for example items stored in *Cold Storage (2-8C)*.",
+      "Use **Inventory → Products → Lots / Serial Numbers** to see each batch (e.g. *LOT-GULF-01*) with its product, on-hand quantity and **Expiration Date** for rotation planning."
+    ]},
+    {"t": "tip", "title": "Expiry is visible everywhere", "text": "Because every medicine batch carries an expiry date, Sara can spot what to use first long before anything runs out of date — the system orders the picks for her under FEFO."},
+
+    {"t": "h2", "text": "4. Accountant — Mohammed's day"},
+    {"t": "p", "text": "Mohammed keeps the books. He posts the invoices and bills the others prepare, records the money in and out through the bank or the cash safe, matches the bank statement to the system (**reconciliation**), and runs the reports that show who owes us and how much tax we owe. A **journal** is simply a labelled book of entries — we have separate ones for *Customer Invoices*, *Vendor Bills*, *Bank of Khartoum (SDG)* and the *Main Cash Safe (SDG)*."},
+
+    {"t": "h3", "text": "Step A — Post invoices and bills"},
+    {"t": "p", "text": "**Posting** means finalising a draft so it enters the accounts and gets its official number. Until then it is just a draft and changes nothing."},
+    {"t": "ol", "items": [
+      "Open **Accounting → Customers → Invoices** (for sales) or **Accounting → Vendors → Bills** (for purchases).",
+      "Open a draft, check the lines, the **Currency** and the **Invoice Totals** box.",
+      "Click **Confirm** (Post). The status bar moves **Draft → Posted** and it gets its number — for example *INV/2026/00001* or *BILL/2026/05/0001*.",
+      "For a foreign-currency document such as *BILL/2026/05/0002* (483 USD from *Gulf MedTrade*), the SDG value is fixed using the exchange rate on the bill date — no manual conversion."
+    ]},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Confirm** / **Post**", "Finalises the draft into the accounts and assigns its number."],
+      ["**Pay** / **Register Payment**", "Records money received or paid against the document."],
+      ["**Send** / **Print**", "Emails or prints the invoice/bill PDF."],
+      ["**Credit Note** / **Reverse Entry**", "Issues a credit note or reverses the entry to undo it."],
+      ["**Reset to Draft** / **Cancel**", "Re-opens the document for edits, or cancels it."]
+    ]},
+
+    {"t": "h3", "text": "Step B — Register payments (bank or cash safe)"},
+    {"t": "p", "text": "When a customer pays — or when we pay a supplier — Mohammed records it against the right **journal**. Money received from *Khartoum Teaching Hospital* (*PAY00001*, 2,038,950 SDG) went through *Bank of Khartoum (SDG)*; money from *Omdurman Family Clinic* (*PAY00002*, 1,886,000 SDG) came into the *Main Cash Safe (SDG)*; the supplier payment to *Nile Medical Supplies Co.* (*PAY00003*, 5,635,000 SDG) is an outbound bank payment."},
+    {"t": "ol", "items": [
+      "Open the posted invoice or bill and click **Pay** (Register Payment). A payment window opens.",
+      "Choose the **Journal**: *Bank of Khartoum (SDG)* for a bank transfer, or *Main Cash Safe (SDG)* for cash.",
+      "Check the **Amount**, the **Payment Date** and the **Memo**, then click **Create Payment**.",
+      "The document is marked **In Payment** or **Paid**, and a green **Paid** banner appears on a settled invoice."
+    ]},
+    {"t": "fig", "file": "payment_form.png", "caption": "A customer payment: the partner, amount, payment date, the chosen journal (bank or cash safe) and the linked invoice."},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Create Payment**", "Records the receipt/payment and links it to the invoice or bill."],
+      ["**Confirm**", "Posts a payment that was left in draft."],
+      ["**Reset To Draft** / **Cancel**", "Re-opens or cancels the payment."],
+      ["**Refund**", "Pays money back to the partner."]
+    ]},
+
+    {"t": "h3", "text": "Step C — Reconcile the bank statement"},
+    {"t": "p", "text": "**Reconciliation** means matching each line of the real bank statement to the payment already recorded in the system, so the bank balance and the books agree. The demo statement *STMT/2026/06/KRT* on *Bank of Khartoum (SDG)* has two lines to match."},
+    {"t": "ol", "items": [
+      "Open **Accounting → Accounting → Reconcile** (or the **Reconcile** action from the *Bank of Khartoum (SDG)* card on the dashboard).",
+      "For each statement line, the system proposes the matching invoice or payment on the right.",
+      "Confirm the suggested match (or pick the correct one), then validate the line.",
+      "When every line is matched, the bank journal balance equals the real statement balance."
+    ]},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "The Accounting dashboard: a card per journal (Customer Invoices, Vendor Bills, Bank of Khartoum) each showing counts, balances and quick-action buttons such as reconcile."},
+
+    {"t": "h3", "text": "Step D — Run Aged Receivable and the Tax report"},
+    {"t": "p", "text": "A **receivable** is money customers owe us. The **Aged Receivable** report sorts those debts into age buckets (e.g. 30 / 60 / 90 days) so Mohammed sees what is overdue. The **Tax report** totals the 15% tax collected and paid for the period."},
+    {"t": "ol", "items": [
+      "Open **Accounting → Reporting → Partner Reports → Aged Receivable**, set the date, and print or export it.",
+      "Open **Accounting → Reporting → Audit Reports → Tax Report**, choose the period, and review the 15% sale and purchase tax totals before submitting.",
+      "For the bigger picture, **Accounting → Reporting → Financial Reports → Balance Sheet** and **Profit and Loss** summarise the whole company."
+    ]},
+
+    {"t": "h3", "text": "Step E — Chase overdue invoices"},
+    {"t": "p", "text": "Some invoices are past their due date. In the demo, *INV/2026/00003* for the *Sudanese Red Crescent* (1,237,400 SDG, due 19 April 2026) and *INV/2026/00004* for *Bahri Community Pharmacy* (1,455,900 SDG, due 25 May 2026) are still unpaid and overdue."},
+    {"t": "ol", "items": [
+      "Open **Accounting → Customers → Invoices** and filter for unpaid/overdue invoices, or use the **Aged Receivable** report from Step D.",
+      "Open an overdue invoice and use **Send** to email a reminder, or **Accounting → Follow-Ups → Do Manual Follow-Ups** to send a structured reminder letter/email.",
+      "When the customer pays, use **Pay** (Register Payment) as in Step B so the invoice flips to **Paid**."
+    ]},
+    {"t": "note", "title": "The dashboard flags the problems", "text": "The Customer Invoices card on the Accounting dashboard shows the counts of **Unpaid** and **Late** invoices, so Mohammed knows at a glance how many to chase."},
+
+    {"t": "h2", "text": "5. General Manager — Layla's day"},
+    {"t": "p", "text": "Layla does not enter transactions; she reads the results. With full access to every app, she scans the dashboards each morning, checks the sales and purchase pipeline, looks at stock and reviews the financial reports — all from screens the team has already filled in."},
+
+    {"t": "h3", "text": "Step A — Read the dashboards"},
+    {"t": "ol", "items": [
+      "Open **Accounting → Dashboard**. Each journal shows a card: *Customer Invoices* with its **Unpaid** / **Late** counts, *Vendor Bills* with the amount **To Pay**, and *Bank of Khartoum (SDG)* with its balance and a trend chart.",
+      "Open the **Dashboards** app for the cross-company spreadsheet dashboards (sales and stock at a glance).",
+      "Use each card's quick-action buttons to jump straight into the underlying invoices, bills or bank lines."
+    ]},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "The Accounting dashboard Layla reviews each morning: one card per journal with unpaid/late counts, balances and quick actions."},
+
+    {"t": "h3", "text": "Step B — Review the sales and purchase pipeline"},
+    {"t": "p", "text": "The **pipeline** is the flow of orders from draft to confirmed. Layla checks where deals and orders stand."},
+    {"t": "ol", "items": [
+      "Open **Sales → Orders → Quotations** to see open offers (e.g. *S00003* for the *Sudanese Red Crescent*, 2,018,250 SDG, still draft) and **Sales → Orders → Orders** for confirmed orders (*S00001*, *S00002*).",
+      "Open **Sales → Reporting → Sales** for totals by salesperson, product and customer.",
+      "Open **Purchase → Orders → Requests for Quotation** for open RFQs (e.g. *P00004*) and **Purchase → Orders → Purchase Orders** for committed orders such as the USD import *P00002*."
+    ]},
+    {"t": "fig", "file": "sale_order.png", "caption": "A confirmed sales order Layla can drill into from the pipeline, with its lines, status bar and smart buttons for the delivery and invoice."},
+
+    {"t": "h3", "text": "Step C — Check stock"},
+    {"t": "ol", "items": [
+      "Open **Inventory → Overview** to see the work waiting in *Receipts*, *Delivery Orders* and *Internal Transfers*.",
+      "Open **Inventory → Reporting → Stock** for current on-hand quantities, including items in *Cold Storage (2-8C)*.",
+      "Open **Inventory → Products → Lots / Serial Numbers** to review batches and **Expiration Dates** across the catalogue."
+    ]},
+    {"t": "fig", "file": "receipt_form.png", "caption": "A receipt Layla can open from the Inventory overview to confirm goods were booked in with the correct lots and expiry."},
+
+    {"t": "h3", "text": "Step D — Review the financial reports"},
+    {"t": "ol", "items": [
+      "Open **Accounting → Reporting → Financial Reports → Balance Sheet** for what the company owns and owes, and **Profit and Loss** for performance over a period.",
+      "Open **Accounting → Reporting → Partner Reports → Aged Receivable** to see overdue customer debt (e.g. the unpaid *Sudanese Red Crescent* and *Bahri Community Pharmacy* invoices).",
+      "Open **Accounting → Reporting → Audit Reports → Tax Report** for the 15% tax position for the period."
+    ]},
+    {"t": "fig", "file": "payment_form.png", "caption": "Layla can open any payment from a report to see how a receipt was settled — the partner, amount, journal and linked invoice."},
+    {"t": "tip", "title": "Everything joins up", "text": "Because Amira's purchases, Khalid's sales, Sara's stock moves and Mohammed's payments all post to the same books, Layla's dashboards and reports are always up to date — she never waits for anyone to compile a spreadsheet."}
+  ],
+  "blocks_ar": [
+    {"t": "p", "text": "شرحت الفصول السابقة كل شاشة على حدة. أمّا هذا الفصل فيربطها معًا: يأخذك في *يوم نموذجي* من حياة كل فرد في فريق *شركة السودان للمستلزمات الطبية*، متتبعًا سجلات العرض التوضيحي الحقيقية من البداية إلى النهاية. كل مسار عبارة عن قائمة مرقّمة بالنقرات والقوائم الدقيقة الواجب اتباعها، حتى يتمكن الموظف الجديد من الجلوس وإعادة تنفيذ المسار بالكامل. وهي مجتمعةً تُظهر كيف تنتقل عملية شراء أو بيع أو تسليم أو دفع واحدة تلقائيًا عبر **المشتريات** و**المخزون** و**المبيعات** و**المحاسبة** دون أن يُعيد أحد إدخال الأرقام نفسها مرتين."},
+    {"t": "note", "title": "كيف تقرأ المسار", "text": "يُكتب التنقّل في القوائم بالشكل **التطبيق ← القائمة ← القائمة الفرعية**. افتح **مشغّل التطبيقات ذا النقاط التسع** (أيقونة الشبكة أعلى يسار الشريط الداكن) للتنقّل بين التطبيقات، أو استخدم شريط الإجراءات السريعة الجانبي. كل شخص أدناه لا يرى سوى التطبيقات التي يسمح بها دوره."},
+    {"t": "table", "headers": ["الشخص", "الدور", "التطبيقات الرئيسية المستخدمة"], "rows": [
+      ["*أميرة حسن*", "مسؤولة المشتريات", "المشتريات، المخزون، الفوترة"],
+      ["*خالد عثمان*", "مندوب المبيعات", "المبيعات، المخزون"],
+      ["*سارة أحمد*", "أمينة المستودع", "المخزون (مدير)"],
+      ["*محمد علي*", "المحاسب", "المحاسبة، المشتريات، المبيعات"],
+      ["*ليلى إبراهيم*", "المديرة العامة", "جميع التطبيقات (صلاحية كاملة)"]
+    ]},
+
+    {"t": "h2", "text": "1. مسؤولة المشتريات — يوم أميرة"},
+    {"t": "p", "text": "تحرص أميرة على إبقاء الرفوف ممتلئة. فهي تراقب ما يقترب من النفاد، وتطلب الأسعار من المورّدين، وتحوّل أفضل عرض إلى طلب مؤكَّد، وتتأكد عند وصول البضائع من تسجيلها بشكل صحيح — بما في ذلك الاستيراد بالعملة الأجنبية من *Gulf MedTrade FZE (USD)* في دبي. وآخر خطوة تُعدّها للمحاسب هي **فاتورة المورّد** (فاتورة المورّد التي تترتب علينا)."},
+
+    {"t": "h3", "text": "الخطوة أ — مراجعة ما يحتاج إلى إعادة طلب"},
+    {"t": "p", "text": "**قاعدة إعادة الطلب** تعليمة بسيطة: \"احتفظ بـ*هذا العدد* على الأقل في المخزون، وأعد التعبئة حتى *ذلك العدد* عند الهبوط دونه.\" يراقب النظام المخزون نيابةً عنها ويقترح الطلبات تلقائيًا."},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← العمليات ← التموين (Procurement) ← إعادة التموين (Replenishment)**. هذه هي القائمة التي يبنيها النظام للأصناف التي بلغت حدها الأدنى أو هبطت دونه.",
+      "كل سطر في هذه الشاشة هو **قاعدة إعادة طلب** محفوظة بحدّها الأدنى والأعلى: *Paracetamol 500mg Tablets (100s)* يبقى 50–200، و*Insulin Vial 10ml* يبقى 20–80، و*Surgical Gloves (Box of 100)* يبقى 30–120. (ويمكنك أيضًا الوصول إلى قاعدة صنف واحد من زر **إعادة الطلب (Reordering)** الذكي في صفحة منتجه ضمن **المخزون ← المنتجات ← المنتجات**.)",
+      "لأي سطر يحتاج إلى تعبئة، انقر **اطلب مرة (Order Once)** أو **شراء (Buy)** ليُنشئ النظام طلب شراء بالكمية المقترحة، أو دوِّنه لإنشاء الطلب يدويًا في الخطوة التالية."
+    ]},
+    {"t": "tip", "title": "يراقب المخزون نيابةً عنك", "text": "لأن الأنسولين مُهيّأ للبقاء بين 20 و80 وحدة، ويُشترى من *Gulf MedTrade*، يعرف النظام مسبقًا من أين يشتريه وكم يطلب — وكل ما على أميرة هو الموافقة على الاقتراح."},
+
+    {"t": "h3", "text": "الخطوة ب — إنشاء طلب عرض سعر (RFQ)"},
+    {"t": "p", "text": "**طلب عرض السعر (RFQ — Request for Quotation)** هو طلب شراء مسوّدة — طلب سعر تُرسله إلى المورّد قبل أن تلتزم. في العرض التوضيحي، لا يزال *P00004* للمورّد *Nile Medical Supplies Co.* (241,500 جنيه سوداني SDG) مسوّدة RFQ جاهزة للتأكيد."},
+    {"t": "ol", "items": [
+      "افتح **المشتريات ← الطلبات ← طلبات عروض الأسعار** وانقر **جديد**.",
+      "في حقل **المورّد**، اختر المورّد (مثل *Nile Medical Supplies Co.*). تُعبَّأ **العملة** تلقائيًا من المورّد — SDG للمورّدين المحليين.",
+      "تحقّق من **الموعد النهائي للطلب** (التاريخ الواجب تأكيد العرض خلاله) و**الوصول المتوقع** (تاريخ التسليم الذي يَعِد به المورّد).",
+      "في تبويب **المنتجات (Products)**، أضِف سطرًا لكل صنف: اختر **المنتج**، وحدّد الكمية، ويُقترح السعر (**المبلغ**) و**الضريبة** من قائمة أسعار المورّد.",
+      "استخدم **إرسال بالبريد الإلكتروني** لإرسال الـ RFQ إلى المورّد، أو **طباعة RFQ** لإنتاج ملف PDF. ينتقل شريط الحالة من **RFQ ← تم إرسال RFQ**."
+    ]},
+    {"t": "fig", "file": "po_usd.png", "caption": "نموذج طلب شراء. تظهر السطور والعملة والإجماليات، مع شريط الحالة الذي ينتقل من RFQ ← طلب شراء وأزرار الرأس التي تؤكّده وتُنشئ الاستلام/الفاتورة."},
+
+    {"t": "h3", "text": "الخطوة ج — تأكيد طلب الشراء (استيراد USD من Gulf MedTrade)"},
+    {"t": "p", "text": "عند الاتفاق على السعر، يتحوّل الـ RFQ إلى التزام حقيقي. والمثال البارز هو *P00002* للمورّد *Gulf MedTrade FZE (USD)*: 50 أنسولين بسعر 14$ و10 أجهزة قياس ضغط الدم بسعر 42$، بإجمالي **1,288.00$**. ولأن الشركة تُمسك دفاترها بالجنيه السوداني، يعرض النظام المعادل بالـ SDG أسفل الإجمالي، ويُقيّم كل شيء بسعر الصرف في تاريخ الطلب — فلا تُجري أميرة حساب العملة بنفسها."},
+    {"t": "ol", "items": [
+      "افتح الـ RFQ وراجِع السطور و**العملة** (USD لـ Gulf MedTrade) والإجمالي.",
+      "انقر **تأكيد الطلب (Confirm Order)**. ينتقل شريط الحالة إلى **طلب شراء**، ويتحوّل عنوان **الموعد النهائي للطلب** إلى **تاريخ التأكيد**.",
+      "يظهر الآن إجراءان في الرأس: **استلام المنتجات (Receive Products)** (لتسجيل البضائع) و**إنشاء فاتورة (Create Bill)** (لتسجيل فاتورة المورّد). ويُظهر زر **الاستلام** الذكي أعلى الشاشة أن الشحنة الواردة أُنشئت تلقائيًا."
+    ]},
+    {"t": "table", "headers": ["الزر", "وظيفته"], "rows": [
+      ["**تأكيد الطلب**", "يحوّل الـ RFQ إلى طلب شراء مُلزِم ويُنشئ الاستلام الوارد."],
+      ["**إرسال بالبريد** / **طباعة RFQ**", "يرسل أو يطبع العرض/الطلب للمورّد."],
+      ["**استلام المنتجات**", "يفتح استلام البضائع ليُسجّل المستودع الأصناف."],
+      ["**إنشاء فاتورة**", "يُنشئ مسوّدة فاتورة المورّد من سطور الطلب جاهزة للمحاسبة."],
+      ["**تعيين كمسوّدة** / **إلغاء** / **قفل**", "يعيد فتح الطلب أو يلغيه أو يقفله لمنع التعديل."]
+    ]},
+    {"t": "warn", "title": "الطلبات بالعملة الأجنبية", "text": "للطلبات بالدولار مثل *Gulf MedTrade*، تأكّد دائمًا أن **العملة** تقرأ USD قبل النقر على **تأكيد الطلب**. تُحتسب قيمة SDG المعروضة من جدول أسعار الصرف لتاريخ الطلب وتُحدَّث من تلقاء نفسها."},
+
+    {"t": "h3", "text": "الخطوة د — استلام البضائع مع رقم الدفعة وتاريخ الانتهاء"},
+    {"t": "p", "text": "عند وصول الشحنة، تُسجّلها أميرة (أو أمينة المستودع). **الدفعة (lot)** رقم تشغيلة يتيح لنا تتبّع مجموعة من الأصناف، ويحمل للأدوية **تاريخ انتهاء صلاحية**. ويصل الأنسولين من *Gulf MedTrade* بوصفه الدفعة *LOT-GULF-01*، تنتهي صلاحيتها في 9 يونيو 2027."},
+    {"t": "ol", "items": [
+      "من الطلب المؤكَّد انقر **استلام المنتجات (Receive Products)**، أو افتح **المخزون ← العمليات ← التحويلات ← الاستلامات**.",
+      "في تبويب **العمليات (Operations)**، لكل منتج مُتتبَّع اكتب أو امسح **رقم الدفعة/التسلسل (Lot/Serial Number)** (مثل *LOT-GULF-01* للأنسولين) وأكّد الكمية.",
+      "حدّد **تاريخ انتهاء الصلاحية** للدفعة (للأنسولين: 9 يونيو 2027) — يملؤه النظام مسبقًا لأن المنتج مُهيّأ لتنتهي صلاحيته بعد 365 يومًا من الاستلام.",
+      "انقر **تأكيد (Validate)**. ينتقل شريط الحالة إلى **تم (Done)** ويرتفع المخزون المتوفر تلقائيًا."
+    ]},
+    {"t": "fig", "file": "receipt_form.png", "caption": "استلام بضائع مؤكَّد أُنشئ من طلب شراء، يُظهر مواقع المصدر/الوجهة وحركات المنتج وأرقام الدفعات المُسنَدة."},
+
+    {"t": "h3", "text": "الخطوة هـ — إنشاء فاتورة المورّد"},
+    {"t": "p", "text": "أخيرًا تُسجّل أميرة فاتورة المورّد ليتمكّن المحاسب من سدادها. في العرض التوضيحي هذه هي *BILL/2026/05/0002* من *Gulf MedTrade FZE (USD)* بمبلغ **483 دولارًا**، مُقيَّمة بالـ SDG بسعر تاريخها."},
+    {"t": "ol", "items": [
+      "افتح طلب الشراء المؤكَّد وانقر **إنشاء فاتورة (Create Bill)** (أو افتح **المشتريات ← الطلبات ← طلبات الشراء** واستخدم زر **فواتير المورّد** الذكي).",
+      "تحقّق من تطابق السطور والكميات و**العملة** مع فاتورة المورّد الورقية.",
+      "أدخِل رقم فاتورة المورّد في حقل **المرجع (Reference)** واضبط **تاريخ الفاتورة (Invoice/Bill Date)**.",
+      "اترك الفاتورة في حالة **مسوّدة** ليراجعها المحاسب ويرحّلها، أو سلّمها مباشرةً. ثم ينتقل المسار إلى محمد (القسم 4)."
+    ]},
+    {"t": "note", "title": "لا إعادة إدخال لأي شيء", "text": "الفاتورة مُعبّأة مسبقًا من طلب الشراء، فالكميات والأسعار متطابقة سلفًا. وكل مهمة أميرة هي مطابقتها بفاتورة المورّد الورقية."},
+
+    {"t": "h2", "text": "2. مندوب المبيعات — يوم خالد"},
+    {"t": "p", "text": "يبيع خالد للمستشفيات والعيادات والصيدليات. يُعدّ عرض سعر (**عرض أسعار**)، ويؤكّده إلى **طلب بيع** بمجرد موافقة العميل، ويسلّم التسليم للمستودع، ثم يُصدر أخيرًا **الفاتورة** (الفاتورة التي نرسلها للعميل)."},
+
+    {"t": "h3", "text": "الخطوة أ — إنشاء عرض سعر لمستشفى"},
+    {"t": "p", "text": "**عرض الأسعار** هو بيع مسوّدة — عرض مُسعّر لم يقبله العميل بعد. لا يزال عرض الأسعار التوضيحي *S00003* لـ *Sudanese Red Crescent* (2,018,250 جنيه سوداني SDG) في حالة مسوّدة وجاهزًا للتأكيد؛ ويُظهر الطلب المؤكَّد *S00001* لـ *Khartoum Teaching Hospital* (2,038,950 SDG) شكل العرض المكتمل، بسطور لـ *Paracetamol* و*Surgical Gloves* و*Syringe 5ml*."},
+    {"t": "ol", "items": [
+      "افتح **المبيعات ← الطلبات ← عروض الأسعار** وانقر **جديد**.",
+      "في حقل **العميل**، اختر المشتري (مثل *Khartoum Teaching Hospital*). تُعبَّأ **عنوان الفوترة** و**قائمة الأسعار** و**شروط الدفع** من جهة الاتصال.",
+      "في تبويب **سطور الطلب (Order Lines)**، أضِف سطرًا لكل منتج (مثل *Paracetamol 500mg Tablets (100s)*)، وحدّد الكمية، ويُعبّأ سعر الوحدة وضريبة 15% تلقائيًا.",
+      "راقِب صندوق **إجماليات الضريبة (Tax Totals)** يُعيد احتساب المبلغ قبل الضريبة والضريبة والإجمالي الكلي بالـ SDG كلما أضفت سطورًا.",
+      "انقر **إرسال بالبريد الإلكتروني** لإرسال عرض أسعار يحمل هوية الشركة، أو **معاينة (Preview)** لرؤيته كما سيراه العميل. ينتقل شريط الحالة من **عرض أسعار ← تم إرسال العرض**."
+    ]},
+    {"t": "fig", "file": "sale_order.png", "caption": "طلب البيع S00001 لـ Khartoum Teaching Hospital: سطور الطلب بالـ SDG، وشريط الحالة عرض أسعار ← طلب بيع، وزرّا التسليم والفاتورة الذكيان، وإجمالي الطلب."},
+
+    {"t": "h3", "text": "الخطوة ب — تأكيد طلب البيع"},
+    {"t": "p", "text": "عند موافقة العميل، يتحوّل عرض الأسعار إلى **طلب بيع** مُلزِم ويُنشأ تسليم المستودع تلقائيًا."},
+    {"t": "ol", "items": [
+      "افتح عرض الأسعار وأعِد التحقق من العميل والسطور والإجمالي.",
+      "انقر **تأكيد (Confirm)**. ينتقل شريط الحالة إلى **طلب بيع**، ويصبح **تاريخ الطلب** هو تاريخ التأكيد.",
+      "يظهر زر **التسليم (Delivery)** الذكي أعلى الشاشة — فقد أُنشئ أمر التسليم تلقائيًا ليقوم المستودع بالتجهيز والشحن."
+    ]},
+    {"t": "table", "headers": ["الزر", "وظيفته"], "rows": [
+      ["**تأكيد**", "يحوّل عرض الأسعار إلى طلب بيع ويُنشئ التسليم."],
+      ["**إرسال بالبريد**", "يرسل للعميل ملف PDF لعرض أسعار يحمل هوية الشركة."],
+      ["**معاينة**", "يُظهر عرض الأسعار تمامًا كما يراه العميل عبر الإنترنت."],
+      ["**إنشاء فاتورة**", "يُصدر فاتورة العميل من الطلب (بعد التسليم)."],
+      ["**تحديث الأسعار** / **تحديث الضرائب**", "يُحدّث أسعار/ضرائب السطور عند تغيّر قائمة الأسعار أو القواعد الضريبية."],
+      ["**إلغاء** / **إعادة إلى عرض أسعار**", "يلغي الطلب أو يعيده إلى مسوّدة للتعديل."]
+    ]},
+
+    {"t": "h3", "text": "الخطوة ج — تسليم أمر التسليم"},
+    {"t": "p", "text": "لا يُعبّئ خالد الصناديق بنفسه — بل يُسلّم التسليم للمستودع. ويمكنه متابعة تقدّمه من الطلب في أي وقت."},
+    {"t": "ol", "items": [
+      "في طلب البيع المؤكَّد، انقر زر **التسليم (Delivery)** الذكي لفتح أمر التسليم المرتبط.",
+      "تحقّق من المنتجات والكميات، ثم اتركه لـ*سارة* في المستودع للتجهيز والـ**تأكيد (Validate)** (انظر القسم 3).",
+      "بمجرد تأكيدها، تصبح **حالة التسليم (Delivery Status)** في الطلب **تم التسليم بالكامل (Fully Delivered)**."
+    ]},
+    {"t": "fig", "file": "delivery_form.png", "caption": "أمر تسليم مؤكَّد أُنشئ من طلب بيع، يُظهر المنتجات المُجهَّزة والدفعات المحجوزة وفق FEFO."},
+
+    {"t": "h3", "text": "الخطوة د — إنشاء الفاتورة وإرسالها"},
+    {"t": "p", "text": "بمجرد تسليم البضائع، يُصدر خالد **الفاتورة**. تبلغ الفاتورة التوضيحية *INV/2026/00001* لـ *Khartoum Teaching Hospital* إجمالي **2,038,950 جنيه سوداني SDG** (تشمل 265,950 SDG ضريبة 15%) وهي مُعلَّمة بالفعل بأنها **مدفوعة**."},
+    {"t": "ol", "items": [
+      "في طلب البيع انقر **إنشاء فاتورة (Create Invoice)**، واختر **فاتورة عادية**، ثم أكّد. تُفتح مسوّدة فاتورة.",
+      "راجِع السطور وصندوق **إجماليات الفاتورة (Invoice Totals)** (المبلغ قبل الضريبة، وضريبة 15%، والإجمالي الكلي)، ثم انقر **تأكيد (Confirm/Post)** — ينتقل شريط الحالة من **مسوّدة ← مُرحّلة** وتأخذ الفاتورة رقمها (مثل *INV/2026/00001*).",
+      "انقر **إرسال (Send)** لإرسال ملف PDF للعميل بالبريد، أو **طباعة (Print)** لنسخة ورقية.",
+      "تتولّى المحاسبة بعدها أمر الدفع؛ وبمجرد الاستلام تظهر لافتة **مدفوعة** خضراء على الفاتورة."
+    ]},
+    {"t": "tip", "title": "الطلب هو المصدر الوحيد للحقيقة", "text": "تُبنى الفاتورة من سطور طلب البيع، فتتطابق الأسعار والكميات وضريبة 15% مع الطلب دون إعادة إدخال. وإن لم يُسلَّم سطرٌ ما، فلن يُفوتَر ببساطة."},
+
+    {"t": "h2", "text": "3. أمينة المستودع — يوم سارة"},
+    {"t": "p", "text": "تُدير سارة *Khartoum Central Warehouse (KRT)*. تستلم البضائع الواردة (مُدخِلةً الدفعة وتاريخ الانتهاء)، وتنقل الأصناف الحساسة لدرجة الحرارة إلى **التخزين البارد (2-8C)**، وتشحن تسليمات العملاء بنظام أقدم دفعة أولًا، وتراقب ما هو موجود فعليًا على الرفوف."},
+
+    {"t": "h3", "text": "الخطوة أ — معالجة الاستلامات (إدخال الدفعات وتاريخ الانتهاء والتأكيد)"},
+    {"t": "p", "text": "**الاستلام** تحويل وارد — بضائع تصل من مورّد. تُدخِل سارة رقم الدفعة (**lot**) و**تاريخ الانتهاء** ليُمكن تتبّع كل دواء وتدويره."},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← نظرة عامة (Overview)** وانقر بطاقة **الاستلامات (Receipts)** (تُظهر عدد الشحنات المنتظِرة)، أو اذهب إلى **المخزون ← العمليات ← التحويلات ← الاستلامات**.",
+      "افتح الاستلام. يكون **موقع المصدر** هو المورّد و**موقع الوجهة** هو *KRT/Stock*.",
+      "في تبويب **العمليات (Operations)**، لكل منتج مُتتبَّع أدخِل **رقم الدفعة/التسلسل** (مثل *LOT-NILE-01* للباراسيتامول، *LOT-KHP-01* للقفازات) و**تاريخ انتهاء صلاحيته**.",
+      "إذا اختلفت الكميات عن الطلب، عدّل **الكمية (Quantity)** المُنجَزة.",
+      "انقر **تأكيد (Validate)**. ينتقل شريط الحالة إلى **تم (Done)** ويُحدَّث المخزون المتوفر فورًا."
+    ]},
+    {"t": "table", "headers": ["الزر", "وظيفته"], "rows": [
+      ["**وضع كمهمة (Mark as Todo)**", "يؤكّد تحويلًا مسوّدة ليُمكن حجزه/معالجته."],
+      ["**التحقق من التوفر (Check Availability)**", "يحجز المخزون الذي يحتاجه التحويل."],
+      ["**تأكيد (Validate)**", "يُتمّ التحويل وينقل المخزون (يضبطه على تم)."],
+      ["**طباعة (Print)**", "يطبع ورقة التجهيز/العمليات للأرض."],
+      ["**إرجاع (Return)** / **إلغاء (Cancel)**", "يُنشئ تحويل إرجاع، أو يلغي هذا التحويل."]
+    ]},
+
+    {"t": "h3", "text": "الخطوة ب — تحويل داخلي إلى التخزين البارد"},
+    {"t": "p", "text": "بعض المنتجات يجب حفظها باردة. ينتمي *Insulin Vial 10ml* إلى **KRT/Stock/Cold Storage (2-8C)**. **التحويل الداخلي** ينقل المخزون ببساطة من موقع إلى آخر داخل المستودع نفسه — ويمكن لـ**قاعدة التخزين (putaway)** (تعليمة آلية بـ\"أرسِل هذا المنتج إلى ذلك الرف\") أن توجّه الأصناف الباردة إلى هناك عند الاستلام."},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← العمليات ← التحويلات ← داخلي (Internal)** وانقر **جديد**.",
+      "اضبط **موقع المصدر** على *KRT/Stock* و**موقع الوجهة** على *KRT/Stock/Cold Storage (2-8C)*.",
+      "في تبويب **العمليات (Operations)** أضِف المنتج (*Insulin Vial 10ml*)، واختر **رقم الدفعة/التسلسل** (*LOT-GULF-01*) والكمية.",
+      "انقر **وضع كمهمة**، ثم **التحقق من التوفر**، ثم **تأكيد**. يظهر الأنسولين الآن في التخزين البارد ضمن عرض المخزون المتوفر."
+    ]},
+    {"t": "note", "title": "مواقع خاصة أخرى", "text": "يضم *KRT/Stock* أيضًا **Quarantine** (للبضائع التي تنتظر الفحص) و**Expired / Damaged** (للمخزون المسحوب من البيع). استخدم تحويلًا داخليًا بالطريقة نفسها لنقل الأصناف إليها."},
+
+    {"t": "h3", "text": "الخطوة ج — تأكيد التسليمات وفق FEFO"},
+    {"t": "p", "text": "**التسليم** تحويل صادر إلى عميل. ويعني **FEFO (الأقرب انتهاءً يخرج أولًا — First Expired, First Out)** أن النظام يحجز الدفعة الأقرب انتهاءً، فتخرج الأدوية الأقدم أولًا ولا تنتهي صلاحية شيء على الرف. ولا تضطر سارة لاختيار الدفعات يدويًا — يقترحها النظام."},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← العمليات ← التحويلات ← التسليمات (Deliveries)** (أو انقر زر **التسليم (Delivery)** الذكي في طلب بيع مؤكَّد مثل *S00001*).",
+      "انقر **التحقق من التوفر (Check Availability)** — يحجز النظام الدفعات الأقرب انتهاءً وفق FEFO.",
+      "في تبويب **العمليات**، أكّد **أرقام الدفعات/التسلسل** والكميات المقترحة مقابل التجهيز الفعلي.",
+      "انقر **تأكيد (Validate)**. ينتقل شريط الحالة إلى **تم (Done)**، ويغادر المخزون المستودع، ويُظهر طلب البيع **تم التسليم بالكامل**."
+    ]},
+    {"t": "fig", "file": "delivery_form.png", "caption": "أمر تسليم مؤكَّد، يُظهر المنتجات المُجهَّزة والدفعات التي حجزها النظام تلقائيًا وفق FEFO."},
+
+    {"t": "h3", "text": "الخطوة د — التحقق من المخزون المتوفر"},
+    {"t": "p", "text": "تتحقق سارة طوال اليوم مما هو متاح فعليًا وأين يقع."},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← المنتجات ← المنتجات** واستخدم زر **المتوفر (On Hand)** الذكي على أي صنف، أو افتح **المخزون ← التقارير ← المخزون (Stock)** لعرض المخزون الحالي (الكميات).",
+      "اقرأ الكمية المتوفرة لكل **موقع (Location)** — مثل الأصناف المخزّنة في *Cold Storage (2-8C)*.",
+      "استخدم **المخزون ← المنتجات ← الدفعات / الأرقام التسلسلية** لرؤية كل دفعة (مثل *LOT-GULF-01*) مع منتجها وكميتها المتوفرة و**تاريخ انتهائها** لتخطيط التدوير."
+    ]},
+    {"t": "tip", "title": "تاريخ الانتهاء ظاهر في كل مكان", "text": "لأن كل دفعة دواء تحمل تاريخ انتهاء، تستطيع سارة تمييز ما يجب استخدامه أولًا قبل انتهاء صلاحية أي شيء بوقت طويل — ويرتّب النظام لها عمليات التجهيز وفق FEFO."},
+
+    {"t": "h2", "text": "4. المحاسب — يوم محمد"},
+    {"t": "p", "text": "يُمسك محمد الدفاتر. يُرحّل الفواتير والفواتير المورّدة التي يُعدّها الآخرون، ويُسجّل الأموال الداخلة والخارجة عبر البنك أو الخزنة النقدية، ويطابق كشف البنك مع النظام (**التسوية**)، ويُشغّل التقارير التي تُظهر من يَدين لنا وكم نَدين من ضريبة. و**اليومية (journal)** ببساطة دفتر مُعنوَن للقيود — ولدينا دفاتر منفصلة لـ*فواتير العملاء* و*فواتير المورّدين* و*بنك الخرطوم (SDG)* و*الخزنة النقدية الرئيسية (SDG)*."},
+
+    {"t": "h3", "text": "الخطوة أ — ترحيل الفواتير والفواتير المورّدة"},
+    {"t": "p", "text": "**الترحيل (Posting)** يعني اعتماد مسوّدة لتدخل الحسابات وتأخذ رقمها الرسمي. وحتى ذلك الحين تبقى مجرد مسوّدة لا تُغيّر شيئًا."},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← العملاء ← الفواتير** (للمبيعات) أو **المحاسبة ← المورّدون ← الفواتير** (للمشتريات).",
+      "افتح مسوّدة، وتحقّق من السطور و**العملة** وصندوق **إجماليات الفاتورة (Invoice Totals)**.",
+      "انقر **تأكيد (Confirm/Post)**. ينتقل شريط الحالة من **مسوّدة ← مُرحّلة** وتأخذ رقمها — مثل *INV/2026/00001* أو *BILL/2026/05/0001*.",
+      "للمستند بالعملة الأجنبية مثل *BILL/2026/05/0002* (483 دولارًا من *Gulf MedTrade*)، تُثبَّت قيمة الـ SDG بسعر الصرف في تاريخ الفاتورة — دون تحويل يدوي."
+    ]},
+    {"t": "table", "headers": ["الزر", "وظيفته"], "rows": [
+      ["**تأكيد / ترحيل**", "يعتمد المسوّدة في الحسابات ويُسند رقمها."],
+      ["**دفع / تسجيل دفعة**", "يُسجّل المال المستلَم أو المدفوع مقابل المستند."],
+      ["**إرسال / طباعة**", "يرسل أو يطبع ملف PDF للفاتورة."],
+      ["**إشعار دائن / عكس القيد**", "يُصدر إشعارًا دائنًا أو يعكس القيد للتراجع عنه."],
+      ["**إعادة إلى مسوّدة / إلغاء**", "يعيد فتح المستند للتعديل، أو يلغيه."]
+    ]},
+
+    {"t": "h3", "text": "الخطوة ب — تسجيل المدفوعات (بنك أو خزنة نقدية)"},
+    {"t": "p", "text": "عند دفع العميل — أو عند دفعنا لمورّد — يُسجّل محمد العملية في **اليومية** الصحيحة. الأموال المستلَمة من *Khartoum Teaching Hospital* (*PAY00001*، 2,038,950 SDG) مرّت عبر *بنك الخرطوم (SDG)*؛ والأموال من *Omdurman Family Clinic* (*PAY00002*، 1,886,000 SDG) دخلت *الخزنة النقدية الرئيسية (SDG)*؛ ودفعة المورّد إلى *Nile Medical Supplies Co.* (*PAY00003*، 5,635,000 SDG) دفعة بنكية صادرة."},
+    {"t": "ol", "items": [
+      "افتح الفاتورة أو الفاتورة المورّدة المُرحّلة وانقر **دفع (Pay/Register Payment)**. تُفتح نافذة دفع.",
+      "اختر **اليومية (Journal)**: *بنك الخرطوم (SDG)* لتحويل بنكي، أو *الخزنة النقدية الرئيسية (SDG)* للنقد.",
+      "تحقّق من **المبلغ** و**تاريخ الدفع** و**المذكرة (Memo)**، ثم انقر **إنشاء دفعة (Create Payment)**.",
+      "يُعلَّم المستند بأنه **قيد الدفع (In Payment)** أو **مدفوع (Paid)**، وتظهر لافتة **مدفوعة** خضراء على الفاتورة المُسدَّدة."
+    ]},
+    {"t": "fig", "file": "payment_form.png", "caption": "دفعة عميل: الطرف، والمبلغ، وتاريخ الدفع، واليومية المختارة (بنك أو خزنة نقدية)، والفاتورة المرتبطة."},
+    {"t": "table", "headers": ["الزر", "وظيفته"], "rows": [
+      ["**إنشاء دفعة**", "يُسجّل الاستلام/الدفع ويربطه بالفاتورة أو الفاتورة المورّدة."],
+      ["**تأكيد**", "يُرحّل دفعة تُركت كمسوّدة."],
+      ["**إعادة إلى مسوّدة / إلغاء**", "يعيد فتح الدفعة أو يلغيها."],
+      ["**استرداد (Refund)**", "يُعيد المال إلى الطرف."]
+    ]},
+
+    {"t": "h3", "text": "الخطوة ج — تسوية كشف البنك"},
+    {"t": "p", "text": "**التسوية** تعني مطابقة كل سطر من كشف البنك الفعلي بالدفعة المُسجَّلة سلفًا في النظام، حتى يتفق رصيد البنك مع الدفاتر. ويضم الكشف التوضيحي *STMT/2026/06/KRT* على *بنك الخرطوم (SDG)* سطرين للمطابقة."},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← المحاسبة ← التسوية (Reconcile)** (أو إجراء **التسوية** من بطاقة *بنك الخرطوم (SDG)* في لوحة التحكم).",
+      "لكل سطر في الكشف، يقترح النظام الفاتورة أو الدفعة المطابقة على اليمين.",
+      "أكّد المطابقة المقترحة (أو اختر الصحيحة)، ثم اعتمِد السطر.",
+      "عند مطابقة كل سطر، يساوي رصيد يومية البنك رصيد الكشف الفعلي."
+    ]},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "لوحة المحاسبة: بطاقة لكل يومية (فواتير العملاء، فواتير المورّدين، بنك الخرطوم) تُظهر الأعداد والأرصدة وأزرار الإجراء السريع مثل التسوية."},
+
+    {"t": "h3", "text": "الخطوة د — تشغيل تقرير أعمار الذمم المدينة وتقرير الضريبة"},
+    {"t": "p", "text": "**الذمم المدينة (receivable)** أموال يَدين بها العملاء لنا. ويفرز تقرير **أعمار الذمم المدينة (Aged Receivable)** تلك الديون في شرائح عمرية (مثل 30 / 60 / 90 يومًا) ليرى محمد ما هو متأخر. أمّا **تقرير الضريبة (Tax Report)** فيجمع ضريبة 15% المُحصَّلة والمدفوعة عن الفترة."},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← التقارير ← تقارير الشركاء ← أعمار الذمم المدينة**، واضبط التاريخ، ثم اطبعه أو صدّره.",
+      "افتح **المحاسبة ← التقارير ← تقارير التدقيق ← تقرير الضريبة**، واختر الفترة، وراجِع إجماليات ضريبة 15% للبيع والشراء قبل التقديم.",
+      "للصورة الأوسع، تُلخّص **المحاسبة ← التقارير ← التقارير المالية ← الميزانية العمومية** و**الأرباح والخسائر** الشركة بأكملها."
+    ]},
+
+    {"t": "h3", "text": "الخطوة هـ — متابعة الفواتير المتأخرة"},
+    {"t": "p", "text": "بعض الفواتير تجاوزت تاريخ استحقاقها. في العرض التوضيحي، لا تزال *INV/2026/00003* لـ *Sudanese Red Crescent* (1,237,400 SDG، تستحق 19 أبريل 2026) و*INV/2026/00004* لـ *Bahri Community Pharmacy* (1,455,900 SDG، تستحق 25 مايو 2026) غير مدفوعتين ومتأخرتين."},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← العملاء ← الفواتير** وصفِّ الفواتير غير المدفوعة/المتأخرة، أو استخدم تقرير **أعمار الذمم المدينة** من الخطوة د.",
+      "افتح فاتورة متأخرة واستخدم **إرسال (Send)** لإرسال تذكير بالبريد، أو **المحاسبة ← المتابعات ← إجراء متابعات يدوية** لإرسال خطاب/بريد تذكير منظّم.",
+      "عند دفع العميل، استخدم **دفع (Register Payment)** كما في الخطوة ب لتتحوّل الفاتورة إلى **مدفوعة**."
+    ]},
+    {"t": "note", "title": "لوحة التحكم تُبرز المشكلات", "text": "تُظهر بطاقة فواتير العملاء في لوحة المحاسبة عدد الفواتير **غير المدفوعة** و**المتأخرة**، فيعرف محمد بلمحة كم فاتورة عليه متابعتها."},
+
+    {"t": "h2", "text": "5. المديرة العامة — يوم ليلى"},
+    {"t": "p", "text": "لا تُدخِل ليلى المعاملات؛ بل تقرأ النتائج. وبصلاحية كاملة على كل تطبيق، تتصفّح لوحات التحكم كل صباح، وتتحقق من مسار المبيعات والمشتريات، وتنظر إلى المخزون، وتراجع التقارير المالية — كلها من شاشات عبّأها الفريق سلفًا."},
+
+    {"t": "h3", "text": "الخطوة أ — قراءة لوحات التحكم"},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← لوحة التحكم (Dashboard)**. تُظهر كل يومية بطاقة: *فواتير العملاء* بأعداد **غير المدفوعة** / **المتأخرة**، و*فواتير المورّدين* بالمبلغ **الواجب دفعه (To Pay)**، و*بنك الخرطوم (SDG)* برصيده ومخطط اتجاهه.",
+      "افتح تطبيق **لوحات المعلومات (Dashboards)** للوحات الجداول عبر الشركة (المبيعات والمخزون بلمحة).",
+      "استخدم أزرار الإجراء السريع في كل بطاقة للقفز مباشرةً إلى الفواتير أو الفواتير المورّدة أو سطور البنك الكامنة."
+    ]},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "لوحة المحاسبة التي تراجعها ليلى كل صباح: بطاقة لكل يومية بأعداد غير المدفوعة/المتأخرة والأرصدة والإجراءات السريعة."},
+
+    {"t": "h3", "text": "الخطوة ب — مراجعة مسار المبيعات والمشتريات"},
+    {"t": "p", "text": "**المسار (pipeline)** هو تدفّق الطلبات من المسوّدة إلى المؤكَّد. تتحقق ليلى من موضع الصفقات والطلبات."},
+    {"t": "ol", "items": [
+      "افتح **المبيعات ← الطلبات ← عروض الأسعار** لرؤية العروض المفتوحة (مثل *S00003* لـ *Sudanese Red Crescent*، 2,018,250 SDG، لا يزال مسوّدة) و**المبيعات ← الطلبات ← الطلبات** للطلبات المؤكَّدة (*S00001*، *S00002*).",
+      "افتح **المبيعات ← التقارير ← المبيعات** للإجماليات حسب مندوب المبيعات والمنتج والعميل.",
+      "افتح **المشتريات ← الطلبات ← طلبات عروض الأسعار** للـ RFQ المفتوحة (مثل *P00004*) و**المشتريات ← الطلبات ← طلبات الشراء** للطلبات المُلزِمة مثل استيراد USD *P00002*."
+    ]},
+    {"t": "fig", "file": "sale_order.png", "caption": "طلب بيع مؤكَّد تستطيع ليلى التعمّق فيه من المسار، بسطوره وشريط حالته وأزراره الذكية للتسليم والفاتورة."},
+
+    {"t": "h3", "text": "الخطوة ج — التحقق من المخزون"},
+    {"t": "ol", "items": [
+      "افتح **المخزون ← نظرة عامة** لرؤية العمل المنتظِر في *الاستلامات* و*أوامر التسليم* و*التحويلات الداخلية*.",
+      "افتح **المخزون ← التقارير ← المخزون (Stock)** للكميات المتوفرة الحالية، بما في ذلك الأصناف في *Cold Storage (2-8C)*.",
+      "افتح **المخزون ← المنتجات ← الدفعات / الأرقام التسلسلية** لمراجعة الدفعات و**تواريخ الانتهاء** عبر الكتالوج."
+    ]},
+    {"t": "fig", "file": "receipt_form.png", "caption": "استلام تستطيع ليلى فتحه من نظرة عامة المخزون للتأكد من تسجيل البضائع بالدفعات وتاريخ الانتهاء الصحيحين."},
+
+    {"t": "h3", "text": "الخطوة د — مراجعة التقارير المالية"},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← التقارير ← التقارير المالية ← الميزانية العمومية** لما تملكه الشركة وما عليها، و**الأرباح والخسائر** للأداء خلال فترة.",
+      "افتح **المحاسبة ← التقارير ← تقارير الشركاء ← أعمار الذمم المدينة** لرؤية ديون العملاء المتأخرة (مثل فاتورتَي *Sudanese Red Crescent* و*Bahri Community Pharmacy* غير المدفوعتين).",
+      "افتح **المحاسبة ← التقارير ← تقارير التدقيق ← تقرير الضريبة** لوضع ضريبة 15% للفترة."
+    ]},
+    {"t": "fig", "file": "payment_form.png", "caption": "تستطيع ليلى فتح أي دفعة من تقرير لرؤية كيفية تسوية الاستلام — الطرف والمبلغ واليومية والفاتورة المرتبطة."},
+    {"t": "tip", "title": "كل شيء يلتقي", "text": "لأن مشتريات أميرة، ومبيعات خالد، وحركات مخزون سارة، ومدفوعات محمد ترحّل جميعها إلى الدفاتر نفسها، تبقى لوحات ليلى وتقاريرها محدَّثة دائمًا — فلا تنتظر أحدًا ليُجمّع جدول بيانات."}
+  ]
+}

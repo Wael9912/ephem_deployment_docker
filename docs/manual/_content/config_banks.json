@@ -1,0 +1,519 @@
+{
+  "key": "config_banks",
+  "title_en": "6. Configuration — Banks, Cash Safes & Journals",
+  "title_ar": "6. الإعدادات — البنوك وخزائن النقد ودفاتر اليومية",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "This chapter shows you how the **Medical-Supply ERP** keeps track of where your money is. Every payment your company sends or receives — a hospital paying an invoice, you paying a foreign supplier in US dollars, cash dropped into the office safe — has to land somewhere the system can see. That \"somewhere\" is a **journal**. The good news is that the demo company *Sudan MedSupply Co.* already comes set up with a clean, complete set of journals, so most of the time you will simply use them. This chapter explains what they are, walks you through the one form you may ever need to touch, and shows you exactly how to add a new bank or a new cash safe if the business grows."
+    },
+    {
+      "t": "h2",
+      "text": "What is a journal?"
+    },
+    {
+      "t": "p",
+      "text": "A **journal** is simply a book in which the system records money or document movements of one kind. Think of it like a separate notebook for each activity: one notebook for the invoices you send to customers, one for the bills your suppliers send you, one for each bank account, and one for each cash safe in the office. Whenever something financial happens, the ERP writes a line into the correct notebook automatically — you almost never write in them by hand."
+    },
+    {
+      "t": "p",
+      "text": "Because the work is split across several notebooks, you can always answer questions like *\"How much is in the Bank of Khartoum account right now?\"* or *\"Which customer invoices are still unpaid?\"* without digging through everything at once. The system does the sorting for you."
+    },
+    {
+      "t": "note",
+      "title": "You rarely create journals",
+      "text": "The demo is already configured with everything *Sudan MedSupply Co.* needs. You will normally only open this area to add a brand-new bank account the company opens, or a new physical cash safe. Day-to-day, the journals just work in the background."
+    },
+    {
+      "t": "h2",
+      "text": "The journals that come ready in the demo"
+    },
+    {
+      "t": "p",
+      "text": "Open **Accounting → Configuration → Accounting → Journals** to see the full list. Alongside the standard journals every Odoo accounting setup keeps in the background — *Miscellaneous Operations*, *Exchange Difference*, *Cash Basis Taxes* and *Inventory Valuation* — the demo adds six journals built for the business: one for customer invoices, one for vendor bills, two bank accounts and two cash safes. Each one has a short **code** (a tiny abbreviation the system stamps on every entry it files there) and works in a fixed **currency**."
+    },
+    {
+      "t": "p",
+      "text": "The list shows four columns on screen — **Journal Name**, **Type**, **Short Code** and **Default Account** (the ledger account where the money sits). The table below adds the currency and a plain-language note on what each journal records."
+    },
+    {
+      "t": "fig",
+      "file": "journals_list.png",
+      "caption": "The Journals list (Accounting → Configuration → Accounting → Journals), columns Journal Name, Type, Short Code and Default Account: Customer Invoices, Vendor Bills, the standard Miscellaneous Operations, Exchange Difference, Cash Basis Taxes and Inventory Valuation journals, then Bank of Khartoum (SDG), USD Bank Account, Main Cash Safe (SDG) and USD Cash Safe."
+    },
+    {
+      "t": "table",
+      "headers": ["Journal", "Type", "Code", "Currency", "What it records"],
+      "rows": [
+        ["*Customer Invoices*", "Sales", "INV", "SDG", "Every invoice you send to a customer (a customer is someone who owes you money for goods you sold)."],
+        ["*Vendor Bills*", "Purchase", "BILL", "SDG", "Every bill a supplier sends you (a vendor or supplier is someone you owe money to for goods you bought)."],
+        ["*Bank of Khartoum (SDG)*", "Bank", "BNKSD", "SDG", "Money moving through your Sudanese-pound bank account at Bank of Khartoum."],
+        ["*USD Bank Account*", "Bank", "BNKUS", "USD", "Money moving through your US-dollar bank account, used to pay foreign suppliers."],
+        ["*Main Cash Safe (SDG)*", "Cash", "CSHSD", "SDG", "Physical Sudanese-pound cash kept in the office safe."],
+        ["*USD Cash Safe*", "Cash", "CSHUS", "USD", "Physical US-dollar cash kept in the office safe."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "The key idea: bank vs. cash safe",
+      "text": "A **bank** in the system is a journal whose **Type** is *Bank*. You can link it to a bank record that holds the bank's name and **SWIFT/BIC** code (the international code that identifies a bank for cross-border transfers). A **money safe / cash box** is a journal whose **Type** is *Cash* — you create one for each physical safe you keep money in. Same form, just a different Type."
+    },
+    {
+      "t": "p",
+      "text": "Notice the demo keeps **one journal per real-world thing**: each bank account is its own journal, and each cash safe is its own journal. It also keeps the Sudanese-pound (**SDG**) money strictly separate from the US-dollar (**USD**) money. This is what lets the system value a USD purchase in pounds at the right exchange rate while still knowing exactly how many dollars left the dollar account."
+    },
+    {
+      "t": "h2",
+      "text": "The Journal form, field by field"
+    },
+    {
+      "t": "p",
+      "text": "Click any journal in the list to open its form. Below are the fields you will see, grouped by the tab they appear on. You do not need to fill in most of them — the demo journals are already complete — but knowing what each one means builds confidence. The screenshot shows the *Bank of Khartoum (SDG)* journal as an example."
+    },
+    {
+      "t": "fig",
+      "file": "journal_bank.png",
+      "caption": "The Bank of Khartoum (SDG) bank journal form: the Journal Name and Type (Bank) at the top, the Journal Entries tab showing the Bank Account (101405), Reconcile Mode, Suspense Account, Profit/Loss accounts and Short Code BNKSD, and the Bank Account Number panel (here still empty) on the right."
+    },
+    {
+      "t": "h3",
+      "text": "Top of the form (header)"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Journal Name**", "The name shown everywhere, e.g. *Bank of Khartoum (SDG)*. Make it clear so staff pick the right one."],
+        ["**Type**", "What kind of journal this is. Choose *Sales* for customer invoices, *Purchase* for vendor bills, *Bank* for a bank account, *Cash* for a money safe, *Credit Card*, or *Miscellaneous* for general entries. This single choice decides how the rest of the form behaves."],
+        ["**Company**", "The company the journal belongs to — here always *Sudan MedSupply Co.*"],
+        ["**Bank Feeds**", "How bank statements are brought in. The demo leaves this at the standard setting (*Undefined Yet*); you can enter statement lines by hand during reconciliation."],
+        ["**Active**", "A switch to hide a journal you no longer use without deleting it (and its history). Leave it on for journals in use."],
+        ["**Country Code**", "The two-letter ISO country code (SD for Sudan), handy for quick searching."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Journal Entries tab"
+    },
+    {
+      "t": "p",
+      "text": "This tab holds the bookkeeping settings. For a **bank** journal it also shows the bank account details on the right (under *Bank Account Number*). The gain/loss accounts you see here are used when a counted balance differs from what the system expected."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Short Code**", "The tiny abbreviation stamped on every entry filed here, e.g. *BNKSD* for the bank or *CSHSD* for the cash safe. Keep it short and unique."],
+        ["**Currency**", "The currency this journal is kept in — set to *USD* for the dollar accounts. The Sudanese-pound journals leave this **blank**, which means the journal uses the company currency (SDG)."],
+        ["**Default Account**", "The accounting bucket money in this journal lives in. On a bank or cash journal it is labelled *Bank Account* on the form — for the Bank of Khartoum journal it is the ledger account *101405 Bank of Khartoum (SDG)*. The system fills this for you."],
+        ["**Default Account Type**", "Describes the kind of account above (here a bank/cash asset)."],
+        ["**Account Holder**", "Whose name the bank account is in — *Sudan MedSupply Co.* This field appears once an Account Number has been added."],
+        ["**Account Number**", "The actual bank account (IBAN/number) linked to this bank journal. In the demo this is left empty; you fill it when you have the real account details."],
+        ["**Bank**", "The bank record this account is held at, e.g. *Bank of Khartoum*. This is where the SWIFT/BIC lives. Set once you record the bank and account number."],
+        ["**Reconcile Mode**", "How statement matching works — *Edit Move* or *Keep Suspense Accounts*. The demo uses *Edit Move*; leave it as is."],
+        ["**Reconcile aggregation**", "How transactions are grouped on the reconciliation screen (Statement, Day, Week or Month)."],
+        ["**Suspense Account**", "A temporary holding account (here *101402 Bank Suspense Account*): a bank line sits here until you reconcile it (match it) to the right invoice or payment, so nothing is ever lost."],
+        ["**Profit Account** / **Loss Account**", "Used on both bank and cash journals (here *442000 Cash Difference Gain* and *642000 Cash Difference Loss*): if a counted or closing balance is a little more or a little less than the system expected, the difference is booked here as a small gain or loss."],
+        ["**Dedicated Credit Note Sequence**", "Tick to give credit notes their own numbering separate from invoices."],
+        ["**Dedicated Payment Sequence**", "Tick to give payments their own numbering separate from other entries (it is ticked on the demo bank journal)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "**Reconciliation** (mentioned above) means matching what the bank says happened against what the ERP recorded, so the two always agree."
+    },
+    {
+      "t": "h3",
+      "text": "Incoming Payments tab"
+    },
+    {
+      "t": "p",
+      "text": "This tab lists the ways money can come **in** through this journal (for example a customer paying you)."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Available Payment Method**", "The methods this journal can accept (e.g. manual)."],
+        ["**Inbound Payment Methods**", "The actual rows of accepted incoming methods, such as *Manual* (paid by any means outside the system)."],
+        ["**Sequence**", "Controls the order this journal appears in on the Accounting dashboard."],
+        ["**Outstanding Receipts accounts**", "The temporary account where received money waits before it is matched to the bank statement."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Outgoing Payments tab"
+    },
+    {
+      "t": "p",
+      "text": "The mirror of the previous tab: the ways money goes **out** through this journal (for example you paying a supplier)."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Outbound Payment Methods**", "The accepted outgoing methods, such as *Manual* (pay by any means outside the system) or *Check*."],
+        ["**Selected Payment Method Codes**", "A behind-the-scenes list of the chosen method codes; the system manages this."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Advanced Settings tab"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Allowed accounts**", "Optionally restrict which accounting accounts may be used in this journal."],
+        ["**Secure Posted Entries with Hash**", "When ticked, finalised entries are locked with a tamper-proof digital seal so they cannot be quietly altered."],
+        ["**Auto-Check on Post**", "Automatically runs the built-in checks when an entry is finalised (posted)."],
+        ["**Alias** / **Alias Name** / **Alias Domain**", "Let the journal receive documents (such as bills) by email at a special address."],
+        ["**Display Alias Fields**", "Shows or hides the email-alias fields above."],
+        ["**Communication Type**", "The default reference shown on customer invoices so the customer can quote it when paying (Open, Based on Customer, or Based on Invoice)."],
+        ["**Communication Standard**", "Which reference style to use — *Odoo* (the default) or *European*."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Buttons on the form"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**SETUP** — opens the payment-provider setup form, used if you later connect an online payment provider to this journal. For everyday work on the demo you will not need it."
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "Task: add a new bank and its bank journal"
+    },
+    {
+      "t": "p",
+      "text": "Suppose *Sudan MedSupply Co.* opens a second bank account. Setting it up is two small steps: first record the **bank** itself (so the system knows its name and SWIFT/BIC), then create a **Bank-type journal** linked to that account."
+    },
+    {
+      "t": "h3",
+      "text": "Step A — record the bank"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Contacts → Configuration → Bank Accounts → Banks**.",
+        "Click **New**.",
+        "Enter the bank's **Name** (for example the bank you are opening the account with).",
+        "Enter the **Bank Identifier Code (SWIFT/BIC)** — the international code that identifies this bank for transfers — together with its address if you have it.",
+        "Click **Save** (the cloud / disk icon)."
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Step B — create the bank journal"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Accounting → Configuration → Accounting → Journals**.",
+        "Click **New**.",
+        "In **Journal Name**, type a clear name such as *New Bank (SDG)*.",
+        "Set **Type** to *Bank*.",
+        "Open the **Journal Entries** tab and set a unique **Short Code** (for example a 5-letter code like the demo's *BNKSD*).",
+        "Set the **Currency** to the account's currency — leave it blank for a Sudanese-pound (SDG) account so it follows the company currency, or set it to *USD* for a dollar account.",
+        "In the **Bank Account Number** panel, set the **Account Number** (the account/IBAN) and **Bank** to the one you recorded in Step A; confirm the **Account Holder** is *Sudan MedSupply Co.*",
+        "Click **Save**. The new account now appears as its own card on the Accounting dashboard, ready to receive and send payments."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Quick way to add a bank account",
+      "text": "You can also use **Accounting → Configuration → Banks → Add a Bank Account**, a guided shortcut that creates the bank account and its journal together."
+    },
+    {
+      "t": "h2",
+      "text": "Task: create a new cash safe"
+    },
+    {
+      "t": "p",
+      "text": "A cash safe is just a Cash-type journal. Create one for each physical box of money you keep — for instance, if you open a second office and want its own safe alongside the demo's *Main Cash Safe (SDG)* and *USD Cash Safe*."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Accounting → Configuration → Accounting → Journals**.",
+        "Click **New**.",
+        "In **Journal Name**, type a clear name such as *Branch Cash Safe (SDG)*.",
+        "Set **Type** to *Cash*.",
+        "Open the **Journal Entries** tab and set a unique **Short Code** (the demo uses *CSHSD* and *CSHUS*).",
+        "Set the **Currency** to match the cash you will keep — leave it blank for SDG, or set *USD* for a dollar safe.",
+        "Leave the **Profit Account** and **Loss Account** at their suggested values (*Cash Difference Gain* and *Cash Difference Loss*); the system uses them only if a physical count differs from its records.",
+        "Click **Save**. The safe now appears on the Accounting dashboard, ready to register cash receipts and payments."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "Keep currencies separate",
+      "text": "Always match a journal's **Currency** to the real money it holds, and never mix SDG and USD in one journal. The demo deliberately keeps separate SDG and USD bank accounts and safes so that the system can value foreign-currency dealings correctly and show you a true balance for each."
+    },
+    {
+      "t": "note",
+      "title": "What the system does for you automatically",
+      "text": "Once a journal exists, the ERP files entries into it on its own: confirming a sale creates a customer invoice in the *Customer Invoices* journal, registering a payment moves money through the chosen bank or cash journal, and each journal shows a live balance and an unpaid/late count on the Accounting dashboard. You set the journals up once; the system keeps them current."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "يوضّح هذا الفصل كيف يتتبّع **نظام تخطيط موارد المستلزمات الطبية (Medical-Supply ERP)** مكان أموالك. فكل عملية دفع ترسلها شركتك أو تستلمها — مستشفى يسدّد فاتورة، أو دفعك لمورّد أجنبي بالدولار الأمريكي، أو نقد يوضع في خزنة المكتب — يجب أن تستقرّ في مكان يراه النظام. وهذا المكان هو **دفتر اليومية (journal)**. والخبر السار أن الشركة التجريبية *شركة السودان للمستلزمات الطبية* تأتي مهيّأة مسبقًا بمجموعة نظيفة وكاملة من دفاتر اليومية، فستكتفي في معظم الأحيان باستخدامها كما هي. يشرح هذا الفصل ما هي هذه الدفاتر، ويأخذك خطوة بخطوة في الاستمارة الوحيدة التي قد تحتاج إلى لمسها، ويبيّن لك كيف تضيف بنكًا جديدًا أو خزنة نقد جديدة إذا نَمَت أعمال الشركة."
+    },
+    {
+      "t": "h2",
+      "text": "ما هو دفتر اليومية؟"
+    },
+    {
+      "t": "p",
+      "text": "**دفتر اليومية (journal)** هو ببساطة دفتر يسجّل فيه النظام حركة المال أو المستندات من نوع واحد. تصوّره كدفتر منفصل لكل نشاط: دفتر للفواتير التي ترسلها للعملاء، ودفتر للفواتير التي يرسلها لك الموردون، ودفتر لكل حساب بنكي، ودفتر لكل خزنة نقد في المكتب. وكلما حدث أمرٌ مالي، يكتب النظام سطرًا في الدفتر الصحيح تلقائيًا — فأنت لا تكتب فيها يدويًا تقريبًا أبدًا."
+    },
+    {
+      "t": "p",
+      "text": "ولأن العمل موزّع على عدة دفاتر، يمكنك دائمًا الإجابة عن أسئلة مثل *«كم الرصيد في حساب بنك الخرطوم الآن؟»* أو *«أي فواتير العملاء ما زالت غير مدفوعة؟»* دون التنقيب في كل شيء دفعة واحدة. فالنظام يقوم بالفرز نيابةً عنك."
+    },
+    {
+      "t": "note",
+      "title": "نادرًا ما تنشئ دفاتر يومية",
+      "text": "النسخة التجريبية مهيّأة مسبقًا بكل ما تحتاجه *شركة السودان للمستلزمات الطبية*. وستفتح هذا القسم عادةً فقط لإضافة حساب بنكي جديد تفتحه الشركة، أو خزنة نقد جديدة. أما في العمل اليومي فتعمل دفاتر اليومية في الخلفية وحدها."
+    },
+    {
+      "t": "h2",
+      "text": "دفاتر اليومية الجاهزة في النسخة التجريبية"
+    },
+    {
+      "t": "p",
+      "text": "افتح **المحاسبة (Accounting) → الإعدادات (Configuration) → المحاسبة (Accounting) → دفاتر اليومية (Journals)** لرؤية القائمة كاملة. فإلى جانب الدفاتر القياسية التي يحتفظ بها أي نظام محاسبة في Odoo في الخلفية — *عمليات متنوعة (Miscellaneous Operations)*، و*الفرق في سعر الصرف (Exchange Difference)*، و*ضرائب بأساس نقدي (Cash Basis Taxes)*، و*تقييم المخزون (Inventory Valuation)* — تضيف النسخة التجريبية ستة دفاتر مصمّمة للعمل: واحد لفواتير العملاء، وواحد لفواتير الموردين، وحسابان بنكيان، وخزنتا نقد. ولكلٍّ منها **رمز قصير (code)** (اختصار صغير يطبعه النظام على كل قيد يحفظه فيه)، وتعمل بعملة ثابتة."
+    },
+    {
+      "t": "p",
+      "text": "تعرض القائمة على الشاشة أربعة أعمدة — **اسم دفتر اليومية (Journal Name)**، و**النوع (Type)**، و**الرمز القصير (Short Code)**، و**الحساب الافتراضي (Default Account)** (حساب الأستاذ الذي يستقرّ فيه المال). ويضيف الجدول أدناه العملة وملاحظة بلغة بسيطة عمّا يسجّله كل دفتر."
+    },
+    {
+      "t": "fig",
+      "file": "journals_list.png",
+      "caption": "قائمة دفاتر اليومية (المحاسبة → الإعدادات → المحاسبة → دفاتر اليومية) بأعمدتها اسم دفتر اليومية والنوع والرمز القصير والحساب الافتراضي: فواتير العملاء، فواتير الموردين، والدفاتر القياسية عمليات متنوعة والفرق في سعر الصرف وضرائب بأساس نقدي وتقييم المخزون، ثم بنك الخرطوم (SDG) وحساب بنكي بالدولار وخزنة النقد الرئيسية (SDG) وخزنة نقد بالدولار."
+    },
+    {
+      "t": "table",
+      "headers": ["دفتر اليومية", "النوع", "الرمز", "العملة", "ما الذي يسجّله"],
+      "rows": [
+        ["*فواتير العملاء (Customer Invoices)*", "مبيعات (Sales)", "INV", "SDG", "كل فاتورة ترسلها لعميل (العميل هو من يدين لك بالمال مقابل بضاعة بِعتها له)."],
+        ["*فواتير الموردين (Vendor Bills)*", "مشتريات (Purchase)", "BILL", "SDG", "كل فاتورة يرسلها لك المورّد (المورّد هو من تدين له بالمال مقابل بضاعة اشتريتها)."],
+        ["*بنك الخرطوم (SDG)*", "بنك (Bank)", "BNKSD", "SDG", "المال المتحرّك عبر حسابك البنكي بالجنيه السوداني لدى بنك الخرطوم."],
+        ["*حساب بنكي بالدولار (USD Bank Account)*", "بنك (Bank)", "BNKUS", "USD", "المال المتحرّك عبر حسابك البنكي بالدولار الأمريكي، المستخدم لدفع الموردين الأجانب."],
+        ["*خزنة النقد الرئيسية (SDG)*", "نقد (Cash)", "CSHSD", "SDG", "النقد الفعلي بالجنيه السوداني المحفوظ في خزنة المكتب."],
+        ["*خزنة نقد بالدولار (USD Cash Safe)*", "نقد (Cash)", "CSHUS", "USD", "النقد الفعلي بالدولار الأمريكي المحفوظ في خزنة المكتب."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "الفكرة الجوهرية: البنك مقابل خزنة النقد",
+      "text": "**البنك** في النظام هو دفتر يومية **نوعه (Type)** *بنك (Bank)*. ويمكنك ربطه بسجلّ بنك يحمل اسم البنك ورمزه الدولي **SWIFT/BIC** (الرمز الدولي الذي يعرّف البنك في التحويلات عبر الحدود). أما **خزنة المال / صندوق النقد** فهي دفتر يومية **نوعه** *نقد (Cash)* — وتُنشئ واحدًا لكل خزنة فعلية تحفظ فيها المال. الاستمارة نفسها، يتغيّر فقط النوع."
+    },
+    {
+      "t": "p",
+      "text": "لاحظ أن النسخة التجريبية تحتفظ بـ**دفتر يومية واحد لكل شيء في الواقع**: فكل حساب بنكي دفتر مستقل، وكل خزنة نقد دفتر مستقل. كما تفصل المال بالجنيه السوداني (**SDG**) فصلًا تامًا عن المال بالدولار الأمريكي (**USD**). وهذا ما يتيح للنظام تقييم عملية شراء بالدولار بالجنيه وفق سعر الصرف الصحيح، مع معرفته الدقيقة لعدد الدولارات التي خرجت من حساب الدولار."
+    },
+    {
+      "t": "h2",
+      "text": "استمارة دفتر اليومية، حقلًا حقلًا"
+    },
+    {
+      "t": "p",
+      "text": "انقر على أي دفتر يومية في القائمة لفتح استمارته. وفيما يلي الحقول التي ستراها، مجمّعة حسب التبويب الذي تظهر فيه. لست بحاجة لتعبئة معظمها — فدفاتر النسخة التجريبية مكتملة بالفعل — لكن معرفة معنى كل حقل تبني الثقة. تُظهر الصورة دفتر *بنك الخرطوم (SDG)* كمثال."
+    },
+    {
+      "t": "fig",
+      "file": "journal_bank.png",
+      "caption": "استمارة دفتر بنك الخرطوم (SDG): اسم دفتر اليومية والنوع (بنك) في الأعلى، وتبويب قيود اليومية يعرض الحساب البنكي (101405) ونمط التسوية والحساب المعلّق وحسابي الربح/الخسارة والرمز القصير BNKSD، ولوحة رقم الحساب البنكي (لا تزال فارغة هنا) على اليمين."
+    },
+    {
+      "t": "h3",
+      "text": "أعلى الاستمارة (الترويسة)"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["**اسم دفتر اليومية (Journal Name)**", "الاسم الظاهر في كل مكان، مثل *بنك الخرطوم (SDG)*. اجعله واضحًا ليختار الموظفون الدفتر الصحيح."],
+        ["**النوع (Type)**", "نوع هذا الدفتر. اختر *مبيعات (Sales)* لفواتير العملاء، و*مشتريات (Purchase)* لفواتير الموردين، و*بنك (Bank)* لحساب بنكي، و*نقد (Cash)* لخزنة مال، و*بطاقة ائتمان (Credit Card)*، أو *متنوعات (Miscellaneous)* للقيود العامة. هذا الاختيار الواحد يحدّد سلوك بقية الاستمارة."],
+        ["**الشركة (Company)**", "الشركة التي يتبع لها الدفتر — وهي هنا دائمًا *شركة السودان للمستلزمات الطبية*."],
+        ["**تغذية البنك (Bank Feeds)**", "طريقة إدخال كشوف الحساب البنكية. تبقيها النسخة التجريبية على الإعداد القياسي (*غير محدّد بعد / Undefined Yet*)؛ ويمكنك إدخال سطور الكشف يدويًا أثناء التسوية."],
+        ["**نشط (Active)**", "مفتاح لإخفاء دفتر لم تعد تستخدمه دون حذفه (وحذف سجلّه). أبقِه مفعّلًا للدفاتر قيد الاستخدام."],
+        ["**رمز الدولة (Country Code)**", "رمز الدولة المكوّن من حرفين بمعيار ISO (SD للسودان)، مفيد للبحث السريع."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "تبويب قيود اليومية (Journal Entries)"
+    },
+    {
+      "t": "p",
+      "text": "يحوي هذا التبويب الإعدادات المحاسبية. وبالنسبة لدفتر **بنك** يعرض أيضًا تفاصيل الحساب البنكي على اليمين (تحت *رقم الحساب البنكي / Bank Account Number*). أما حسابا الربح/الخسارة الظاهران هنا فيُستخدمان عندما يختلف الرصيد المعدود عمّا توقّعه النظام."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["**الرمز القصير (Short Code)**", "الاختصار الصغير المطبوع على كل قيد يُحفظ هنا، مثل *BNKSD* للبنك أو *CSHSD* لخزنة النقد. اجعله قصيرًا وفريدًا."],
+        ["**العملة (Currency)**", "العملة التي يُمسك بها هذا الدفتر — اضبطها على *USD* للحسابات بالدولار. أما دفاتر الجنيه السوداني فتترك هذا الحقل **فارغًا**، ما يعني أن الدفتر يستخدم عملة الشركة (SDG)."],
+        ["**الحساب الافتراضي (Default Account)**", "السلّة المحاسبية التي يعيش فيها مال هذا الدفتر. وفي دفتر بنك أو نقد يظهر باسم *الحساب البنكي (Bank Account)* في الاستمارة — ولدفتر بنك الخرطوم هو حساب الأستاذ *101405 بنك الخرطوم (SDG)*. يملؤه النظام نيابةً عنك."],
+        ["**نوع الحساب الافتراضي (Default Account Type)**", "يصف نوع الحساب أعلاه (هنا أصل بنكي/نقدي)."],
+        ["**صاحب الحساب (Account Holder)**", "الاسم الذي يحمله الحساب البنكي — *شركة السودان للمستلزمات الطبية*. يظهر هذا الحقل بمجرد إضافة رقم حساب."],
+        ["**رقم الحساب (Account Number)**", "الحساب البنكي الفعلي (IBAN/الرقم) المرتبط بدفتر البنك هذا. في النسخة التجريبية يُترك فارغًا؛ تملؤه عند توفّر تفاصيل الحساب الحقيقية."],
+        ["**البنك (Bank)**", "سجلّ البنك الذي يُحفظ لديه هذا الحساب، مثل *بنك الخرطوم*. وهنا يقيم رمز SWIFT/BIC. يُضبط بمجرد تسجيلك للبنك ورقم الحساب."],
+        ["**نمط التسوية (Reconcile Mode)**", "كيفية مطابقة الكشف — *تعديل القيد (Edit Move)* أو *الاحتفاظ بالحسابات المعلّقة (Keep Suspense Accounts)*. تستخدم النسخة التجريبية *تعديل القيد*؛ اتركه كما هو."],
+        ["**تجميع التسوية (Reconcile aggregation)**", "كيفية تجميع المعاملات في شاشة التسوية (كشف، يوم، أسبوع أو شهر)."],
+        ["**الحساب المعلّق (Suspense Account)**", "حساب احتجاز مؤقت (هنا *101402 الحساب البنكي المعلّق / Bank Suspense Account*): يبقى سطر البنك هنا حتى تُسوّيه (تطابقه) مع الفاتورة أو الدفعة الصحيحة، فلا يضيع شيء أبدًا."],
+        ["**حساب الربح (Profit Account)** / **حساب الخسارة (Loss Account)**", "يُستخدمان في دفاتر البنك والنقد معًا (هنا *442000 ربح فرق النقد / Cash Difference Gain* و*642000 خسارة فرق النقد / Cash Difference Loss*): إذا كان الرصيد المعدود أو الختامي أكثر أو أقل قليلًا مما توقّعه النظام، يُقيَّد الفرق هنا كربح أو خسارة صغيرة."],
+        ["**تسلسل مخصّص لإشعارات الدائن (Dedicated Credit Note Sequence)**", "فعّله لإعطاء إشعارات الدائن ترقيمًا خاصًا منفصلًا عن الفواتير."],
+        ["**تسلسل مخصّص للدفعات (Dedicated Payment Sequence)**", "فعّله لإعطاء الدفعات ترقيمًا خاصًا منفصلًا عن بقية القيود (وهو مفعّل في دفتر بنك النسخة التجريبية)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "**التسوية (Reconciliation)** المذكورة أعلاه تعني مطابقة ما يقول البنك إنه حدث مع ما سجّله النظام، حتى يتطابق الاثنان دائمًا."
+    },
+    {
+      "t": "h3",
+      "text": "تبويب الدفعات الواردة (Incoming Payments)"
+    },
+    {
+      "t": "p",
+      "text": "يسرد هذا التبويب طرق دخول المال **إلى** هذا الدفتر (مثلًا عميل يدفع لك)."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["**طريقة الدفع المتاحة (Available Payment Method)**", "الطرق التي يقبلها هذا الدفتر (مثل اليدوية)."],
+        ["**طرق الدفع الواردة (Inbound Payment Methods)**", "الأسطر الفعلية للطرق الواردة المقبولة، مثل *يدوي (Manual)* (الدفع بأي وسيلة خارج النظام)."],
+        ["**التسلسل (Sequence)**", "يتحكّم بترتيب ظهور هذا الدفتر في لوحة معلومات المحاسبة."],
+        ["**حسابات المقبوضات المعلّقة (Outstanding Receipts accounts)**", "الحساب المؤقت الذي ينتظر فيه المال المستلَم قبل مطابقته مع كشف البنك."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "تبويب الدفعات الصادرة (Outgoing Payments)"
+    },
+    {
+      "t": "p",
+      "text": "مرآة التبويب السابق: طرق خروج المال **من** هذا الدفتر (مثلًا دفعك لمورّد)."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["**طرق الدفع الصادرة (Outbound Payment Methods)**", "الطرق الصادرة المقبولة، مثل *يدوي (Manual)* (الدفع بأي وسيلة خارج النظام) أو *شيك (Check)*."],
+        ["**رموز طرق الدفع المختارة (Selected Payment Method Codes)**", "قائمة خلفية برموز الطرق المختارة؛ يديرها النظام بنفسه."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "تبويب الإعدادات المتقدّمة (Advanced Settings)"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["**الحسابات المسموح بها (Allowed accounts)**", "اختياريًا، تقييد الحسابات المحاسبية التي يجوز استخدامها في هذا الدفتر."],
+        ["**تأمين القيود المرحّلة بالبصمة (Secure Posted Entries with Hash)**", "عند تفعيله، تُقفل القيود المعتمَدة ببصمة رقمية مانعة للعبث بحيث لا يمكن تغييرها خِفية."],
+        ["**فحص تلقائي عند الترحيل (Auto-Check on Post)**", "يشغّل تلقائيًا الفحوص المدمجة عند اعتماد (ترحيل) القيد."],
+        ["**الاسم البديل (Alias) / اسم البديل (Alias Name) / نطاق البديل (Alias Domain)**", "تتيح للدفتر استقبال المستندات (مثل الفواتير) بالبريد الإلكتروني على عنوان خاص."],
+        ["**إظهار حقول الاسم البديل (Display Alias Fields)**", "يُظهر أو يُخفي حقول الاسم البديل للبريد أعلاه."],
+        ["**نوع المراسلة (Communication Type)**", "المرجع الافتراضي الظاهر على فواتير العملاء ليستشهد به العميل عند الدفع (مفتوح، حسب العميل، أو حسب الفاتورة)."],
+        ["**معيار المراسلة (Communication Standard)**", "أسلوب المرجع المستخدم — *Odoo* (الافتراضي) أو *أوروبي (European)*."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "الأزرار في الاستمارة"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**الإعداد (SETUP)** — يفتح استمارة إعداد مزوّد الدفع، وتُستخدم إذا ربطت لاحقًا مزوّد دفع إلكتروني بهذا الدفتر. ولن تحتاجها في العمل اليومي على النسخة التجريبية."
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "مهمة: إضافة بنك جديد ودفتر يوميته البنكي"
+    },
+    {
+      "t": "p",
+      "text": "لنفترض أن *شركة السودان للمستلزمات الطبية* فتحت حسابًا بنكيًا ثانيًا. إعداده خطوتان صغيرتان: أولًا سجّل **البنك** نفسه (ليعرف النظام اسمه ورمز SWIFT/BIC)، ثم أنشئ **دفتر يومية من نوع بنك** مرتبطًا بذلك الحساب."
+    },
+    {
+      "t": "h3",
+      "text": "الخطوة (أ) — تسجيل البنك"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **جهات الاتصال (Contacts) → الإعدادات (Configuration) → الحسابات البنكية (Bank Accounts) → البنوك (Banks)**.",
+        "انقر **جديد (New)**.",
+        "أدخل **اسم (Name)** البنك (مثلًا البنك الذي تفتح الحساب لديه).",
+        "أدخل **رمز تعريف البنك (SWIFT/BIC)** — الرمز الدولي الذي يعرّف هذا البنك في التحويلات — مع عنوانه إن توفّر لديك.",
+        "انقر **حفظ (Save)** (أيقونة السحابة / القرص)."
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "الخطوة (ب) — إنشاء دفتر اليومية البنكي"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المحاسبة (Accounting) → الإعدادات (Configuration) → المحاسبة (Accounting) → دفاتر اليومية (Journals)**.",
+        "انقر **جديد (New)**.",
+        "في **اسم دفتر اليومية (Journal Name)**، اكتب اسمًا واضحًا مثل *بنك جديد (SDG)*.",
+        "اضبط **النوع (Type)** على *بنك (Bank)*.",
+        "افتح تبويب **قيود اليومية (Journal Entries)** واضبط **رمزًا قصيرًا (Short Code)** فريدًا (مثلًا رمزًا من خمسة أحرف كرمز النسخة التجريبية *BNKSD*).",
+        "اضبط **العملة (Currency)** على عملة الحساب — اتركها فارغة لحساب بالجنيه السوداني (SDG) ليتبع عملة الشركة، أو اضبطها على *USD* لحساب بالدولار.",
+        "في لوحة **رقم الحساب البنكي (Bank Account Number)** اضبط **رقم الحساب (Account Number)** (رقم الحساب/الـ IBAN) و**البنك (Bank)** الذي سجّلته في الخطوة (أ)؛ وتأكّد أن **صاحب الحساب (Account Holder)** هو *شركة السودان للمستلزمات الطبية*.",
+        "انقر **حفظ (Save)**. يظهر الحساب الجديد الآن كبطاقة مستقلة في لوحة معلومات المحاسبة، جاهزًا لاستلام الدفعات وإرسالها."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "طريقة سريعة لإضافة حساب بنكي",
+      "text": "يمكنك أيضًا استخدام **المحاسبة (Accounting) → الإعدادات (Configuration) → البنوك (Banks) → إضافة حساب بنكي (Add a Bank Account)**، وهو اختصار موجَّه يُنشئ الحساب البنكي ودفتر يوميته معًا."
+    },
+    {
+      "t": "h2",
+      "text": "مهمة: إنشاء خزنة نقد جديدة"
+    },
+    {
+      "t": "p",
+      "text": "خزنة النقد ليست سوى دفتر يومية من نوع نقد. أنشئ واحدًا لكل صندوق مال فعلي تحتفظ به — مثلًا إذا فتحت مكتبًا ثانيًا وأردت له خزنته الخاصة إلى جانب *خزنة النقد الرئيسية (SDG)* و*خزنة النقد بالدولار* في النسخة التجريبية."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المحاسبة (Accounting) → الإعدادات (Configuration) → المحاسبة (Accounting) → دفاتر اليومية (Journals)**.",
+        "انقر **جديد (New)**.",
+        "في **اسم دفتر اليومية (Journal Name)**، اكتب اسمًا واضحًا مثل *خزنة نقد الفرع (SDG)*.",
+        "اضبط **النوع (Type)** على *نقد (Cash)*.",
+        "افتح تبويب **قيود اليومية (Journal Entries)** واضبط **رمزًا قصيرًا (Short Code)** فريدًا (تستخدم النسخة التجريبية *CSHSD* و*CSHUS*).",
+        "اضبط **العملة (Currency)** لتطابق النقد الذي ستحفظه — اتركها فارغة للجنيه السوداني، أو اضبطها على *USD* لخزنة بالدولار.",
+        "اترك **حساب الربح (Profit Account)** و**حساب الخسارة (Loss Account)** على القيم المقترحة (*ربح فرق النقد / Cash Difference Gain* و*خسارة فرق النقد / Cash Difference Loss*)؛ يستخدمها النظام فقط إذا اختلف الجرد الفعلي عن سجلّاته.",
+        "انقر **حفظ (Save)**. تظهر الخزنة الآن في لوحة معلومات المحاسبة، جاهزة لتسجيل المقبوضات والمدفوعات النقدية."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "افصل العملات",
+      "text": "طابق دائمًا **عملة (Currency)** الدفتر مع المال الحقيقي الذي يحتويه، ولا تخلط أبدًا الجنيه السوداني والدولار في دفتر واحد. تحتفظ النسخة التجريبية عمدًا بحسابات بنكية وخزائن منفصلة لـ SDG وUSD حتى يتمكّن النظام من تقييم المعاملات بالعملات الأجنبية بدقة وإظهار رصيد صحيح لكلٍّ منها."
+    },
+    {
+      "t": "note",
+      "title": "ما الذي يفعله النظام تلقائيًا نيابةً عنك",
+      "text": "بمجرد وجود دفتر اليومية، يقيّد النظام فيه القيود من تلقاء نفسه: فتأكيد بيع يُنشئ فاتورة عميل في دفتر *فواتير العملاء*، وتسجيل دفعة يحرّك المال عبر دفتر البنك أو النقد المختار، ويُظهر كل دفتر رصيدًا حيًّا وعدد الفواتير غير المدفوعة/المتأخرة في لوحة معلومات المحاسبة. تُعدّ الدفاتر مرة واحدة، ويحافظ النظام على تحديثها."
+    }
+  ]
+}

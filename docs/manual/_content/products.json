@@ -1,0 +1,847 @@
+{
+  "key": "products",
+  "title_en": "8. Products & Inventory Items",
+  "title_ar": "8. المنتجات وأصناف المخزون",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "The **product catalogue** is the heart of the Medical-Supply ERP. Every box of gloves, vial of insulin or blood-pressure monitor that *Sudan MedSupply Co.* buys, stores or sells is first registered here as a **product**. Once a product is set up correctly, the system does an enormous amount of work for you automatically: it tracks how many you have on hand, warns you before stock runs out, keeps every batch and its expiry date, picks the oldest-expiring batch first when you deliver, values your inventory in *SDG* (Sudanese Pound), and posts the correct accounting entries when you buy and sell. This chapter explains how to register an item, what every field means, and how to use lots, expiry dates, reordering rules and the stock-on-hand views."
+    },
+    {
+      "t": "note",
+      "title": "What a good product record gives you",
+      "text": "A product is the link between your **warehouse** (how many, where, which batch, expiring when) and your **accounting** (what it cost, what it sells for, which accounts to post to). Spend a minute setting it up well and the system rewards you every day after."
+    },
+    {
+      "t": "h2",
+      "text": "8.1 The Product Catalogue"
+    },
+    {
+      "t": "p",
+      "text": "To open the catalogue, go to **Inventory → Products → Products**. (The same list is also reachable from **Sales → Products → Products** and from **Accounting → Customers → Products** — it is one shared catalogue.) You see every item as a card or a list row, with its picture, name, internal reference and the quantity on hand."
+    },
+    {
+      "t": "fig",
+      "file": "products_list.png",
+      "caption": "The product catalogue (Inventory → Products → Products) showing the ten medical items, their internal references and on-hand quantities."
+    },
+    {
+      "t": "p",
+      "text": "The demo company sells the following ten products, grouped into three categories — *Pharmaceuticals*, *Medical Consumables* and *Medical Devices*. A **category** is simply a group used to share the same costing and accounting rules. The table below shows the real catalogue: the **Reference** (also called the *SKU* — a short internal code that uniquely identifies the item), the category, the unit **Cost** and **Sales Price** in *SDG*, whether the item is **tracked by lot** (kept in batches), and how many are currently **On Hand**."
+    },
+    {
+      "t": "table",
+      "headers": ["Product", "Reference (SKU)", "Category", "Cost (SDG)", "Sales Price (SDG)", "Tracking", "On Hand"],
+      "rows": [
+        ["Paracetamol 500mg Tablets (100s)", "MED-PARA-500", "Pharmaceuticals", "7,700", "11,500", "By Lots", "150"],
+        ["Amoxicillin 250mg Capsules (100s)", "MED-AMOX-250", "Pharmaceuticals", "16,000", "23,000", "By Lots", "110"],
+        ["Antiseptic Solution 500ml", "MED-ANTISEP", "Pharmaceuticals", "9,600", "14,800", "By Lots", "100"],
+        ["Insulin Vial 10ml", "MED-INSULIN", "Pharmaceuticals", "63,000", "90,000", "By Lots", "50"],
+        ["Surgical Gloves (Box of 100)", "CON-GLOVES", "Medical Consumables", "19,300", "29,000", "By Lots", "60"],
+        ["IV Cannula 18G (Box of 50)", "CON-IVCAN", "Medical Consumables", "25,700", "38,600", "By Lots", "0"],
+        ["N95 Face Mask (Box of 20)", "CON-N95", "Medical Consumables", "32,000", "48,000", "By Lots", "45"],
+        ["Syringe 5ml (Box of 100)", "CON-SYR-5", "Medical Consumables", "12,900", "20,600", "By Lots", "90"],
+        ["Digital Blood Pressure Monitor", "DEV-BPMON", "Medical Devices", "189,000", "285,000", "No Tracking", "10"],
+        ["Digital Thermometer", "DEV-THERMO", "Medical Devices", "22,500", "35,400", "No Tracking", "0"]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Why medicines are tracked by lot and devices are not",
+      "text": "All the pharmaceuticals and consumables are tracked **By Lots** because they have expiry dates and may need to be recalled by batch. The two electronic devices (the *Digital Blood Pressure Monitor* and *Digital Thermometer*) do not expire, so they use **No Tracking** — there is no need to follow individual batches."
+    },
+    {
+      "t": "h2",
+      "text": "8.2 Registering a New Product"
+    },
+    {
+      "t": "p",
+      "text": "To add an item to the catalogue, follow these steps. We will use *Insulin Vial 10ml* as the worked example because it shows every feature a medical distributor needs: lot tracking, expiry dates, a foreign-currency vendor and a cold-storage route."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Inventory → Products → Products** and click **New**.",
+        "Type the product **Name** (for example *Insulin Vial 10ml*).",
+        "Tick **Sales** if you sell it and **Purchase** if you buy it (both are normally ticked for trading goods).",
+        "On the **General Information** tab, set **Product Type** to *Goods*, choose the **Category** (e.g. *Pharmaceuticals*), and enter the **Sales Price**, the **Cost** and the **Reference** (the SKU, e.g. *MED-INSULIN*).",
+        "Open the **Inventory** tab, set **Tracking** to *By Lots*, tick **Expiration Date** and enter the shelf-life in days (for insulin we use *365*, so the system dates each new batch one year ahead); choose the **Routes** (e.g. *Buy*).",
+        "Open the **Purchase** tab and add the **Vendor** with the purchase price (e.g. *Gulf MedTrade*, 14.00 USD).",
+        "Click **Save** (the cloud / floppy-disk icon). The product is now in the catalogue and ready to be bought, stored and sold."
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin.png",
+      "caption": "The Insulin Vial 10ml product form (General Information tab): product type, category, cost, sales price and internal reference, with the On Hand / Forecasted / Reordering smart buttons across the top."
+    },
+    {
+      "t": "h2",
+      "text": "8.3 The Product Form, Tab by Tab"
+    },
+    {
+      "t": "p",
+      "text": "The product form is divided into tabs. We list every field you see on each tab, in the order the tabs appear, with a plain explanation. You will not need to fill in all of them — most have sensible defaults — but knowing what each does shows how much the system can handle for you."
+    },
+    {
+      "t": "h3",
+      "text": "Header fields (top of the form)"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Name", "The product name as it appears everywhere (orders, invoices, delivery notes). Required."],
+        ["Sales", "Tick if this item can be sold to customers; it then appears on quotations and sales orders."],
+        ["Purchase", "Tick if this item can be bought from vendors; it then appears on purchase orders."],
+        ["Image", "An optional photo of the product, shown on the card view and on printed documents."],
+        ["Favorite", "A star to mark items you use often so they sort to the top."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "General Information"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Product Type", "Choose *Goods* for physical items you stock (the case for all medical supplies), *Service* for non-material offerings, or *Combo*. Required."],
+        ["Invoicing Policy", "Whether to invoice the *Ordered quantities* or only the *Delivered quantities*. Controls what appears on the customer invoice."],
+        ["Track Inventory", "A storable product is one for which the system manages stock. Leave ticked so on-hand quantities are tracked."],
+        ["Sales Price", "The price at which you sell the item to customers (e.g. 90,000 SDG for insulin)."],
+        ["Unit of Measure", "The default unit for all stock operations (e.g. *Units*). Required."],
+        ["Sales Taxes", "The tax automatically added when selling (the Sudan *15%* sale tax). A *tax* is a percentage the government requires you to add and later remit."],
+        ["Cost", "The unit cost used to value stock and compute margins (e.g. 63,000 SDG for insulin). Updated automatically under the costing method."],
+        ["Purchase Taxes", "The tax applied when buying the item (the *15%* purchase tax)."],
+        ["Category", "The product group that drives costing and accounting (e.g. *Pharmaceuticals*). Required."],
+        ["Reference", "Your internal code / SKU that uniquely identifies the product (e.g. *MED-INSULIN*)."],
+        ["Barcode", "The scannable barcode, if you label your stock; used for fast scanning in the warehouse."],
+        ["Description", "A free-text description of the product for internal use."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Sales"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Optional Products", "Other items suggested as cross-sells when the product is added to an order."],
+        ["Tags", "Free labels to classify the product for searching and reporting."],
+        ["Sales Description", "Text copied onto every sales order, delivery note and customer invoice for this product."],
+        ["Re-Invoice Costs", "Whether validated costs (expenses, vendor bills, pickings) can be re-billed to the customer at cost or sales price."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Purchase"
+    },
+    {
+      "t": "p",
+      "text": "This tab is where you record who you buy the item from and at what price — the **vendor pricelist**. A *vendor pricelist* is simply the list of suppliers and their agreed prices for this product, so the system can suggest the right cost when you raise a purchase order."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Vendors", "The list of suppliers for this product, each with their price and lead time. For insulin this is *Gulf MedTrade* at 14.00 USD."],
+        ["Subcontract Service", "If ticked, selling the product automatically raises a Request for Quotation (RFQ) to buy it. Not used for stocked goods."],
+        ["Purchase Unit", "The unit of measure used on purchase orders (must be in the same category as the sales unit). Required."],
+        ["Is a Landed Cost", "Tick only for cost items (e.g. freight) that you allocate onto received goods."],
+        ["Control Policy", "Whether to bill on *ordered* or *received* quantities — controls how vendor bills are checked."],
+        ["Purchase Description", "Text copied onto every purchase order for this product."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_purchase.png",
+      "caption": "The Purchase tab of the Insulin product: the vendor pricelist line (Gulf MedTrade, 14.00 USD, with lead time) and the purchase control settings."
+    },
+    {
+      "t": "h3",
+      "text": "Inventory"
+    },
+    {
+      "t": "p",
+      "text": "This is the most important tab for a medical distributor. Here you decide whether the item is tracked in batches, when it expires, how it moves through the warehouse, and how long it takes to arrive or ship."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Tracking", "How the system follows the item: *By Unique Serial Number*, *By Lots*, or *By Quantity*. Set medicines and consumables to *By Lots* so each batch and its expiry are recorded. Required."],
+        ["Routes", "The path the product takes — e.g. *Buy* (replenished by purchasing). A *route* is the set of rules that decides how the item is supplied or moved (e.g. straight into Cold Storage)."],
+        ["Category Routes", "Routes inherited automatically from the product category."],
+        ["Responsible", "The user responsible for the logistics activities of this product."],
+        ["Weight", "The product weight, used for shipping and for splitting landed costs."],
+        ["Volume", "The product volume, used for shipping and storage planning."],
+        ["Customer Lead Time", "The number of days you promise between confirming a sales order and delivering it."],
+        ["Expiration Date (tick box)", "When ticked, the system manages expiry dates on the product and on each lot — essential for medicines."],
+        ["Expiration Date (days)", "Days after receipt before the goods may become dangerous and must not be used; the lot's expiry is computed from this."],
+        ["Best Before Date", "Days before expiry after which the goods start to deteriorate (still safe)."],
+        ["Removal Date", "Days before expiry after which the goods should be pulled from stock; drives the FEFO removal strategy."],
+        ["Alert Date", "Days before expiry after which the system raises an alert on the lot."],
+        ["Description on Receptions", "Text shown on the goods receipt for this product."],
+        ["Description on Delivery Orders", "Text shown on the delivery order for this product."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_inventory.png",
+      "caption": "The Inventory tab of the Insulin product: Routes (Buy), Logistics (responsible, weight, volume, customer lead time), Traceability (Expiration Date on) and Dates (Expiration 365 days after receipt, plus Best Before, Removal and Alert)."
+    },
+    {
+      "t": "tip",
+      "title": "Expiry plus lots = automatic FEFO and easy recalls",
+      "text": "Because insulin is tracked **By Lots** with **Expiration Date** turned on, the system knows the expiry of every batch. When you deliver, it automatically reserves the batch that expires first — this is called *FEFO* (First-Expired, First-Out). If a manufacturer recalls a batch, you can find every customer who received that exact lot in seconds."
+    },
+    {
+      "t": "h3",
+      "text": "Accounting"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Income Account", "The account that records revenue when you sell this product. Leave blank to use the category default."],
+        ["Expense Account", "The account that records the cost when you buy or consume the product. Leave blank to use the category default."],
+        ["Price Difference Account", "Used in automated valuation to record the difference between a purchase order price and the vendor bill."],
+        ["Asset Type", "Set only if the item is to be capitalised as a fixed asset rather than expensed."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "You usually leave the Accounting tab empty",
+      "text": "Ordinary staff almost never touch this tab. The product **Category** already carries the correct income, expense and stock accounts, so the right entries are posted automatically when you buy and sell. It is shown here only so you understand what the system is doing behind the scenes."
+    },
+    {
+      "t": "h2",
+      "text": "8.4 Smart Buttons and Page Buttons"
+    },
+    {
+      "t": "p",
+      "text": "Across the top of the product form sit **smart buttons** — large clickable counters that jump straight to related information. They turn the product record into a control centre: one click shows you stock, forecasts, sales history and more."
+    },
+    {
+      "t": "table",
+      "headers": ["Smart button", "What it shows"],
+      "rows": [
+        ["On Hand", "The quantity physically in stock right now (e.g. 50 vials of insulin), with a breakdown by location."],
+        ["Forecasted", "The expected future quantity once pending receipts and deliveries are taken into account."],
+        ["Reordering", "The reordering rules for this product (its minimum and maximum levels)."],
+        ["Sold", "How many units have been sold in the last 12 months."],
+        ["Purchased", "How many units have been purchased in the last 12 months."],
+        ["In: / Out:", "The number of incoming (received) and outgoing (delivered) stock moves over the past 12 months."],
+        ["Documents", "Files attached to the product (datasheets, certificates)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "At the very top of the form you also have action **buttons** that perform tasks directly:"
+    },
+    {
+      "t": "table",
+      "headers": ["Button", "What it does"],
+      "rows": [
+        ["Update Quantity", "Opens the on-hand quantities so you can record a stock count or adjustment for this product."],
+        ["Replenish", "Launches a replenishment request to buy or restock the product."],
+        ["Print Labels", "Prints barcode / product labels using a chosen layout."],
+        ["View Diagram", "Opens a visual diagram of the product's supply routes."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "8.5 Lots / Batches & Expiry Dates"
+    },
+    {
+      "t": "p",
+      "text": "A **lot** (also called a batch) is a group of identical units that were produced together and share the same manufacturing and expiry dates. For medicines this is vital: it lets you trace exactly which customers received which batch and lets the system always ship the batch that expires soonest. To see all batches in stock, go to **Inventory → Products → Lots / Serial Numbers**."
+    },
+    {
+      "t": "fig",
+      "file": "lots_list.png",
+      "caption": "The Lots / Serial Numbers list showing the batches in stock — e.g. LOT-GULF-01 and LOT-NILE-01 — with their products and expiration dates."
+    },
+    {
+      "t": "p",
+      "text": "The demo holds the following real batches. Notice how each lot belongs to one product and carries its own expiry date — this is what powers FEFO and recalls."
+    },
+    {
+      "t": "table",
+      "headers": ["Lot / Serial Number", "Product", "Expiration Date"],
+      "rows": [
+        ["LOT-NILE-01", "Paracetamol 500mg Tablets (100s)", "2028-06-08"],
+        ["LOT-NILE-02", "Amoxicillin 250mg Capsules (100s)", "2027-12-01"],
+        ["LOT-NILE-03", "Antiseptic Solution 500ml", "2027-06-09"],
+        ["LOT-GULF-01", "Insulin Vial 10ml", "2027-06-09"],
+        ["LOT-KHP-01", "Surgical Gloves (Box of 100)", "2029-06-08"],
+        ["LOT-KHP-02", "N95 Face Mask (Box of 20)", "2030-06-08"],
+        ["LOT-KHP-03", "Syringe 5ml (Box of 100)", "2031-06-08"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Click a lot to open its form. The fields are grouped into the **main** area and two extra tabs, *Dates* and *Description*."
+    },
+    {
+      "t": "h3",
+      "text": "Main area"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Lot/Serial Number", "The unique batch number (e.g. *LOT-GULF-01*). Required."],
+        ["Product", "The product this batch contains (e.g. *Insulin Vial 10ml*). Cannot be changed once the batch has moved."],
+        ["On Hand Quantity", "How many units of this batch are currently in stock."],
+        ["Unit of Measure", "The unit used for the quantity (e.g. *Units*)."],
+        ["Internal Reference", "An internal reference if it differs from the manufacturer's lot number."],
+        ["Location", "Where this batch is currently stored."],
+        ["Last Delivery Partner", "The customer who last received units from this batch."],
+        ["Total Value", "The total stock value of this batch, in the company currency (SDG)."],
+        ["Average Cost", "The average unit cost of the batch."],
+        ["Product Expiry Alert", "Turns on automatically once the expiration date has been reached."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Dates"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Use Expiration Date", "Whether expiry dates are managed for this batch."],
+        ["Expiration Date", "The date after which the goods may become dangerous and must not be used (e.g. 2027-06-09 for LOT-GULF-01)."],
+        ["Removal Date", "The date the goods should be removed from stock; used by the FEFO removal strategy."],
+        ["Best before Date", "The date the goods start to deteriorate, while still safe."],
+        ["Alert Date", "The date used by the *Expiration Alerts* filter to flag soon-to-expire batches."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Description"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Description", "Free notes about the batch (e.g. storage conditions, supplier remarks)."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "lot_insulin.png",
+      "caption": "The lot form for LOT-GULF-01 (Insulin): the lot number, product, on-hand quantity and expiration date."
+    },
+    {
+      "t": "warn",
+      "title": "Always record the lot when receiving expiring goods",
+      "text": "When you receive insulin, vaccines or any medicine, enter the manufacturer's lot number and expiry on the receipt. If you skip it, FEFO cannot work and you lose the ability to trace or recall that batch."
+    },
+    {
+      "t": "h2",
+      "text": "8.6 Reordering Rules (Minimum / Maximum)"
+    },
+    {
+      "t": "p",
+      "text": "A **reordering rule** tells the system the lowest stock level you are willing to reach (the **Min Quantity**) and the level to refill back up to (the **Max Quantity**). When the forecasted quantity drops below the minimum, the system automatically proposes a replenishment so you never run out of critical supplies. To view them, go to **Inventory → Operations → Procurement → Replenishment**, or open a product and click its **Reordering** smart button."
+    },
+    {
+      "t": "fig",
+      "file": "reordering_rules.png",
+      "caption": "The Reordering Rules list showing the minimum and maximum levels for Paracetamol, Insulin and Gloves."
+    },
+    {
+      "t": "p",
+      "text": "The demo company has set up these three rules for its fastest-moving items:"
+    },
+    {
+      "t": "table",
+      "headers": ["Product", "Reference", "Min Quantity", "Max Quantity"],
+      "rows": [
+        ["Paracetamol 500mg Tablets (100s)", "MED-PARA-500", "50", "200"],
+        ["Insulin Vial 10ml", "MED-INSULIN", "20", "80"],
+        ["Surgical Gloves (Box of 100)", "CON-GLOVES", "30", "120"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Each rule shows the following fields:"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Name", "The rule's reference name (filled automatically)."],
+        ["Product", "The product the rule applies to. Required."],
+        ["Min Quantity", "When forecasted stock falls below this, the system triggers a replenishment. Required."],
+        ["Max Quantity", "The level the replenishment refills up to. Required."],
+        ["Quantity Multiple", "Rounds the proposed quantity up to a multiple of this number (0 = no rounding). Required."],
+        ["Warehouse", "The warehouse the rule applies to. Required."],
+        ["Location", "The stock location monitored by the rule. Required."],
+        ["Route", "The supply route used to replenish (e.g. *Buy*)."],
+        ["Visibility Days", "How many days of future demand to consider when replenishing (0 = just-in-time)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "The rule form also offers a **Forecast Description** button, which opens a detailed forecast explaining exactly how the system arrived at the proposed quantity."
+    },
+    {
+      "t": "tip",
+      "title": "Set a min for anything you cannot afford to run out of",
+      "text": "Notice that *IV Cannula* and *Digital Thermometer* are at zero on hand. Adding reordering rules for life-critical items means the system warns you to restock before you hit zero, instead of discovering a shortage when a customer orders."
+    },
+    {
+      "t": "h2",
+      "text": "8.7 Checking Stock on Hand"
+    },
+    {
+      "t": "p",
+      "text": "There are two quick ways to see how much you have. The fastest is to open a product and click its **On Hand** smart button. To see the whole warehouse at once, go to **Inventory → Reporting → Stock** — the **On Hand / Current Stock** view, also called *quants*. A *quant* is simply one line of stock: a given product, in a given location, with a given quantity (and lot, where tracked)."
+    },
+    {
+      "t": "fig",
+      "file": "onhand_quants.png",
+      "caption": "The On Hand / Current Stock view showing each product, its location and on-hand quantity — including items held in Cold Storage."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Inventory → Reporting → Stock**.",
+        "Read each line: the **Product**, the **Location** (e.g. *KRT/Stock* or *Cold Storage (2-8C)*), the **Lot/Serial Number** where applicable, and the **On Hand** quantity.",
+        "Use the **Group By** option to total stock by location or by product, or the search box to find one item.",
+        "To check a single product instead, open it from **Inventory → Products → Products** and click the **On Hand** smart button."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Cold-storage items appear here too",
+      "text": "Insulin is routed into the *Cold Storage (2-8C)* location, so its on-hand quantity shows against that location in this view. This lets the warehouse team confirm that temperature-sensitive medicines are where they should be."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "يمثّل **كتالوج المنتجات** قلب نظام تخطيط موارد المستلزمات الطبية. فكل علبة قفازات، أو قارورة أنسولين، أو جهاز قياس ضغط دم تشتريه أو تخزّنه أو تبيعه *شركة السودان للمستلزمات الطبية* يجري تسجيله هنا أولاً بوصفه **منتجاً**. وبمجرد إعداد المنتج بشكل صحيح، يقوم النظام بقدر هائل من العمل نيابةً عنك تلقائياً: يتتبّع الكمية المتوفرة لديك، وينبّهك قبل نفاد المخزون، ويحتفظ بكل دفعة (Lot) وتاريخ صلاحيتها، ويختار الدفعة الأقرب انتهاءً أولاً عند التسليم، ويقيّم مخزونك بـ*الجنيه السوداني (SDG)*، ويسجّل القيود المحاسبية الصحيحة عند الشراء والبيع. يشرح هذا الفصل كيفية تسجيل صنف، ومعنى كل حقل، وكيفية استخدام الدفعات وتواريخ الصلاحية وقواعد إعادة الطلب وشاشات المخزون المتوفّر."
+    },
+    {
+      "t": "note",
+      "title": "ماذا يمنحك سجل المنتج الجيد",
+      "text": "المنتج هو حلقة الوصل بين **المستودع** (الكمية، والموقع، والدفعة، وموعد الانتهاء) و**المحاسبة** (التكلفة، وسعر البيع، والحسابات التي يُسجَّل عليها). اقضِ دقيقة في إعداده جيداً وسيكافئك النظام كل يوم بعد ذلك."
+    },
+    {
+      "t": "h2",
+      "text": "8.1 كتالوج المنتجات"
+    },
+    {
+      "t": "p",
+      "text": "لفتح الكتالوج، اذهب إلى **المخزون ← المنتجات ← المنتجات**. (يمكن الوصول إلى القائمة نفسها أيضاً من **المبيعات ← المنتجات ← المنتجات** ومن **المحاسبة ← العملاء ← المنتجات** — فهي كتالوج واحد مشترك.) ترى كل صنف على هيئة بطاقة أو سطر في قائمة، مع صورته واسمه ومرجعه الداخلي والكمية المتوفرة."
+    },
+    {
+      "t": "fig",
+      "file": "products_list.png",
+      "caption": "كتالوج المنتجات (المخزون ← المنتجات ← المنتجات) يعرض الأصناف الطبية العشرة ومراجعها الداخلية والكميات المتوفرة."
+    },
+    {
+      "t": "p",
+      "text": "تبيع الشركة في العرض التوضيحي المنتجات العشرة التالية، موزّعة على ثلاث فئات — *الأدوية* و*المستهلكات الطبية* و*الأجهزة الطبية*. والـ**فئة** ببساطة هي مجموعة تُستخدم لمشاركة قواعد التكلفة والمحاسبة نفسها. يبيّن الجدول أدناه الكتالوج الحقيقي: **المرجع** (ويُسمّى أيضاً *SKU* — رمز داخلي قصير يميّز الصنف تمييزاً فريداً)، والفئة، و**التكلفة** و**سعر البيع** للوحدة بـ*الجنيه السوداني*، وما إذا كان الصنف **متتبَّعاً بالدفعات** (محفوظاً على شكل دفعات)، وكم العدد **المتوفر** حالياً."
+    },
+    {
+      "t": "table",
+      "headers": ["المنتج", "المرجع (SKU)", "الفئة", "التكلفة (SDG)", "سعر البيع (SDG)", "التتبّع", "المتوفر"],
+      "rows": [
+        ["باراسيتامول 500 ملغ أقراص (100)", "MED-PARA-500", "الأدوية", "7,700", "11,500", "بالدفعات", "150"],
+        ["أموكسيسيلين 250 ملغ كبسولات (100)", "MED-AMOX-250", "الأدوية", "16,000", "23,000", "بالدفعات", "110"],
+        ["محلول مطهّر 500 مل", "MED-ANTISEP", "الأدوية", "9,600", "14,800", "بالدفعات", "100"],
+        ["قارورة أنسولين 10 مل", "MED-INSULIN", "الأدوية", "63,000", "90,000", "بالدفعات", "50"],
+        ["قفازات جراحية (علبة 100)", "CON-GLOVES", "المستهلكات الطبية", "19,300", "29,000", "بالدفعات", "60"],
+        ["قنية وريدية 18G (علبة 50)", "CON-IVCAN", "المستهلكات الطبية", "25,700", "38,600", "بالدفعات", "0"],
+        ["كمامة N95 (علبة 20)", "CON-N95", "المستهلكات الطبية", "32,000", "48,000", "بالدفعات", "45"],
+        ["محقن 5 مل (علبة 100)", "CON-SYR-5", "المستهلكات الطبية", "12,900", "20,600", "بالدفعات", "90"],
+        ["جهاز قياس ضغط الدم الرقمي", "DEV-BPMON", "الأجهزة الطبية", "189,000", "285,000", "بلا تتبّع", "10"],
+        ["ميزان حرارة رقمي", "DEV-THERMO", "الأجهزة الطبية", "22,500", "35,400", "بلا تتبّع", "0"]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "لماذا تُتتبَّع الأدوية بالدفعات بينما لا تُتتبَّع الأجهزة",
+      "text": "جميع الأدوية والمستهلكات متتبَّعة **بالدفعات** لأنها تحمل تواريخ صلاحية وقد تحتاج إلى سحب دفعة بعينها (Recall). أما الجهازان الإلكترونيان (*جهاز قياس ضغط الدم الرقمي* و*ميزان الحرارة الرقمي*) فلا تنتهي صلاحيتهما، لذا يستخدمان **بلا تتبّع** — إذ لا حاجة لمتابعة دفعات فردية."
+    },
+    {
+      "t": "h2",
+      "text": "8.2 تسجيل منتج جديد"
+    },
+    {
+      "t": "p",
+      "text": "لإضافة صنف إلى الكتالوج، اتّبع الخطوات التالية. سنستخدم *قارورة أنسولين 10 مل* مثالاً تطبيقياً لأنه يُظهر كل ميزة يحتاجها موزّع المستلزمات الطبية: التتبّع بالدفعات، وتواريخ الصلاحية، ومورّداً بعملة أجنبية، ومسار تخزين مبرَّد."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المخزون ← المنتجات ← المنتجات** وانقر **جديد**.",
+        "اكتب **اسم** المنتج (مثلاً *قارورة أنسولين 10 مل*).",
+        "ضع علامة على **المبيعات** إذا كنت تبيعه، وعلى **المشتريات** إذا كنت تشتريه (وكلاهما يُحدَّد عادةً للسلع التجارية).",
+        "في تبويب **المعلومات العامة**، اضبط **نوع المنتج** على *سلع*، واختر **الفئة** (مثل *الأدوية*)، وأدخِل **سعر البيع** و**التكلفة** و**المرجع** (الـ SKU، مثل *MED-INSULIN*).",
+        "افتح تبويب **المخزون**، واضبط **التتبّع** على *بالدفعات*، وضع علامة على **تاريخ انتهاء الصلاحية** وأدخِل مدة الصلاحية بالأيام (نستخدم للأنسولين *365*، فيُؤرّخ النظام كل دفعة جديدة بعد سنة من الاستلام)؛ ثم اختر **المسارات** (مثل *الشراء*).",
+        "افتح تبويب **المشتريات** وأضِف **المورّد** مع سعر الشراء (مثل *Gulf MedTrade* بسعر 14.00 USD).",
+        "انقر **حفظ** (أيقونة السحابة / القرص). أصبح المنتج الآن في الكتالوج وجاهزاً للشراء والتخزين والبيع."
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin.png",
+      "caption": "نموذج منتج قارورة الأنسولين 10 مل (تبويب المعلومات العامة): نوع المنتج، والفئة، والتكلفة، وسعر البيع، والمرجع الداخلي، مع الأزرار الذكية المتوفر / المتوقّع / إعادة الطلب في الأعلى."
+    },
+    {
+      "t": "h2",
+      "text": "8.3 نموذج المنتج، تبويباً تبويباً"
+    },
+    {
+      "t": "p",
+      "text": "ينقسم نموذج المنتج إلى تبويبات. نُدرج كل حقل تراه في كل تبويب، بالترتيب الذي تظهر به التبويبات، مع شرح مبسّط. لن تحتاج إلى تعبئتها كلها — فلمعظمها قيم افتراضية معقولة — لكن معرفة وظيفة كل حقل تُظهر مدى ما يستطيع النظام إنجازه نيابةً عنك."
+    },
+    {
+      "t": "h3",
+      "text": "حقول الترويسة (أعلى النموذج)"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["الاسم", "اسم المنتج كما يظهر في كل مكان (الطلبات، الفواتير، إشعارات التسليم). مطلوب."],
+        ["المبيعات", "ضع علامة إذا كان هذا الصنف يُباع للعملاء؛ عندئذٍ يظهر في عروض الأسعار وأوامر البيع."],
+        ["المشتريات", "ضع علامة إذا كان هذا الصنف يُشترى من المورّدين؛ عندئذٍ يظهر في أوامر الشراء."],
+        ["الصورة", "صورة اختيارية للمنتج، تظهر في عرض البطاقات وعلى المستندات المطبوعة."],
+        ["المفضّلة", "نجمة لتمييز الأصناف التي تستخدمها كثيراً بحيث تظهر في الأعلى."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "المعلومات العامة"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["نوع المنتج", "اختر *سلع* للأصناف المادية التي تخزّنها (وهو الحال لكل المستلزمات الطبية)، أو *خدمة* للعروض غير المادية، أو *مجموعة*. مطلوب."],
+        ["سياسة الفوترة", "هل تُفوتر *الكميات المطلوبة* أم *الكميات المُسلَّمة* فقط. تتحكّم بما يظهر في فاتورة العميل."],
+        ["تتبّع المخزون", "المنتج القابل للتخزين هو منتج يديره النظام مخزونياً. اتركه محدَّداً ليجري تتبّع الكميات المتوفرة."],
+        ["سعر البيع", "السعر الذي تبيع به الصنف للعملاء (مثلاً 90,000 SDG للأنسولين)."],
+        ["وحدة القياس", "الوحدة الافتراضية لكل عمليات المخزون (مثل *وحدات*). مطلوب."],
+        ["ضرائب البيع", "الضريبة التي تُضاف تلقائياً عند البيع (ضريبة البيع السودانية *15%*). والـ*ضريبة* نسبة تطلب الحكومة إضافتها وتوريدها لاحقاً."],
+        ["التكلفة", "تكلفة الوحدة المستخدمة لتقييم المخزون وحساب هوامش الربح (مثلاً 63,000 SDG للأنسولين). تُحدَّث تلقائياً وفق طريقة التكلفة."],
+        ["ضرائب الشراء", "الضريبة المطبَّقة عند شراء الصنف (ضريبة الشراء *15%*)."],
+        ["الفئة", "مجموعة المنتج التي تتحكّم بالتكلفة والمحاسبة (مثل *الأدوية*). مطلوب."],
+        ["المرجع", "رمزك الداخلي / الـ SKU الذي يميّز المنتج تمييزاً فريداً (مثل *MED-INSULIN*)."],
+        ["الباركود", "الرمز الشريطي القابل للمسح، إن كنت تُلصِق ملصقات على مخزونك؛ يُستخدم للمسح السريع في المستودع."],
+        ["الوصف", "وصف نصّي حرّ للمنتج للاستخدام الداخلي."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "المبيعات"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["المنتجات الاختيارية", "أصناف أخرى تُقترح كبيع تكميلي عند إضافة المنتج إلى الطلب."],
+        ["الوسوم", "تصنيفات حرّة للمنتج تُستخدم للبحث والتقارير."],
+        ["وصف المبيعات", "نص يُنسخ إلى كل أمر بيع وإشعار تسليم وفاتورة عميل لهذا المنتج."],
+        ["إعادة فوترة التكاليف", "هل يمكن إعادة فوترة التكاليف المعتمدة (المصروفات، فواتير المورّدين، عمليات السحب) على العميل بالتكلفة أو بسعر البيع."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "المشتريات"
+    },
+    {
+      "t": "p",
+      "text": "في هذا التبويب تسجّل ممّن تشتري الصنف وبأيّ سعر — أي **قائمة أسعار المورّدين**. و*قائمة أسعار المورّدين* ببساطة هي قائمة الموردين وأسعارهم المتّفق عليها لهذا المنتج، حتى يتمكّن النظام من اقتراح التكلفة الصحيحة عند إصدار أمر شراء."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["المورّدون", "قائمة الموردين لهذا المنتج، ولكلٍّ سعره ومهلة توريده. وللأنسولين هو *Gulf MedTrade* بسعر 14.00 USD."],
+        ["خدمة التعاقد من الباطن", "إذا حُدِّدت، يؤدي بيع المنتج تلقائياً إلى إنشاء طلب عرض سعر (RFQ) لشرائه. لا تُستخدم للسلع المخزَّنة."],
+        ["وحدة الشراء", "وحدة القياس المستخدمة في أوامر الشراء (يجب أن تكون في فئة وحدة البيع نفسها). مطلوب."],
+        ["تكلفة محمَّلة", "ضع علامة فقط لبنود التكلفة (مثل الشحن) التي توزّعها على البضائع المستلَمة."],
+        ["سياسة الرقابة", "هل تُفوتر بناءً على الكميات *المطلوبة* أم *المستلَمة* — تتحكّم بكيفية مراجعة فواتير المورّدين."],
+        ["وصف الشراء", "نص يُنسخ إلى كل أمر شراء لهذا المنتج."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_purchase.png",
+      "caption": "تبويب المشتريات لمنتج الأنسولين: سطر قائمة أسعار المورّد (Gulf MedTrade، 14.00 USD، مع مهلة التوريد) وإعدادات الرقابة على الشراء."
+    },
+    {
+      "t": "h3",
+      "text": "المخزون"
+    },
+    {
+      "t": "p",
+      "text": "هذا أهمّ تبويب لموزّع المستلزمات الطبية. هنا تقرّر ما إذا كان الصنف متتبَّعاً بالدفعات، ومتى تنتهي صلاحيته، وكيف يتحرّك داخل المستودع، وكم يستغرق وصوله أو شحنه."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["التتبّع", "كيف يتابع النظام الصنف: *برقم تسلسلي فريد*، أو *بالدفعات*، أو *بالكمية*. اضبط الأدوية والمستهلكات على *بالدفعات* لتسجيل كل دفعة وصلاحيتها. مطلوب."],
+        ["المسارات", "المسار الذي يسلكه المنتج — مثل *الشراء* (يُعاد تموينه بالشراء). والـ*مسار* هو مجموعة القواعد التي تقرّر كيف يُورَّد الصنف أو يتحرّك (مثل التوجيه مباشرةً إلى التخزين المبرَّد)."],
+        ["مسارات الفئة", "مسارات مُورَّثة تلقائياً من فئة المنتج."],
+        ["المسؤول", "المستخدم المسؤول عن الأنشطة اللوجستية لهذا المنتج."],
+        ["الوزن", "وزن المنتج، يُستخدم للشحن ولتوزيع التكاليف المحمَّلة."],
+        ["الحجم", "حجم المنتج، يُستخدم لتخطيط الشحن والتخزين."],
+        ["مهلة تسليم العميل", "عدد الأيام التي تَعِد بها العميل بين تأكيد أمر البيع وتسليمه."],
+        ["تاريخ انتهاء الصلاحية (مربّع التحديد)", "عند تحديده يدير النظام تواريخ الصلاحية على المنتج وعلى كل دفعة — أمر أساسي للأدوية."],
+        ["تاريخ انتهاء الصلاحية (أيام)", "عدد الأيام بعد الاستلام قبل أن تصبح البضاعة خطيرة ويُمنع استخدامها؛ تُحتسب صلاحية الدفعة من ذلك."],
+        ["تاريخ أفضل استخدام قبل", "عدد الأيام قبل انتهاء الصلاحية حين تبدأ البضاعة بالتدهور (وما زالت آمنة)."],
+        ["تاريخ الإزالة", "عدد الأيام قبل انتهاء الصلاحية حين ينبغي سحب البضاعة من المخزون؛ يقود استراتيجية الإخراج FEFO."],
+        ["تاريخ التنبيه", "عدد الأيام قبل انتهاء الصلاحية حين يُطلِق النظام تنبيهاً على الدفعة."],
+        ["وصف على الاستلامات", "نص يظهر على إيصال استلام البضاعة لهذا المنتج."],
+        ["وصف على أوامر التسليم", "نص يظهر على أمر التسليم لهذا المنتج."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_inventory.png",
+      "caption": "تبويب المخزون لمنتج الأنسولين: المسارات (الشراء)، واللوجستيات (المسؤول، الوزن، الحجم، مهلة تسليم العميل)، والتتبّع (تاريخ الصلاحية مُفعَّل)، والتواريخ (انتهاء الصلاحية بعد 365 يوماً من الاستلام، إضافةً إلى أفضل استخدام قبل والإزالة والتنبيه)."
+    },
+    {
+      "t": "tip",
+      "title": "الصلاحية مع الدفعات = FEFO تلقائي وسحب سهل للدفعات",
+      "text": "لأن الأنسولين متتبَّع **بالدفعات** مع تفعيل **تاريخ انتهاء الصلاحية**، يعرف النظام صلاحية كل دفعة. وعند التسليم يحجز تلقائياً الدفعة الأقرب انتهاءً — وهذا ما يُسمّى *FEFO* (الأقرب انتهاءً يخرج أولاً). وإذا سحبت الشركة المصنّعة دفعةً، يمكنك خلال ثوانٍ معرفة كل عميل استلم تلك الدفعة بالضبط."
+    },
+    {
+      "t": "h3",
+      "text": "المحاسبة"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["حساب الإيراد", "الحساب الذي يسجّل الإيراد عند بيع هذا المنتج. اتركه فارغاً لاستخدام افتراضي الفئة."],
+        ["حساب المصروف", "الحساب الذي يسجّل التكلفة عند شراء المنتج أو استهلاكه. اتركه فارغاً لاستخدام افتراضي الفئة."],
+        ["حساب فرق السعر", "يُستخدم في التقييم الآلي لتسجيل الفرق بين سعر أمر الشراء وفاتورة المورّد."],
+        ["نوع الأصل", "يُضبط فقط إذا كان الصنف سيُرسمَل كأصل ثابت بدلاً من تحميله كمصروف."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "تترك تبويب المحاسبة فارغاً عادةً",
+      "text": "نادراً ما يلمس الموظفون العاديون هذا التبويب. فـ**فئة** المنتج تحمل بالفعل حسابات الإيراد والمصروف والمخزون الصحيحة، لذا تُسجَّل القيود الصحيحة تلقائياً عند الشراء والبيع. وقد عُرض هنا فقط لتفهم ما يفعله النظام خلف الكواليس."
+    },
+    {
+      "t": "h2",
+      "text": "8.4 الأزرار الذكية وأزرار الصفحة"
+    },
+    {
+      "t": "p",
+      "text": "تقع في أعلى نموذج المنتج **أزرار ذكية** — عدّادات كبيرة قابلة للنقر تنقلك مباشرةً إلى المعلومات ذات الصلة. وهي تحوّل سجل المنتج إلى مركز تحكّم: بنقرة واحدة ترى المخزون والتوقّعات وسجلّ المبيعات والمزيد."
+    },
+    {
+      "t": "table",
+      "headers": ["الزر الذكي", "ما الذي يعرضه"],
+      "rows": [
+        ["المتوفر", "الكمية الموجودة فعلياً في المخزون الآن (مثلاً 50 قارورة أنسولين)، مع تفصيل حسب الموقع."],
+        ["المتوقّع", "الكمية المستقبلية المتوقّعة بعد احتساب الاستلامات والتسليمات المعلّقة."],
+        ["إعادة الطلب", "قواعد إعادة الطلب لهذا المنتج (حدّاه الأدنى والأعلى)."],
+        ["المُباع", "عدد الوحدات المباعة خلال الاثني عشر شهراً الماضية."],
+        ["المُشترى", "عدد الوحدات المشتراة خلال الاثني عشر شهراً الماضية."],
+        ["داخل / خارج", "عدد حركات المخزون الواردة (المستلَمة) والصادرة (المُسلَّمة) خلال الاثني عشر شهراً الماضية."],
+        ["المستندات", "الملفات المرفقة بالمنتج (أوراق البيانات، الشهادات)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "في أعلى النموذج أيضاً توجد **أزرار** إجراء تنفّذ المهام مباشرةً:"
+    },
+    {
+      "t": "table",
+      "headers": ["الزر", "ما الذي يفعله"],
+      "rows": [
+        ["تحديث الكمية", "يفتح الكميات المتوفرة لتسجيل جرد أو تسوية لهذا المنتج."],
+        ["إعادة التموين", "يُطلِق طلب إعادة تموين لشراء المنتج أو إعادة تخزينه."],
+        ["طباعة الملصقات", "يطبع ملصقات الباركود / المنتج باستخدام تخطيط مختار."],
+        ["عرض المخطّط", "يفتح مخطّطاً مرئياً لمسارات توريد المنتج."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "8.5 الدفعات (Lots) وتواريخ الصلاحية"
+    },
+    {
+      "t": "p",
+      "text": "الـ**دفعة** (Lot، وتُسمّى أيضاً Batch) هي مجموعة من الوحدات المتطابقة أُنتجت معاً وتتشارك تاريخَي الإنتاج والانتهاء نفسهما. وهذا أمر حيوي للأدوية: إذ يتيح تتبّع أيّ العملاء استلموا أيّ دفعة بالضبط، ويتيح للنظام أن يشحن دائماً الدفعة الأقرب انتهاءً. لرؤية كل الدفعات في المخزون، اذهب إلى **المخزون ← المنتجات ← الدفعات / الأرقام التسلسلية**."
+    },
+    {
+      "t": "fig",
+      "file": "lots_list.png",
+      "caption": "قائمة الدفعات / الأرقام التسلسلية تعرض الدفعات الموجودة في المخزون — مثل LOT-GULF-01 وLOT-NILE-01 — مع منتجاتها وتواريخ انتهاء صلاحيتها."
+    },
+    {
+      "t": "p",
+      "text": "يحتوي العرض التوضيحي على الدفعات الحقيقية التالية. لاحِظ كيف تنتمي كل دفعة إلى منتج واحد وتحمل تاريخ انتهاء صلاحيتها الخاص — وهذا ما يُشغّل FEFO وعمليات السحب."
+    },
+    {
+      "t": "table",
+      "headers": ["الدفعة / الرقم التسلسلي", "المنتج", "تاريخ انتهاء الصلاحية"],
+      "rows": [
+        ["LOT-NILE-01", "باراسيتامول 500 ملغ أقراص (100)", "2028-06-08"],
+        ["LOT-NILE-02", "أموكسيسيلين 250 ملغ كبسولات (100)", "2027-12-01"],
+        ["LOT-NILE-03", "محلول مطهّر 500 مل", "2027-06-09"],
+        ["LOT-GULF-01", "قارورة أنسولين 10 مل", "2027-06-09"],
+        ["LOT-KHP-01", "قفازات جراحية (علبة 100)", "2029-06-08"],
+        ["LOT-KHP-02", "كمامة N95 (علبة 20)", "2030-06-08"],
+        ["LOT-KHP-03", "محقن 5 مل (علبة 100)", "2031-06-08"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "انقر دفعةً لفتح نموذجها. تتوزّع الحقول على **المنطقة الرئيسية** وتبويبين إضافيين هما *التواريخ* و*الوصف*."
+    },
+    {
+      "t": "h3",
+      "text": "المنطقة الرئيسية"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["رقم الدفعة / التسلسلي", "رقم الدفعة الفريد (مثل *LOT-GULF-01*). مطلوب."],
+        ["المنتج", "المنتج الذي تحتويه هذه الدفعة (مثل *قارورة أنسولين 10 مل*). لا يمكن تغييره بعد أن تتحرّك الدفعة."],
+        ["الكمية المتوفرة", "عدد وحدات هذه الدفعة الموجودة حالياً في المخزون."],
+        ["وحدة القياس", "الوحدة المستخدمة للكمية (مثل *وحدات*)."],
+        ["المرجع الداخلي", "مرجع داخلي إذا اختلف عن رقم دفعة الشركة المصنّعة."],
+        ["الموقع", "المكان الذي تُخزَّن فيه هذه الدفعة حالياً."],
+        ["آخر شريك تسليم", "العميل الذي استلم آخر وحدات من هذه الدفعة."],
+        ["القيمة الإجمالية", "إجمالي قيمة مخزون هذه الدفعة بعملة الشركة (SDG)."],
+        ["متوسّط التكلفة", "متوسّط تكلفة وحدة الدفعة."],
+        ["تنبيه انتهاء صلاحية المنتج", "يتفعّل تلقائياً بمجرد بلوغ تاريخ انتهاء الصلاحية."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "التواريخ"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["استخدام تاريخ انتهاء الصلاحية", "هل تُدار تواريخ الصلاحية لهذه الدفعة."],
+        ["تاريخ انتهاء الصلاحية", "التاريخ الذي قد تصبح بعده البضاعة خطيرة ويُمنع استخدامها (مثل 2027-06-09 للدفعة LOT-GULF-01)."],
+        ["تاريخ الإزالة", "تاريخ سحب البضاعة من المخزون؛ تستخدمه استراتيجية الإخراج FEFO."],
+        ["تاريخ أفضل استخدام قبل", "التاريخ الذي تبدأ فيه البضاعة بالتدهور، مع بقائها آمنة."],
+        ["تاريخ التنبيه", "التاريخ الذي يستخدمه مرشّح *تنبيهات الصلاحية* لتمييز الدفعات الوشيكة الانتهاء."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "الوصف"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["الوصف", "ملاحظات حرّة حول الدفعة (مثل ظروف التخزين، ملاحظات المورّد)."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "lot_insulin.png",
+      "caption": "نموذج الدفعة LOT-GULF-01 (الأنسولين): رقم الدفعة، والمنتج، والكمية المتوفرة، وتاريخ انتهاء الصلاحية."
+    },
+    {
+      "t": "warn",
+      "title": "سجّل الدفعة دائماً عند استلام بضائع لها صلاحية",
+      "text": "عند استلام الأنسولين أو اللقاحات أو أيّ دواء، أدخِل رقم دفعة الشركة المصنّعة وتاريخ انتهائها في الاستلام. وإذا أهملت ذلك، فلن يعمل FEFO وستفقد القدرة على تتبّع تلك الدفعة أو سحبها."
+    },
+    {
+      "t": "h2",
+      "text": "8.6 قواعد إعادة الطلب (الحد الأدنى / الأعلى)"
+    },
+    {
+      "t": "p",
+      "text": "تُخبر **قاعدة إعادة الطلب** النظامَ بأدنى مستوى مخزون مستعدٌّ لبلوغه (**الحد الأدنى للكمية**) والمستوى الذي تُعاد التعبئة إليه (**الحد الأعلى للكمية**). فحين تهبط الكمية المتوقّعة دون الحد الأدنى، يقترح النظام تلقائياً إعادة تموين حتى لا تنفد منك المستلزمات الحرجة. لعرضها، اذهب إلى **المخزون ← العمليات ← التموين ← إعادة التموين**، أو افتح منتجاً وانقر زره الذكي **إعادة الطلب**."
+    },
+    {
+      "t": "fig",
+      "file": "reordering_rules.png",
+      "caption": "قائمة قواعد إعادة الطلب تعرض الحدّين الأدنى والأعلى للباراسيتامول والأنسولين والقفازات."
+    },
+    {
+      "t": "p",
+      "text": "أعدّت الشركة في العرض التوضيحي هذه القواعد الثلاث لأكثر أصنافها حركةً:"
+    },
+    {
+      "t": "table",
+      "headers": ["المنتج", "المرجع", "الحد الأدنى للكمية", "الحد الأعلى للكمية"],
+      "rows": [
+        ["باراسيتامول 500 ملغ أقراص (100)", "MED-PARA-500", "50", "200"],
+        ["قارورة أنسولين 10 مل", "MED-INSULIN", "20", "80"],
+        ["قفازات جراحية (علبة 100)", "CON-GLOVES", "30", "120"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "تعرض كل قاعدة الحقول التالية:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["الاسم", "اسم مرجع القاعدة (يُملأ تلقائياً)."],
+        ["المنتج", "المنتج الذي تنطبق عليه القاعدة. مطلوب."],
+        ["الحد الأدنى للكمية", "حين يهبط المخزون المتوقّع دونه يُطلِق النظام إعادة تموين. مطلوب."],
+        ["الحد الأعلى للكمية", "المستوى الذي تُعيد إعادة التموين التعبئة إليه. مطلوب."],
+        ["مضاعف الكمية", "يُقرّب الكمية المقترحة صعوداً إلى مضاعف لهذا الرقم (0 = بلا تقريب). مطلوب."],
+        ["المستودع", "المستودع الذي تنطبق عليه القاعدة. مطلوب."],
+        ["الموقع", "موقع المخزون الذي تراقبه القاعدة. مطلوب."],
+        ["المسار", "مسار التوريد المستخدَم لإعادة التموين (مثل *الشراء*)."],
+        ["أيام الرؤية المستقبلية", "كم يوماً من الطلب المستقبلي يُؤخَذ بالحسبان عند إعادة التموين (0 = التموين الآني)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "يقدّم نموذج القاعدة أيضاً زر **وصف التوقّع**، الذي يفتح توقّعاً مفصّلاً يشرح بالضبط كيف توصّل النظام إلى الكمية المقترحة."
+    },
+    {
+      "t": "tip",
+      "title": "ضع حدّاً أدنى لكل ما لا يمكنك تحمّل نفاده",
+      "text": "لاحِظ أن *القنية الوريدية* و*ميزان الحرارة الرقمي* عند صفر متوفر. إضافة قواعد إعادة طلب للأصناف الحيوية يعني أن النظام ينبّهك لإعادة التخزين قبل بلوغ الصفر، بدلاً من اكتشاف النقص حين يطلب العميل."
+    },
+    {
+      "t": "h2",
+      "text": "8.7 التحقّق من المخزون المتوفر"
+    },
+    {
+      "t": "p",
+      "text": "هناك طريقتان سريعتان لمعرفة الكمية المتوفرة. أسرعهما فتح منتج والنقر على زره الذكي **المتوفر**. ولرؤية المستودع كله دفعةً واحدة، اذهب إلى **المخزون ← التقارير ← المخزون** — أي شاشة **المتوفر / المخزون الحالي**، وتُسمّى أيضاً *الكميات (quants)*. والـ*quant* ببساطة هو سطر مخزون واحد: منتج معيّن، في موقع معيّن، بكمية معيّنة (ودفعة، حيث يكون التتبّع مُفعَّلاً)."
+    },
+    {
+      "t": "fig",
+      "file": "onhand_quants.png",
+      "caption": "شاشة المتوفر / المخزون الحالي تعرض كل منتج وموقعه وكميته المتوفرة — بما في ذلك الأصناف المحفوظة في التخزين المبرَّد."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المخزون ← التقارير ← المخزون**.",
+        "اقرأ كل سطر: **المنتج**، و**الموقع** (مثل *KRT/Stock* أو *التخزين المبرَّد (2-8C)*)، و**رقم الدفعة / التسلسلي** عند وجوده، والكمية **المتوفرة**.",
+        "استخدم خيار **التجميع حسب** لجمع المخزون حسب الموقع أو المنتج، أو صندوق البحث لإيجاد صنف واحد.",
+        "للتحقّق من منتج واحد بدلاً من ذلك، افتحه من **المخزون ← المنتجات ← المنتجات** وانقر الزر الذكي **المتوفر**."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "أصناف التخزين المبرَّد تظهر هنا أيضاً",
+      "text": "يُوجَّه الأنسولين إلى موقع *التخزين المبرَّد (2-8C)*، لذا تظهر كميته المتوفرة مقابل ذلك الموقع في هذه الشاشة. وهذا يتيح لفريق المستودع تأكيد أن الأدوية الحسّاسة لدرجة الحرارة في مكانها الصحيح."
+    }
+  ]
+}

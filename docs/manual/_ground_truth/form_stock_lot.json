@@ -1,0 +1,287 @@
+{
+ "model": "stock.lot",
+ "fields": [
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "display_complete",
+   "label": "Display Complete",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sale_order_count",
+   "label": "Sale order count",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_count",
+   "label": "Purchase order count",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "delivery_count",
+   "label": "Transfers",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Lot/Serial Number",
+   "type": "char",
+   "help": "Unique Lot/Serial Number",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_expiry_alert",
+   "label": "Product Expiry Alert",
+   "type": "boolean",
+   "help": "The Expiration Date has been reached.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_id",
+   "label": "Product",
+   "type": "many2one",
+   "help": "Product this lot/serial number contains. You cannot change it anymore if it has already been moved.",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "product.product"
+  },
+  {
+   "name": "product_qty",
+   "label": "On Hand Quantity",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_uom_id",
+   "label": "Unit of Measure",
+   "type": "many2one",
+   "help": "Default unit of measure used for all stock operations.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "uom.uom"
+  },
+  {
+   "name": "ref",
+   "label": "Internal Reference",
+   "type": "char",
+   "help": "Internal reference number in case it differs from the manufacturer's lot/serial number",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "location_id",
+   "label": "Location",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "last_delivery_partner_id",
+   "label": "Last Delivery Partner",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "company_currency_id",
+   "label": "Valuation Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "total_value",
+   "label": "Total Value",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "avg_cost",
+   "label": "Average Cost",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "standard_price",
+   "label": "Cost",
+   "type": "float",
+   "help": "Value of the lot (automatically computed in AVCO).\n        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n        Used to compute margins on sale orders.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "lot_properties",
+   "label": "Properties",
+   "type": "properties",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sale_order_ids",
+   "label": "Sales Orders",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "sale.order"
+  },
+  {
+   "name": "partner_id",
+   "label": "partner_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "date_order",
+   "label": "date_order",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "state",
+   "label": "state",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_ids",
+   "label": "Purchase Orders",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "purchase.order"
+  },
+  {
+   "name": "use_expiration_date",
+   "label": "Use Expiration Date",
+   "type": "boolean",
+   "help": "When this box is ticked, you have the possibility to specify dates to manage product expiration, on the product and on the corresponding lot/serial numbers",
+   "required": false,
+   "readonly": false,
+   "page": "Dates"
+  },
+  {
+   "name": "expiration_date",
+   "label": "Expiration Date",
+   "type": "datetime",
+   "help": "This is the date on which the goods with this Serial Number may become dangerous and must not be consumed.",
+   "required": false,
+   "readonly": false,
+   "page": "Dates"
+  },
+  {
+   "name": "removal_date",
+   "label": "Removal Date",
+   "type": "datetime",
+   "help": "This is the date on which the goods with this Serial Number should be removed from the stock. This date will be used in FEFO removal strategy.",
+   "required": false,
+   "readonly": false,
+   "page": "Dates"
+  },
+  {
+   "name": "use_date",
+   "label": "Best before Date",
+   "type": "datetime",
+   "help": "This is the date on which the goods with this Serial Number start deteriorating, without being dangerous yet.",
+   "required": false,
+   "readonly": false,
+   "page": "Dates"
+  },
+  {
+   "name": "alert_date",
+   "label": "Alert Date",
+   "type": "datetime",
+   "help": "Date to determine the expired lots and serial numbers using the filter \"Expiration Alerts\".",
+   "required": false,
+   "readonly": false,
+   "page": "Dates"
+  },
+  {
+   "name": "note",
+   "label": "Description",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Description"
+  },
+  {
+   "name": "stock_valuation_layer_ids",
+   "label": "Stock Valuation Layer",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "stock.valuation.layer"
+  }
+ ],
+ "buttons": [],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

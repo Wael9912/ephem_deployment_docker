@@ -1,0 +1,1322 @@
+{
+ "model": "account.move",
+ "fields": [
+  {
+   "name": "authorized_transaction_ids",
+   "label": "Authorized Transactions",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "__header__",
+   "relation": "payment.transaction"
+  },
+  {
+   "name": "landed_costs_visible",
+   "label": "Landed Costs Visible",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "__header__"
+  },
+  {
+   "name": "state",
+   "label": "Status",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "__header__",
+   "selection": [
+    "Draft",
+    "Posted",
+    "Cancelled"
+   ]
+  },
+  {
+   "name": "duplicated_ref_ids",
+   "label": "Duplicated Documents",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.move"
+  },
+  {
+   "name": "tax_lock_date_message",
+   "label": "Tax Lock Date Message",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "date",
+   "label": "Date",
+   "type": "date",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "auto_post",
+   "label": "Auto-post",
+   "type": "selection",
+   "help": "Specify whether this entry is posted automatically on its accounting date, and any similar recurring invoices.",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "selection": [
+    "No",
+    "At Date",
+    "Monthly",
+    "Quarterly",
+    "Yearly"
+   ]
+  },
+  {
+   "name": "auto_post_until",
+   "label": "Auto-post until",
+   "type": "date",
+   "help": "This recurring move will be posted up to and including this date.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_credit_warning",
+   "label": "Partner Credit Warning",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "abnormal_amount_warning",
+   "label": "Abnormal Amount Warning",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "abnormal_date_warning",
+   "label": "Abnormal Date Warning",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "payment_count",
+   "label": "Payments",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "transaction_count",
+   "label": "Payment Transaction",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_name",
+   "label": "Purchases",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_count",
+   "label": "Purchases",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sale_order_count",
+   "label": "Sale Orders",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "landed_costs_ids",
+   "label": "Landed Costs",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.landed.cost"
+  },
+  {
+   "name": "id",
+   "label": "ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "journal_id",
+   "label": "Journal",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.journal"
+  },
+  {
+   "name": "show_name_warning",
+   "label": "Show Name Warning",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "posted_before",
+   "label": "Posted Before",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "move_type",
+   "label": "Type",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Journal Entry",
+    "Customer Invoice",
+    "Customer Credit Note",
+    "Vendor Bill",
+    "Vendor Credit Note",
+    "Sales Receipt",
+    "Purchase Receipt"
+   ]
+  },
+  {
+   "name": "payment_state",
+   "label": "Payment Status",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Not Paid",
+    "In Payment",
+    "Paid",
+    "Partially Paid",
+    "Reversed",
+    "Blocked",
+    "Invoicing App Legacy"
+   ]
+  },
+  {
+   "name": "invoice_filter_type_domain",
+   "label": "Invoice Filter Type Domain",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "suitable_journal_ids",
+   "label": "Suitable Journal",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.journal"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "company_currency_id",
+   "label": "Company Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "commercial_partner_id",
+   "label": "Commercial Entity",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "bank_partner_id",
+   "label": "Bank Partner",
+   "type": "many2one",
+   "help": "Technical field to get the domain on the bank",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "display_qr_code",
+   "label": "Display QR-code",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_reset_to_draft_button",
+   "label": "Show Reset To Draft Button",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "expected_currency_rate",
+   "label": "Expected Currency Rate",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "invoice_has_outstanding",
+   "label": "Invoice Has Outstanding",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_move_sent",
+   "label": "Is Move Sent",
+   "type": "boolean",
+   "help": "It indicates that the invoice/payment has been sent or the PDF has been generated.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "invoice_pdf_report_id",
+   "label": "PDF Attachment",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "ir.attachment"
+  },
+  {
+   "name": "need_cancel_request",
+   "label": "Need Cancel Request",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "has_reconciled_entries",
+   "label": "Has Reconciled Entries",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "restrict_mode_hash_table",
+   "label": "Secure Posted Entries with Hash",
+   "type": "boolean",
+   "help": "If ticked, when an entry is posted, we retroactively hash all moves in the sequence from the entry back to the last hashed entry. The hash can also be performed on demand by the Secure Entries wizard.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "inalterable_hash",
+   "label": "Inalterability Hash",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "country_code",
+   "label": "Country Code",
+   "type": "char",
+   "help": "The ISO country code in two chars. \nYou can use this field for quick search.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "display_inactive_currency_warning",
+   "label": "Display Inactive Currency Warning",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "statement_line_id",
+   "label": "Statement Line",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.bank.statement.line"
+  },
+  {
+   "name": "statement_id",
+   "label": "Statement",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.bank.statement"
+  },
+  {
+   "name": "origin_payment_id",
+   "label": "Payment",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment"
+  },
+  {
+   "name": "tax_country_id",
+   "label": "Tax Country",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.country"
+  },
+  {
+   "name": "tax_calculation_rounding_method",
+   "label": "Tax calculation rounding method",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Round per Line",
+    "Round Globally"
+   ]
+  },
+  {
+   "name": "tax_cash_basis_created_move_ids",
+   "label": "Cash Basis Entries",
+   "type": "one2many",
+   "help": "The cash basis entries created from the taxes on this entry, when reconciling its lines.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.move"
+  },
+  {
+   "name": "quick_edit_mode",
+   "label": "Quick Edit Mode",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "hide_post_button",
+   "label": "Hide Post Button",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "quick_encoding_vals",
+   "label": "Quick Encoding Vals",
+   "type": "json",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_delivery_date",
+   "label": "Show Delivery Date",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_being_sent",
+   "label": "Is Being Sent",
+   "type": "boolean",
+   "help": "Is the move being sent asynchronously",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_update_fpos",
+   "label": "Has Fiscal Position Changed",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "highest_name",
+   "label": "Highest Name",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Number",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "Partner",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "quick_edit_total_amount",
+   "label": "Total (Tax inc.)",
+   "type": "monetary",
+   "help": "Use this field to encode the total amount of the invoice.\nOdoo will automatically create one invoice line with default values to match it.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "ref",
+   "label": "Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "tax_cash_basis_origin_move_id",
+   "label": "Cash Basis Origin",
+   "type": "many2one",
+   "help": "The journal entry from which this tax cash basis journal entry has been created.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.move"
+  },
+  {
+   "name": "purchase_id",
+   "label": "Purchase Order",
+   "type": "many2one",
+   "help": "Auto-complete from a past purchase order.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "purchase.order"
+  },
+  {
+   "name": "purchase_vendor_bill_id",
+   "label": "Auto-complete",
+   "type": "many2one",
+   "help": "Auto-complete from a past bill / purchase order.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "purchase.bill.union"
+  },
+  {
+   "name": "invoice_date",
+   "label": "Invoice/Bill Date",
+   "type": "date",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "payment_reference",
+   "label": "Payment Reference",
+   "type": "char",
+   "help": "The payment reference to set on journal items.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_bank_id",
+   "label": "Recipient Bank",
+   "type": "many2one",
+   "help": "Bank Account Number to which the invoice will be paid. A Company bank account if this is a Customer Invoice or Vendor Credit Note, otherwise a Partner bank account number.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner.bank"
+  },
+  {
+   "name": "invoice_date_due",
+   "label": "Due Date",
+   "type": "date",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "invoice_payment_term_id",
+   "label": "Payment Terms",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "account.payment.term"
+  },
+  {
+   "name": "delivery_date",
+   "label": "Delivery Date",
+   "type": "date",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "invoice_currency_rate",
+   "label": "Currency Rate",
+   "type": "float",
+   "help": "Currency rate from company currency to document currency.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "invoice_line_ids",
+   "label": "Invoice lines",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Invoice Lines",
+   "relation": "account.move.line"
+  },
+  {
+   "name": "sequence",
+   "label": "sequence",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "product_id",
+   "label": "product_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "asset_category_id",
+   "label": "Asset Category",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "account_id",
+   "label": "account_id",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "analytic_distribution",
+   "label": "Analytic",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "product_type",
+   "label": "product_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "is_landed_costs_line",
+   "label": "Landed Costs",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "quantity",
+   "label": "quantity",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "product_uom_category_id",
+   "label": "product_uom_category_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "product_uom_id",
+   "label": "UoM",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "price_unit",
+   "label": "Price",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "discount",
+   "label": "Disc.%",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "tax_ids",
+   "label": "tax_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "price_subtotal",
+   "label": "Amount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "price_total",
+   "label": "Amount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "purchase_line_id",
+   "label": "purchase_line_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "purchase_order_id",
+   "label": "purchase_order_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "display_type",
+   "label": "display_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "is_downpayment",
+   "label": "is_downpayment",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "narration",
+   "label": "Terms and Conditions",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "tax_totals",
+   "label": "Invoice Totals",
+   "type": "binary",
+   "help": "Edit Tax amounts if you encounter rounding issues.",
+   "required": false,
+   "readonly": true,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "invoice_payments_widget",
+   "label": "Invoice Payments Widget",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "amount_residual",
+   "label": "Amount Due",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "invoice_outstanding_credits_debits_widget",
+   "label": "Invoice Outstanding Credits Debits Widget",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoice Lines"
+  },
+  {
+   "name": "line_ids",
+   "label": "Journal Items",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Journal Items",
+   "relation": "account.move.line"
+  },
+  {
+   "name": "date_maturity",
+   "label": "date_maturity",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "amount_currency",
+   "label": "amount_currency",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "debit",
+   "label": "debit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Journal Items"
+  },
+  {
+   "name": "credit",
+   "label": "credit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Journal Items"
+  },
+  {
+   "name": "balance",
+   "label": "balance",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "discount_date",
+   "label": "Discount Date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "discount_amount_currency",
+   "label": "Discount Amount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "tax_tag_ids",
+   "label": "Tax Grids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "tax_line_id",
+   "label": "tax_line_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "account_internal_group",
+   "label": "account_internal_group",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "account_type",
+   "label": "account_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Items"
+  },
+  {
+   "name": "user_id",
+   "label": "User",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "res.users"
+  },
+  {
+   "name": "invoice_user_id",
+   "label": "Salesperson",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "res.users"
+  },
+  {
+   "name": "team_id",
+   "label": "Sales Team",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "crm.team"
+  },
+  {
+   "name": "invoice_origin",
+   "label": "Source Document",
+   "type": "char",
+   "help": "The document(s) that generated the invoice.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "qr_code_method",
+   "label": "Payment QR-code",
+   "type": "selection",
+   "help": "Type of QR-code to be generated for the payment of this invoice, when printing it. If left blank, the first available and usable method will be used.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "invoice_incoterm_id",
+   "label": "Incoterm",
+   "type": "many2one",
+   "help": "International Commercial Terms are a series of predefined commercial terms used in international transactions.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "account.incoterms"
+  },
+  {
+   "name": "incoterm_location",
+   "label": "Incoterm Location",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "fiscal_position_id",
+   "label": "Fiscal Position",
+   "type": "many2one",
+   "help": "Fiscal positions are used to adapt taxes and accounts for particular customers or sales orders/invoices. The default value comes from the customer.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Info",
+   "relation": "account.fiscal.position"
+  },
+  {
+   "name": "preferred_payment_method_line_id",
+   "label": "Payment Method",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "invoice_source_email",
+   "label": "Source Email",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "checked",
+   "label": "Checked",
+   "type": "boolean",
+   "help": "If this checkbox is not ticked, it means that the user was not sure of all the related information at the time of the creation of the move and that the move needs to be checked again.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "reversed_entry_id",
+   "label": "Reversal of",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "account.move"
+  },
+  {
+   "name": "is_purchase_matched",
+   "label": "Is Purchase Matched",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "name_placeholder",
+   "label": "Name Placeholder",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "company_price_include",
+   "label": "Default Sales Price Include",
+   "type": "selection",
+   "help": "Default on whether the sales price used on the product and invoices with this Company includes its taxes.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "selection": [
+    "Tax Included",
+    "Tax Excluded"
+   ]
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Post",
+   "name": "action_post",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Confirm",
+   "name": "action_post",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Send",
+   "name": "action_invoice_sent",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Send",
+   "name": "action_invoice_sent",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Print",
+   "name": "action_print_pdf",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Print",
+   "name": "action_print_pdf",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Pay",
+   "name": "action_register_payment",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Capture Transaction",
+   "name": "payment_action_capture",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Void Transaction",
+   "name": "payment_action_void",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Pay",
+   "name": "action_register_payment",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Preview",
+   "name": "preview_invoice",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Reverse Entry",
+   "name": "256",
+   "type": "action",
+   "class": ""
+  },
+  {
+   "label": "Credit Note",
+   "name": "action_reverse",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Cancel Entry",
+   "name": "button_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Cancel",
+   "name": "button_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Reset to Draft",
+   "name": "button_draft",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Lock",
+   "name": "button_hash",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Request Cancel",
+   "name": "button_request_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Set as Checked",
+   "name": "button_set_checked",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Create Landed Costs",
+   "name": "button_create_landed_costs",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Bank reconcile",
+   "name": "493",
+   "type": "action",
+   "class": "btn btn-primary"
+  },
+  {
+   "label": "Update Taxes and Accounts",
+   "name": "action_update_fpos_values",
+   "type": "object",
+   "class": "btn-link mb-1 px-0"
+  },
+  {
+   "label": "Catalog",
+   "name": "action_add_from_catalog",
+   "type": "object",
+   "class": "btn-link"
+  },
+  {
+   "label": "Cut-Off",
+   "name": "action_automatic_entry",
+   "type": "object",
+   "class": "float-end"
+  }
+ ],
+ "statusbar_states": [
+  "Draft",
+  "Posted",
+  "Cancelled"
+ ],
+ "smart_buttons": [
+  {
+   "label": "Landed Costs",
+   "name": "action_view_landed_costs",
+   "type": "object",
+   "class": "oe_stat_button"
+  }
+ ]
+}

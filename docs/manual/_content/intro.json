@@ -1,0 +1,125 @@
+{
+  "key": "intro",
+  "title_en": "1. Introduction",
+  "title_ar": "1. مقدمة",
+  "blocks_en": [
+    {"t": "h2", "text": "Welcome to the Medical-Supply ERP"},
+    {"t": "p", "text": "This is the official user manual for the **Medical-Supply ERP** used by *Sudan MedSupply Co.* (Arabic: *شركة السودان للمستلزمات الطبية*), a Khartoum-based company that imports, stores and distributes medical supplies and pharmaceuticals across Sudan. An *ERP* (Enterprise Resource Planning) system is one single program where every department — purchasing, the warehouse, sales and the finance office — records its work, so that everyone sees the same up-to-date information instead of keeping separate spreadsheets and notebooks."},
+    {"t": "fig", "file": "login.png", "caption": "The sign-in screen: enter your email and password, then click Log in to open the system."},
+    {"t": "p", "text": "The goal of this system is simple: when a box of *Surgical Gloves* arrives at the *Khartoum Central Warehouse*, when it is sold to *Khartoum Teaching Hospital*, and when the customer pays the invoice, the ERP records all of it once and keeps the stock count, the customer balance and the company accounts correct **automatically**. You enter the information one time, and the system does the calculations, the paperwork and the reporting for you."},
+    {"t": "p", "text": "This manual is written for everyday staff. You do **not** need an accounting or management background to follow it. Every business term is explained in plain language the first time it appears, and every task is broken down into simple numbered steps."},
+    {"t": "h2", "text": "What the system does"},
+    {"t": "p", "text": "The Medical-Supply ERP covers the complete operational chain of the company — from setting it up, through buying and storing goods, to selling them and keeping the books. Below is the journey of a typical item through the system."},
+    {"t": "ul", "items": [
+      "**Configuration** — the company details, currencies, warehouses, storage locations, product catalogue, taxes and accounting setup are entered once so everything else works correctly.",
+      "**Inventory & warehousing** — goods are received into the warehouse, stored in the right place (for example chilled medicines go to *Cold Storage (2-8C)*), counted, transferred between locations and tracked by lot and expiry date.",
+      "**Procurement (purchasing)** — you ask suppliers for prices, create purchase orders, receive the goods and record the supplier's bill.",
+      "**Sales** — you quote prices to customers, confirm their orders, deliver the goods and issue the invoice.",
+      "**Accounting** — every invoice, bill and payment is recorded; customer and supplier balances, the bank and cash safes, taxes and the company's financial reports are kept up to date.",
+      "**Multi-currency** — the company keeps its books in Sudanese Pound (**SDG**) as the main currency, while also handling **USD** purchases from foreign suppliers; the system converts between them using dated exchange rates.",
+      "**Medical-supply specifics** — lot (batch) tracking, expiry dates, FEFO picking, cold-chain storage and re-ordering rules are built in to keep medicines safe and in stock."
+    ]},
+    {"t": "h2", "text": "Built on open-source software"},
+    {"t": "p", "text": "The system is built on **Odoo 18 Community**, a well-known open-source business platform, extended with free **OCA / Odoo-Mates** accounting add-ons. There are **no paid Enterprise licences** — the company owns and controls its system without ongoing per-user licence fees. The screens use the **Spiffy backend theme**, which gives the system its modern look: a dark navigation bar across the top, a 9-dot grid icon that opens the app launcher, a vertical quick-action rail down the side of the screen, and a friendly greeting such as *Good Evening* when you log in."},
+    {"t": "fig", "file": "apps_home.png", "caption": "The app launcher, opened from the 9-dot grid icon: a search box and large icons for the apps you use — Contacts, Sales, Purchase, Inventory, Accounting, Dashboards and Settings."},
+    {"t": "note", "title": "Open-source, fully owned", "text": "Because the platform is open-source and uses no paid licences, the company can add users, customise screens and keep its data entirely under its own control."},
+    {"t": "h2", "text": "Who this manual is for"},
+    {"t": "p", "text": "The system is used by people in different roles. Each role sees the menus and tools it needs for its job. This manual serves them all; you can read the chapters that apply to your work."},
+    {"t": "table",
+      "headers": ["Role", "What they do in the system"],
+      "rows": [
+        ["**Administrator**", "Sets up the system: company details, currencies, users and access rights, and overall configuration. (Demo user: *Administrator*.)"],
+        ["**Procurement officer**", "Buys goods: requests prices from suppliers, creates purchase orders and receives stock. (Demo user: *Amira Hassan (Procurement Officer)*.)"],
+        ["**Sales staff (sales representative)**", "Serves customers: prepares quotations, confirms sales orders and arranges deliveries. (Demo user: *Khalid Osman (Sales Representative)*.)"],
+        ["**Warehouse keeper**", "Handles the stock: receives goods, stores them in the right location, moves them between warehouses and manages lots and expiry. (Demo user: *Sara Ahmed (Warehouse Keeper)*.)"],
+        ["**Accountant**", "Keeps the books: posts invoices and bills, registers payments, reconciles the bank and prints financial reports. (Demo user: *Mohammed Ali (Accountant)*.)"],
+        ["**Manager**", "Oversees everything: reviews orders, monitors balances and reads the dashboards and reports across all departments. (Demo user: *Layla Ibrahim (General Manager)*.)"]
+      ]
+    },
+    {"t": "h2", "text": "Key capabilities at a glance"},
+    {"t": "p", "text": "The table below summarises, by area, what you can do in the Medical-Supply ERP. Each of these areas is explained in detail in the following chapters."},
+    {"t": "table",
+      "headers": ["Area", "What you can do"],
+      "rows": [
+        ["**Configuration**", "Record the company (*Sudan MedSupply Co.*, Khartoum), set up the **SDG** and **USD** currencies with dated rates, define warehouses and storage locations, build the product catalogue and categories, create journals and the chart of accounts, and set up the **15%** sale and purchase taxes."],
+        ["**Inventory**", "Track on-hand stock for all 10 products by location, manage lots and expiry dates, set reordering rules, run stock counts and view current quantities — including items held in *Cold Storage (2-8C)*, *Quarantine* and *Expired / Damaged*."],
+        ["**Warehouse**", "Operate two warehouses (*Khartoum Central Warehouse* KRT and *Port Sudan Warehouse* PRT), receive goods, deliver orders, make internal transfers and route products automatically to the correct storage location."],
+        ["**Procurement**", "Create requests for quotation, confirm purchase orders (such as the SDG order *P00001* and the USD order *P00002*), receive goods against them and turn them into vendor bills."],
+        ["**Sales**", "Prepare quotations, confirm sales orders (such as *S00001* for *Khartoum Teaching Hospital*), deliver to customers and create invoices — all priced in SDG."],
+        ["**Accounting**", "Issue customer invoices and vendor bills, register customer and supplier payments, reconcile bank statements, track who owes money and when it is due, and print reports such as the Balance Sheet and Aged Receivable."],
+        ["**Multi-currency**", "Keep the books in **SDG** while buying in **USD** from foreign suppliers like *Gulf MedTrade FZE (USD)*; the system shows the SDG equivalent and values foreign bills at the exchange rate on their date."],
+        ["**Medical specifics**", "Apply lot/batch tracking and expiry control on medicines and consumables, pick the oldest stock first using **FEFO** (First-Expiry, First-Out), keep chilled products in cold storage, and trigger re-orders when stock runs low."]
+      ]
+    },
+    {"t": "tip", "title": "Real numbers in this manual", "text": "Every example, record name and figure in this manual comes from the live demo company *Sudan MedSupply Co.* — such as purchase order *P00001* (5,635,000 SDG) and the USD purchase *P00002* ($1,288.00). What you see here is exactly what you will see on screen."},
+    {"t": "h2", "text": "How to use this manual"},
+    {"t": "ol", "items": [
+      "Read this introduction first to understand what the system does and how the pieces fit together.",
+      "Find the chapter for your role or your task (for example, a warehouse keeper turns to the Inventory and Warehouse chapters).",
+      "Follow the **numbered steps** in order — each one tells you exactly what to click and what to type.",
+      "Use the **field tables** as a reference: they list every field on a page and explain what to enter in plain language.",
+      "Watch for the coloured callouts — **Tip** boxes share helpful shortcuts, **Note** boxes add useful background, and **Warning** boxes flag things to be careful about."
+    ]},
+    {"t": "note", "title": "Navigation style used in this manual", "text": "Menu paths are written as **App → Menu → Sub-menu**. For example, *Sales → Orders → Quotations* means: open the **Sales** app, click the **Orders** menu, then choose **Quotations**. When a screen is nested more deeply, the full path is given, for example *Inventory → Configuration → Warehouse Management → Warehouses*."}
+  ],
+  "blocks_ar": [
+    {"t": "h2", "text": "مرحباً بك في نظام تخطيط موارد المستلزمات الطبية"},
+    {"t": "p", "text": "هذا هو الدليل الرسمي لمستخدمي **نظام تخطيط موارد المستلزمات الطبية (Medical-Supply ERP)** المستخدم لدى *شركة السودان للمستلزمات الطبية* (بالإنجليزية: *Sudan MedSupply Co.*)، وهي شركة مقرها الخرطوم تستورد المستلزمات الطبية والأدوية وتخزّنها وتوزّعها في أنحاء السودان. ونظام **تخطيط موارد المؤسسات (ERP)** هو برنامج واحد تسجّل فيه كل الأقسام عملها — المشتريات والمستودع والمبيعات والإدارة المالية — بحيث يرى الجميع المعلومات نفسها ومحدّثة، بدلاً من الاحتفاظ بجداول ودفاتر منفصلة."},
+    {"t": "fig", "file": "login.png", "caption": "شاشة تسجيل الدخول: أدخل بريدك الإلكتروني وكلمة المرور، ثم انقر Log in (تسجيل الدخول) لفتح النظام."},
+    {"t": "p", "text": "هدف النظام بسيط: حين يصل صندوق من *القفازات الجراحية* إلى *مستودع الخرطوم المركزي*، وحين يُباع إلى *مستشفى الخرطوم التعليمي*، وحين يسدّد العميل قيمة الفاتورة، يسجّل النظام كل ذلك مرة واحدة ويُبقي رصيد المخزون ورصيد العميل وحسابات الشركة صحيحة **تلقائياً**. أنت تُدخل المعلومة مرة واحدة، والنظام يقوم بالحسابات والمعاملات الورقية والتقارير نيابة عنك."},
+    {"t": "p", "text": "كُتب هذا الدليل للموظفين العاديين، ولا **تحتاج** إلى خلفية في المحاسبة أو الإدارة لتتابعه. فكل مصطلح إداري أو محاسبي يُشرح بلغة بسيطة عند أول ظهور له، وكل مهمة مقسّمة إلى خطوات مرقّمة سهلة."},
+    {"t": "h2", "text": "ماذا يفعل النظام"},
+    {"t": "p", "text": "يغطّي نظام تخطيط موارد المستلزمات الطبية سلسلة العمل التشغيلية الكاملة للشركة — من إعدادها، مروراً بشراء البضائع وتخزينها، وصولاً إلى بيعها ومسك دفاترها. وفيما يلي رحلة صنف نموذجي عبر النظام."},
+    {"t": "ul", "items": [
+      "**الإعداد (Configuration)** — تُدخل بيانات الشركة والعملات والمستودعات ومواقع التخزين وكتالوج المنتجات والضرائب والإعداد المحاسبي مرة واحدة لكي يعمل كل ما بعدها على نحو صحيح.",
+      "**المخزون والتخزين** — تُستلم البضائع في المستودع وتُخزّن في المكان الصحيح (مثلاً تذهب الأدوية المبرّدة إلى *التخزين المبرّد (2-8 °م)*)، وتُجرَد، وتُنقل بين المواقع، وتُتابع حسب الدفعة (Lot) وتاريخ الانتهاء.",
+      "**المشتريات (Procurement)** — تطلب الأسعار من المورّدين، وتنشئ أوامر الشراء، وتستلم البضائع، وتسجّل فاتورة المورّد.",
+      "**المبيعات (Sales)** — تقدّم عروض الأسعار للعملاء، وتؤكّد طلباتهم، وتسلّم البضائع، وتُصدر الفاتورة.",
+      "**المحاسبة (Accounting)** — تُسجَّل كل فاتورة وكل مطالبة مورّد وكل دفعة؛ وتبقى أرصدة العملاء والمورّدين، والبنك والخزائن النقدية، والضرائب، والتقارير المالية للشركة محدّثة.",
+      "**تعدد العملات** — تمسك الشركة دفاترها بالجنيه السوداني (**SDG**) كعملة رئيسية، مع التعامل أيضاً بمشتريات بالدولار الأمريكي (**USD**) من المورّدين الأجانب؛ ويحوّل النظام بينهما باستخدام أسعار صرف مؤرّخة.",
+      "**خصائص المستلزمات الطبية** — تتبّع الدفعات (Lot)، وتواريخ الانتهاء، والصرف بطريقة **FEFO** (الأسبق انتهاءً يُصرف أولاً)، والتخزين المبرّد، وقواعد إعادة الطلب، كلها مُدمجة لإبقاء الأدوية آمنة ومتوفّرة."
+    ]},
+    {"t": "h2", "text": "مبني على برمجيات مفتوحة المصدر"},
+    {"t": "p", "text": "النظام مبني على **Odoo 18 Community**، وهي منصة أعمال مفتوحة المصدر معروفة، مُوسّعة بإضافات محاسبية مجانية من **OCA / Odoo-Mates**. ولا توجد **أي تراخيص Enterprise مدفوعة** — فالشركة تملك نظامها وتتحكّم فيه دون رسوم ترخيص دورية لكل مستخدم. وتستخدم الشاشات سمة الواجهة الخلفية **Spiffy** التي تمنح النظام مظهره العصري: شريط تنقّل داكن أعلى الشاشة، وأيقونة شبكة من 9 نقاط تفتح مشغّل التطبيقات، وشريط عمودي للإجراءات السريعة على جانب الشاشة، وتحية ودودة مثل *Good Evening* (مساء الخير) عند تسجيل الدخول."},
+    {"t": "fig", "file": "apps_home.png", "caption": "مشغّل التطبيقات، يُفتح من أيقونة الشبكة ذات الـ9 نقاط: مربع بحث وأيقونات كبيرة للتطبيقات التي تستخدمها — Contacts وSales وPurchase وInventory وAccounting وDashboards وSettings."},
+    {"t": "note", "title": "مفتوح المصدر ومملوك بالكامل", "text": "لأن المنصة مفتوحة المصدر ولا تستخدم تراخيص مدفوعة، تستطيع الشركة إضافة مستخدمين وتخصيص الشاشات وإبقاء بياناتها تحت سيطرتها الكاملة."},
+    {"t": "h2", "text": "لمن هذا الدليل"},
+    {"t": "p", "text": "يستخدم النظام أشخاص بأدوار مختلفة. ويرى كل دور القوائم والأدوات التي يحتاجها لعمله. ويخدم هذا الدليل الجميع؛ ويمكنك قراءة الفصول التي تخصّ عملك."},
+    {"t": "table",
+      "headers": ["الدور", "ماذا يفعل في النظام"],
+      "rows": [
+        ["**المسؤول (Administrator)**", "يُعدّ النظام: بيانات الشركة، والعملات، والمستخدمين وصلاحيات الوصول، والإعداد العام. (المستخدم في النسخة التجريبية: *Administrator*.)"],
+        ["**موظف المشتريات**", "يشتري البضائع: يطلب الأسعار من المورّدين، وينشئ أوامر الشراء، ويستلم المخزون. (المستخدم التجريبي: *Amira Hassan (Procurement Officer)*.)"],
+        ["**موظف المبيعات (مندوب المبيعات)**", "يخدم العملاء: يُعدّ عروض الأسعار، ويؤكّد أوامر البيع، ويرتّب عمليات التسليم. (المستخدم التجريبي: *Khalid Osman (Sales Representative)*.)"],
+        ["**أمين المستودع**", "يتولّى المخزون: يستلم البضائع، ويخزّنها في الموقع الصحيح، وينقلها بين المستودعات، ويدير الدفعات وتواريخ الانتهاء. (المستخدم التجريبي: *Sara Ahmed (Warehouse Keeper)*.)"],
+        ["**المحاسب**", "يمسك الدفاتر: يرحّل الفواتير ومطالبات المورّدين، ويسجّل المدفوعات، ويسوّي البنك، ويطبع التقارير المالية. (المستخدم التجريبي: *Mohammed Ali (Accountant)*.)"],
+        ["**المدير**", "يشرف على كل شيء: يراجع الطلبات، ويراقب الأرصدة، ويقرأ لوحات المعلومات والتقارير عبر كل الأقسام. (المستخدم التجريبي: *Layla Ibrahim (General Manager)*.)"]
+      ]
+    },
+    {"t": "h2", "text": "أبرز الإمكانات في لمحة"},
+    {"t": "p", "text": "يلخّص الجدول التالي، بحسب المجال، ما يمكنك فعله في نظام تخطيط موارد المستلزمات الطبية. وكل مجال من هذه المجالات مشروح بالتفصيل في الفصول التالية."},
+    {"t": "table",
+      "headers": ["المجال", "ماذا يمكنك أن تفعل"],
+      "rows": [
+        ["**الإعداد**", "تسجيل الشركة (*Sudan MedSupply Co.*، الخرطوم)، وإعداد عملتي **SDG** و**USD** بأسعار صرف مؤرّخة، وتعريف المستودعات ومواقع التخزين، وبناء كتالوج المنتجات وفئاتها، وإنشاء اليوميات (Journals) ودليل الحسابات، وإعداد ضريبتي البيع والشراء بنسبة **15%**."],
+        ["**المخزون**", "تتبّع المخزون المتوفّر لكل المنتجات العشرة حسب الموقع، وإدارة الدفعات وتواريخ الانتهاء، وضبط قواعد إعادة الطلب، وإجراء عمليات الجرد، وعرض الكميات الحالية — بما في ذلك الأصناف المحفوظة في *التخزين المبرّد (2-8 °م)* و*الحجر (Quarantine)* و*التالف / منتهي الصلاحية*."],
+        ["**المستودع**", "تشغيل مستودعين (*مستودع الخرطوم المركزي* KRT و*مستودع بورتسودان* PRT)، واستلام البضائع، وتسليم الطلبات، وإجراء التحويلات الداخلية، وتوجيه المنتجات تلقائياً إلى موقع التخزين الصحيح."],
+        ["**المشتريات**", "إنشاء طلبات عروض الأسعار، وتأكيد أوامر الشراء (مثل الأمر بالجنيه السوداني *P00001* والأمر بالدولار *P00002*)، واستلام البضائع مقابلها، وتحويلها إلى مطالبات مورّدين."],
+        ["**المبيعات**", "إعداد عروض الأسعار، وتأكيد أوامر البيع (مثل *S00001* لـ *مستشفى الخرطوم التعليمي*)، والتسليم للعملاء، وإنشاء الفواتير — كلها مسعّرة بالجنيه السوداني."],
+        ["**المحاسبة**", "إصدار فواتير العملاء ومطالبات المورّدين، وتسجيل مدفوعات العملاء والمورّدين، وتسوية كشوف البنك، وتتبّع من عليه مستحقات ومواعيد استحقاقها، وطباعة تقارير مثل الميزانية العمومية وأعمار الذمم المدينة."],
+        ["**تعدد العملات**", "مسك الدفاتر بـ **SDG** مع الشراء بـ **USD** من المورّدين الأجانب مثل *Gulf MedTrade FZE (USD)*؛ ويعرض النظام المعادل بالجنيه السوداني ويُقيّم مطالبات العملة الأجنبية بسعر الصرف في تاريخها."],
+        ["**خصائص طبية**", "تطبيق تتبّع الدفعات والتحكّم في الانتهاء على الأدوية والمستهلكات، وصرف أقدم المخزون أولاً باستخدام **FEFO** (الأسبق انتهاءً يُصرف أولاً)، وحفظ المنتجات المبرّدة في التخزين المبرّد، وتفعيل إعادة الطلب عند انخفاض المخزون."]
+      ]
+    },
+    {"t": "tip", "title": "أرقام حقيقية في هذا الدليل", "text": "كل مثال واسم سجل ورقم في هذا الدليل مأخوذ من الشركة التجريبية الحيّة *Sudan MedSupply Co.* — مثل أمر الشراء *P00001* (5,635,000 SDG) وأمر الشراء بالدولار *P00002* (1,288.00 دولار). فما تراه هنا هو نفسه ما ستراه على الشاشة."},
+    {"t": "h2", "text": "كيف تستخدم هذا الدليل"},
+    {"t": "ol", "items": [
+      "اقرأ هذه المقدمة أولاً لتفهم ماذا يفعل النظام وكيف تتلاءم أجزاؤه معاً.",
+      "ابحث عن الفصل الخاص بدورك أو بمهمتك (فمثلاً يتوجّه أمين المستودع إلى فصلي المخزون والمستودع).",
+      "اتبع **الخطوات المرقّمة** بالترتيب — فكل خطوة تخبرك بالضبط بما تنقر عليه وما تكتبه.",
+      "استخدم **جداول الحقول** كمرجع: فهي تسرد كل حقل في الصفحة وتشرح ما يُدخل فيه بلغة بسيطة.",
+      "انتبه إلى التنبيهات الملوّنة — صناديق **نصيحة (Tip)** تشارك اختصارات مفيدة، وصناديق **ملاحظة (Note)** تضيف خلفية مفيدة، وصناديق **تحذير (Warning)** تنبّه إلى أمور يجب الحذر منها."
+    ]},
+    {"t": "note", "title": "أسلوب التنقّل المستخدم في هذا الدليل", "text": "تُكتب مسارات القوائم بالشكل **التطبيق ← القائمة ← القائمة الفرعية**. فمثلاً *Sales ← Orders ← Quotations* تعني: افتح تطبيق **Sales**، ثم انقر قائمة **Orders**، ثم اختر **Quotations**. وعندما تكون الشاشة أعمق في التفرّع، يُكتب المسار كاملاً، مثلاً *Inventory ← Configuration ← Warehouse Management ← Warehouses*."}
+  ]
+}

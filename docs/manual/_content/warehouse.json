@@ -1,0 +1,609 @@
+{
+  "key": "warehouse",
+  "title_en": "9. Warehouse Operations",
+  "title_ar": "9. عمليات المستودع",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "The warehouse is where the medical supplies you buy and sell physically live. The **Inventory** app is the part of the Medical-Supply ERP that keeps track of every box of gloves, every insulin vial and every syringe — where it is, how much you have, which **lot** (batch) it belongs to, and when it expires. (A *lot* is a manufacturing batch that shares one production run and one expiry date; tracking by lot lets you trace exactly which goods went to which customer.) This chapter shows you how to receive goods in, send goods out, and move stock around between storage areas — all without touching a single spreadsheet, because the ERP does the counting for you."
+    },
+    {
+      "t": "note",
+      "title": "The ERP counts so you don't have to",
+      "text": "Every time you validate a receipt, a delivery or a transfer, the system instantly updates the on-hand quantity of each product and each lot. You never recalculate stock by hand — the figures you see in the app are always live."
+    },
+
+    { "t": "h2", "text": "9.1 The Inventory Overview" },
+    {
+      "t": "p",
+      "text": "When you open the **Inventory** app you land on the **Overview** — a board of cards, one per *operation type*. (An *operation type* is a kind of warehouse job: bringing goods in, sending goods out, or moving them internally.) Each card shows the operation's name and a count of how much work is waiting for you, so at a glance you know what needs doing today. Open it from **Inventory → Overview**."
+    },
+    {
+      "t": "fig",
+      "file": "inventory_overview.png",
+      "caption": "The Inventory app Overview: cards for Receipts, Delivery Orders and Internal Transfers, each with a count of operations waiting to be processed."
+    },
+    {
+      "t": "p",
+      "text": "The three cards you will use every day are:"
+    },
+    {
+      "t": "table",
+      "headers": ["Card", "What it does"],
+      "rows": [
+        ["Receipts", "Goods coming **in** from a supplier — usually created automatically from a confirmed purchase order. This is where you record lot numbers and expiry dates as stock arrives."],
+        ["Delivery Orders", "Goods going **out** to a customer — created automatically from a confirmed sales order. This is where you pick and ship."],
+        ["Internal Transfers", "Stock moving **between locations** inside your own warehouse, for example moving insulin from the receiving dock into *Cold Storage (2-8C)*."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Clicking a card opens the list of that operation type. To see every operation regardless of type, go to **Inventory → Operations → Transfers**. The list uses colour-coded status badges so you can spot at a glance what is **Done**, what is **Ready** to process, and what is still **Waiting**."
+    },
+    {
+      "t": "fig",
+      "file": "transfers_all.png",
+      "caption": "The Transfers list showing all operation types together, with status badges such as Done, Ready and Waiting."
+    },
+    {
+      "t": "tip",
+      "title": "Where each operation lives in the menu",
+      "text": "Receipts: **Inventory → Operations → Transfers → Receipts**. Deliveries: **Inventory → Operations → Transfers → Deliveries**. Internal moves: **Inventory → Operations → Transfers → Internal**."
+    },
+
+    { "t": "h2", "text": "9.2 Understanding a Transfer (the picking form)" },
+    {
+      "t": "p",
+      "text": "Receipts, deliveries and internal transfers all open the same kind of form, called a **transfer** (in Odoo terms, a *picking*). Learning this one form means you understand all three operations. Below is every field you will see, grouped by the tab it appears on."
+    },
+
+    { "t": "h3", "text": "Header (top of the form)" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Status", "Where the transfer is in its life: **Draft**, **Waiting Another Operation**, **Waiting**, **Ready**, **Done** or **Cancelled**. The ERP sets this for you as you progress."],
+        ["Returns", "How many return operations are linked to this transfer (used when goods come back)."]
+      ]
+    },
+
+    { "t": "h3", "text": "Main details" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Priority", "**Normal** or **Urgent**. Products are reserved first for the highest-priority transfers, so mark a rush order **Urgent**."],
+        ["Type of Operation", "Whether this is a **Receipt**, **Delivery** or **Internal Transfer**. Set automatically by the source document."],
+        ["Reference", "The transfer's own number (for example a receipt code or a delivery code). The system generates it."],
+        ["Contact", "The supplier or customer involved. Filled in from the linked order; read-only here."],
+        ["Operation Type", "The warehouse operation rule that governs this transfer (required, set automatically)."],
+        ["Source Location", "Where the goods come **from** — for a receipt this is the supplier/vendor location; for a delivery it is your stock."],
+        ["Destination Location", "Where the goods go **to** — for a receipt this is your stock (and **putaway** rules may steer it onward); for a delivery it is the customer."],
+        ["Back Order of", "If a shipment was split because only part of it could be processed, this links to the part already handled."],
+        ["Create New Lots/Serial Numbers", "When ticked, you can type brand-new lot numbers directly on the lines as goods arrive."],
+        ["Scheduled Date", "The expected date for the transfer. Set it as the date you expect to receive or ship."],
+        ["Deadline", "The latest date to validate so the promised supplier or customer date is met."],
+        ["Products Availability State", "Whether the goods are **Available**, **Expected** or **Late** — a quick health check on a delivery."],
+        ["Product Availability", "A short text summary of the latest availability of the products on this transfer."],
+        ["Effective Date", "The date the transfer was actually completed (or cancelled). Filled in when you validate."],
+        ["Source Document", "The order this transfer came from, for example a purchase order or sales order reference."],
+        ["Properties", "Optional extra fields your company can add to capture custom information."]
+      ]
+    },
+
+    { "t": "h3", "text": "Operations tab" },
+    {
+      "t": "p",
+      "text": "This is the working area where you see each product line on the transfer. The columns let you confirm what is actually moving."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Product", "The medical item being moved, for example *Insulin Vial 10ml*."],
+        ["Description", "A short description of the product line."],
+        ["Demand", "How much was asked for by the source order — the quantity you are expected to receive or ship."],
+        ["Quantity", "The quantity actually being moved now. Adjust it if you receive or ship a different amount than demanded."],
+        ["Unit", "The unit of measure for the line (for example a box or a unit)."],
+        ["Forecast", "The forecasted availability for the product, helping you see whether stock will cover the demand."],
+        ["Show Lots Text", "Controls whether lot numbers are typed as text — used when you create new lots on arrival."],
+        ["Has Tracking", "Indicates the product is tracked by lot or serial number, so a lot is required on the line."],
+        ["Is Locked", "When on, quantities cannot be edited; the system locks them at the right stage to protect your records."],
+        ["Company", "The company this transfer belongs to (*Sudan MedSupply Co.*)."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Lots and expiry dates",
+      "text": "For tracked products (gloves, syringes, masks and all pharmaceuticals such as insulin and paracetamol), each line asks for a **lot number** and, because these items expire, an **expiration date**. This is how the ERP later picks the soonest-to-expire stock first — see FEFO under Deliveries."
+    },
+
+    { "t": "h3", "text": "Additional Info tab" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Shipping Policy", "**As soon as possible** (ship whatever is ready) or **When all products are ready** (wait for the whole order)."],
+        ["Responsible", "The warehouse user accountable for the transfer."],
+        ["Sales Order", "For a delivery, the linked sales order it fulfils."]
+      ]
+    },
+
+    { "t": "h3", "text": "Note tab" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Note", "A free-text note about this transfer — handy for special handling instructions."]
+      ]
+    },
+
+    { "t": "h3", "text": "Buttons and smart buttons" },
+    {
+      "t": "p",
+      "text": "The transfer form gives you a small set of action buttons. Together they take a transfer from creation all the way to completion."
+    },
+    {
+      "t": "table",
+      "headers": ["Button", "What it does"],
+      "rows": [
+        ["Mark as Todo", "Confirms a draft transfer so the system begins reserving the goods. The status moves out of Draft."],
+        ["Check Availability", "Asks the ERP to reserve available stock for the lines, moving the transfer towards **Ready**."],
+        ["Validate", "Confirms the goods have physically moved. This is the key action: it updates on-hand quantities and sets the status to **Done**."],
+        ["Print", "Prints the transfer document (for example a delivery slip or receipt) for the warehouse team."],
+        ["Return", "Creates a return operation to send goods back (a customer return on a delivery, or a return to a supplier on a receipt)."],
+        ["Cancel", "Cancels the transfer if it should not go ahead."]
+      ]
+    },
+    {
+      "t": "table",
+      "headers": ["Smart button", "What it shows"],
+      "rows": [
+        ["Scraps", "Any quantities that were scrapped (written off as damaged) from this transfer."],
+        ["Packages", "The packages associated with this transfer, when you ship goods in boxes or pallets."]
+      ]
+    },
+
+    { "t": "h2", "text": "9.3 The Status Bar — Draft to Done" },
+    {
+      "t": "p",
+      "text": "Every transfer moves along a **status bar** shown at the top right of the form. Reading it tells you exactly what stage a job is at:"
+    },
+    {
+      "t": "table",
+      "headers": ["Status", "Meaning"],
+      "rows": [
+        ["Draft", "The transfer is created but not yet confirmed; no stock is reserved."],
+        ["Waiting Another Operation", "The transfer cannot start until an earlier operation finishes first."],
+        ["Waiting", "The transfer is confirmed but is waiting for stock to become available."],
+        ["Ready", "Stock is reserved and the goods can be processed now."],
+        ["Done", "The goods have physically moved and the stock figures are updated. The job is finished."],
+        ["Cancelled", "The transfer was cancelled and will not happen."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "The normal flow",
+      "text": "For most jobs you simply confirm (**Mark as Todo**), let the system reserve stock (or click **Check Availability**) until it shows **Ready**, then click **Validate** to reach **Done**."
+    },
+
+    { "t": "h2", "text": "9.4 Receipts — bringing goods in" },
+    {
+      "t": "p",
+      "text": "A **receipt** records medical supplies arriving from a supplier. It is normally created for you the moment a purchase order is confirmed — for example, the goods from *Nile Medical Supplies Co.* on purchase order *P00001*, or the insulin and blood-pressure monitors from *Gulf MedTrade FZE (USD)* on *P00002*. Your job at the dock is to confirm what really arrived, record the lot numbers and expiry dates, and validate."
+    },
+    {
+      "t": "fig",
+      "file": "receipt_form.png",
+      "caption": "A validated goods Receipt created from a purchase order, showing the source and destination locations, the product moves and the assigned lot numbers."
+    },
+    {
+      "t": "p",
+      "text": "Follow these steps to receive a delivery from a supplier:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Transfers → Receipts** and click the receipt for the arriving order (its **Source Document** matches the purchase order, such as *P00001*).",
+        "Check the **Destination Location** — for most stock this is your main *Khartoum Central Warehouse* stock.",
+        "On the **Operations** tab, compare the **Demand** with what physically arrived, and set the **Quantity** to the amount actually received.",
+        "For each tracked product, enter its **lot number** (for example *LOT-NILE-01* for Paracetamol) and the **expiration date** printed on the box.",
+        "If a lot is brand new, tick **Create New Lots/Serial Numbers** so you can type the new lot code directly on the line.",
+        "Click **Validate**. The status becomes **Done** and the on-hand quantity of each product and lot rises automatically."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Putaway can route cold items automatically",
+      "text": "**Putaway** is a rule that decides where freshly received goods should be stored. (Putaway = the automatic 'where does this go?' instruction.) When you validate the receipt, cold-chain pharmaceuticals such as *Insulin Vial 10ml* are routed automatically into **KRT/Stock/Cold Storage (2-8C)**, so temperature-sensitive stock lands in the right place without anyone having to remember to move it."
+    },
+    {
+      "t": "warn",
+      "title": "Always record the expiry date",
+      "text": "Never leave the expiration date blank on a pharmaceutical or consumable. The expiry date is what lets the ERP ship the soonest-to-expire batch first and warn you before stock goes out of date."
+    },
+
+    { "t": "h2", "text": "9.5 Deliveries — sending goods out (FEFO)" },
+    {
+      "t": "p",
+      "text": "A **delivery order** records medical supplies leaving your warehouse for a customer. It is created automatically when a sales order is confirmed — for example the *Surgical Gloves*, *Syringe 5ml* and other items on sales order *S00001* for *Khartoum Teaching Hospital*. When you process the delivery, the ERP reserves stock using **FEFO**."
+    },
+    {
+      "t": "note",
+      "title": "What is FEFO?",
+      "text": "**FEFO** means *First-Expiry, First-Out*: the system automatically reserves the lot whose **expiration date is soonest**, so the oldest-dating stock leaves first and nothing expires on your shelves. You do not choose the lot by hand — the ERP picks the right batch for you."
+    },
+    {
+      "t": "fig",
+      "file": "delivery_form.png",
+      "caption": "A validated Delivery order created from a sales order, showing the picked products and the lots that FEFO reserved (soonest-to-expire first)."
+    },
+    {
+      "t": "p",
+      "text": "Follow these steps to ship an order to a customer:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Transfers → Deliveries** and click the delivery for the order (its **Source Document** matches the sales order, such as *S00001*).",
+        "If the status is **Waiting**, click **Check Availability** so the ERP reserves stock; the status moves to **Ready**.",
+        "On the **Operations** tab, confirm the **Quantity** to ship and note the **lot numbers** FEFO has reserved — the soonest-to-expire batches are chosen for you.",
+        "Use **Print** to produce the delivery slip for the driver if needed.",
+        "Click **Validate**. The status becomes **Done**, the customer's stock leaves your books, and the linked sales order shows the goods as delivered."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Partial shipments",
+      "text": "If you can only ship part of an order now, validate the quantity you have. The ERP offers to keep the rest as a **back order** — a follow-up delivery for the remaining goods — so nothing is forgotten."
+    },
+
+    { "t": "h2", "text": "9.6 Internal Transfers — moving stock between locations" },
+    {
+      "t": "p",
+      "text": "An **internal transfer** moves stock from one place to another inside your own warehouse, without anything leaving the company. A **location** is simply a named storage area. Under *Khartoum Central Warehouse* stock, your system has dedicated sub-locations for special handling."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "The Locations list showing the internal sub-locations under KRT/Stock: Cold Storage (2-8C), Quarantine and Expired / Damaged."
+    },
+    {
+      "t": "table",
+      "headers": ["Location", "What it is for"],
+      "rows": [
+        ["KRT/Stock/Cold Storage (2-8C)", "Refrigerated storage kept between 2 and 8 degrees Celsius, for cold-chain items such as *Insulin Vial 10ml*."],
+        ["KRT/Stock/Quarantine", "A holding area for goods awaiting inspection or approval before they can be sold."],
+        ["KRT/Stock/Expired / Damaged", "Where expired or damaged stock is set aside so it is never accidentally shipped to a customer."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Follow these steps to move stock between locations, for example into Cold Storage:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Transfers → Internal** and click **New** to create a transfer.",
+        "Set the **Source Location** to where the goods are now (for example the main stock).",
+        "Set the **Destination Location** to *KRT/Stock/Cold Storage (2-8C)*.",
+        "On the **Operations** tab, add the product (for example *Insulin Vial 10ml*), its **lot number** and the **Quantity** to move.",
+        "Click **Mark as Todo**, then **Check Availability** until the status shows **Ready**.",
+        "Click **Validate**. The status becomes **Done** and the stock now appears under the new location."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Quarantine and write-offs use the same steps",
+      "text": "To hold incoming goods for inspection, transfer them into *Quarantine*; to set aside out-of-date stock, transfer it into *Expired / Damaged*. The procedure is identical — only the destination location changes."
+    },
+
+    { "t": "h2", "text": "9.7 Putting it together" },
+    {
+      "t": "p",
+      "text": "These three operations cover the full life of every item in your warehouse: it **arrives** on a receipt (with its lot and expiry recorded, and cold items routed to Cold Storage), it may be **moved** internally for safe keeping, and it finally **leaves** on a delivery where FEFO ships the soonest-to-expire batch first. At every step the Medical-Supply ERP updates your stock figures automatically, keeps the lot history intact, and protects you from shipping expired goods — so your team can focus on the work, not the paperwork."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "المستودع هو المكان الذي توجد فيه فعليًا المستلزمات الطبية التي تشتريها وتبيعها. تطبيق **المخزون (Inventory)** هو الجزء من نظام تخطيط موارد المستلزمات الطبية الذي يتتبع كل علبة قفازات وكل قارورة إنسولين وكل محقنة — أين توجد، وكم لديك منها، وإلى أي **دفعة (Lot)** تنتمي، ومتى تنتهي صلاحيتها. (الـ *دفعة* هي دفعة تصنيع تشترك في عملية إنتاج واحدة وتاريخ انتهاء صلاحية واحد؛ والتتبع بالدفعة يتيح لك معرفة أي بضاعة ذهبت إلى أي عميل بدقة.) يوضح لك هذا الفصل كيفية استلام البضائع الواردة، وإخراج البضائع الصادرة، ونقل المخزون بين مناطق التخزين — كل ذلك دون لمس أي جدول بيانات، لأن النظام يقوم بالعدّ نيابةً عنك."
+    },
+    {
+      "t": "note",
+      "title": "النظام يَعُدّ بدلًا منك",
+      "text": "في كل مرة تعتمد فيها استلامًا أو تسليمًا أو تحويلًا، يحدّث النظام فورًا الكمية المتوفرة لكل منتج وكل دفعة. لن تعيد حساب المخزون يدويًا أبدًا — فالأرقام التي تراها في التطبيق محدّثة دائمًا."
+    },
+
+    { "t": "h2", "text": "9.1 نظرة عامة على المخزون" },
+    {
+      "t": "p",
+      "text": "عند فتح تطبيق **المخزون (Inventory)** تصل إلى **النظرة العامة (Overview)** — وهي لوحة من البطاقات، بطاقة لكل *نوع عملية*. (نوع العملية هو نوع من عمل المستودع: إدخال البضائع، أو إخراجها، أو نقلها داخليًا.) تعرض كل بطاقة اسم العملية وعدد المهام التي تنتظرك، فتعرف بنظرة واحدة ما يلزم إنجازه اليوم. افتحها من **المخزون ← النظرة العامة (Inventory → Overview)**."
+    },
+    {
+      "t": "fig",
+      "file": "inventory_overview.png",
+      "caption": "النظرة العامة لتطبيق المخزون: بطاقات للاستلامات وأوامر التسليم والتحويلات الداخلية، مع عدد العمليات التي تنتظر المعالجة في كل منها."
+    },
+    {
+      "t": "p",
+      "text": "البطاقات الثلاث التي ستستخدمها يوميًا هي:"
+    },
+    {
+      "t": "table",
+      "headers": ["البطاقة", "ماذا تفعل"],
+      "rows": [
+        ["الاستلامات (Receipts)", "البضائع **الواردة** من مورّد — وتُنشأ عادةً تلقائيًا من أمر شراء مؤكَّد. هنا تسجّل أرقام الدفعات وتواريخ انتهاء الصلاحية عند وصول المخزون."],
+        ["أوامر التسليم (Delivery Orders)", "البضائع **الصادرة** إلى عميل — وتُنشأ تلقائيًا من أمر بيع مؤكَّد. هنا تجهّز الطلب وتشحنه."],
+        ["التحويلات الداخلية (Internal Transfers)", "نقل المخزون **بين المواقع** داخل مستودعك، مثل نقل الإنسولين من منطقة الاستلام إلى *التخزين البارد (2-8C)*."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "بالنقر على بطاقة تُفتح قائمة نوع العملية المعني. ولمشاهدة كل العمليات بغضّ النظر عن نوعها، انتقل إلى **المخزون ← العمليات ← التحويلات (Inventory → Operations → Transfers)**. تستخدم القائمة شارات حالة ملوّنة لتميّز بنظرة واحدة ما هو **منجَز (Done)** وما هو **جاهز (Ready)** للمعالجة وما لا يزال **بانتظار (Waiting)**."
+    },
+    {
+      "t": "fig",
+      "file": "transfers_all.png",
+      "caption": "قائمة التحويلات تعرض جميع أنواع العمليات معًا، مع شارات الحالة مثل منجَز وجاهز وبانتظار."
+    },
+    {
+      "t": "tip",
+      "title": "أين توجد كل عملية في القائمة",
+      "text": "الاستلامات: **المخزون ← العمليات ← التحويلات ← الاستلامات (Inventory → Operations → Transfers → Receipts)**. التسليمات: **المخزون ← العمليات ← التحويلات ← التسليمات (Deliveries)**. التحويلات الداخلية: **المخزون ← العمليات ← التحويلات ← داخلي (Internal)**."
+    },
+
+    { "t": "h2", "text": "9.2 فهم التحويل (نموذج الـ Picking)" },
+    {
+      "t": "p",
+      "text": "تفتح الاستلامات والتسليمات والتحويلات الداخلية جميعها النموذج نفسه، المُسمّى **تحويل (Transfer)** (وبمصطلح Odoo: *Picking*). فإتقان هذا النموذج الواحد يعني أنك فهمت العمليات الثلاث. فيما يلي كل حقل ستراه، مجمّعًا حسب علامة التبويب التي يظهر فيها."
+    },
+
+    { "t": "h3", "text": "الترويسة (أعلى النموذج)" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الحالة (Status)", "موضع التحويل في دورة حياته: **مسودة (Draft)**، **بانتظار عملية أخرى (Waiting Another Operation)**، **بانتظار (Waiting)**، **جاهز (Ready)**، **منجَز (Done)** أو **ملغًى (Cancelled)**. يضبطها النظام لك مع تقدّمك."],
+        ["المرتجعات (Returns)", "عدد عمليات الإرجاع المرتبطة بهذا التحويل (تُستخدم عند عودة البضائع)."]
+      ]
+    },
+
+    { "t": "h3", "text": "التفاصيل الرئيسية" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الأولوية (Priority)", "**عادية (Normal)** أو **عاجلة (Urgent)**. تُحجز المنتجات أولًا للتحويلات الأعلى أولوية، لذا ضع الطلب المستعجل **عاجلًا**."],
+        ["نوع العملية (Type of Operation)", "ما إذا كان هذا **استلامًا (Receipt)** أو **تسليمًا (Delivery)** أو **تحويلًا داخليًا (Internal Transfer)**. يُضبط تلقائيًا من المستند المصدر."],
+        ["المرجع (Reference)", "رقم التحويل الخاص (مثل رمز استلام أو رمز تسليم). يولّده النظام."],
+        ["جهة الاتصال (Contact)", "المورّد أو العميل المعني. يُملأ من الأمر المرتبط، وهو للقراءة فقط هنا."],
+        ["نوع العملية (Operation Type)", "قاعدة عملية المستودع التي تحكم هذا التحويل (إلزامي، يُضبط تلقائيًا)."],
+        ["موقع المصدر (Source Location)", "المكان الذي تأتي **منه** البضائع — في الاستلام هو موقع المورّد، وفي التسليم هو مخزونك."],
+        ["موقع الوجهة (Destination Location)", "المكان الذي تذهب **إليه** البضائع — في الاستلام هو مخزونك (وقد توجّهه قواعد **التخزين/الإيداع (Putaway)**)، وفي التسليم هو العميل."],
+        ["طلب مؤجّل من (Back Order of)", "إذا قُسِّمت شحنة لأن جزءًا منها فقط أمكن معالجته، يربط هذا بالجزء الذي عولج بالفعل."],
+        ["إنشاء دفعات/أرقام تسلسلية جديدة (Create New Lots/Serial Numbers)", "عند تفعيله، يمكنك كتابة أرقام دفعات جديدة مباشرةً على السطور عند وصول البضائع."],
+        ["التاريخ المجدول (Scheduled Date)", "التاريخ المتوقَّع للتحويل. اضبطه على التاريخ الذي تتوقع فيه الاستلام أو الشحن."],
+        ["الموعد النهائي (Deadline)", "آخر تاريخ للاعتماد كي يُلبّى الموعد الموعود للمورّد أو العميل."],
+        ["حالة توفّر المنتجات (Products Availability State)", "ما إذا كانت البضائع **متوفرة (Available)** أو **متوقّعة (Expected)** أو **متأخرة (Late)** — فحص سريع لحالة التسليم."],
+        ["توفّر المنتج (Product Availability)", "ملخّص نصّي قصير لأحدث حالة توفّر للمنتجات في هذا التحويل."],
+        ["التاريخ الفعلي (Effective Date)", "تاريخ إتمام التحويل فعليًا (أو إلغائه). يُملأ عند الاعتماد."],
+        ["المستند المصدر (Source Document)", "الأمر الذي جاء منه هذا التحويل، مثل مرجع أمر شراء أو أمر بيع."],
+        ["الخصائص (Properties)", "حقول إضافية اختيارية يمكن لشركتك إضافتها لالتقاط معلومات مخصّصة."]
+      ]
+    },
+
+    { "t": "h3", "text": "علامة التبويب: العمليات (Operations)" },
+    {
+      "t": "p",
+      "text": "هذه منطقة العمل التي ترى فيها كل سطر منتج في التحويل. تتيح لك الأعمدة تأكيد ما يتحرّك فعليًا."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["المنتج (Product)", "العنصر الطبي الذي يجري نقله، مثل *قارورة إنسولين 10 مل*."],
+        ["الوصف (Description)", "وصف قصير لسطر المنتج."],
+        ["الطلب (Demand)", "الكمية المطلوبة من الأمر المصدر — وهي الكمية المتوقَّع استلامها أو شحنها."],
+        ["الكمية (Quantity)", "الكمية التي تتحرك فعليًا الآن. عدّلها إذا استلمت أو شحنت كميةً مختلفة عن المطلوبة."],
+        ["الوحدة (Unit)", "وحدة القياس للسطر (مثل علبة أو وحدة)."],
+        ["التوقّع (Forecast)", "التوفّر المتوقَّع للمنتج، ليساعدك على معرفة ما إذا كان المخزون سيغطي الطلب."],
+        ["إظهار نص الدفعات (Show Lots Text)", "يتحكّم فيما إذا كانت أرقام الدفعات تُكتب كنصّ — يُستخدم عند إنشاء دفعات جديدة عند الوصول."],
+        ["لديه تتبّع (Has Tracking)", "يشير إلى أن المنتج متتبَّع بالدفعة أو الرقم التسلسلي، فيلزم إدخال دفعة على السطر."],
+        ["مقفل (Is Locked)", "عند تفعيله لا يمكن تعديل الكميات؛ يقفلها النظام في المرحلة المناسبة لحماية سجلّاتك."],
+        ["الشركة (Company)", "الشركة التي يتبع لها هذا التحويل (*شركة السودان للمستلزمات الطبية*)."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "الدفعات وتواريخ انتهاء الصلاحية",
+      "text": "بالنسبة إلى المنتجات المتتبَّعة (القفازات والمحاقن والكمامات وجميع الأدوية مثل الإنسولين والباراسيتامول)، يطلب كل سطر **رقم دفعة (Lot)**، ولأن هذه الأصناف تنتهي صلاحيتها، يطلب أيضًا **تاريخ انتهاء صلاحية (Expiration Date)**. هكذا يختار النظام لاحقًا المخزون الأقرب انتهاءً أولًا — راجع FEFO ضمن التسليمات."
+    },
+
+    { "t": "h3", "text": "علامة التبويب: معلومات إضافية (Additional Info)" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["سياسة الشحن (Shipping Policy)", "**في أسرع وقت ممكن (As soon as possible)** (اشحن ما هو جاهز) أو **عند جاهزية كل المنتجات (When all products are ready)** (انتظر الأمر كاملًا)."],
+        ["المسؤول (Responsible)", "مستخدم المستودع المسؤول عن التحويل."],
+        ["أمر البيع (Sales Order)", "في التسليم، أمر البيع المرتبط الذي يلبّيه هذا التحويل."]
+      ]
+    },
+
+    { "t": "h3", "text": "علامة التبويب: ملاحظة (Note)" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["ملاحظة (Note)", "ملاحظة نصّية حرة حول هذا التحويل — مفيدة لتعليمات المناولة الخاصة."]
+      ]
+    },
+
+    { "t": "h3", "text": "الأزرار والأزرار الذكية" },
+    {
+      "t": "p",
+      "text": "يمنحك نموذج التحويل مجموعة صغيرة من أزرار الإجراءات. وهي معًا تنقل التحويل من الإنشاء حتى الإتمام."
+    },
+    {
+      "t": "table",
+      "headers": ["الزر", "ماذا يفعل"],
+      "rows": [
+        ["تحديد كمهمة (Mark as Todo)", "يؤكّد التحويل المسودة فيبدأ النظام بحجز البضائع. تنتقل الحالة من المسودة."],
+        ["التحقق من التوفّر (Check Availability)", "يطلب من النظام حجز المخزون المتوفر للسطور، فينتقل التحويل نحو **جاهز (Ready)**."],
+        ["اعتماد (Validate)", "يؤكّد أن البضائع انتقلت فعليًا. هذا هو الإجراء الأهم: يحدّث الكميات المتوفرة ويضبط الحالة إلى **منجَز (Done)**."],
+        ["طباعة (Print)", "يطبع مستند التحويل (مثل قسيمة تسليم أو استلام) لفريق المستودع."],
+        ["إرجاع (Return)", "ينشئ عملية إرجاع لإعادة البضائع (إرجاع عميل في تسليم، أو إرجاع إلى مورّد في استلام)."],
+        ["إلغاء (Cancel)", "يلغي التحويل إذا تقرّر عدم المضيّ فيه."]
+      ]
+    },
+    {
+      "t": "table",
+      "headers": ["الزر الذكي", "ماذا يعرض"],
+      "rows": [
+        ["الإتلافات (Scraps)", "أي كميات أُتلفت (شُطبت كتالفة) من هذا التحويل."],
+        ["الطرود (Packages)", "الطرود المرتبطة بهذا التحويل عند شحن البضائع في صناديق أو منصّات."]
+      ]
+    },
+
+    { "t": "h2", "text": "9.3 شريط الحالة — من مسودة إلى منجَز" },
+    {
+      "t": "p",
+      "text": "يتنقّل كل تحويل عبر **شريط حالة (Status Bar)** يظهر أعلى يمين النموذج. وقراءته تخبرك بدقّة بالمرحلة التي بلغها العمل:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحالة", "المعنى"],
+      "rows": [
+        ["مسودة (Draft)", "أُنشئ التحويل لكنه لم يُؤكَّد بعد؛ لم يُحجز أي مخزون."],
+        ["بانتظار عملية أخرى (Waiting Another Operation)", "لا يمكن بدء التحويل حتى تنتهي عملية سابقة أولًا."],
+        ["بانتظار (Waiting)", "التحويل مؤكَّد لكنه ينتظر توفّر المخزون."],
+        ["جاهز (Ready)", "المخزون محجوز ويمكن معالجة البضائع الآن."],
+        ["منجَز (Done)", "انتقلت البضائع فعليًا وحُدّثت أرقام المخزون. اكتمل العمل."],
+        ["ملغًى (Cancelled)", "أُلغي التحويل ولن يحدث."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "المسار المعتاد",
+      "text": "في معظم الأعمال تكتفي بالتأكيد (**تحديد كمهمة**)، ثم تترك النظام يحجز المخزون (أو تنقر **التحقق من التوفّر**) حتى تظهر **جاهز**، ثم تنقر **اعتماد** للوصول إلى **منجَز**."
+    },
+
+    { "t": "h2", "text": "9.4 الاستلامات — إدخال البضائع" },
+    {
+      "t": "p",
+      "text": "يسجّل **الاستلام (Receipt)** وصول المستلزمات الطبية من مورّد. ويُنشأ لك عادةً لحظة تأكيد أمر الشراء — مثل بضائع *شركة النيل للمستلزمات الطبية (Nile Medical Supplies Co.)* على أمر الشراء *P00001*، أو الإنسولين وأجهزة قياس ضغط الدم من *Gulf MedTrade FZE (USD)* على *P00002*. مهمّتك عند منطقة الاستلام هي تأكيد ما وصل فعلًا، وتسجيل أرقام الدفعات وتواريخ الصلاحية، ثم الاعتماد."
+    },
+    {
+      "t": "fig",
+      "file": "receipt_form.png",
+      "caption": "نموذج استلام بضائع معتمَد أُنشئ من أمر شراء، يعرض موقعي المصدر والوجهة وحركات المنتجات وأرقام الدفعات المعيّنة."
+    },
+    {
+      "t": "p",
+      "text": "اتبع هذه الخطوات لاستلام شحنة من مورّد:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التحويلات ← الاستلامات (Inventory → Operations → Transfers → Receipts)** وانقر استلام الأمر الوارد (يطابق **المستند المصدر** أمر الشراء، مثل *P00001*).",
+        "تحقّق من **موقع الوجهة** — لمعظم المخزون يكون مخزون *مستودع الخرطوم المركزي* الرئيسي.",
+        "في علامة التبويب **العمليات**، قارِن **الطلب (Demand)** بما وصل فعليًا، واضبط **الكمية (Quantity)** على المقدار المستلَم فعلًا.",
+        "لكل منتج متتبَّع، أدخل **رقم الدفعة** (مثل *LOT-NILE-01* للباراسيتامول) و**تاريخ انتهاء الصلاحية** المطبوع على العلبة.",
+        "إذا كانت الدفعة جديدة تمامًا، فعّل **إنشاء دفعات/أرقام تسلسلية جديدة** لتتمكن من كتابة رمز الدفعة الجديد مباشرةً على السطر.",
+        "انقر **اعتماد (Validate)**. تصبح الحالة **منجَز** وترتفع الكمية المتوفرة لكل منتج ودفعة تلقائيًا."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "يمكن للتخزين/الإيداع توجيه الأصناف الباردة تلقائيًا",
+      "text": "**التخزين/الإيداع (Putaway)** قاعدة تحدّد أين تُخزَّن البضائع المستلَمة حديثًا. (الإيداع = تعليمة 'إلى أين يذهب هذا؟' التلقائية.) عند اعتماد الاستلام، تُوجَّه أدوية السلسلة الباردة مثل *قارورة إنسولين 10 مل* تلقائيًا إلى **KRT/Stock/التخزين البارد (2-8C)**، فيستقر المخزون الحسّاس للحرارة في مكانه الصحيح دون أن يتذكّر أحدٌ نقله."
+    },
+    {
+      "t": "warn",
+      "title": "سجّل دائمًا تاريخ انتهاء الصلاحية",
+      "text": "لا تترك تاريخ انتهاء الصلاحية فارغًا أبدًا على دواء أو مستهلَك. فتاريخ انتهاء الصلاحية هو ما يتيح للنظام شحن الدفعة الأقرب انتهاءً أولًا وتنبيهك قبل أن ينتهي المخزون."
+    },
+
+    { "t": "h2", "text": "9.5 التسليمات — إخراج البضائع (FEFO)" },
+    {
+      "t": "p",
+      "text": "يسجّل **أمر التسليم (Delivery Order)** خروج المستلزمات الطبية من مستودعك إلى عميل. ويُنشأ تلقائيًا عند تأكيد أمر بيع — مثل *القفازات الجراحية* و*محقنة 5 مل* وأصناف أخرى على أمر البيع *S00001* لـ *مستشفى الخرطوم التعليمي*. وعند معالجة التسليم، يحجز النظام المخزون باستخدام **FEFO**."
+    },
+    {
+      "t": "note",
+      "title": "ما هو FEFO؟",
+      "text": "**FEFO** يعني *الأقرب انتهاءً يخرج أولًا (First-Expiry, First-Out)*: يحجز النظام تلقائيًا الدفعة التي **تاريخ انتهاء صلاحيتها الأقرب**، فيخرج المخزون الأقدم تاريخًا أولًا ولا تنتهي صلاحية شيء على رفوفك. لست أنت من يختار الدفعة يدويًا — النظام يختار لك الدفعة الصحيحة."
+    },
+    {
+      "t": "fig",
+      "file": "delivery_form.png",
+      "caption": "نموذج أمر تسليم معتمَد أُنشئ من أمر بيع، يعرض المنتجات المجهَّزة والدفعات التي حجزها FEFO (الأقرب انتهاءً أولًا)."
+    },
+    {
+      "t": "p",
+      "text": "اتبع هذه الخطوات لشحن أمر إلى عميل:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التحويلات ← التسليمات (Inventory → Operations → Transfers → Deliveries)** وانقر تسليم الأمر (يطابق **المستند المصدر** أمر البيع، مثل *S00001*).",
+        "إذا كانت الحالة **بانتظار (Waiting)**، فانقر **التحقق من التوفّر (Check Availability)** ليحجز النظام المخزون؛ فتنتقل الحالة إلى **جاهز (Ready)**.",
+        "في علامة التبويب **العمليات**، أكّد **الكمية** المراد شحنها ولاحظ **أرقام الدفعات** التي حجزها FEFO — تُختار لك الدفعات الأقرب انتهاءً.",
+        "استخدم **طباعة (Print)** لإصدار قسيمة التسليم للسائق عند الحاجة.",
+        "انقر **اعتماد (Validate)**. تصبح الحالة **منجَز**، ويخرج مخزون العميل من سجلّاتك، ويُظهر أمر البيع المرتبط البضائع كمسلَّمة."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "الشحنات الجزئية",
+      "text": "إن أمكنك شحن جزء من الأمر فقط الآن، فاعتمد الكمية المتوفرة لديك. يعرض النظام الاحتفاظ بالباقي كـ **طلب مؤجّل (Back Order)** — تسليم لاحق للبضائع المتبقية — كي لا يُنسى شيء."
+    },
+
+    { "t": "h2", "text": "9.6 التحويلات الداخلية — نقل المخزون بين المواقع" },
+    {
+      "t": "p",
+      "text": "ينقل **التحويل الداخلي (Internal Transfer)** المخزون من مكان إلى آخر داخل مستودعك، دون أن يغادر أي شيء الشركة. والـ **موقع (Location)** هو ببساطة منطقة تخزين مسمّاة. ضمن مخزون *مستودع الخرطوم المركزي*، يحتوي نظامك على مواقع فرعية مخصّصة للمناولة الخاصة."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "قائمة المواقع تعرض المواقع الفرعية الداخلية ضمن KRT/Stock: التخزين البارد (2-8C) والحجر والمنتهي الصلاحية / التالف."
+    },
+    {
+      "t": "table",
+      "headers": ["الموقع", "الغرض منه"],
+      "rows": [
+        ["KRT/Stock/التخزين البارد (2-8C)", "تخزين مبرَّد يُحفظ بين 2 و8 درجات مئوية، لأصناف السلسلة الباردة مثل *قارورة إنسولين 10 مل*."],
+        ["KRT/Stock/الحجر (Quarantine)", "منطقة انتظار للبضائع ريثما تُفحص أو يُوافَق عليها قبل أن يُمكن بيعها."],
+        ["KRT/Stock/المنتهي الصلاحية / التالف (Expired / Damaged)", "حيث يُعزل المخزون المنتهي أو التالف كي لا يُشحن للعميل بالخطأ أبدًا."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "اتبع هذه الخطوات لنقل المخزون بين المواقع، مثلًا إلى التخزين البارد:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التحويلات ← داخلي (Inventory → Operations → Transfers → Internal)** وانقر **جديد (New)** لإنشاء تحويل.",
+        "اضبط **موقع المصدر** على المكان الذي توجد فيه البضائع الآن (مثل المخزون الرئيسي).",
+        "اضبط **موقع الوجهة** على *KRT/Stock/التخزين البارد (2-8C)*.",
+        "في علامة التبويب **العمليات**، أضِف المنتج (مثل *قارورة إنسولين 10 مل*) و**رقم دفعته** و**الكمية** المراد نقلها.",
+        "انقر **تحديد كمهمة (Mark as Todo)**، ثم **التحقق من التوفّر (Check Availability)** حتى تظهر الحالة **جاهز**.",
+        "انقر **اعتماد (Validate)**. تصبح الحالة **منجَز** ويظهر المخزون الآن تحت الموقع الجديد."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "الحجر والشطب يتبعان الخطوات نفسها",
+      "text": "لحجز البضائع الواردة للفحص، حوّلها إلى *الحجر (Quarantine)*؛ ولعزل المخزون المنتهي، حوّله إلى *المنتهي الصلاحية / التالف (Expired / Damaged)*. الإجراء مطابق تمامًا — يتغيّر موقع الوجهة فقط."
+    },
+
+    { "t": "h2", "text": "9.7 الصورة الكاملة" },
+    {
+      "t": "p",
+      "text": "تغطّي هذه العمليات الثلاث دورة حياة كل صنف في مستودعك بالكامل: فهو **يصل** عبر استلام (مع تسجيل دفعته وصلاحيته، وتوجيه الأصناف الباردة إلى التخزين البارد)، وقد **يُنقل** داخليًا للحفظ الآمن، وأخيرًا **يغادر** عبر تسليم يشحن فيه FEFO الدفعة الأقرب انتهاءً أولًا. وفي كل خطوة، يحدّث نظام تخطيط موارد المستلزمات الطبية أرقام مخزونك تلقائيًا، ويحافظ على سجلّ الدفعات سليمًا، ويحميك من شحن بضائع منتهية الصلاحية — فيتفرّغ فريقك للعمل لا للأوراق."
+    }
+  ]
+}

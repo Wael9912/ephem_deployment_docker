@@ -1,0 +1,241 @@
+{
+  "key": "multicurrency",
+  "title_en": "13. Multi-Currency Operations",
+  "title_ar": "13. عمليات تعدّد العملات",
+  "blocks_en": [
+    {"t": "p", "text": "*Sudan MedSupply Co.* lives in two currencies at once. We keep all of our books and reports in **SDG** (Sudanese Pound), because that is the currency of the country we operate in and report to. At the same time, we buy most of our imported supplies from abroad in **USD** (US Dollar) and we receive foreign quotations in USD. This chapter explains, in plain language, how the system lets you transact freely in USD while always keeping a single, consistent set of accounts in SDG. The good news: once the exchange rates are loaded, the system does all the conversion automatically — you almost never have to do the maths yourself."},
+
+    {"t": "h2", "text": "Two Currencies, One Set of Books"},
+    {"t": "p", "text": "A *currency* is simply a kind of money (SDG, USD). Our system uses two of them, but it treats them very differently:"},
+    {"t": "ul", "items": [
+      "**Base (company) currency — SDG.** This is the official currency of *Sudan MedSupply Co.* Every accounting report — the Balance Sheet, the Profit & Loss, the Aged Receivable — is produced in SDG, no matter what currency the original document used. Think of SDG as the language your books are written in; everything is ultimately translated into it.",
+      "**Reference currency — USD.** This is the currency we use for imports and foreign quotations. Our overseas supplier *Gulf MedTrade FZE (USD)* prices in USD, so the purchase orders and bills we exchange with them are in USD. USD is active in the system but it is not the base currency — its figures are always converted to SDG behind the scenes for the books."
+    ]},
+    {"t": "p", "text": "You can confirm which currencies are switched on at **Accounting → Configuration → Accounting → Currencies**. The list shows the active currencies, including **SDG** and **USD**."},
+    {"t": "note", "title": "Why keep books only in SDG?", "text": "A *currency* used as the company (base) currency anchors all reporting. Because Sudan's authorities, banks and tax office work in SDG, keeping the books in SDG means our financial statements are always ready for them, with no manual conversion. USD amounts are recorded too, but always alongside their SDG value."},
+
+    {"t": "h2", "text": "The Exchange-Rate History"},
+    {"t": "p", "text": "An *exchange rate* is how much of one currency you get for another on a given day. The Sudanese Pound has moved a great deal against the dollar, so the system does not store a single rate — it stores a **dated history** of rates. Each USD document then uses the rate that was in force on its own date. This is what keeps old documents stable: a purchase made months ago keeps the rate of that day forever, even after the rate later changes."},
+    {"t": "p", "text": "Open the USD record at **Accounting → Configuration → Accounting → Currencies**, click **USD**, and open the **Rates** tab to see the full history we have loaded for *Sudan MedSupply Co.*:"},
+    {"t": "table", "headers": ["Date", "SDG per 1 USD"], "rows": [
+      ["1 June 2025", "2,400"],
+      ["1 September 2025", "3,000"],
+      ["1 January 2026", "3,600"],
+      ["1 April 2026", "4,200"],
+      ["1 June 2026", "4,500"]
+    ]},
+    {"t": "p", "text": "Reading this table: on 1 June 2025 one dollar was worth 2,400 pounds; by 1 June 2026 it was worth 4,500 pounds. The most recent rate (4,500) is used for any brand-new USD document dated today. A document dated, say, 15 January 2026 would instead use the 3,600 rate, because that is the rate that was in force on its date."},
+    {"t": "fig", "file": "currency_usd.png", "caption": "The USD currency record with the Rates tab open, showing the dated exchange-rate history that climbs from 2,400 to 4,500 SDG per USD across 2025-2026."},
+    {"t": "tip", "title": "The rate of the document's date is what counts", "text": "Whenever you create a USD purchase order, bill, sale or invoice, the system looks up the rate for that document's date automatically and shows the SDG equivalent. You never type a rate into a transaction by hand — you only maintain the dated rate list once, here on the Rates tab."},
+
+    {"t": "h3", "text": "Fields on the Currency form"},
+    {"t": "p", "text": "When you open a currency record (for example **USD**), the form is organised into a main area and a **Rates** tab. Here is every field you will see."},
+    {"t": "table", "headers": ["Field", "What it means / what to enter"], "rows": [
+      ["Currency", "The three-letter ISO 4217 code of the money, e.g. USD or SDG."],
+      ["Name", "The full descriptive name of the currency (e.g. US Dollar)."],
+      ["Active", "A switch that turns the currency on or off. Only active currencies can be used on documents; both SDG and USD are active for us."],
+      ["Symbol", "The sign printed next to amounts, e.g. $ for dollars."],
+      ["Currency Unit", "The name of one whole unit (e.g. Dollar)."],
+      ["Currency Subunit", "The name of the fractional part (e.g. Cent)."],
+      ["Is Current Company Currency", "A read-only flag that is ticked only on the base currency. For us this is ticked on SDG and not on USD."],
+      ["Display Rounding Warning", "A read-only flag that warns you if changing the rounding precision could be unsafe."]
+    ]},
+    {"t": "h3", "text": "Rates"},
+    {"t": "p", "text": "This tab holds the dated rate history and the conversion helpers. The grid (the **Rates** list) is where you add a new line each time the market moves."},
+    {"t": "table", "headers": ["Field", "What it means / what to enter"], "rows": [
+      ["Rates", "The list of dated rate lines. Add one line per rate change: a date and the rate that applies from that date onward."],
+      ["Unit per SDG", "How many units of this currency equal one SDG (one dollar's worth expressed per pound). This is the technical, inverted way to read the rate."],
+      ["SDG per Unit", "How many SDG equal one unit of this currency — i.e. how many pounds per dollar. This is the figure that matches the history table above (2,400 ... 4,500)."],
+      ["Current Rate", "The rate currently in force (the most recent dated line)."],
+      ["Last Updated on", "The date and time this record was last changed."]
+    ]},
+    {"t": "note", "title": "Two ways to read one rate", "text": "*Unit per SDG* and *SDG per Unit* describe the same exchange rate from opposite directions. For staff, the easy one is **SDG per Unit** — pounds per dollar — which reads naturally as our 2,400 to 4,500 history."},
+
+    {"t": "h2", "text": "Where Each Document Gets Its Currency"},
+    {"t": "p", "text": "You rarely choose a currency on each transaction by hand. Instead, the currency flows automatically from the customer, the supplier or the price list attached to them. A *pricelist* is simply a saved set of prices (and the currency they are quoted in) for a particular partner. Here is exactly where each document's currency comes from."},
+    {"t": "table", "headers": ["Document", "Where its currency comes from"], "rows": [
+      ["Purchase Order (PO)", "The supplier's purchase currency / vendor pricelist. Orders to *Gulf MedTrade FZE (USD)* come out in USD; orders to local suppliers come out in SDG."],
+      ["Vendor Bill", "Inherited from the purchase order it is created from. A USD purchase order produces a USD bill."],
+      ["Sales Order (SO)", "The customer's pricelist. Our customers are billed in SDG, so their sales orders are in SDG."],
+      ["Customer Invoice", "Inherited from the sales order it is created from. An SDG order produces an SDG invoice."]
+    ]},
+    {"t": "p", "text": "You can see this in the live demo data. Among our purchase orders, *P00002* to *Gulf MedTrade FZE (USD)* is in **USD** (total $1,288.00), while *P00001*, *P00003* and *P00004* are local orders in **SDG**. All three sales orders (*S00001*, *S00002*, *S00003*) are in **SDG**, because every customer pays us in pounds."},
+
+    {"t": "h3", "text": "A USD purchase order in practice"},
+    {"t": "p", "text": "*P00002* is the textbook example of an import. It buys 50 Insulin vials at $14 and 10 Blood-Pressure Monitors at $42 from *Gulf MedTrade FZE (USD)*. The order total is **$1,288.00**, and right beneath the dollar total the system shows the **SDG equivalent** — about **5,796,000 SDG** — converted at the rate that applied on the order's date (4,500 SDG per USD). You did not type that conversion — the dated rate did it for you."},
+    {"t": "fig", "file": "po_usd.png", "caption": "Purchase Order P00002 for Gulf MedTrade (USD): 50 Insulin @ $14 and 10 BP Monitors @ $42, status bar RFQ to Purchase Order, total $1,288.00 with the SDG equivalent (5,796,000 SDG) shown beneath, and the Create Bill button in the header."},
+    {"t": "p", "text": "When you press **Create Bill** on a USD purchase order, the resulting **Vendor Bill** inherits the USD currency. In the demo, *BILL/2026/05/0002* from *Gulf MedTrade FZE (USD)* is recorded for **483 USD**, and the system stores its SDG value using the rate on the bill's own date — so the bill and its underlying purchase always agree."},
+    {"t": "fig", "file": "vendor_bill_usd.png", "caption": "The USD vendor bill BILL/2026/05/0002 from Gulf MedTrade (483 USD), valued in SDG at the exchange rate in force on its date."},
+
+    {"t": "h2", "text": "Foreign-Currency Bank and Cash Journals"},
+    {"t": "p", "text": "A *journal* is the book the system uses to record one stream of transactions (a particular bank account, the cash safe, customer invoices, and so on). Because we genuinely hold dollars, *Sudan MedSupply Co.* keeps separate **foreign-currency journals** that are denominated in USD. You can see them at **Accounting → Configuration → Accounting → Journals**:"},
+    {"t": "table", "headers": ["Journal", "Code", "Type", "Currency"], "rows": [
+      ["Customer Invoices", "INV", "Sale", "SDG"],
+      ["Vendor Bills", "BILL", "Purchase", "SDG"],
+      ["Bank of Khartoum (SDG)", "BNKSD", "Bank", "SDG"],
+      ["USD Bank Account", "BNKUS", "Bank", "USD"],
+      ["Main Cash Safe (SDG)", "CSHSD", "Cash", "SDG"],
+      ["USD Cash Safe", "CSHUS", "Cash", "USD"]
+    ]},
+    {"t": "p", "text": "The two USD journals — the **USD Bank Account** and the **USD Cash Safe** — hold actual dollars. When you pay a USD supplier or receive dollars, you use one of these journals so that the dollar balance is tracked in dollars. The system still records the SDG value of every movement, so your books stay complete in SDG while the dollar account stays accurate in dollars."},
+    {"t": "note", "title": "Why a dedicated USD journal?", "text": "If you paid a USD bill out of an SDG bank journal, the system would have to convert immediately and you would lose sight of how many actual dollars you hold. A USD journal keeps the dollar balance honest — it answers the simple question, *how many dollars do we have right now?*"},
+
+    {"t": "h2", "text": "Revaluation at Period Close"},
+    {"t": "p", "text": "Here is the one place the exchange rate needs a periodic touch. Because the rate keeps moving, the SDG value of the dollars sitting in your USD journals drifts over time. The dollars you bought at 3,000 SDG each are worth 4,500 SDG each today. *Revaluation* is the routine, end-of-period step that restates the SDG value of your foreign-currency balances at the latest rate, so the Balance Sheet reflects today's worth of your dollars rather than the old historical rate."},
+    {"t": "ul", "items": [
+      "It is done at **period close** (for example, at month-end), not on every transaction.",
+      "It only changes the **SDG reporting value** of the foreign balance — your actual number of dollars does not change.",
+      "The difference it books is an unrealised exchange gain or loss, which is normal and expected when rates move."
+    ]},
+    {"t": "tip", "title": "Day to day, you do nothing", "text": "Revaluation is an accountant's closing task, usually handled by the Accountant role (*Mohammed*) under guidance of the Manager. During ordinary daily work — raising USD purchase orders, billing, paying — you simply transact and let the dated rates convert everything automatically."},
+
+    {"t": "h2", "text": "Step by Step: Add a New Exchange Rate"},
+    {"t": "p", "text": "When the market rate changes, record the new rate once and every future USD document will use it automatically."},
+    {"t": "ol", "items": [
+      "Open the **Accounting** app from the 9-dot app launcher.",
+      "Go to **Configuration → Accounting → Currencies**.",
+      "Click **USD** to open the currency record.",
+      "Open the **Rates** tab.",
+      "Click **Add a line** in the Rates grid.",
+      "Enter the **date** the new rate takes effect and the rate (read **SDG per Unit** as pounds per dollar — e.g. 4,500).",
+      "**Save** the record. From that date forward, new USD documents convert at the new rate, while older documents keep their original dated rates."
+    ]},
+
+    {"t": "h2", "text": "Step by Step: Read the SDG Value of a USD Document"},
+    {"t": "ol", "items": [
+      "Open the USD document — for example **Purchase → Orders → Purchase Orders**, then open *P00002*, or open the USD vendor bill *BILL/2026/05/0002*.",
+      "Note the document total in **USD** at the top/bottom of the lines.",
+      "Look just beneath the total for the **SDG equivalent**, which the system calculated using the rate on the document's date.",
+      "If you need the figure in SDG for an internal report, use this SDG equivalent — it is the value that flows into the books."
+    ]},
+    {"t": "warn", "title": "Do not change a posted document's rate", "text": "A posted (confirmed) bill or invoice keeps the rate of its date on purpose, so the books stay consistent. If the market rate has changed, that is handled by revaluation at period close, not by editing the old document."},
+
+    {"t": "h2", "text": "Summary"},
+    {"t": "ul", "items": [
+      "Our base currency is **SDG**; all reports come out in SDG.",
+      "**USD** is the reference currency for imports and foreign quotations.",
+      "Rates are stored as a **dated history** (2,400 to 4,500 SDG per USD across 2025-2026); each document uses the rate of its own date.",
+      "Currency flows automatically: PO from the supplier/vendor pricelist, bill inherited from the PO, SO from the customer pricelist, invoice inherited from the SO.",
+      "Dedicated **USD Bank Account** and **USD Cash Safe** journals hold real dollars and are **revalued** to the latest rate at period close.",
+      "Day to day, you just transact — the system converts everything to SDG for you."
+    ]}
+  ],
+  "blocks_ar": [
+    {"t": "p", "text": "تعمل *شركة السودان للمستلزمات الطبية* بعملتين في آنٍ واحد. نحتفظ بجميع دفاترنا وتقاريرنا بعملة **SDG** (الجنيه السوداني)، لأنها عملة البلد الذي نعمل فيه ونقدّم له التقارير. وفي الوقت نفسه نشتري معظم مستلزماتنا المستوردة من الخارج بعملة **USD** (الدولار الأمريكي) ونتلقى عروض الأسعار الأجنبية بالدولار. يشرح هذا الفصل، بلغة بسيطة، كيف يتيح لك النظام التعامل بحرية بالدولار مع الاحتفاظ دائمًا بمجموعة واحدة ومتسقة من الحسابات بالجنيه السوداني. والخبر السار: بمجرد تحميل أسعار الصرف، يقوم النظام بكل عمليات التحويل تلقائيًا — فلن تضطر تقريبًا إلى إجراء الحسابات بنفسك."},
+
+    {"t": "h2", "text": "عملتان ودفاتر واحدة"},
+    {"t": "p", "text": "*العملة* هي ببساطة نوع من المال (SDG، USD). يستخدم نظامنا عملتين، لكنه يتعامل معهما بطريقتين مختلفتين تمامًا:"},
+    {"t": "ul", "items": [
+      "**العملة الأساسية (عملة الشركة) — SDG.** هذه هي العملة الرسمية لـ *شركة السودان للمستلزمات الطبية*. كل تقرير محاسبي — الميزانية العمومية، الأرباح والخسائر، أعمار الذمم المدينة — يصدر بالجنيه السوداني، أيًّا كانت عملة المستند الأصلي. تخيّل الجنيه السوداني بوصفه اللغة التي تُكتب بها دفاترك؛ فكل شيء يُترجَم في نهاية المطاف إليه.",
+      "**العملة المرجعية — USD.** هذه هي العملة التي نستخدمها للاستيراد والعروض الأجنبية. مورّدنا الخارجي *Gulf MedTrade FZE (USD)* يسعّر بالدولار، لذا تكون أوامر الشراء والفواتير التي نتبادلها معه بالدولار. الدولار مُفعَّل في النظام لكنه ليس العملة الأساسية — تُحوَّل أرقامه دائمًا إلى الجنيه السوداني خلف الكواليس من أجل الدفاتر."
+    ]},
+    {"t": "p", "text": "يمكنك التأكد من العملات المُفعَّلة عبر **المحاسبة ← الإعدادات ← المحاسبة ← العملات**. تُظهر القائمة العملات النشطة، ومنها **SDG** و**USD**."},
+    {"t": "note", "title": "لماذا نحتفظ بالدفاتر بالجنيه السوداني فقط؟", "text": "*العملة* المستخدمة كعملة أساسية للشركة هي مرساة كل التقارير. ولأن الجهات السودانية والبنوك ومكتب الضرائب تعمل بالجنيه السوداني، فإن مسك الدفاتر بالجنيه يعني أن قوائمنا المالية جاهزة لهم دائمًا دون أي تحويل يدوي. تُسجَّل مبالغ الدولار أيضًا، لكن دائمًا إلى جانب قيمتها بالجنيه السوداني."},
+
+    {"t": "h2", "text": "تاريخ أسعار الصرف"},
+    {"t": "p", "text": "*سعر الصرف* هو مقدار ما تحصل عليه من عملة مقابل أخرى في يوم محدد. تحرّك الجنيه السوداني كثيرًا أمام الدولار، لذا لا يخزّن النظام سعرًا واحدًا — بل يخزّن **تاريخًا مؤرّخًا** للأسعار. ثم يستخدم كل مستند بالدولار السعر الذي كان ساريًا في تاريخه الخاص. هذا ما يبقي المستندات القديمة ثابتة: عملية شراء تمت قبل أشهر تحتفظ بسعر ذلك اليوم إلى الأبد، حتى بعد تغيّر السعر لاحقًا."},
+    {"t": "p", "text": "افتح سجل الدولار عبر **المحاسبة ← الإعدادات ← المحاسبة ← العملات**، ثم انقر **USD**، وافتح تبويب **الأسعار (Rates)** لرؤية كامل التاريخ الذي حمّلناه لـ *شركة السودان للمستلزمات الطبية*:"},
+    {"t": "table", "headers": ["التاريخ", "SDG لكل 1 USD"], "rows": [
+      ["1 يونيو 2025", "2,400"],
+      ["1 سبتمبر 2025", "3,000"],
+      ["1 يناير 2026", "3,600"],
+      ["1 أبريل 2026", "4,200"],
+      ["1 يونيو 2026", "4,500"]
+    ]},
+    {"t": "p", "text": "قراءة هذا الجدول: في 1 يونيو 2025 كان الدولار الواحد يساوي 2,400 جنيهًا؛ وبحلول 1 يونيو 2026 صار يساوي 4,500 جنيهًا. يُستخدم أحدث سعر (4,500) لأي مستند دولاري جديد مؤرّخ باليوم. أما مستند مؤرّخ مثلًا بـ 15 يناير 2026 فسيستخدم سعر 3,600، لأنه السعر الذي كان ساريًا في تاريخه."},
+    {"t": "fig", "file": "currency_usd.png", "caption": "سجل عملة الدولار مع فتح تبويب الأسعار، يُظهر تاريخ أسعار الصرف المؤرّخ الذي يرتفع من 2,400 إلى 4,500 جنيه لكل دولار عبر 2025-2026."},
+    {"t": "tip", "title": "سعر تاريخ المستند هو ما يُحتسب", "text": "كلما أنشأت أمر شراء أو فاتورة مورّد أو أمر بيع أو فاتورة عميل بالدولار، يبحث النظام تلقائيًا عن سعر تاريخ ذلك المستند ويعرض المعادل بالجنيه السوداني. أنت لا تُدخل سعرًا في أي معاملة يدويًا — بل تحافظ على قائمة الأسعار المؤرّخة مرة واحدة فقط، هنا في تبويب الأسعار."},
+
+    {"t": "h3", "text": "حقول استمارة العملة"},
+    {"t": "p", "text": "عند فتح سجل عملة (مثل **USD**)، تكون الاستمارة منظّمة في منطقة رئيسية وتبويب **الأسعار (Rates)**. وفيما يلي كل حقل ستراه."},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"], "rows": [
+      ["Currency (العملة)", "رمز العملة المكوّن من ثلاثة أحرف وفق معيار ISO 4217، مثل USD أو SDG."],
+      ["Name (الاسم)", "الاسم الوصفي الكامل للعملة (مثل US Dollar)."],
+      ["Active (نشط)", "مفتاح يُفعّل العملة أو يوقفها. لا تُستخدم في المستندات إلا العملات النشطة؛ وكلٌّ من SDG وUSD نشط لدينا."],
+      ["Symbol (الرمز)", "الإشارة المطبوعة بجانب المبالغ، مثل $ للدولار."],
+      ["Currency Unit (وحدة العملة)", "اسم الوحدة الكاملة الواحدة (مثل Dollar)."],
+      ["Currency Subunit (الوحدة الفرعية)", "اسم الجزء الكسري (مثل Cent)."],
+      ["Is Current Company Currency (هل هي عملة الشركة الحالية)", "علامة للقراءة فقط تُؤشَّر على العملة الأساسية وحدها. وهي مؤشَّرة لدينا على SDG وليست على USD."],
+      ["Display Rounding Warning (إظهار تحذير التقريب)", "علامة للقراءة فقط تحذّرك إذا كان تغيير دقة التقريب قد يكون غير آمن."]
+    ]},
+    {"t": "h3", "text": "الأسعار (Rates)"},
+    {"t": "p", "text": "يحتوي هذا التبويب على تاريخ الأسعار المؤرّخ وأدوات التحويل المساعدة. الجدول (قائمة **الأسعار**) هو المكان الذي تضيف فيه سطرًا جديدًا كلما تحرّك السوق."},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"], "rows": [
+      ["Rates (الأسعار)", "قائمة سطور الأسعار المؤرّخة. أضف سطرًا واحدًا لكل تغيّر في السعر: تاريخ والسعر الساري اعتبارًا من ذلك التاريخ فصاعدًا."],
+      ["Unit per SDG (وحدة لكل جنيه)", "كم وحدة من هذه العملة تساوي جنيهًا واحدًا (قيمة الدولار معبَّرًا عنها لكل جنيه). هذه هي الطريقة الفنية المعكوسة لقراءة السعر."],
+      ["SDG per Unit (جنيه لكل وحدة)", "كم جنيهًا يساوي وحدة واحدة من هذه العملة — أي كم جنيهًا لكل دولار. هذا هو الرقم المطابق لجدول التاريخ أعلاه (2,400 ... 4,500)."],
+      ["Current Rate (السعر الحالي)", "السعر الساري حاليًا (أحدث سطر مؤرّخ)."],
+      ["Last Updated on (آخر تحديث في)", "تاريخ ووقت آخر تعديل لهذا السجل."]
+    ]},
+    {"t": "note", "title": "طريقتان لقراءة سعر واحد", "text": "*Unit per SDG* و*SDG per Unit* تصفان سعر الصرف نفسه من اتجاهين متعاكسين. والأسهل للموظفين هي **SDG per Unit** — جنيه لكل دولار — التي تُقرأ بشكل طبيعي وفق تاريخنا من 2,400 إلى 4,500."},
+
+    {"t": "h2", "text": "من أين يستمد كل مستند عملته"},
+    {"t": "p", "text": "نادرًا ما تختار العملة في كل معاملة يدويًا. بل تتدفق العملة تلقائيًا من العميل أو المورّد أو قائمة الأسعار المرتبطة بهم. *قائمة الأسعار (Pricelist)* هي ببساطة مجموعة محفوظة من الأسعار (والعملة المُسعَّر بها) لشريك معيّن. وفيما يلي بالضبط من أين يستمد كل مستند عملته."},
+    {"t": "table", "headers": ["المستند", "من أين يستمد عملته"], "rows": [
+      ["أمر الشراء (PO)", "عملة الشراء لدى المورّد / قائمة أسعار المورّد. الأوامر إلى *Gulf MedTrade FZE (USD)* تصدر بالدولار؛ والأوامر إلى المورّدين المحليين تصدر بالجنيه السوداني."],
+      ["فاتورة المورّد", "موروثة من أمر الشراء الذي أُنشئت منه. أمر شراء بالدولار يُنتج فاتورة بالدولار."],
+      ["أمر البيع (SO)", "قائمة أسعار العميل. تُفوتَر معاملاتنا للعملاء بالجنيه السوداني، فتكون أوامر البيع لهم بالجنيه السوداني."],
+      ["فاتورة العميل", "موروثة من أمر البيع الذي أُنشئت منه. أمر بالجنيه السوداني يُنتج فاتورة بالجنيه السوداني."]
+    ]},
+    {"t": "p", "text": "يظهر ذلك في بيانات العرض الحيّة. فمن بين أوامر الشراء لدينا، يكون *P00002* الموجّه إلى *Gulf MedTrade FZE (USD)* بالدولار **USD** (الإجمالي 1,288.00$)، بينما تكون *P00001* و*P00003* و*P00004* أوامر محلية بالجنيه السوداني **SDG**. وجميع أوامر البيع الثلاثة (*S00001*، *S00002*، *S00003*) بالجنيه السوداني **SDG**، لأن كل عميل يدفع لنا بالجنيه."},
+
+    {"t": "h3", "text": "أمر شراء بالدولار من الواقع"},
+    {"t": "p", "text": "*P00002* هو المثال النموذجي على الاستيراد. فهو يشتري 50 قارورة إنسولين بسعر 14$ و10 أجهزة قياس ضغط الدم بسعر 42$ من *Gulf MedTrade FZE (USD)*. إجمالي الأمر **1,288.00$**، وأسفل الإجمالي بالدولار مباشرةً يعرض النظام **المعادل بالجنيه السوداني** — نحو **5,796,000 جنيه** — محوَّلًا وفق السعر الساري في تاريخ الأمر (4,500 جنيه لكل دولار). أنت لم تُدخل هذا التحويل — السعر المؤرّخ أنجزه لك."},
+    {"t": "fig", "file": "po_usd.png", "caption": "أمر الشراء P00002 لصالح Gulf MedTrade (بالدولار): 50 إنسولين بسعر 14$ و10 أجهزة ضغط دم بسعر 42$، شريط الحالة من طلب عرض سعر إلى أمر شراء، الإجمالي 1,288.00$ مع عرض المعادل بالجنيه السوداني (5,796,000 جنيه) أسفله، وزر إنشاء فاتورة (Create Bill) في الترويسة."},
+    {"t": "p", "text": "عندما تضغط **إنشاء فاتورة (Create Bill)** على أمر شراء بالدولار، ترث **فاتورة المورّد** الناتجة عملة الدولار. في بيانات العرض، تُسجَّل *BILL/2026/05/0002* من *Gulf MedTrade FZE (USD)* بمبلغ **483 USD**، ويخزّن النظام قيمتها بالجنيه السوداني وفق سعر تاريخ الفاتورة نفسها — فتتطابق الفاتورة وأمر الشراء الأساسي دائمًا."},
+    {"t": "fig", "file": "vendor_bill_usd.png", "caption": "فاتورة المورّد بالدولار BILL/2026/05/0002 من Gulf MedTrade (483 دولارًا)، مقيَّمة بالجنيه السوداني وفق سعر الصرف الساري في تاريخها."},
+
+    {"t": "h2", "text": "دفاتر البنك والنقد بالعملة الأجنبية"},
+    {"t": "p", "text": "*الدفتر (Journal)* هو السجل الذي يستخدمه النظام لتسجيل تيار واحد من المعاملات (حساب بنكي معيّن، خزنة النقد، فواتير العملاء، وهكذا). ولأننا نحتفظ فعليًا بالدولارات، تمسك *شركة السودان للمستلزمات الطبية* **دفاتر منفصلة بالعملة الأجنبية** مقوَّمة بالدولار. يمكنك رؤيتها عبر **المحاسبة ← الإعدادات ← المحاسبة ← الدفاتر**:"},
+    {"t": "table", "headers": ["الدفتر", "الرمز", "النوع", "العملة"], "rows": [
+      ["Customer Invoices (فواتير العملاء)", "INV", "بيع", "SDG"],
+      ["Vendor Bills (فواتير الموردين)", "BILL", "شراء", "SDG"],
+      ["Bank of Khartoum (SDG)", "BNKSD", "بنك", "SDG"],
+      ["USD Bank Account", "BNKUS", "بنك", "USD"],
+      ["Main Cash Safe (SDG)", "CSHSD", "نقد", "SDG"],
+      ["USD Cash Safe", "CSHUS", "نقد", "USD"]
+    ]},
+    {"t": "p", "text": "الدفتران بالدولار — **USD Bank Account** و**USD Cash Safe** — يحتفظان بدولارات فعلية. عند دفعك لمورّد بالدولار أو استلامك دولارات، تستخدم أحد هذين الدفترين كي يُتابَع رصيد الدولار بالدولار. ومع ذلك يسجّل النظام القيمة بالجنيه السوداني لكل حركة، فتبقى دفاترك كاملة بالجنيه بينما يبقى الحساب الدولاري دقيقًا بالدولار."},
+    {"t": "note", "title": "لماذا دفتر دولاري مخصّص؟", "text": "لو دفعت فاتورة بالدولار من دفتر بنكي بالجنيه السوداني، لاضطر النظام إلى التحويل فورًا ولفقدتَ رؤية عدد الدولارات الفعلية التي تملكها. الدفتر الدولاري يبقي رصيد الدولار صادقًا — فهو يجيب عن سؤال بسيط: *كم دولارًا نملك الآن؟*"},
+
+    {"t": "h2", "text": "إعادة التقييم عند إقفال الفترة"},
+    {"t": "p", "text": "هنا المكان الوحيد الذي يحتاج فيه سعر الصرف إلى لمسة دورية. لأن السعر يتحرك باستمرار، تنحرف القيمة بالجنيه السوداني للدولارات الموجودة في دفاترك الدولارية بمرور الوقت. فالدولارات التي اشتريتها بسعر 3,000 جنيه للدولار تساوي 4,500 جنيه للدولار اليوم. *إعادة التقييم (Revaluation)* هي الخطوة الروتينية في نهاية الفترة التي تعيد ذكر القيمة بالجنيه السوداني لأرصدتك بالعملة الأجنبية وفق أحدث سعر، كي تعكس الميزانية العمومية قيمة دولاراتك اليوم بدلًا من السعر التاريخي القديم."},
+    {"t": "ul", "items": [
+      "تُجرى عند **إقفال الفترة** (مثلًا في نهاية الشهر)، لا في كل معاملة.",
+      "تغيّر فقط **القيمة المُبلَّغة بالجنيه السوداني** للرصيد الأجنبي — أما عدد دولاراتك الفعلي فلا يتغيّر.",
+      "الفارق الذي تقيّده هو ربح أو خسارة صرف غير محقّقة، وهو أمر طبيعي ومتوقَّع عند تحرك الأسعار."
+    ]},
+    {"t": "tip", "title": "في العمل اليومي لا تفعل شيئًا", "text": "إعادة التقييم مهمة إقفال للمحاسب، يتولاها عادةً دور المحاسب (*محمد*) بإرشاد من المدير. أما في العمل اليومي المعتاد — إصدار أوامر شراء بالدولار، الفوترة، الدفع — فأنت تتعامل فقط وتترك للأسعار المؤرّخة تحويل كل شيء تلقائيًا."},
+
+    {"t": "h2", "text": "خطوة بخطوة: إضافة سعر صرف جديد"},
+    {"t": "p", "text": "عندما يتغيّر سعر السوق، سجّل السعر الجديد مرة واحدة، وسيستخدمه كل مستند دولاري مستقبلي تلقائيًا."},
+    {"t": "ol", "items": [
+      "افتح تطبيق **المحاسبة** من مشغّل التطبيقات ذي النقاط التسع.",
+      "اذهب إلى **الإعدادات ← المحاسبة ← العملات**.",
+      "انقر **USD** لفتح سجل العملة.",
+      "افتح تبويب **الأسعار (Rates)**.",
+      "انقر **إضافة سطر (Add a line)** في جدول الأسعار.",
+      "أدخل **التاريخ** الذي يسري فيه السعر الجديد والسعر (اقرأ **SDG per Unit** بوصفه جنيهًا لكل دولار — مثلًا 4,500).",
+      "**احفظ** السجل. من ذلك التاريخ فصاعدًا تُحوَّل المستندات الدولارية الجديدة وفق السعر الجديد، بينما تحتفظ المستندات الأقدم بأسعارها المؤرّخة الأصلية."
+    ]},
+
+    {"t": "h2", "text": "خطوة بخطوة: قراءة قيمة مستند دولاري بالجنيه السوداني"},
+    {"t": "ol", "items": [
+      "افتح المستند الدولاري — مثلًا **الشراء ← الأوامر ← أوامر الشراء**، ثم افتح *P00002*، أو افتح فاتورة المورّد الدولارية *BILL/2026/05/0002*.",
+      "لاحظ إجمالي المستند بالدولار **USD** في أعلى/أسفل السطور.",
+      "انظر أسفل الإجمالي مباشرةً إلى **المعادل بالجنيه السوداني**، الذي حسبه النظام وفق سعر تاريخ المستند.",
+      "إذا احتجت الرقم بالجنيه السوداني لتقرير داخلي، فاستخدم هذا المعادل بالجنيه — فهو القيمة التي تتدفق إلى الدفاتر."
+    ]},
+    {"t": "warn", "title": "لا تغيّر سعر مستند مرحَّل", "text": "تحتفظ الفاتورة أو فاتورة المورّد المرحَّلة (المؤكَّدة) بسعر تاريخها عن قصد، كي تبقى الدفاتر متسقة. وإذا تغيّر سعر السوق، فيُعالَج ذلك بإعادة التقييم عند إقفال الفترة، لا بتعديل المستند القديم."},
+
+    {"t": "h2", "text": "الخلاصة"},
+    {"t": "ul", "items": [
+      "عملتنا الأساسية هي **SDG**؛ وكل التقارير تصدر بالجنيه السوداني.",
+      "**USD** هي العملة المرجعية للاستيراد والعروض الأجنبية.",
+      "تُخزَّن الأسعار بوصفها **تاريخًا مؤرّخًا** (من 2,400 إلى 4,500 جنيه لكل دولار عبر 2025-2026)؛ ويستخدم كل مستند سعر تاريخه الخاص.",
+      "تتدفق العملة تلقائيًا: أمر الشراء من المورّد/قائمة أسعار المورّد، الفاتورة موروثة من أمر الشراء، أمر البيع من قائمة أسعار العميل، فاتورة العميل موروثة من أمر البيع.",
+      "دفترا **USD Bank Account** و**USD Cash Safe** المخصّصان يحتفظان بدولارات فعلية ويُعاد **تقييمهما** وفق أحدث سعر عند إقفال الفترة.",
+      "في العمل اليومي تتعامل فقط — والنظام يحوّل كل شيء إلى الجنيه السوداني نيابةً عنك."
+    ]}
+  ]
+}

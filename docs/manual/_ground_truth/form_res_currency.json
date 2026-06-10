@@ -1,0 +1,126 @@
+{
+ "model": "res.currency",
+ "fields": [
+  {
+   "name": "name",
+   "label": "Currency",
+   "type": "char",
+   "help": "Currency Code (ISO 4217)",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "full_name",
+   "label": "Name",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "symbol",
+   "label": "Symbol",
+   "type": "char",
+   "help": "Currency sign, to be used when printing amounts.",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "currency_unit_label",
+   "label": "Currency Unit",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "currency_subunit_label",
+   "label": "Currency Subunit",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "rate_ids",
+   "label": "Rates",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Rates",
+   "relation": "res.currency.rate"
+  },
+  {
+   "name": "company_rate",
+   "label": "Unit per SDG",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Rates"
+  },
+  {
+   "name": "inverse_company_rate",
+   "label": "SDG per Unit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Rates"
+  },
+  {
+   "name": "rate",
+   "label": "Current Rate",
+   "type": "float",
+   "help": "The rate of the currency to the currency of rate 1.",
+   "required": false,
+   "readonly": false,
+   "page": "Rates"
+  },
+  {
+   "name": "write_date",
+   "label": "Last Updated on",
+   "type": "datetime",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Rates"
+  },
+  {
+   "name": "is_current_company_currency",
+   "label": "Is Current Company Currency",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "display_rounding_warning",
+   "label": "Display Rounding Warning",
+   "type": "boolean",
+   "help": "The warning informs a rounding factor change might be dangerous on res.currency's form view.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  }
+ ],
+ "buttons": [],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

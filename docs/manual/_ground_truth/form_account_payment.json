@@ -1,0 +1,454 @@
+{
+ "model": "account.payment",
+ "fields": [
+  {
+   "name": "amount_available_for_refund",
+   "label": "Amount Available For Refund",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "__header__"
+  },
+  {
+   "name": "state",
+   "label": "State",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "__header__",
+   "selection": [
+    "Draft",
+    "In Process",
+    "Paid",
+    "Canceled",
+    "Rejected"
+   ]
+  },
+  {
+   "name": "duplicate_payment_ids",
+   "label": "Duplicated Payments",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment"
+  },
+  {
+   "name": "id",
+   "label": "ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_sent",
+   "label": "Is Sent",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "need_cancel_request",
+   "label": "Need Cancel Request",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_reconciled",
+   "label": "Is Reconciled",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_matched",
+   "label": "Is Matched With a Bank Statement",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "payment_method_code",
+   "label": "Code",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_partner_bank_account",
+   "label": "Show Partner Bank Account",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "require_partner_bank_account",
+   "label": "Require Partner Bank Account",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "available_payment_method_line_ids",
+   "label": "Available Payment Method Line",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "available_partner_bank_ids",
+   "label": "Available Partner Bank",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner.bank"
+  },
+  {
+   "name": "country_code",
+   "label": "Country Code",
+   "type": "char",
+   "help": "The ISO country code in two chars. \nYou can use this field for quick search.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "partner_type",
+   "label": "Partner Type",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Customer",
+    "Vendor"
+   ]
+  },
+  {
+   "name": "reconciled_invoices_type",
+   "label": "Reconciled Invoices Type",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Credit Note",
+    "Invoice"
+   ]
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "paired_internal_transfer_payment_id",
+   "label": "Paired Internal Transfer Payment",
+   "type": "many2one",
+   "help": "When an internal transfer is posted, a paired payment is created. They are cross referenced through this field",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment"
+  },
+  {
+   "name": "available_journal_ids",
+   "label": "Available Journal",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.journal"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "The payment's currency.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "reconciled_invoices_count",
+   "label": "# Reconciled Invoices",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "reconciled_bills_count",
+   "label": "# Reconciled Bills",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "reconciled_statement_lines_count",
+   "label": "# Reconciled Statement Lines",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "refunds_count",
+   "label": "Refunds",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Number",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "payment_type",
+   "label": "Payment Type",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "selection": [
+    "Send",
+    "Receive"
+   ]
+  },
+  {
+   "name": "partner_id",
+   "label": "Customer",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "amount",
+   "label": "Amount",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "date",
+   "label": "Date",
+   "type": "date",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "memo",
+   "label": "Memo",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "journal_id",
+   "label": "Journal",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "account.journal"
+  },
+  {
+   "name": "payment_method_line_id",
+   "label": "Payment Method",
+   "type": "many2one",
+   "help": "Manual: Pay or Get paid by any method outside of Odoo.\nPayment Providers: Each payment provider has its own Payment Method. Request a transaction on/to a card thanks to a payment token saved by the partner when buying or subscribing online.\nCheck: Pay bills by check and print it from Odoo.\nBatch Dep",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "suitable_payment_token_ids",
+   "label": "Suitable Payment Token",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "payment.token"
+  },
+  {
+   "name": "use_electronic_payment_method",
+   "label": "Use Electronic Payment Method",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "payment_token_id",
+   "label": "Saved Payment Token",
+   "type": "many2one",
+   "help": "Note that only tokens from providers allowing to capture the amount are available.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "payment.token"
+  },
+  {
+   "name": "partner_bank_id",
+   "label": "Customer Bank Account",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner.bank"
+  },
+  {
+   "name": "source_payment_id",
+   "label": "Source Payment",
+   "type": "many2one",
+   "help": "The source payment of related refund payments",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment"
+  },
+  {
+   "name": "qr_code",
+   "label": "QR Code URL",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "move_id",
+   "label": "Journal Entry",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "account.move"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Confirm",
+   "name": "action_post",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Validate",
+   "name": "action_validate",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Reject",
+   "name": "action_reject",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Reset To Draft",
+   "name": "action_draft",
+   "type": "object",
+   "class": "btn btn-secondary"
+  },
+  {
+   "label": "Refund",
+   "name": "action_refund_wizard",
+   "type": "object",
+   "class": "btn-secondary"
+  },
+  {
+   "label": "Cancel",
+   "name": "action_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Request Cancel",
+   "name": "button_request_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Mark as Sent",
+   "name": "mark_as_sent",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Unmark as Sent",
+   "name": "unmark_as_sent",
+   "type": "object",
+   "class": ""
+  }
+ ],
+ "statusbar_states": [
+  "Draft",
+  "In Process",
+  "Paid",
+  "Canceled",
+  "Rejected"
+ ],
+ "smart_buttons": []
+}

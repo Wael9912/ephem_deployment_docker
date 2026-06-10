@@ -1,0 +1,1134 @@
+{
+ "model": "sale.order",
+ "fields": [
+  {
+   "name": "locked",
+   "label": "Locked",
+   "type": "boolean",
+   "help": "Locked orders cannot be modified.",
+   "required": false,
+   "readonly": false,
+   "page": "__header__"
+  },
+  {
+   "name": "authorized_transaction_ids",
+   "label": "Authorized Transactions",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "__header__",
+   "relation": "payment.transaction"
+  },
+  {
+   "name": "state",
+   "label": "Status",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "__header__",
+   "selection": [
+    "Quotation",
+    "Quotation Sent",
+    "Sales Order",
+    "Cancelled"
+   ]
+  },
+  {
+   "name": "partner_credit_warning",
+   "label": "Partner Credit Warning",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "duplicated_order_ids",
+   "label": "Duplicated Documents",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "sale.order"
+  },
+  {
+   "name": "delivery_count",
+   "label": "Delivery",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "invoice_count",
+   "label": "Invoices",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_count",
+   "label": "Number of Purchase Order Generated",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Order Reference",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "Customer",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "validity_date",
+   "label": "Expiration",
+   "type": "date",
+   "help": "Validity of the order, after that you will not able to sign & pay the quotation.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "date_order",
+   "label": "Order Date",
+   "type": "datetime",
+   "help": "Creation date of draft/sent orders,\nConfirmation date of confirmed orders.",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "has_active_pricelist",
+   "label": "Has Active Pricelist",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_update_pricelist",
+   "label": "Has Pricelist Changed",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "pricelist_id",
+   "label": "Pricelist",
+   "type": "many2one",
+   "help": "If you change the pricelist, only newly added lines will be affected.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "product.pricelist"
+  },
+  {
+   "name": "country_code",
+   "label": "Country code",
+   "type": "char",
+   "help": "The ISO country code in two chars. \nYou can use this field for quick search.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "tax_country_id",
+   "label": "Tax Country",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.country"
+  },
+  {
+   "name": "tax_calculation_rounding_method",
+   "label": "Tax Calculation Rounding Method",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Round per Line",
+    "Round Globally"
+   ]
+  },
+  {
+   "name": "payment_term_id",
+   "label": "Payment Terms",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.payment.term"
+  },
+  {
+   "name": "order_line",
+   "label": "Order Lines",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines",
+   "relation": "sale.order.line"
+  },
+  {
+   "name": "technical_price_unit",
+   "label": "technical_price_unit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "display_type",
+   "label": "display_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "is_downpayment",
+   "label": "is_downpayment",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "sequence",
+   "label": "sequence",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_uom_category_id",
+   "label": "product_uom_category_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_updatable",
+   "label": "product_updatable",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_id",
+   "label": "product_id",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_type",
+   "label": "product_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "invoice_status",
+   "label": "Invoice Status",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines",
+   "selection": [
+    "Upselling Opportunity",
+    "Fully Invoiced",
+    "To Invoice",
+    "Nothing to Invoice"
+   ]
+  },
+  {
+   "name": "qty_to_invoice",
+   "label": "qty_to_invoice",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "qty_delivered_method",
+   "label": "qty_delivered_method",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "price_total",
+   "label": "price_total",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "price_tax",
+   "label": "price_tax",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "price_subtotal",
+   "label": "price_subtotal",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_uom_readonly",
+   "label": "product_uom_readonly",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_uom_qty",
+   "label": "product_uom_qty",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "virtual_available_at_date",
+   "label": "virtual_available_at_date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "qty_available_today",
+   "label": "qty_available_today",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "free_qty_today",
+   "label": "free_qty_today",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "scheduled_date",
+   "label": "scheduled_date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "forecast_expected_date",
+   "label": "forecast_expected_date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "warehouse_id",
+   "label": "Warehouse",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines",
+   "relation": "stock.warehouse"
+  },
+  {
+   "name": "move_ids",
+   "label": "move_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "qty_to_deliver",
+   "label": "qty_to_deliver",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "is_mto",
+   "label": "is_mto",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "display_qty_widget",
+   "label": "display_qty_widget",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_uom",
+   "label": "product_uom",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "qty_delivered",
+   "label": "qty_delivered",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "qty_invoiced",
+   "label": "qty_invoiced",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "price_unit",
+   "label": "price_unit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "tax_id",
+   "label": "tax_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "customer_lead",
+   "label": "customer_lead",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "analytic_distribution",
+   "label": "analytic_distribution",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "is_product_archived",
+   "label": "is_product_archived",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "translated_product_name",
+   "label": "translated_product_name",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_template_id",
+   "label": "Product",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_template_attribute_value_ids",
+   "label": "product_template_attribute_value_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_custom_attribute_value_ids",
+   "label": "product_custom_attribute_value_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "custom_product_template_attribute_value_id",
+   "label": "custom_product_template_attribute_value_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "custom_value",
+   "label": "custom_value",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_no_variant_attribute_value_ids",
+   "label": "product_no_variant_attribute_value_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "is_configurable_product",
+   "label": "is_configurable_product",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "linked_line_id",
+   "label": "linked_line_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "virtual_id",
+   "label": "virtual_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "linked_virtual_id",
+   "label": "linked_virtual_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "selected_combo_items",
+   "label": "selected_combo_items",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "combo_item_id",
+   "label": "combo_item_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "product_document_ids",
+   "label": "product_document_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "order_id",
+   "label": "order_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "available_product_document_ids",
+   "label": "Available Product Documents",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines",
+   "relation": "quotation.document"
+  },
+  {
+   "name": "discount",
+   "label": "discount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "note",
+   "label": "Terms and conditions",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Order Lines"
+  },
+  {
+   "name": "tax_totals",
+   "label": "Tax Totals",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Order Lines"
+  },
+  {
+   "name": "sale_order_option_ids",
+   "label": "Optional Products Lines",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Optional Products",
+   "relation": "sale.order.option"
+  },
+  {
+   "name": "quantity",
+   "label": "quantity",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Optional Products"
+  },
+  {
+   "name": "uom_id",
+   "label": "uom_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Optional Products"
+  },
+  {
+   "name": "is_present",
+   "label": "is_present",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Optional Products"
+  },
+  {
+   "name": "quotation_document_ids",
+   "label": "Headers/Footers",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Quote Builder",
+   "relation": "quotation.document"
+  },
+  {
+   "name": "customizable_pdf_form_fields",
+   "label": "Customizable PDF Form Fields",
+   "type": "json",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Quote Builder"
+  },
+  {
+   "name": "user_id",
+   "label": "Salesperson",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "res.users"
+  },
+  {
+   "name": "team_id",
+   "label": "Sales Team",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "crm.team"
+  },
+  {
+   "name": "require_signature",
+   "label": "Online signature",
+   "type": "boolean",
+   "help": "Request a online signature from the customer to confirm the order.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Info"
+  },
+  {
+   "name": "require_payment",
+   "label": "Online payment",
+   "type": "boolean",
+   "help": "Request a online payment from the customer to confirm the order.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Info"
+  },
+  {
+   "name": "prepayment_percent",
+   "label": "Prepayment percentage",
+   "type": "float",
+   "help": "The percentage of the amount needed that must be paid by the customer to confirm the order.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Info"
+  },
+  {
+   "name": "reference",
+   "label": "Payment Ref.",
+   "type": "char",
+   "help": "The payment communication of this sale order.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Info"
+  },
+  {
+   "name": "client_order_ref",
+   "label": "Customer Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "tag_ids",
+   "label": "Tags",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "crm.tag"
+  },
+  {
+   "name": "show_update_fpos",
+   "label": "Has Fiscal Position Changed",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "fiscal_position_id",
+   "label": "Fiscal Position",
+   "type": "many2one",
+   "help": "Fiscal positions are used to adapt taxes and accounts for particular customers or sales orders/invoices.The default value comes from the customer.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "account.fiscal.position"
+  },
+  {
+   "name": "partner_invoice_id",
+   "label": "Invoice Address",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "res.partner"
+  },
+  {
+   "name": "incoterm",
+   "label": "Incoterm",
+   "type": "many2one",
+   "help": "International Commercial Terms are a series of predefined commercial terms used in international transactions.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "account.incoterms"
+  },
+  {
+   "name": "incoterm_location",
+   "label": "Incoterm Location",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "picking_policy",
+   "label": "Shipping Policy",
+   "type": "selection",
+   "help": "If you deliver all products at once, the delivery order will be scheduled based on the greatest product lead time. Otherwise, it will be based on the shortest.",
+   "required": true,
+   "readonly": true,
+   "page": "Other Info",
+   "selection": [
+    "As soon as possible",
+    "When all products are ready"
+   ]
+  },
+  {
+   "name": "commitment_date",
+   "label": "Delivery Date",
+   "type": "datetime",
+   "help": "This is the delivery date promised to the customer. If set, the delivery order will be scheduled based on this date rather than product lead times.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "expected_date",
+   "label": "Expected Date",
+   "type": "datetime",
+   "help": "Delivery date you can promise to the customer, computed from the minimum lead time of the order lines in case of Service products. In case of shipping, the shipping policy of the order will be taken into account to either use the minimum or maximum lead time of the order lines.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "show_json_popover",
+   "label": "Has late picking",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "json_popover",
+   "label": " ",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "effective_date",
+   "label": "Effective Date",
+   "type": "datetime",
+   "help": "Completion date of the first delivery order.",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "delivery_status",
+   "label": "Delivery Status",
+   "type": "selection",
+   "help": "Blue: Not Delivered/Started\n            Orange: Partially Delivered\n            Green: Fully Delivered",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "selection": [
+    "Not Delivered",
+    "Started",
+    "Partially Delivered",
+    "Fully Delivered"
+   ]
+  },
+  {
+   "name": "origin",
+   "label": "Source Document",
+   "type": "char",
+   "help": "Reference of the document that generated this sales order request",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info"
+  },
+  {
+   "name": "campaign_id",
+   "label": "Campaign",
+   "type": "many2one",
+   "help": "This is a name that helps you keep track of your different campaign efforts, e.g. Fall_Drive, Christmas_Special",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "utm.campaign"
+  },
+  {
+   "name": "medium_id",
+   "label": "Medium",
+   "type": "many2one",
+   "help": "This is the method of delivery, e.g. Postcard, Email, or Banner Ad",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "utm.medium"
+  },
+  {
+   "name": "source_id",
+   "label": "Source",
+   "type": "many2one",
+   "help": "This is the source of the link, e.g. Search Engine, another domain, or name of email list",
+   "required": false,
+   "readonly": false,
+   "page": "Other Info",
+   "relation": "utm.source"
+  },
+  {
+   "name": "has_archived_products",
+   "label": "Has Archived Products",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "company_price_include",
+   "label": "Default Sales Price Include",
+   "type": "selection",
+   "help": "Default on whether the sales price used on the product and invoices with this Company includes its taxes.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "selection": [
+    "Tax Included",
+    "Tax Excluded"
+   ]
+  },
+  {
+   "name": "is_pdf_quote_builder_available",
+   "label": "Is Pdf Quote Builder Available",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Capture Transaction",
+   "name": "payment_action_capture",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Void Transaction",
+   "name": "payment_action_void",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Create Invoice",
+   "name": "519",
+   "type": "action",
+   "class": "btn-primary"
+  },
+  {
+   "label": "Create Invoice",
+   "name": "519",
+   "type": "action",
+   "class": ""
+  },
+  {
+   "label": "Send by Email",
+   "name": "action_quotation_send",
+   "type": "object",
+   "class": "btn-primary"
+  },
+  {
+   "label": "Confirm",
+   "name": "action_confirm",
+   "type": "object",
+   "class": "btn-primary"
+  },
+  {
+   "label": "Confirm",
+   "name": "action_confirm",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Send by Email",
+   "name": "action_quotation_send",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Unlock",
+   "name": "action_unlock",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Preview",
+   "name": "action_preview_sale_order",
+   "type": "object",
+   "class": "btn-secondary"
+  },
+  {
+   "label": "Cancel",
+   "name": "action_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Set to Quotation",
+   "name": "action_draft",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": " Update Prices",
+   "name": "action_update_prices",
+   "type": "object",
+   "class": "btn-link mb-1 px-0"
+  },
+  {
+   "label": "Catalog",
+   "name": "action_add_from_catalog",
+   "type": "object",
+   "class": "px-4 btn-link"
+  },
+  {
+   "label": "Catalog",
+   "name": "action_add_from_catalog",
+   "type": "object",
+   "class": "btn-secondary"
+  },
+  {
+   "label": " Update Taxes",
+   "name": "action_update_taxes",
+   "type": "object",
+   "class": "btn-link mb-1 px-0"
+  }
+ ],
+ "statusbar_states": [
+  "Quotation",
+  "Quotation Sent",
+  "Sales Order",
+  "Cancelled"
+ ],
+ "smart_buttons": []
+}

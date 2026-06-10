@@ -1,0 +1,611 @@
+{
+  "key": "sales",
+  "title_en": "11. Sales",
+  "title_ar": "11. المبيعات",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "The **Sales** app is where you sell to customers. It walks every order through four simple stages, and the Medical-Supply ERP does most of the work for you along the way: it prices the products, calculates the tax, asks the warehouse to ship the goods, and prepares the customer invoice. This chapter follows that journey from start to finish using *Sudan MedSupply Co.*'s real demo data."
+    },
+    {
+      "t": "h2",
+      "text": "The selling flow at a glance"
+    },
+    {
+      "t": "p",
+      "text": "Every sale moves through the same four stages. You never have to remember them by heart, because the green status bar at the top of each order always shows you where you are."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "**Quotation** — a draft price offer you prepare for the customer. Nothing is committed yet; you can change anything.",
+        "**Sales Order** — once the customer agrees, you press **Confirm** and the quotation becomes a firm order. The system then asks the warehouse to prepare a delivery.",
+        "**Delivery** — the warehouse picks and ships the goods. For medical items this happens under **FEFO** (*First-Expired, First-Out* — the system always picks the batch that expires soonest, so nothing expires on the shelf).",
+        "**Customer Invoice** — the bill you send the customer asking for payment. The ERP creates it from the order with one click, copying the products, quantities, prices and tax automatically."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "The system does the heavy lifting",
+      "text": "You enter the customer and the products once. From there the ERP fills in the price (from the customer's pricelist), adds the 15% sales tax, reserves stock, prints the delivery order, and builds the invoice — all without re-typing a single number."
+    },
+    {
+      "t": "h2",
+      "text": "Pricelists and currency"
+    },
+    {
+      "t": "p",
+      "text": "A **pricelist** is simply a price book attached to a customer; it decides which prices and which currency an order uses. The **currency** of every order follows the customer's pricelist. For local Sudanese customers — such as hospitals and clinics — that currency is **SDG** (Sudanese Pound), so all the sales below are in SDG. A **tax** is a percentage the government adds to the sale; in Sudan that is **15%**, and the system adds it for you on every line."
+    },
+    {
+      "t": "note",
+      "title": "Why you see SDG everywhere",
+      "text": "*Sudan MedSupply Co.* sells domestically, so its customers all use the SDG pricelist. You will only see USD on the purchasing side, when buying from foreign suppliers."
+    },
+    {
+      "t": "h2",
+      "text": "Finding your quotations and orders"
+    },
+    {
+      "t": "p",
+      "text": "Open the **Sales** app from the 9-dot app launcher in the top-left of the screen. The most useful menus are:"
+    },
+    {
+      "t": "table",
+      "headers": ["Menu path", "What it shows"],
+      "rows": [
+        ["**Sales → Orders → Quotations**", "Draft and sent quotations — offers not yet confirmed."],
+        ["**Sales → Orders → Orders**", "Confirmed sales orders that are now firm commitments."],
+        ["**Sales → Orders → Customers**", "Your customer directory."],
+        ["**Sales → To Invoice → Orders to Invoice**", "Orders that are delivered and ready to be billed."],
+        ["**Sales → Products → Products**", "The catalogue of items you can sell."],
+        ["**Sales → Products → Pricelists**", "The price books that set prices and currency per customer."],
+        ["**Sales → Configuration → Settings**", "Turn sales features on or off."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "quotations_list.png",
+      "caption": "Sales → Orders → Quotations: the list of draft and sent quotations, before they become firm orders."
+    },
+    {
+      "t": "fig",
+      "file": "sale_orders_list.png",
+      "caption": "Sales → Orders → Orders: the confirmed sales orders S00001 and S00002, with their totals shown in SDG."
+    },
+    {
+      "t": "h2",
+      "text": "The sales order form, field by field"
+    },
+    {
+      "t": "p",
+      "text": "When you open a quotation or order you see one form. At the top is the document number (for example *S00001*), the green **status bar**, the header buttons, and two **smart buttons** (Delivery and Invoices). Below that the body is split into tabs. The tables below list every field you will see, grouped by the tab it lives on, in the order the tabs appear."
+    },
+    {
+      "t": "h3",
+      "text": "Header (top of the form)"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Customer**", "The hospital, clinic or pharmacy you are selling to. Choosing the customer pulls in their pricelist, payment terms and addresses automatically."],
+        ["**Order Reference**", "The order's own number (e.g. *S00001*). The system assigns it for you; you do not type it."],
+        ["**Expiration**", "The date until which the quotation is valid; after it, the customer can no longer sign and pay it online."],
+        ["**Order Date**", "For a quotation, the date it was created; for a confirmed order, the date it was confirmed."],
+        ["**Pricelist**", "The price book that decides the prices and currency. If you change it, only newly added lines are affected."],
+        ["**Currency**", "The money the order is priced in — SDG for local customers."],
+        ["**Payment Terms**", "When the customer is expected to pay (for example, immediately or within 30 days)."],
+        ["**Partner Credit Warning**", "A safety note that appears if the customer already owes a lot — it warns you before you sell more on credit."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Order Lines"
+    },
+    {
+      "t": "p",
+      "text": "This is the heart of the order — one line per product you are selling. The totals box on the right adds everything up, including the 15% tax."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Product**", "The item being sold (for example *Paracetamol 500mg Tablets (100s)*). Pick it from the catalogue."],
+        ["**Quantity** (product_uom_qty)", "How many units the customer is buying."],
+        ["**Unit of measure** (product_uom)", "The unit the quantity is counted in — for example a box or a unit."],
+        ["**Unit price** (price_unit)", "The price for one unit, filled in automatically from the pricelist. You can override it if needed."],
+        ["**Discount**", "A percentage taken off this line, if you are giving the customer a reduction."],
+        ["**Taxes** (tax_id)", "The tax applied to the line — the 15% sales tax for Sudan, added automatically."],
+        ["**Subtotal** (price_subtotal)", "The line value before tax (quantity × unit price − discount)."],
+        ["**Total** (price_total)", "The line value including tax."],
+        ["**Delivered** (qty_delivered)", "How many units have actually shipped so far. The warehouse updates this; you cannot type in it."],
+        ["**Invoiced** (qty_invoiced)", "How many units have already been billed on an invoice."],
+        ["**Warehouse**", "Which warehouse will ship the goods — Khartoum Central (KRT) or Port Sudan (PRT)."],
+        ["**Invoice Status**", "Whether the line still needs invoicing: *To Invoice*, *Fully Invoiced*, *Nothing to Invoice* or *Upselling Opportunity*."],
+        ["**Terms and conditions**", "Free text printed at the bottom of the order, such as warranty or delivery notes."],
+        ["**Tax Totals**", "The grand-total box: untaxed amount, tax and the final total the customer pays."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Add products quickly with Catalog",
+      "text": "Inside the Order Lines tab the **Catalog** button opens a visual product picker where you can click items and set quantities, instead of adding lines one by one."
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Optional Products"
+    },
+    {
+      "t": "p",
+      "text": "Optional products are extra items you suggest to the customer — like cross-selling — without adding them to the order. The customer can choose to accept them, and only then do they join the order lines."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Optional Products Lines**", "The list of suggested add-on products you are offering."],
+        ["**Quantity**", "The suggested quantity for each optional product."],
+        ["**Unit of Measure** (uom_id)", "The unit the optional product is counted in."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Other Info"
+    },
+    {
+      "t": "p",
+      "text": "This tab gathers the administrative and shipping details. Most fields fill themselves from the customer, so you rarely touch them."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["**Salesperson**", "The staff member responsible for this order — at *Sudan MedSupply Co.* this is typically *Khalid (Sales)*."],
+        ["**Sales Team**", "The team the order belongs to, for reporting."],
+        ["**Invoice Address**", "Where the invoice should be addressed; defaults to the customer's address."],
+        ["**Customer Reference**", "The customer's own order or purchase-order number, so they can match your invoice to their paperwork."],
+        ["**Tags**", "Free labels you can attach to group or filter orders."],
+        ["**Fiscal Position**", "A rule set that adapts taxes and accounts for a particular customer; explained as the way the system swaps in the right tax/account for that customer. It comes from the customer by default."],
+        ["**Payment Terms**", "When payment is due (also shown in the header)."],
+        ["**Online signature**", "If on, the customer must sign the quotation online to confirm it."],
+        ["**Online payment**", "If on, the customer must pay online to confirm the order."],
+        ["**Prepayment percentage**", "How much of the total the customer must pay up front to confirm."],
+        ["**Shipping Policy**", "Whether to ship as soon as possible, or wait until all products are ready."],
+        ["**Delivery Date**", "The delivery date you promise the customer; the delivery is then scheduled to meet it."],
+        ["**Expected Date**", "The delivery date the system calculates from product lead times."],
+        ["**Delivery Status**", "How far delivery has progressed: *Not Delivered*, *Started*, *Partially Delivered* or *Fully Delivered*."],
+        ["**Source Document**", "The reference of any document that generated this order."],
+        ["**Incoterm** / **Incoterm Location**", "Standard international shipping terms (who pays freight and risk), used mainly for cross-border trade."],
+        ["**Campaign** / **Medium** / **Source**", "Marketing tracking fields that record how the order originated."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "The header buttons and status bar"
+    },
+    {
+      "t": "p",
+      "text": "The **status bar** in the top-right shows the four stages — **Quotation**, **Quotation Sent**, **Sales Order** (and **Cancelled** if you ever cancel). The buttons that appear at the top change depending on the stage, so you only ever see the actions that make sense right now."
+    },
+    {
+      "t": "table",
+      "headers": ["Button", "What it does"],
+      "rows": [
+        ["**Send by Email**", "Emails the quotation to the customer as a PDF and moves the status to *Quotation Sent*."],
+        ["**Confirm**", "Turns the quotation into a firm **Sales Order** and asks the warehouse to prepare the delivery."],
+        ["**Create Invoice**", "Builds the customer invoice from the order, copying products, quantities, prices and tax."],
+        ["**Preview**", "Shows the order exactly as the customer will see it online."],
+        ["**Cancel**", "Cancels the order."],
+        ["**Set to Quotation**", "Sends a confirmed order back to draft quotation so you can edit it again."],
+        ["**Update Prices**", "Re-applies the pricelist to refresh the unit prices on the lines."],
+        ["**Update Taxes**", "Re-applies the tax rules to the lines."],
+        ["**Catalog**", "Opens the visual product picker to add lines quickly."],
+        ["**Unlock** / **Lock**", "Locks a finished order against further changes, or unlocks it again."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Two **smart buttons** sit at the top-right of the form and act as live counters and shortcuts:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Delivery** — shows how many delivery orders this sale created and opens them in one click.",
+        "**Invoices** — shows how many invoices exist for this sale and opens them."
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "Step by step: create and confirm a sale"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Sales → Orders → Quotations** and click **New**.",
+        "In **Customer**, pick the buyer (for example *Khartoum Teaching Hospital*). The pricelist, currency (SDG), payment terms and addresses fill in automatically.",
+        "On the **Order Lines** tab, click **Add a product** (or use **Catalog**) and choose your first item; type the **Quantity**. The **Unit price** and the **15%** tax appear by themselves.",
+        "Repeat for each product. Watch the **Tax Totals** box on the right update the untaxed amount, the tax and the grand total as you go.",
+        "Check the **Other Info** tab — confirm the **Salesperson**, **Delivery Date** and **Payment Terms** are correct.",
+        "Click **Send by Email** to send the offer to the customer (the status becomes *Quotation Sent*), or skip straight to the next step if the customer has already agreed.",
+        "Click **Confirm**. The quotation becomes a **Sales Order** and a delivery is requested from the warehouse.",
+        "Hand over to the warehouse to validate the **Delivery** (goods are picked under FEFO). When it is done, return here and click **Create Invoice** to bill the customer."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "Confirm only when the customer has agreed",
+      "text": "**Confirm** turns a draft into a binding order and reserves stock for delivery. If you are still negotiating, leave it as a Quotation — you can change a quotation freely, but a confirmed order is harder to edit."
+    },
+    {
+      "t": "h2",
+      "text": "Worked example: order S00001 to Khartoum Teaching Hospital"
+    },
+    {
+      "t": "p",
+      "text": "Here is a real confirmed order from the demo data. *Khartoum Teaching Hospital* ordered three products, priced in **SDG**:"
+    },
+    {
+      "t": "table",
+      "headers": ["Product", "Quantity", "Unit price (SDG)", "Line subtotal (SDG)"],
+      "rows": [
+        ["*Paracetamol 500mg Tablets (100s)*", "50", "11,500", "575,000"],
+        ["*Surgical Gloves (Box of 100)*", "20", "29,000", "580,000"],
+        ["*Syringe 5ml (Box of 100)*", "30", "20,600", "618,000"]
+      ]
+    },
+    {
+      "t": "table",
+      "headers": ["Totals", "Amount (SDG)"],
+      "rows": [
+        ["Untaxed subtotal", "1,773,000"],
+        ["VAT at 15%", "265,950"],
+        ["**Order total**", "**2,038,950**"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "The system added the **15% VAT** of **265,950 SDG** automatically — staff never calculated it by hand. After **Confirm**, the warehouse delivered the three items under **FEFO**, picking the batches with the nearest expiry first. The order was then billed with one click as invoice **INV/2026/00001**, for the same **2,038,950 SDG**, which the hospital has since paid."
+    },
+    {
+      "t": "fig",
+      "file": "sale_order.png",
+      "caption": "Sales Order S00001 for Khartoum Teaching Hospital: the order lines (Paracetamol, Gloves, Syringes) priced in SDG, the Quotation → Sales Order status bar, and the Delivery and Invoices smart buttons."
+    },
+    {
+      "t": "note",
+      "title": "One order, three connected documents",
+      "text": "From S00001 the ERP produced a delivery order (handled by the warehouse) and the customer invoice *INV/2026/00001*. The **Delivery** and **Invoices** smart buttons on the order let you jump straight to either, so the whole sale stays linked together."
+    },
+    {
+      "t": "h2",
+      "text": "Working with a draft quotation"
+    },
+    {
+      "t": "p",
+      "text": "A quotation that has not been confirmed stays fully editable. In the demo, *S00003* is a draft quotation for the **Sudanese Red Crescent**, totalling **2,018,250 SDG**. Because it is still a draft, you can add or remove products, change quantities and re-price it before deciding whether to confirm it into a sales order."
+    },
+    {
+      "t": "fig",
+      "file": "sale_quotation_draft.png",
+      "caption": "Draft quotation S00003 for the Sudanese Red Crescent, still editable, with the Confirm button ready to turn it into a sales order."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Sales → Orders → Quotations** and click the draft (e.g. *S00003*).",
+        "Adjust the **Order Lines** — add products, change quantities, or apply a **Discount**.",
+        "If prices look stale, use **Update Prices** to re-apply the pricelist.",
+        "Click **Send by Email** to share it, or **Confirm** when the customer agrees to make it a binding sales order."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Find orders ready to bill",
+      "text": "After deliveries are done, open **Sales → To Invoice → Orders to Invoice** to see exactly which orders are waiting for an invoice, then press **Create Invoice** on each."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "تطبيق **المبيعات** هو المكان الذي تبيع منه للعملاء. يقود كل طلب عبر أربع مراحل بسيطة، ويقوم نظام إدارة المستلزمات الطبية بمعظم العمل نيابة عنك على طول الطريق: يسعّر المنتجات، ويحسب الضريبة، ويطلب من المستودع شحن البضائع، ويجهّز فاتورة العميل. يتتبع هذا الفصل تلك الرحلة من البداية إلى النهاية باستخدام البيانات التجريبية الحقيقية لشركة *السودان للمستلزمات الطبية*."
+    },
+    {
+      "t": "h2",
+      "text": "مسار البيع في لمحة"
+    },
+    {
+      "t": "p",
+      "text": "تمر كل عملية بيع عبر المراحل الأربع نفسها. لا تحتاج أبدًا إلى حفظها عن ظهر قلب، لأن شريط الحالة الأخضر أعلى كل طلب يوضح لك دائمًا أين أنت."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "**عرض سعر (Quotation)** — عرض سعر مبدئي تجهّزه للعميل. لم يلتزم شيء بعد، ويمكنك تغيير أي شيء.",
+        "**أمر بيع (Sales Order)** — بمجرد موافقة العميل، تضغط **تأكيد** فيتحول عرض السعر إلى طلب ثابت. عندئذٍ يطلب النظام من المستودع تجهيز التسليم.",
+        "**التسليم (Delivery)** — يجهّز المستودع البضائع ويشحنها. وبالنسبة للأصناف الطبية يتم ذلك وفق منهج **FEFO** (*الأقرب انتهاءً يُصرف أولًا* — يختار النظام دائمًا الدفعة الأقرب لتاريخ انتهاء الصلاحية، حتى لا تنتهي صلاحية أي صنف على الرف).",
+        "**فاتورة العميل (Customer Invoice)** — الفاتورة التي ترسلها للعميل مطالبًا بالدفع. ينشئها النظام من الطلب بنقرة واحدة، ناسخًا المنتجات والكميات والأسعار والضريبة تلقائيًا."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "النظام يتولى العبء الأكبر",
+      "text": "تُدخل العميل والمنتجات مرة واحدة. ومن هناك يملأ النظام السعر (من قائمة أسعار العميل)، ويضيف ضريبة المبيعات بنسبة 15%، ويحجز المخزون، ويطبع أمر التسليم، ويبني الفاتورة — كل ذلك دون إعادة كتابة رقم واحد."
+    },
+    {
+      "t": "h2",
+      "text": "قوائم الأسعار والعملة"
+    },
+    {
+      "t": "p",
+      "text": "**قائمة الأسعار (Pricelist)** هي ببساطة دفتر أسعار مرتبط بالعميل، وهي التي تحدد أي أسعار وأي عملة يستخدمها الطلب. تتبع **عملة** كل طلب قائمة أسعار العميل. وبالنسبة للعملاء السودانيين المحليين — مثل المستشفيات والعيادات — فإن تلك العملة هي **SDG** (الجنيه السوداني)، لذا فإن جميع المبيعات أدناه بالجنيه السوداني. أما **الضريبة (Tax)** فهي نسبة مئوية تضيفها الدولة على البيع؛ وفي السودان هي **15%**، ويضيفها النظام نيابة عنك في كل سطر."
+    },
+    {
+      "t": "note",
+      "title": "لماذا ترى SDG في كل مكان",
+      "text": "تبيع شركة *السودان للمستلزمات الطبية* محليًا، لذا يستخدم جميع عملائها قائمة أسعار الجنيه السوداني. لن ترى الدولار USD إلا في جانب المشتريات، عند الشراء من موردين أجانب."
+    },
+    {
+      "t": "h2",
+      "text": "العثور على عروض الأسعار والطلبات"
+    },
+    {
+      "t": "p",
+      "text": "افتح تطبيق **المبيعات** من مشغّل التطبيقات ذي النقاط التسع أعلى يسار الشاشة. أكثر القوائم فائدةً هي:"
+    },
+    {
+      "t": "table",
+      "headers": ["مسار القائمة", "ما الذي يعرضه"],
+      "rows": [
+        ["**المبيعات ← الطلبات ← عروض الأسعار**", "عروض الأسعار المسودة والمُرسلة — عروض لم تُؤكد بعد."],
+        ["**المبيعات ← الطلبات ← الطلبات**", "أوامر البيع المؤكدة التي أصبحت التزامات ثابتة."],
+        ["**المبيعات ← الطلبات ← العملاء**", "دليل العملاء لديك."],
+        ["**المبيعات ← للفوترة ← طلبات للفوترة**", "الطلبات التي تم تسليمها وجاهزة لإصدار فاتورة بها."],
+        ["**المبيعات ← المنتجات ← المنتجات**", "كتالوج الأصناف التي يمكنك بيعها."],
+        ["**المبيعات ← المنتجات ← قوائم الأسعار**", "دفاتر الأسعار التي تحدد الأسعار والعملة لكل عميل."],
+        ["**المبيعات ← الإعدادات ← الإعدادات**", "تشغيل ميزات المبيعات أو إيقافها."]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "quotations_list.png",
+      "caption": "المبيعات ← الطلبات ← عروض الأسعار: قائمة عروض الأسعار المسودة والمُرسلة، قبل أن تصبح طلبات ثابتة."
+    },
+    {
+      "t": "fig",
+      "file": "sale_orders_list.png",
+      "caption": "المبيعات ← الطلبات ← الطلبات: أوامر البيع المؤكدة S00001 وS00002، مع إجمالياتها معروضة بالجنيه السوداني."
+    },
+    {
+      "t": "h2",
+      "text": "نموذج أمر البيع، حقلًا بحقل"
+    },
+    {
+      "t": "p",
+      "text": "عند فتح عرض سعر أو طلب ترى نموذجًا واحدًا. في الأعلى يوجد رقم المستند (مثل *S00001*)، و**شريط الحالة** الأخضر، وأزرار الرأس، وزرّان ذكيان (التسليم والفواتير). أسفل ذلك ينقسم المحتوى إلى تبويبات. تسرد الجداول التالية كل حقل تراه، مجمّعًا حسب التبويب الذي يقع فيه، وبالترتيب الذي تظهر به التبويبات."
+    },
+    {
+      "t": "h3",
+      "text": "الرأس (أعلى النموذج)"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما معناه / ماذا تُدخل"],
+      "rows": [
+        ["**العميل (Customer)**", "المستشفى أو العيادة أو الصيدلية التي تبيع لها. اختيار العميل يجلب قائمة أسعاره وشروط دفعه وعناوينه تلقائيًا."],
+        ["**مرجع الطلب (Order Reference)**", "رقم الطلب نفسه (مثل *S00001*). يخصصه النظام نيابة عنك، فلا تكتبه أنت."],
+        ["**تاريخ الانتهاء (Expiration)**", "التاريخ الذي يظل عرض السعر صالحًا حتى نهايته؛ بعده لا يستطيع العميل توقيعه ودفعه عبر الإنترنت."],
+        ["**تاريخ الطلب (Order Date)**", "لعرض السعر، تاريخ إنشائه؛ وللطلب المؤكد، تاريخ تأكيده."],
+        ["**قائمة الأسعار (Pricelist)**", "دفتر الأسعار الذي يحدد الأسعار والعملة. إذا غيّرته، فلن يتأثر سوى السطور المضافة حديثًا."],
+        ["**العملة (Currency)**", "العملة التي يُسعّر بها الطلب — الجنيه السوداني SDG للعملاء المحليين."],
+        ["**شروط الدفع (Payment Terms)**", "متى يُتوقع أن يدفع العميل (مثلًا فورًا أو خلال 30 يومًا)."],
+        ["**تحذير ائتمان العميل (Partner Credit Warning)**", "ملاحظة وقائية تظهر إذا كان العميل مدينًا بمبلغ كبير بالفعل — تحذّرك قبل أن تبيع له المزيد بالأجل."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "التبويب: سطور الطلب (Order Lines)"
+    },
+    {
+      "t": "p",
+      "text": "هذا هو قلب الطلب — سطر واحد لكل منتج تبيعه. ويجمع صندوق الإجماليات على اليمين كل شيء، بما في ذلك ضريبة الـ15%."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما معناه / ماذا تُدخل"],
+      "rows": [
+        ["**المنتج (Product)**", "الصنف الذي يُباع (مثل *Paracetamol 500mg Tablets (100s)*). اختره من الكتالوج."],
+        ["**الكمية (product_uom_qty)**", "عدد الوحدات التي يشتريها العميل."],
+        ["**وحدة القياس (product_uom)**", "الوحدة التي تُحسب بها الكمية — مثل صندوق أو وحدة."],
+        ["**سعر الوحدة (price_unit)**", "سعر الوحدة الواحدة، يُملأ تلقائيًا من قائمة الأسعار. يمكنك تجاوزه عند الحاجة."],
+        ["**الخصم (Discount)**", "نسبة مئوية تُخصم من هذا السطر، إذا كنت تمنح العميل تخفيضًا."],
+        ["**الضرائب (tax_id)**", "الضريبة المطبقة على السطر — ضريبة المبيعات بنسبة 15% للسودان، تُضاف تلقائيًا."],
+        ["**الإجمالي الفرعي (price_subtotal)**", "قيمة السطر قبل الضريبة (الكمية × سعر الوحدة − الخصم)."],
+        ["**الإجمالي (price_total)**", "قيمة السطر شاملةً الضريبة."],
+        ["**المُسلَّم (qty_delivered)**", "عدد الوحدات التي شُحنت فعليًا حتى الآن. يحدّثه المستودع، ولا يمكنك الكتابة فيه."],
+        ["**المُفوتر (qty_invoiced)**", "عدد الوحدات التي صدرت بها فاتورة بالفعل."],
+        ["**المستودع (Warehouse)**", "أي مستودع سيشحن البضائع — الخرطوم المركزي (KRT) أو بورتسودان (PRT)."],
+        ["**حالة الفوترة (Invoice Status)**", "ما إذا كان السطر لا يزال بحاجة للفوترة: *للفوترة*، *مُفوتر بالكامل*، *لا شيء للفوترة* أو *فرصة بيع إضافي*."],
+        ["**الشروط والأحكام (Terms and conditions)**", "نص حر يُطبع أسفل الطلب، مثل ملاحظات الضمان أو التسليم."],
+        ["**إجماليات الضريبة (Tax Totals)**", "صندوق الإجمالي الكلي: المبلغ غير الخاضع للضريبة، والضريبة، والإجمالي النهائي الذي يدفعه العميل."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "أضف المنتجات بسرعة باستخدام الكتالوج",
+      "text": "داخل تبويب سطور الطلب يفتح زر **الكتالوج (Catalog)** أداة اختيار منتجات مرئية حيث يمكنك النقر على الأصناف وتحديد الكميات، بدلًا من إضافة السطور واحدًا تلو الآخر."
+    },
+    {
+      "t": "h3",
+      "text": "التبويب: المنتجات الاختيارية (Optional Products)"
+    },
+    {
+      "t": "p",
+      "text": "المنتجات الاختيارية هي أصناف إضافية تقترحها على العميل — مثل البيع التكميلي — دون إضافتها إلى الطلب. يمكن للعميل أن يختار قبولها، وعندئذٍ فقط تنضم إلى سطور الطلب."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما معناه / ماذا تُدخل"],
+      "rows": [
+        ["**سطور المنتجات الاختيارية (Optional Products Lines)**", "قائمة المنتجات الإضافية المقترحة التي تعرضها."],
+        ["**الكمية (Quantity)**", "الكمية المقترحة لكل منتج اختياري."],
+        ["**وحدة القياس (uom_id)**", "الوحدة التي يُحسب بها المنتج الاختياري."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "التبويب: معلومات أخرى (Other Info)"
+    },
+    {
+      "t": "p",
+      "text": "يجمع هذا التبويب التفاصيل الإدارية وتفاصيل الشحن. تملأ معظم الحقول نفسها من بيانات العميل، لذا نادرًا ما تلمسها."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما معناه / ماذا تُدخل"],
+      "rows": [
+        ["**مندوب المبيعات (Salesperson)**", "الموظف المسؤول عن هذا الطلب — في شركة *السودان للمستلزمات الطبية* يكون عادةً *خالد (المبيعات)*."],
+        ["**فريق المبيعات (Sales Team)**", "الفريق الذي ينتمي إليه الطلب، لأغراض التقارير."],
+        ["**عنوان الفاتورة (Invoice Address)**", "العنوان الذي تُوجَّه إليه الفاتورة؛ يأخذ افتراضيًا عنوان العميل."],
+        ["**مرجع العميل (Customer Reference)**", "رقم طلب أو أمر شراء العميل نفسه، حتى يطابق فاتورتك مع أوراقه."],
+        ["**الوسوم (Tags)**", "ملصقات حرة يمكنك إرفاقها لتجميع الطلبات أو تصفيتها."],
+        ["**الوضع الضريبي (Fiscal Position)**", "مجموعة قواعد تكيّف الضرائب والحسابات لعميل معيّن؛ أي الطريقة التي يستبدل بها النظام الضريبة/الحساب الصحيح لذلك العميل. يأتي افتراضيًا من العميل."],
+        ["**شروط الدفع (Payment Terms)**", "موعد استحقاق الدفع (ويظهر أيضًا في الرأس)."],
+        ["**التوقيع الإلكتروني (Online signature)**", "إذا كان مفعّلًا، يجب على العميل توقيع عرض السعر عبر الإنترنت لتأكيده."],
+        ["**الدفع الإلكتروني (Online payment)**", "إذا كان مفعّلًا، يجب على العميل الدفع عبر الإنترنت لتأكيد الطلب."],
+        ["**نسبة الدفع المسبق (Prepayment percentage)**", "كم نسبة من الإجمالي يجب أن يدفعها العميل مقدمًا للتأكيد."],
+        ["**سياسة الشحن (Shipping Policy)**", "هل يُشحن في أقرب وقت ممكن، أم يُنتظر حتى تجهز كل المنتجات."],
+        ["**تاريخ التسليم (Delivery Date)**", "تاريخ التسليم الذي تعد به العميل؛ فيُجدول التسليم لتلبيته."],
+        ["**التاريخ المتوقع (Expected Date)**", "تاريخ التسليم الذي يحسبه النظام من المهل الزمنية للمنتجات."],
+        ["**حالة التسليم (Delivery Status)**", "مدى تقدم التسليم: *لم يُسلَّم*، *بدأ*، *مُسلَّم جزئيًا* أو *مُسلَّم بالكامل*."],
+        ["**المستند المصدر (Source Document)**", "مرجع أي مستند تسبب في إنشاء هذا الطلب."],
+        ["**شرط التسليم الدولي (Incoterm)** / **موقع شرط التسليم (Incoterm Location)**", "شروط الشحن الدولية القياسية (من يتحمل الشحن والمخاطر)، وتُستخدم أساسًا في التجارة عبر الحدود."],
+        ["**الحملة (Campaign)** / **الوسيط (Medium)** / **المصدر (Source)**", "حقول تتبّع تسويقية تسجّل كيف نشأ الطلب."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "أزرار الرأس وشريط الحالة"
+    },
+    {
+      "t": "p",
+      "text": "يعرض **شريط الحالة** أعلى اليمين المراحل الأربع — **عرض سعر (Quotation)**، **عرض سعر مُرسل (Quotation Sent)**، **أمر بيع (Sales Order)** (و**ملغى (Cancelled)** إذا ألغيت يومًا). تتغير الأزرار التي تظهر في الأعلى تبعًا للمرحلة، فلا ترى إلا الإجراءات المنطقية في اللحظة الحالية."
+    },
+    {
+      "t": "table",
+      "headers": ["الزر", "ما الذي يفعله"],
+      "rows": [
+        ["**الإرسال بالبريد الإلكتروني (Send by Email)**", "يرسل عرض السعر إلى العميل كملف PDF وينقل الحالة إلى *عرض سعر مُرسل*."],
+        ["**تأكيد (Confirm)**", "يحوّل عرض السعر إلى **أمر بيع** ثابت ويطلب من المستودع تجهيز التسليم."],
+        ["**إنشاء فاتورة (Create Invoice)**", "يبني فاتورة العميل من الطلب، ناسخًا المنتجات والكميات والأسعار والضريبة."],
+        ["**معاينة (Preview)**", "يعرض الطلب تمامًا كما سيراه العميل عبر الإنترنت."],
+        ["**إلغاء (Cancel)**", "يلغي الطلب."],
+        ["**إرجاع إلى عرض سعر (Set to Quotation)**", "يعيد الطلب المؤكد إلى مسودة عرض سعر لتتمكن من تعديله مجددًا."],
+        ["**تحديث الأسعار (Update Prices)**", "يعيد تطبيق قائمة الأسعار لتحديث أسعار الوحدات على السطور."],
+        ["**تحديث الضرائب (Update Taxes)**", "يعيد تطبيق قواعد الضريبة على السطور."],
+        ["**الكتالوج (Catalog)**", "يفتح أداة اختيار المنتجات المرئية لإضافة السطور بسرعة."],
+        ["**فتح القفل (Unlock) / قفل (Lock)**", "يقفل طلبًا مكتملًا ضد أي تغييرات أخرى، أو يفتح قفله مجددًا."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "يوجد **زرّان ذكيان** أعلى يمين النموذج يعملان كعدّادات حية واختصارات:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**التسليم (Delivery)** — يعرض عدد أوامر التسليم التي أنشأها هذا البيع ويفتحها بنقرة واحدة.",
+        "**الفواتير (Invoices)** — يعرض عدد الفواتير الموجودة لهذا البيع ويفتحها."
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "خطوة بخطوة: إنشاء عملية بيع وتأكيدها"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المبيعات ← الطلبات ← عروض الأسعار** وانقر **جديد**.",
+        "في خانة **العميل**، اختر المشتري (مثل *Khartoum Teaching Hospital*). تُملأ قائمة الأسعار والعملة (SDG) وشروط الدفع والعناوين تلقائيًا.",
+        "في تبويب **سطور الطلب**، انقر **إضافة منتج** (أو استخدم **الكتالوج**) واختر صنفك الأول؛ اكتب **الكمية**. يظهر **سعر الوحدة** وضريبة الـ**15%** من تلقاء نفسيهما.",
+        "كرّر ذلك لكل منتج. راقب صندوق **إجماليات الضريبة** على اليمين وهو يحدّث المبلغ غير الخاضع للضريبة، والضريبة، والإجمالي الكلي أثناء عملك.",
+        "تحقق من تبويب **معلومات أخرى** — تأكد من صحة **مندوب المبيعات** و**تاريخ التسليم** و**شروط الدفع**.",
+        "انقر **الإرسال بالبريد الإلكتروني** لإرسال العرض إلى العميل (تصبح الحالة *عرض سعر مُرسل*)، أو تخطّ مباشرةً إلى الخطوة التالية إذا كان العميل قد وافق بالفعل.",
+        "انقر **تأكيد**. يتحول عرض السعر إلى **أمر بيع** ويُطلب تسليم من المستودع.",
+        "سلّم المهمة للمستودع للتحقق من **التسليم** (تُجهّز البضائع وفق FEFO). وعند الانتهاء، عُد إلى هنا وانقر **إنشاء فاتورة** لفوترة العميل."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "أكّد فقط عندما يوافق العميل",
+      "text": "يحوّل **تأكيد** المسودة إلى طلب مُلزِم ويحجز المخزون للتسليم. إذا كنت لا تزال تتفاوض، فاتركه عرض سعر — يمكنك تغيير عرض السعر بحرية، لكن تعديل الطلب المؤكد أصعب."
+    },
+    {
+      "t": "h2",
+      "text": "مثال تطبيقي: الطلب S00001 إلى مستشفى الخرطوم التعليمي"
+    },
+    {
+      "t": "p",
+      "text": "إليك طلبًا مؤكدًا حقيقيًا من البيانات التجريبية. طلب *مستشفى الخرطوم التعليمي* ثلاثة منتجات، مُسعّرة بالجنيه السوداني **SDG**:"
+    },
+    {
+      "t": "table",
+      "headers": ["المنتج", "الكمية", "سعر الوحدة (SDG)", "الإجمالي الفرعي للسطر (SDG)"],
+      "rows": [
+        ["*Paracetamol 500mg Tablets (100s)*", "50", "11,500", "575,000"],
+        ["*Surgical Gloves (Box of 100)*", "20", "29,000", "580,000"],
+        ["*Syringe 5ml (Box of 100)*", "30", "20,600", "618,000"]
+      ]
+    },
+    {
+      "t": "table",
+      "headers": ["الإجماليات", "المبلغ (SDG)"],
+      "rows": [
+        ["الإجمالي الفرعي غير الخاضع للضريبة", "1,773,000"],
+        ["ضريبة القيمة المضافة 15%", "265,950"],
+        ["**إجمالي الطلب**", "**2,038,950**"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "أضاف النظام **ضريبة القيمة المضافة 15%** البالغة **265,950 SDG** تلقائيًا — ولم يحسبها الموظفون يدويًا أبدًا. وبعد **تأكيد**، سلّم المستودع الأصناف الثلاثة وفق منهج **FEFO**، آخذًا الدفعات الأقرب لانتهاء الصلاحية أولًا. ثم فُوتر الطلب بنقرة واحدة كفاتورة **INV/2026/00001**، بنفس المبلغ **2,038,950 SDG**، وقد سدّدها المستشفى منذ ذلك الحين."
+    },
+    {
+      "t": "fig",
+      "file": "sale_order.png",
+      "caption": "أمر البيع S00001 لمستشفى الخرطوم التعليمي: سطور الطلب (الباراسيتامول والقفازات والمحاقن) مُسعّرة بالجنيه السوداني، وشريط الحالة عرض سعر ← أمر بيع، والزران الذكيان للتسليم والفواتير."
+    },
+    {
+      "t": "note",
+      "title": "طلب واحد، ثلاثة مستندات مترابطة",
+      "text": "من الطلب S00001 أنتج النظام أمر تسليم (يتولاه المستودع) وفاتورة العميل *INV/2026/00001*. ويتيح لك الزران الذكيان **التسليم** و**الفواتير** على الطلب الانتقال مباشرةً إلى أيٍّ منهما، فتبقى عملية البيع كاملة مترابطة."
+    },
+    {
+      "t": "h2",
+      "text": "العمل مع عرض سعر مسودة"
+    },
+    {
+      "t": "p",
+      "text": "يظل عرض السعر غير المؤكد قابلًا للتعديل بالكامل. في البيانات التجريبية، *S00003* عرض سعر مسودة لـ**الهلال الأحمر السوداني**، بإجمالي **2,018,250 SDG**. ولأنه لا يزال مسودة، يمكنك إضافة منتجات أو حذفها، وتغيير الكميات، وإعادة تسعيره قبل أن تقرر تأكيده ليصبح أمر بيع."
+    },
+    {
+      "t": "fig",
+      "file": "sale_quotation_draft.png",
+      "caption": "عرض سعر مسودة S00003 للهلال الأحمر السوداني، لا يزال قابلًا للتعديل، مع زر التأكيد الجاهز لتحويله إلى أمر بيع."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المبيعات ← الطلبات ← عروض الأسعار** وانقر على المسودة (مثل *S00003*).",
+        "عدّل **سطور الطلب** — أضف منتجات، أو غيّر الكميات، أو طبّق **خصمًا**.",
+        "إذا بدت الأسعار قديمة، استخدم **تحديث الأسعار** لإعادة تطبيق قائمة الأسعار.",
+        "انقر **الإرسال بالبريد الإلكتروني** لمشاركته، أو **تأكيد** عند موافقة العميل لجعله أمر بيع مُلزِمًا."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "اعثر على الطلبات الجاهزة للفوترة",
+      "text": "بعد إتمام عمليات التسليم، افتح **المبيعات ← للفوترة ← طلبات للفوترة** لترى بالضبط أي الطلبات تنتظر فاتورة، ثم اضغط **إنشاء فاتورة** على كل منها."
+    }
+  ]
+}

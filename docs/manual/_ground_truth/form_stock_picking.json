@@ -1,0 +1,691 @@
+{
+ "model": "stock.picking",
+ "fields": [
+  {
+   "name": "state",
+   "label": "Status",
+   "type": "selection",
+   "help": "* Draft: The transfer is not confirmed yet. Reservation doesn't apply.\n * Waiting another operation: This transfer is waiting for another operation before being ready.\n * Waiting: The transfer is waiting for the availability of some products.\n(a) The shipping policy is \"As soon as possible\": no prod",
+   "required": false,
+   "readonly": false,
+   "page": "__header__",
+   "selection": [
+    "Draft",
+    "Waiting Another Operation",
+    "Waiting",
+    "Ready",
+    "Done",
+    "Cancelled"
+   ]
+  },
+  {
+   "name": "return_count",
+   "label": "Returns",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "priority",
+   "label": "Priority",
+   "type": "selection",
+   "help": "Products will be reserved first for the transfers with the highest priorities.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Normal",
+    "Urgent"
+   ]
+  },
+  {
+   "name": "picking_type_code",
+   "label": "Type of Operation",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Receipt",
+    "Delivery",
+    "Internal Transfer"
+   ]
+  },
+  {
+   "name": "name",
+   "label": "Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "Contact",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "picking_type_id",
+   "label": "Operation Type",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "stock.picking.type"
+  },
+  {
+   "name": "location_id",
+   "label": "Source Location",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "location_dest_id",
+   "label": "Destination Location",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "backorder_id",
+   "label": "Back Order of",
+   "type": "many2one",
+   "help": "If this shipment was split, then this field links to the shipment which contains the already processed part.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.picking"
+  },
+  {
+   "name": "use_create_lots",
+   "label": "Create New Lots/Serial Numbers",
+   "type": "boolean",
+   "help": "If this is checked only, it will suppose you want to create new Lots/Serial Numbers, so you can provide them in a text field.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "scheduled_date",
+   "label": "Scheduled Date",
+   "type": "datetime",
+   "help": "Scheduled time for the first part of the shipment to be processed. Setting manually a value here would set it as expected date for all the stock moves.",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "json_popover",
+   "label": "JSON data for the popover widget",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "date_deadline",
+   "label": "Deadline",
+   "type": "datetime",
+   "help": "In case of outgoing flow, validate the transfer before this date to allow to deliver at promised date to the customer.\n        In case of incoming flow, validate the transfer before this date in order to have these products in stock at the date promised by the supplier",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "products_availability_state",
+   "label": "Products Availability State",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Available",
+    "Expected",
+    "Late"
+   ]
+  },
+  {
+   "name": "products_availability",
+   "label": "Product Availability",
+   "type": "char",
+   "help": "Latest product availability status of the picking",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "date_done",
+   "label": "Effective Date",
+   "type": "datetime",
+   "help": "Date at which the transfer has been processed or cancelled.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "origin",
+   "label": "Source Document",
+   "type": "char",
+   "help": "Reference of the document",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "picking_properties",
+   "label": "Properties",
+   "type": "properties",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "move_ids_without_package",
+   "label": "Stock move",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations",
+   "relation": "stock.move"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations",
+   "relation": "res.company"
+  },
+  {
+   "name": "picking_id",
+   "label": "picking_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "move_line_ids",
+   "label": "Operations",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations",
+   "relation": "stock.move.line"
+  },
+  {
+   "name": "scrapped",
+   "label": "scrapped",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "picking_code",
+   "label": "picking_code",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "show_details_visible",
+   "label": "show_details_visible",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "additional",
+   "label": "additional",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "move_lines_count",
+   "label": "move_lines_count",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "is_locked",
+   "label": "Is Locked",
+   "type": "boolean",
+   "help": "When the picking is not done this allows changing the initial demand. When the picking is done this allows changing the done quantities.",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "product_uom_category_id",
+   "label": "product_uom_category_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "is_storable",
+   "label": "is_storable",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "has_tracking",
+   "label": "Has Tracking",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "product_id",
+   "label": "Product",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Operations",
+   "relation": "product.product"
+  },
+  {
+   "name": "location_final_id",
+   "label": "location_final_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "description_picking",
+   "label": "Description",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "date",
+   "label": "Creation Date",
+   "type": "datetime",
+   "help": "Creation Date, usually the time of the order",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "is_quantity_done_editable",
+   "label": "is_quantity_done_editable",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "show_quant",
+   "label": "show_quant",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "show_lots_text",
+   "label": "Show Lots Text",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "show_lots_m2o",
+   "label": "show_lots_m2o",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "is_initial_demand_editable",
+   "label": "is_initial_demand_editable",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "display_import_lot",
+   "label": "display_import_lot",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "picking_type_entire_packs",
+   "label": "Move Entire Packages",
+   "type": "boolean",
+   "help": "If ticked, you will be able to select entire packages to move",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "product_uom_qty",
+   "label": "Demand",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "forecast_expected_date",
+   "label": "forecast_expected_date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "forecast_availability",
+   "label": "Forecast",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "product_qty",
+   "label": "product_qty",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "quantity",
+   "label": "Quantity",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "product_uom",
+   "label": "Unit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "picked",
+   "label": "picked",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "lot_ids",
+   "label": "lot_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "id",
+   "label": "ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "package_level_ids",
+   "label": "Package Level",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations",
+   "relation": "stock.package_level"
+  },
+  {
+   "name": "is_fresh_package",
+   "label": "is_fresh_package",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Operations"
+  },
+  {
+   "name": "package_id",
+   "label": "package_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "is_done",
+   "label": "is_done",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Operations"
+  },
+  {
+   "name": "move_type",
+   "label": "Shipping Policy",
+   "type": "selection",
+   "help": "It specifies goods to be deliver partially or all at once",
+   "required": true,
+   "readonly": true,
+   "page": "Additional Info",
+   "selection": [
+    "As soon as possible",
+    "When all products are ready"
+   ]
+  },
+  {
+   "name": "user_id",
+   "label": "Responsible",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Additional Info",
+   "relation": "res.users"
+  },
+  {
+   "name": "sale_id",
+   "label": "Sales Order",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Additional Info",
+   "relation": "sale.order"
+  },
+  {
+   "name": "note",
+   "label": "Note",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Note"
+  },
+  {
+   "name": "show_check_availability",
+   "label": "Show Check Availability",
+   "type": "boolean",
+   "help": "Technical field used to compute whether the button \"Check Availability\" should be displayed.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "has_scrap_move",
+   "label": "Has Scrap Moves",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "has_packages",
+   "label": "Has Packages",
+   "type": "boolean",
+   "help": "Check the existence of destination packages on move lines",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "show_next_pickings",
+   "label": "Show Next Pickings",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Mark as Todo",
+   "name": "action_confirm",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Check Availability",
+   "name": "action_assign",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Validate",
+   "name": "button_validate",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Validate",
+   "name": "button_validate",
+   "type": "object",
+   "class": "o_btn_validate"
+  },
+  {
+   "label": "Print",
+   "name": "do_print_picking",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Print",
+   "name": "327",
+   "type": "action",
+   "class": ""
+  },
+  {
+   "label": "Return",
+   "name": "345",
+   "type": "action",
+   "class": ""
+  },
+  {
+   "label": "Cancel",
+   "name": "action_cancel",
+   "type": "object",
+   "class": ""
+  }
+ ],
+ "statusbar_states": [
+  "Draft",
+  "Waiting Another Operation",
+  "Waiting",
+  "Ready",
+  "Done",
+  "Cancelled"
+ ],
+ "smart_buttons": [
+  {
+   "label": "Scraps",
+   "name": "action_see_move_scrap",
+   "type": "object",
+   "class": "oe_stat_button"
+  },
+  {
+   "label": "Packages",
+   "name": "action_see_packages",
+   "type": "object",
+   "class": "oe_stat_button"
+  }
+ ]
+}

@@ -1,0 +1,1030 @@
+{
+ "model": "res.partner",
+ "fields": [
+  {
+   "name": "vat_label",
+   "label": "Tax ID Label",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "partner_gid",
+   "label": "Company database ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "additional_info",
+   "label": "Additional info",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "same_vat_partner_id",
+   "label": "Partner with same Tax ID",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "company_registry_label",
+   "label": "Company ID Label",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "same_company_registry_partner_id",
+   "label": "Partner with same Company Registry",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "duplicate_bank_partner_ids",
+   "label": "Partners with same bank",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "sale_order_count",
+   "label": "Sales",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "total_invoiced",
+   "label": "Total Invoiced",
+   "type": "monetary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "supplier_invoice_count",
+   "label": "Vendor Bills",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_order_count",
+   "label": "Purchases",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "on_time_rate",
+   "label": "On-time Rate",
+   "type": "float",
+   "help": "Over the past x days; the number of products received on time divided by the number of ordered products.x is either the System Parameter purchase_stock.on_time_delivery_days or the default 365",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "payment_token_count",
+   "label": "Payment Token Count",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "image_1920",
+   "label": "Image",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_type",
+   "label": "Company Type",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Individual",
+    "Company"
+   ]
+  },
+  {
+   "name": "name",
+   "label": "Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "parent_id",
+   "label": "Related Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "company_name",
+   "label": "Company Name",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "type",
+   "label": "Address Type",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "selection": [
+    "Contact",
+    "Invoice Address",
+    "Delivery Address",
+    "Other Address"
+   ]
+  },
+  {
+   "name": "street",
+   "label": "Street",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "street2",
+   "label": "Street2",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "city",
+   "label": "City",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "state_id",
+   "label": "State",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.country.state"
+  },
+  {
+   "name": "zip",
+   "label": "Zip",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "country_id",
+   "label": "Country",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.country"
+  },
+  {
+   "name": "partner_vat_placeholder",
+   "label": "Partner Vat Placeholder",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "vat",
+   "label": "Tax ID",
+   "type": "char",
+   "help": "The Tax Identification Number. Values here will be validated based on the country format. You can use '/' to indicate that the partner is not subject to tax.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "function",
+   "label": "Job Position",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "phone_blacklisted",
+   "label": "Blacklisted Phone is Phone",
+   "type": "boolean",
+   "help": "Indicates if a blacklisted sanitized phone number is a phone number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "mobile_blacklisted",
+   "label": "Blacklisted Phone Is Mobile",
+   "type": "boolean",
+   "help": "Indicates if a blacklisted sanitized phone number is a mobile number. Helps distinguish which number is blacklisted             when there is both a mobile and phone field in a model.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "phone",
+   "label": "Phone",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "mobile",
+   "label": "Mobile",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_blacklisted",
+   "label": "Blacklist",
+   "type": "boolean",
+   "help": "If the email address is on the blacklist, the contact won't receive mass mailing anymore, from any list",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "email",
+   "label": "Email",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "website",
+   "label": "Website",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "title",
+   "label": "Title",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner.title"
+  },
+  {
+   "name": "lang",
+   "label": "Language",
+   "type": "selection",
+   "help": "All the emails and documents sent to this contact will be translated in this language.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Arabic / الْعَرَبيّة",
+    "English (US)"
+   ]
+  },
+  {
+   "name": "category_id",
+   "label": "Tags",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner.category"
+  },
+  {
+   "name": "child_ids",
+   "label": "Contact",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses",
+   "relation": "res.partner"
+  },
+  {
+   "name": "color",
+   "label": "Color Index",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "is_company",
+   "label": "Is a Company",
+   "type": "boolean",
+   "help": "Check if the contact is a company, otherwise it is a person",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "avatar_128",
+   "label": "Avatar 128",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "global_location_number",
+   "label": "GLN",
+   "type": "char",
+   "help": "Global Location Number",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses",
+   "relation": "res.company"
+  },
+  {
+   "name": "fiscal_country_codes",
+   "label": "Fiscal Country Codes",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "comment",
+   "label": "Notes",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Contacts & Addresses"
+  },
+  {
+   "name": "user_id",
+   "label": "Salesperson",
+   "type": "many2one",
+   "help": "The internal user in charge of this contact.",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "res.users"
+  },
+  {
+   "name": "property_payment_term_id",
+   "label": "Payment Terms",
+   "type": "many2one",
+   "help": "This payment term will be used instead of the default one for sales orders and customer invoices",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "account.payment.term"
+  },
+  {
+   "name": "property_inbound_payment_method_line_id",
+   "label": "Payment Method",
+   "type": "many2one",
+   "help": "Preferred payment method when selling to this customer. This will be set by default on all incoming payments created for this customer",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "property_product_pricelist",
+   "label": "Pricelist",
+   "type": "many2one",
+   "help": "This pricelist will be used, instead of the default one, for sales to the current partner",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "product.pricelist"
+  },
+  {
+   "name": "buyer_id",
+   "label": "Buyer",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "res.users"
+  },
+  {
+   "name": "property_supplier_payment_term_id",
+   "label": "Payment Terms",
+   "type": "many2one",
+   "help": "This payment term will be used instead of the default one for purchase orders and vendor bills",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "account.payment.term"
+  },
+  {
+   "name": "property_outbound_payment_method_line_id",
+   "label": "Payment Method",
+   "type": "many2one",
+   "help": "Preferred payment method when buying from this vendor. This will be set by default on all outgoing payments created for this vendor",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "receipt_reminder_email",
+   "label": "Receipt Reminder",
+   "type": "boolean",
+   "help": "Automatically send a confirmation email to the vendor X days before the expected receipt date, asking him to confirm the exact date.",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase"
+  },
+  {
+   "name": "reminder_date_before_receipt",
+   "label": "Days Before Receipt",
+   "type": "integer",
+   "help": "Number of days to send reminder email before the promised receipt date",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase"
+  },
+  {
+   "name": "property_purchase_currency_id",
+   "label": "Supplier Currency",
+   "type": "many2one",
+   "help": "This currency will be used, instead of the default one, for purchases from the current partner",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "res.currency"
+  },
+  {
+   "name": "property_account_position_id",
+   "label": "Fiscal Position",
+   "type": "many2one",
+   "help": "The fiscal position determines the taxes/accounts used for this contact.",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "account.fiscal.position"
+  },
+  {
+   "name": "partner_company_registry_placeholder",
+   "label": "Partner Company Registry Placeholder",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase"
+  },
+  {
+   "name": "company_registry",
+   "label": "Company ID",
+   "type": "char",
+   "help": "The registry number of the company. Use it if it is different from the Tax ID. It must be unique across all partners of a same country",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase"
+  },
+  {
+   "name": "ref",
+   "label": "Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase"
+  },
+  {
+   "name": "industry_id",
+   "label": "Industry",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Sales & Purchase",
+   "relation": "res.partner.industry"
+  },
+  {
+   "name": "latest_followup_date",
+   "label": "Latest Follow-up Date",
+   "type": "date",
+   "help": "Latest date that the follow-up level of the partner was changed",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "latest_followup_level_id",
+   "label": "Latest Follow-up Level",
+   "type": "many2one",
+   "help": "The maximum follow-up level",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up",
+   "relation": "followup.line"
+  },
+  {
+   "name": "payment_responsible_id",
+   "label": "Follow-up Responsible",
+   "type": "many2one",
+   "help": "Optionally you can assign a user to this field, which will make him responsible for the action.",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up",
+   "relation": "res.users"
+  },
+  {
+   "name": "payment_next_action_date",
+   "label": "Next Action Date",
+   "type": "date",
+   "help": "This is when the manual follow-up is needed. The date will be set to the current date when the partner gets a follow-up level that requires a manual action. Can be practical to set manually e.g. to see if he keeps his promises.",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "payment_next_action",
+   "label": "Next Action",
+   "type": "text",
+   "help": "This is the next action to be taken.  It will automatically be set when the partner gets a follow-up level that requires a manual action.",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "payment_note",
+   "label": "Customer Payment Promise",
+   "type": "text",
+   "help": "Payment Note",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "unreconciled_aml_ids",
+   "label": "Unreconciled Aml",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up",
+   "relation": "account.move.line"
+  },
+  {
+   "name": "date",
+   "label": "date",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "move_id",
+   "label": "move_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "date_maturity",
+   "label": "date_maturity",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "result",
+   "label": "result",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "followup_line_id",
+   "label": "followup_line_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "payment_amount_due",
+   "label": "Amount Due",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Payment Follow-up"
+  },
+  {
+   "name": "duplicated_bank_account_partners_count",
+   "label": "Duplicated Bank Account Partners Count",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "show_credit_limit",
+   "label": "Show Credit Limit",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "bank_ids",
+   "label": "Banks",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "res.partner.bank"
+  },
+  {
+   "name": "sequence",
+   "label": "sequence",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "acc_number",
+   "label": "acc_number",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "bank_id",
+   "label": "bank_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "allow_out_payment",
+   "label": "allow_out_payment",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "acc_holder_name",
+   "label": "acc_holder_name",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "invoice_sending_method",
+   "label": "Invoice sending",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "selection": [
+    "Download",
+    "by Email",
+    "by Post"
+   ]
+  },
+  {
+   "name": "invoice_edi_format",
+   "label": "eInvoice format",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "selection": [
+    "France (FacturX)",
+    "EU Standard (Peppol Bis 3.0)",
+    "Germany (ZUGFeRD)",
+    "Germany (XRechnung)",
+    "Netherlands (NLCIUS)",
+    "Australia (BIS Billing 3.0 A-NZ)",
+    "Singapore (BIS Billing 3.0 SG)"
+   ]
+  },
+  {
+   "name": "invoice_template_pdf_report_id",
+   "label": "Invoice template",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "ir.actions.report"
+  },
+  {
+   "name": "available_peppol_eas",
+   "label": "Available Peppol Eas",
+   "type": "json",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "peppol_eas",
+   "label": "Peppol e-address (EAS)",
+   "type": "selection",
+   "help": "Code used to identify the Endpoint for BIS Billing 3.0 and its derivatives.\n             List available at https://docs.peppol.eu/poacc/billing/3.0/codelist/eas/",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "selection": [
+    "Albania VAT",
+    "Andorra VAT",
+    "Australia ABN",
+    "Austria UID",
+    "Austria VOKZ",
+    "Belgian Company Registry",
+    "Belgian VAT",
+    "Bosnia and Herzegovina VAT",
+    "Bulgaria VAT",
+    "Croatia VAT",
+    "Cyprus VAT",
+    "Czech Republic VAT"
+   ]
+  },
+  {
+   "name": "peppol_endpoint",
+   "label": "Peppol Endpoint",
+   "type": "char",
+   "help": "Unique identifier used by the BIS Billing 3.0 and its derivatives, also known as 'Endpoint ID'.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "property_account_receivable_id",
+   "label": "Account Receivable",
+   "type": "many2one",
+   "help": "This account will be used instead of the default one as the receivable account for the current partner",
+   "required": true,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.account"
+  },
+  {
+   "name": "property_account_payable_id",
+   "label": "Account Payable",
+   "type": "many2one",
+   "help": "This account will be used instead of the default one as the payable account for the current partner",
+   "required": true,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.account"
+  },
+  {
+   "name": "credit",
+   "label": "Total Receivable",
+   "type": "monetary",
+   "help": "Total amount this customer owes you.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "days_sales_outstanding",
+   "label": "Days Sales Outstanding (DSO)",
+   "type": "float",
+   "help": "[(Total Receivable/Total Revenue) * number of days since the first invoice] for this customer",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "use_partner_credit_limit",
+   "label": "Partner Limit",
+   "type": "boolean",
+   "help": "Set a value greater than 0.0 to activate a credit limit check",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "credit_limit",
+   "label": "Credit Limit",
+   "type": "float",
+   "help": "Credit limit specific to this partner.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting"
+  },
+  {
+   "name": "autopost_bills",
+   "label": "Auto-post bills",
+   "type": "selection",
+   "help": "Automatically post bills for this trusted partner",
+   "required": true,
+   "readonly": false,
+   "page": "Accounting",
+   "selection": [
+    "Always",
+    "Ask after 3 validations without edits",
+    "Never"
+   ]
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "user_ids",
+   "label": "Users",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.users"
+  },
+  {
+   "name": "active_lang_count",
+   "label": "Active Lang Count",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "display_invoice_edi_format",
+   "label": "Display Invoice Edi Format",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "display_invoice_template_pdf_report_id",
+   "label": "Display Invoice Template Pdf Report",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Create company",
+   "name": "create_company",
+   "type": "object",
+   "class": "oe_edit_only btn-link"
+  },
+  {
+   "label": "the parent company",
+   "name": "open_commercial_entity",
+   "type": "object",
+   "class": "oe_link"
+  },
+  {
+   "label": "Print Overdue Payments",
+   "name": "do_button_print",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Send Overdue Email",
+   "name": "do_partner_mail",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "⇾ Mark as Done",
+   "name": "action_done",
+   "type": "object",
+   "class": "oe_link"
+  },
+  {
+   "label": "the parent company",
+   "name": "open_commercial_entity",
+   "type": "object",
+   "class": "oe_link"
+  }
+ ],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

@@ -1,0 +1,1057 @@
+[
+ {
+  "depth": 0,
+  "name": "Contacts",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Contacts",
+  "model": "res.partner"
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Contact Tags",
+  "model": "res.partner.category"
+ },
+ {
+  "depth": 2,
+  "name": "Contact Titles",
+  "model": "res.partner.title"
+ },
+ {
+  "depth": 2,
+  "name": "Industries",
+  "model": "res.partner.industry"
+ },
+ {
+  "depth": 2,
+  "name": "Localization",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Countries",
+  "model": "res.country"
+ },
+ {
+  "depth": 3,
+  "name": "Fed. States",
+  "model": "res.country.state"
+ },
+ {
+  "depth": 3,
+  "name": "Country Group",
+  "model": "res.country.group"
+ },
+ {
+  "depth": 2,
+  "name": "Bank Accounts",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Banks",
+  "model": "res.bank"
+ },
+ {
+  "depth": 3,
+  "name": "Bank Accounts",
+  "model": "res.partner.bank"
+ },
+ {
+  "depth": 0,
+  "name": "Sales",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Orders",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Quotations",
+  "model": "sale.order"
+ },
+ {
+  "depth": 2,
+  "name": "Orders",
+  "model": "sale.order"
+ },
+ {
+  "depth": 2,
+  "name": "Sales Teams",
+  "model": "crm.team"
+ },
+ {
+  "depth": 2,
+  "name": "Customers",
+  "model": "res.partner"
+ },
+ {
+  "depth": 1,
+  "name": "To Invoice",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Orders to Invoice",
+  "model": "sale.order"
+ },
+ {
+  "depth": 2,
+  "name": "Orders to Upsell",
+  "model": "sale.order"
+ },
+ {
+  "depth": 1,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "product.template"
+ },
+ {
+  "depth": 2,
+  "name": "Pricelists",
+  "model": "product.pricelist"
+ },
+ {
+  "depth": 1,
+  "name": "Reporting",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Sales",
+  "model": "sale.report"
+ },
+ {
+  "depth": 2,
+  "name": "Salespersons",
+  "model": "sale.report"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "sale.report"
+ },
+ {
+  "depth": 2,
+  "name": "Customers",
+  "model": "sale.report"
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Settings",
+  "model": "res.config.settings"
+ },
+ {
+  "depth": 2,
+  "name": "Sales Teams",
+  "model": "crm.team"
+ },
+ {
+  "depth": 2,
+  "name": "Sales Orders",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Headers/Footers",
+  "model": "quotation.document"
+ },
+ {
+  "depth": 3,
+  "name": "Tags",
+  "model": "crm.tag"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Combo Choices",
+  "model": "product.combo"
+ },
+ {
+  "depth": 3,
+  "name": "Product Categories",
+  "model": "product.category"
+ },
+ {
+  "depth": 3,
+  "name": "Product Tags",
+  "model": "product.tag"
+ },
+ {
+  "depth": 2,
+  "name": "Online Payments",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Payment Providers",
+  "model": "payment.provider"
+ },
+ {
+  "depth": 3,
+  "name": "Payment Methods",
+  "model": "payment.method"
+ },
+ {
+  "depth": 2,
+  "name": "Units of Measure",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Units of Measure Categories",
+  "model": "uom.category"
+ },
+ {
+  "depth": 2,
+  "name": "Activities",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Activity Plans",
+  "model": "mail.activity.plan"
+ },
+ {
+  "depth": 0,
+  "name": "Dashboards",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Dashboards",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Dashboards",
+  "model": "spreadsheet.dashboard.group"
+ },
+ {
+  "depth": 0,
+  "name": "Accounting",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Dashboard",
+  "model": "account.journal"
+ },
+ {
+  "depth": 1,
+  "name": "Customers",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Invoices",
+  "model": "account.move"
+ },
+ {
+  "depth": 2,
+  "name": "Credit Notes",
+  "model": "account.move"
+ },
+ {
+  "depth": 2,
+  "name": "Payments",
+  "model": "account.payment"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "product.template"
+ },
+ {
+  "depth": 2,
+  "name": "Customers",
+  "model": "res.partner"
+ },
+ {
+  "depth": 1,
+  "name": "Vendors",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Bills",
+  "model": "account.move"
+ },
+ {
+  "depth": 2,
+  "name": "Refunds",
+  "model": "account.move"
+ },
+ {
+  "depth": 2,
+  "name": "Payments",
+  "model": "account.payment"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "product.template"
+ },
+ {
+  "depth": 2,
+  "name": "Vendors",
+  "model": "res.partner"
+ },
+ {
+  "depth": 1,
+  "name": "Accounting",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Journal Entries",
+  "model": "account.move"
+ },
+ {
+  "depth": 2,
+  "name": "Journal Items",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 2,
+  "name": "Journals",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Sales",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 3,
+  "name": "Purchases",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 3,
+  "name": "Bank and Cash",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 3,
+  "name": "Miscellaneous",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 2,
+  "name": "Ledgers",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "General Ledger",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 3,
+  "name": "Partner Ledger",
+  "model": "account.move.line"
+ },
+ {
+  "depth": 2,
+  "name": "Generate Entries",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Generate Assets Entries",
+  "model": "asset.depreciation.confirmation.wizard"
+ },
+ {
+  "depth": 2,
+  "name": "Bank and Cash",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Bank Statements",
+  "model": "account.bank.statement"
+ },
+ {
+  "depth": 3,
+  "name": "Cash Registers",
+  "model": "account.bank.statement"
+ },
+ {
+  "depth": 2,
+  "name": "Analytic Items",
+  "model": "account.analytic.line"
+ },
+ {
+  "depth": 2,
+  "name": "Lock Dates",
+  "model": "change.lock.date"
+ },
+ {
+  "depth": 2,
+  "name": "Reconcile",
+  "model": "account.account.reconcile"
+ },
+ {
+  "depth": 1,
+  "name": "Follow-Ups",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Send Letters and Emails",
+  "model": "followup.print"
+ },
+ {
+  "depth": 2,
+  "name": "Do Manual Follow-Ups",
+  "model": "res.partner"
+ },
+ {
+  "depth": 2,
+  "name": "My Follow-Ups",
+  "model": "res.partner"
+ },
+ {
+  "depth": 2,
+  "name": "Follow-ups Analysis",
+  "model": "followup.stat"
+ },
+ {
+  "depth": 1,
+  "name": "Reporting",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Financial Reports",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Balance Sheet",
+  "model": "accounting.report"
+ },
+ {
+  "depth": 3,
+  "name": "Profit and Loss",
+  "model": "accounting.report"
+ },
+ {
+  "depth": 2,
+  "name": "Partner Reports",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Partner Ledger",
+  "model": "account.report.partner.ledger"
+ },
+ {
+  "depth": 3,
+  "name": "Aged Partner Balance",
+  "model": "account.aged.trial.balance"
+ },
+ {
+  "depth": 3,
+  "name": "Aged Receivable",
+  "model": "account.aged.trial.balance"
+ },
+ {
+  "depth": 3,
+  "name": "Aged Payable",
+  "model": "account.aged.trial.balance"
+ },
+ {
+  "depth": 2,
+  "name": "Audit Reports",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "General Ledger",
+  "model": "account.report.general.ledger"
+ },
+ {
+  "depth": 3,
+  "name": "Trial Balance",
+  "model": "account.balance.report"
+ },
+ {
+  "depth": 3,
+  "name": "Tax Report",
+  "model": "account.tax.report.wizard"
+ },
+ {
+  "depth": 3,
+  "name": "Journals Audit",
+  "model": "account.print.journal"
+ },
+ {
+  "depth": 2,
+  "name": "Daily Reports",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Day Book",
+  "model": "account.daybook.report"
+ },
+ {
+  "depth": 3,
+  "name": "Cash Book",
+  "model": "account.cashbook.report"
+ },
+ {
+  "depth": 3,
+  "name": "Bank Book",
+  "model": "account.bankbook.report"
+ },
+ {
+  "depth": 2,
+  "name": "Management",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Invoice Analysis",
+  "model": "account.invoice.report"
+ },
+ {
+  "depth": 3,
+  "name": "Analytic Report",
+  "model": "account.analytic.line"
+ },
+ {
+  "depth": 3,
+  "name": "Audit Trail",
+  "model": "mail.message"
+ },
+ {
+  "depth": 3,
+  "name": "Budgets Analysis",
+  "model": "crossovered.budget.lines"
+ },
+ {
+  "depth": 3,
+  "name": "Assets",
+  "model": "asset.asset.report"
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Settings",
+  "model": "res.config.settings"
+ },
+ {
+  "depth": 2,
+  "name": "Invoicing",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Payment Terms",
+  "model": "account.payment.term"
+ },
+ {
+  "depth": 2,
+  "name": "Banks",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Add a Bank Account",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Reconciliation Models",
+  "model": "account.reconcile.model"
+ },
+ {
+  "depth": 2,
+  "name": "Accounting",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Chart of Accounts",
+  "model": "account.account"
+ },
+ {
+  "depth": 3,
+  "name": "Taxes",
+  "model": "account.tax"
+ },
+ {
+  "depth": 3,
+  "name": "Journals",
+  "model": "account.journal"
+ },
+ {
+  "depth": 3,
+  "name": "Currencies",
+  "model": "res.currency"
+ },
+ {
+  "depth": 3,
+  "name": "Fiscal Positions",
+  "model": "account.fiscal.position"
+ },
+ {
+  "depth": 3,
+  "name": "Fiscal Year",
+  "model": "account.fiscal.year"
+ },
+ {
+  "depth": 3,
+  "name": "Multi-Ledger",
+  "model": "account.journal.group"
+ },
+ {
+  "depth": 3,
+  "name": "Account Tags",
+  "model": "account.account.tag"
+ },
+ {
+  "depth": 3,
+  "name": "Account Groups",
+  "model": "account.group"
+ },
+ {
+  "depth": 2,
+  "name": "Online Payments",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Payment Providers",
+  "model": "payment.provider"
+ },
+ {
+  "depth": 3,
+  "name": "Payment Methods",
+  "model": "payment.method"
+ },
+ {
+  "depth": 2,
+  "name": "Management",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Product Categories",
+  "model": "product.category"
+ },
+ {
+  "depth": 3,
+  "name": "Budgetary Positions",
+  "model": "account.budget.post"
+ },
+ {
+  "depth": 3,
+  "name": "Asset Category",
+  "model": "account.asset.category"
+ },
+ {
+  "depth": 3,
+  "name": "Budgets",
+  "model": "crossovered.budget"
+ },
+ {
+  "depth": 3,
+  "name": "Assets",
+  "model": "account.asset.asset"
+ },
+ {
+  "depth": 2,
+  "name": "Analytic Accounting",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Analytic Distribution Models",
+  "model": "account.analytic.distribution.model"
+ },
+ {
+  "depth": 3,
+  "name": "Analytic Accounts",
+  "model": "account.analytic.account"
+ },
+ {
+  "depth": 3,
+  "name": "Analytic Plans",
+  "model": "account.analytic.plan"
+ },
+ {
+  "depth": 2,
+  "name": "Financial Reports",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Account Reports",
+  "model": "account.financial.report"
+ },
+ {
+  "depth": 2,
+  "name": "Follow-up",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Follow-up Levels",
+  "model": "followup.followup"
+ },
+ {
+  "depth": 2,
+  "name": "Recurring Payment",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Recurring Payment",
+  "model": "recurring.payment"
+ },
+ {
+  "depth": 3,
+  "name": "Recurring Template",
+  "model": "account.recurring.template"
+ },
+ {
+  "depth": 0,
+  "name": "Purchase",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Orders",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Requests for Quotation",
+  "model": "purchase.order"
+ },
+ {
+  "depth": 2,
+  "name": "Purchase Orders",
+  "model": "purchase.order"
+ },
+ {
+  "depth": 2,
+  "name": "Vendors",
+  "model": "res.partner"
+ },
+ {
+  "depth": 1,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "product.template"
+ },
+ {
+  "depth": 1,
+  "name": "Reporting",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Purchase",
+  "model": "purchase.report"
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Settings",
+  "model": "res.config.settings"
+ },
+ {
+  "depth": 2,
+  "name": "Vendor Pricelists",
+  "model": "product.supplierinfo"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Product Categories",
+  "model": "product.category"
+ },
+ {
+  "depth": 2,
+  "name": "Units of Measures",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Units of Measure Categories",
+  "model": "uom.category"
+ },
+ {
+  "depth": 0,
+  "name": "Inventory",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Overview",
+  "model": "stock.picking.type"
+ },
+ {
+  "depth": 1,
+  "name": "Operations",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Transfers",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Receipts",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Deliveries",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Internal",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Adjustments",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Physical Inventory",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Scrap",
+  "model": "stock.scrap"
+ },
+ {
+  "depth": 3,
+  "name": "Landed Costs",
+  "model": "stock.landed.cost"
+ },
+ {
+  "depth": 2,
+  "name": "Procurement",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Replenishment",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": "product.template"
+ },
+ {
+  "depth": 2,
+  "name": "Lots / Serial Numbers",
+  "model": "stock.lot"
+ },
+ {
+  "depth": 1,
+  "name": "Reporting",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Stock",
+  "model": "product.product"
+ },
+ {
+  "depth": 2,
+  "name": "Locations",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Moves History",
+  "model": "stock.move.line"
+ },
+ {
+  "depth": 2,
+  "name": "Moves Analysis",
+  "model": "stock.move"
+ },
+ {
+  "depth": 2,
+  "name": "Valuation",
+  "model": "stock.valuation.layer"
+ },
+ {
+  "depth": 1,
+  "name": "Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Settings",
+  "model": "res.config.settings"
+ },
+ {
+  "depth": 2,
+  "name": "Warehouse Management",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Warehouses",
+  "model": "stock.warehouse"
+ },
+ {
+  "depth": 3,
+  "name": "Operations Types",
+  "model": "stock.picking.type"
+ },
+ {
+  "depth": 3,
+  "name": "Locations",
+  "model": "stock.location"
+ },
+ {
+  "depth": 3,
+  "name": "Storage Categories",
+  "model": "stock.storage.category"
+ },
+ {
+  "depth": 3,
+  "name": "Putaway Rules",
+  "model": "stock.putaway.rule"
+ },
+ {
+  "depth": 2,
+  "name": "Products",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "Product Categories",
+  "model": "product.category"
+ },
+ {
+  "depth": 2,
+  "name": "Units of Measures",
+  "model": ""
+ },
+ {
+  "depth": 3,
+  "name": "UoM Categories",
+  "model": "uom.category"
+ },
+ {
+  "depth": 0,
+  "name": "Settings",
+  "model": ""
+ },
+ {
+  "depth": 1,
+  "name": "General Settings",
+  "model": "res.config.settings"
+ },
+ {
+  "depth": 1,
+  "name": "Users & Companies",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Users",
+  "model": "res.users"
+ },
+ {
+  "depth": 2,
+  "name": "Companies",
+  "model": "res.company"
+ },
+ {
+  "depth": 1,
+  "name": "Spiffy Configuration",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Spiffy Documentation",
+  "model": ""
+ },
+ {
+  "depth": 2,
+  "name": "Spiffy App Groups",
+  "model": "spiffy.app.group"
+ },
+ {
+  "depth": 2,
+  "name": "Menu Configuration",
+  "model": "ir.ui.menu"
+ },
+ {
+  "depth": 2,
+  "name": "PWA Shortcuts",
+  "model": "pwa.shortcuts"
+ },
+ {
+  "depth": 2,
+  "name": "Global Search",
+  "model": "global.search.bizople"
+ }
+]

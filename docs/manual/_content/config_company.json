@@ -1,0 +1,471 @@
+{
+  "key": "config_company",
+  "title_en": "4. Configuration — Company, Currencies, Taxes & Accounts",
+  "title_ar": "4. الإعدادات — الشركة والعملات والضرائب والحسابات",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "Before you create your first order or invoice, the Medical-Supply ERP needs to know a few basic facts about your business: who you are, which money you trade in, how much tax to add, and where the accounting figures should land. The good news is that all of this is set up **once** and then the system applies it automatically on every document afterwards. This chapter walks you through that setup, in order, in plain language. You can follow along even if you have never touched accounting before."
+    },
+    {
+      "t": "note",
+      "title": "You usually only do this once",
+      "text": "Everything in this chapter has already been configured for *Sudan MedSupply Co.* in your system. We show you where each setting lives so you understand what the ERP is doing for you behind the scenes, and so you can check or adjust a value (such as a new exchange rate) when the day comes."
+    },
+
+    { "t": "h2", "text": "4.1 The Company" },
+    {
+      "t": "p",
+      "text": "The **company** is your business identity inside the ERP. Its name, address and tax number are printed on every quotation, invoice and report, and its **currency** becomes the default money for all your accounting. For us that company is *Sudan MedSupply Co.* (Arabic: *شركة السودان للمستلزمات الطبية*), based in Khartoum, Sudan."
+    },
+    {
+      "t": "p",
+      "text": "To open it, go to **Settings → Users & Companies → Companies** and click *Sudan MedSupply Co.*"
+    },
+    {
+      "t": "fig",
+      "file": "company.png",
+      "caption": "The Companies list under Settings, with the single company Sudan MedSupply Co. Click its row to open the company form, where the legal name, Khartoum/Sudan address, phone, email, tax identification number and company currency (SDG) are set."
+    },
+    {
+      "t": "p",
+      "text": "Here are the fields you see on the company form and what each one means:"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Company Name", "The legal name of the business. Ours is *Sudan MedSupply Co.* It prints at the top of every document."],
+        ["Address", "The street, city, state and ZIP of your premises. Type the city as *Khartoum*. This becomes the 'from' address on invoices and delivery notes."],
+        ["Country", "The country where the company is registered. Set this to *Sudan*. The country also drives which taxes and legal rules apply."],
+        ["Phone", "Your business telephone number, shown on printed documents so customers can reach you."],
+        ["Email", "Your business email address, used as the sender and reply-to on documents the system emails out."],
+        ["Tax ID", "Your official tax registration number. ('Tax ID' is the number the tax authority gives a business; it is printed on invoices.) Leave blank if you do not have one yet."],
+        ["Currency", "The main money your books are kept in — the **base currency**. (The base currency is the single money in which all your accounting totals are calculated.) Ours is **SDG**, the Sudanese Pound."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Change it in one place, see it everywhere",
+      "text": "When you correct the company address or phone here, every future invoice and report uses the new details automatically. You never have to retype your address on individual documents."
+    },
+
+    { "t": "h2", "text": "4.2 General Settings" },
+    {
+      "t": "p",
+      "text": "The **General Settings** page is the master switchboard for the whole ERP. It is a long page of feature switches, grouped by section (Sales, Inventory, Accounting, and so on). Turning a switch on unlocks a capability across the system. Open it from **Settings → General Settings**."
+    },
+    {
+      "t": "fig",
+      "file": "settings_general.png",
+      "caption": "The General Settings page: feature switches grouped by section. This is where company-wide options such as multi-currency are turned on."
+    },
+    {
+      "t": "p",
+      "text": "The one switch that matters most for an importer like us lives here: **Multi-Currencies**. Because *Sudan MedSupply Co.* keeps its books in SDG but buys from foreign suppliers in USD, this switch must be **on**. Once it is on, the ERP lets you record documents in more than one currency and keeps a history of exchange rates (covered next)."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Settings → General Settings**.",
+        "Scroll to the **Currencies** section.",
+        "Tick **Multi-Currencies** to allow more than one currency.",
+        "Click **Save** at the top of the page."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Already enabled",
+      "text": "In your system Multi-Currencies is already on, which is why USD purchase orders, USD bills and USD bank accounts all work out of the box."
+    },
+
+    { "t": "h2", "text": "4.3 Currencies & Exchange Rates" },
+    {
+      "t": "p",
+      "text": "A **currency** is simply a kind of money — Sudanese Pounds (SDG) or US Dollars (USD). In our ERP, **SDG is the base currency** (the money your books are kept in) and **USD is the reference foreign currency** we use with overseas suppliers such as *Gulf MedTrade FZE (USD)*. You can see every currency the system knows about under **Accounting → Configuration → Accounting → Currencies**."
+    },
+    {
+      "t": "fig",
+      "file": "currencies_list.png",
+      "caption": "The Currencies list under Accounting Configuration, showing the active currencies including SDG and USD."
+    },
+    {
+      "t": "p",
+      "text": "To inspect or update the dollar, click the **USD** line to open its currency record."
+    },
+    {
+      "t": "fig",
+      "file": "currency_usd.png",
+      "caption": "The USD currency record with the Rates tab open, showing the dated exchange-rate history of Sudanese Pounds per US Dollar over 2025–2026."
+    },
+
+    { "t": "h3", "text": "Main fields of a currency" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Currency", "The three-letter ISO code of the money, e.g. *USD* or *SDG*. (ISO 4217 is the international standard list of currency codes.)"],
+        ["Name", "The full written name of the currency, e.g. *United States dollar*."],
+        ["Active", "A simple on/off switch. Only active currencies appear in drop-downs when you create documents. SDG and USD are active."],
+        ["Symbol", "The sign shown next to amounts when printing, e.g. *$* for dollars."],
+        ["Currency Unit", "The name of one whole unit (for the dollar this is *Dollars*)."],
+        ["Currency Subunit", "The name of the fractional part (for the dollar this is *Cents*)."],
+        ["Is Current Company Currency", "A read-only flag that is ticked for SDG, telling you this is your base currency."],
+        ["Display Rounding Warning", "A read-only flag the system raises only if a change to the rounding factor could be risky — you will not normally see it."]
+      ]
+    },
+
+    { "t": "h3", "text": "Rates (the exchange-rate history)" },
+    {
+      "t": "p",
+      "text": "An **exchange rate** tells the system how much one US Dollar is worth in Sudanese Pounds on a given day. Because the rate moves over time, the ERP does not store a single rate — it keeps a **dated history**. The rule is simple and powerful: **each document is valued at the rate of its own date**. A bill you enter in March uses March's rate; a bill in June uses June's rate. You never recalculate anything by hand — you simply add a new line whenever the rate changes, and from that date onward the system uses the new figure."
+    },
+    {
+      "t": "p",
+      "text": "On the **Rates** tab you see the columns below. Note that the same rate can be read two ways and the system shows both:"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Current Rate", "The technical rate of this currency against the base currency for a given date."],
+        ["Unit per SDG", "How many US Dollars one Sudanese Pound buys (the inverse view)."],
+        ["SDG per Unit", "How many Sudanese Pounds it takes to buy one US Dollar — the everyday way most people quote the rate. This is the number you read and edit."],
+        ["Last Updated on", "The date and time the rate line was last changed (filled in by the system)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "These are the real dated rates configured for *Sudan MedSupply Co.* — each line is the value of one US Dollar in Sudanese Pounds (SDG per USD) from that date forward:"
+    },
+    {
+      "t": "table",
+      "headers": ["Date", "SDG per 1 USD"],
+      "rows": [
+        ["2025-06-01", "2,400"],
+        ["2025-09-01", "3,000"],
+        ["2026-01-01", "3,600"],
+        ["2026-04-01", "4,200"],
+        ["2026-06-01", "4,500"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Reading this table: a dollar that cost 2,400 SDG in June 2025 climbed to 4,500 SDG by June 2026. So a USD bill dated 1 April 2026 is automatically valued at 4,200 SDG per dollar, while one dated 1 June 2026 uses 4,500 — without you doing any arithmetic."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Accounting → Configuration → Accounting → Currencies** and open **USD**.",
+        "Click the **Rates** tab.",
+        "Click **Add a line**.",
+        "Enter the **date** the new rate takes effect.",
+        "Type the new value in **SDG per Unit** (the Sudanese Pounds needed for one dollar).",
+        "Click **Save**. Every document dated on or after that day now uses the new rate."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Why this saves you so much work",
+      "text": "Because rates are dated, the ERP values your foreign purchases, bills and bank balances correctly through time on its own. When the pound and the dollar drift apart, it even records the gain or loss for you. Your only job is to add one line when the rate moves."
+    },
+    {
+      "t": "warn",
+      "title": "Add a new line — do not overwrite the old one",
+      "text": "When the rate changes, always **add a new dated line**. If you edit an old line, you change how past documents are valued, which can throw your historical figures off. Keeping the history intact is what lets each document stay valued at the rate of its own date."
+    },
+
+    { "t": "h2", "text": "4.4 Taxes" },
+    {
+      "t": "p",
+      "text": "A **tax** is an extra percentage added to a price that the law requires you to collect (on sales) or that you pay (on purchases). In our ERP there are two taxes set up for Sudan, both at **15%**: one applied when you **sell** and one applied when you **buy**. The system adds the right tax automatically to each line on your invoices and bills, then totals it separately so you can see exactly how much tax is involved."
+    },
+    {
+      "t": "p",
+      "text": "You will find them under **Accounting → Configuration → Accounting → Taxes**."
+    },
+    {
+      "t": "fig",
+      "file": "taxes_list.png",
+      "caption": "The Taxes list showing the 15% sale tax and the 15% purchase tax for Sudan."
+    },
+    {
+      "t": "table",
+      "headers": ["Tax", "Rate", "Used on", "Country"],
+      "rows": [
+        ["15%", "15%", "Sales (added to customer invoices)", "Sudan (SD)"],
+        ["15%", "15%", "Purchases (recorded on vendor bills)", "Sudan (SD)"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "You can see this at work in the demo. The posted customer invoice *INV/2026/00001* for *Khartoum Teaching Hospital* totals **2,038,950 SDG**, of which **265,950 SDG** is the 15% tax the system worked out and listed for you. You never type the tax figure yourself — you only choose the products, and the ERP computes the tax."
+    },
+    {
+      "t": "tip",
+      "title": "Tax is calculated for you",
+      "text": "Once a tax is attached to a product or a partner, every new invoice and bill applies and totals it automatically. There is nothing to remember and no chance of a mis-typed percentage."
+    },
+
+    { "t": "h2", "text": "4.5 Chart of Accounts" },
+    {
+      "t": "p",
+      "text": "The **chart of accounts** is the organised list of every 'bucket' your money can be sorted into — sales income, bank balances, money customers owe you (receivables), money you owe suppliers (payables), tax, and so on. (A **receivable** is money a customer still owes you; a **payable** is money you still owe a supplier.) Every time you post an invoice, bill or payment, the ERP files the amounts into the right buckets here automatically, which is how it can produce reports like the Balance Sheet at the press of a button."
+    },
+    {
+      "t": "p",
+      "text": "You can browse it under **Accounting → Configuration → Accounting → Chart of Accounts**."
+    },
+    {
+      "t": "fig",
+      "file": "chart_of_accounts.png",
+      "caption": "The Chart of Accounts list with each account's code, name and type."
+    },
+    {
+      "t": "p",
+      "text": "Each row in the list is one account, identified by a short **code**, a **name** and a **type** (which tells the system whether it is income, an asset, a liability, and so on). You do not need to memorise any of these — for everyday work you simply create invoices, bills and payments, and the system records them in the correct accounts behind the scenes."
+    },
+    {
+      "t": "note",
+      "title": "Leave this to your accountant",
+      "text": "Ordinary staff almost never edit the chart of accounts. It is here so the system can keep your books in order automatically. Your accountant, *Mohammed*, looks after it; everyone else just works with the day-to-day documents."
+    },
+    {
+      "t": "p",
+      "text": "With the company, currencies, taxes and accounts in place, the foundations are set. The next chapters show how the system uses all of this automatically as you record contacts, products, purchases, sales, invoices and payments."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "قبل أن تنشئ أول طلب أو فاتورة، يحتاج نظام تخطيط موارد المستلزمات الطبية إلى معرفة بعض الحقائق الأساسية عن عملك: من أنت، وبأي عملة تتعامل، وكم نسبة الضريبة التي تُضاف، وأين يجب أن تُسجَّل الأرقام المحاسبية. والخبر السار أن كل هذا يُضبط **مرة واحدة**، ثم يطبّقه النظام تلقائيًا على كل مستند بعد ذلك. يأخذك هذا الفصل عبر هذا الإعداد، بالترتيب، وبلغة بسيطة. يمكنك متابعته حتى لو لم تتعامل مع المحاسبة من قبل."
+    },
+    {
+      "t": "note",
+      "title": "عادةً تفعل هذا مرة واحدة فقط",
+      "text": "كل ما في هذا الفصل مُعدّ مسبقًا لشركة *السودان للمستلزمات الطبية* في نظامك. نوضّح لك أين يوجد كل إعداد كي تفهم ما يفعله النظام نيابةً عنك خلف الكواليس، وكي تستطيع مراجعة قيمة أو تعديلها (مثل سعر صرف جديد) عند الحاجة."
+    },
+
+    { "t": "h2", "text": "4.1 الشركة" },
+    {
+      "t": "p",
+      "text": "**الشركة** هي هوية عملك داخل النظام. يُطبع اسمها وعنوانها ورقمها الضريبي على كل عرض سعر وفاتورة وتقرير، وتصبح **عملتها** هي العملة الافتراضية لكل محاسبتك. وهذه الشركة بالنسبة لنا هي *شركة السودان للمستلزمات الطبية* (Sudan MedSupply Co.)، ومقرّها الخرطوم بالسودان."
+    },
+    {
+      "t": "p",
+      "text": "لفتحها، اذهب إلى **الإعدادات ← المستخدمون والشركات ← الشركات** وانقر على *شركة السودان للمستلزمات الطبية*."
+    },
+    {
+      "t": "fig",
+      "file": "company.png",
+      "caption": "قائمة الشركات ضمن الإعدادات، وفيها الشركة الوحيدة Sudan MedSupply Co. انقر على سطرها لفتح نموذج الشركة، حيث يُضبط الاسم القانوني وعنوان الخرطوم/السودان والهاتف والبريد الإلكتروني والرقم الضريبي وعملة الشركة (SDG)."
+    },
+    {
+      "t": "p",
+      "text": "فيما يلي الحقول التي تراها في نموذج الشركة، ومعنى كلٍّ منها:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["Company Name (اسم الشركة)", "الاسم القانوني للعمل. اسمنا *Sudan MedSupply Co.* ويُطبع في أعلى كل مستند."],
+        ["Address (العنوان)", "الشارع والمدينة والولاية والرمز البريدي لمقرّك. اكتب المدينة *الخرطوم*. يصبح هذا عنوان «المُرسِل» على الفواتير وأذونات التسليم."],
+        ["Country (الدولة)", "الدولة التي سُجِّلت فيها الشركة. اضبطها على *السودان*. كما تحدّد الدولة الضرائب والقواعد القانونية المطبَّقة."],
+        ["Phone (الهاتف)", "رقم هاتف عملك، يظهر على المستندات المطبوعة ليتمكّن العملاء من التواصل معك."],
+        ["Email (البريد الإلكتروني)", "عنوان بريدك الإلكتروني للعمل، يُستخدم كمُرسِل وعنوان للرد على المستندات التي يرسلها النظام بالبريد."],
+        ["Tax ID (الرقم الضريبي)", "رقم تسجيلك الضريبي الرسمي. (الرقم الضريبي هو الرقم الذي تمنحه هيئة الضرائب للعمل؛ ويُطبع على الفواتير.) اتركه فارغًا إن لم يكن لديك بعد."],
+        ["Currency (العملة)", "العملة الرئيسية التي تُمسَك بها دفاترك — وهي **العملة الأساسية**. (العملة الأساسية هي العملة الوحيدة التي تُحسب بها جميع إجمالياتك المحاسبية.) عملتنا هي **SDG**، الجنيه السوداني."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "غيّرها في مكان واحد، فتظهر في كل مكان",
+      "text": "عند تصحيح عنوان الشركة أو هاتفها هنا، تستخدم كل فاتورة وتقرير مستقبلي البياناتِ الجديدة تلقائيًا. لن تضطر أبدًا إلى إعادة كتابة عنوانك على كل مستند على حدة."
+    },
+
+    { "t": "h2", "text": "4.2 الإعدادات العامة" },
+    {
+      "t": "p",
+      "text": "صفحة **الإعدادات العامة** هي لوحة المفاتيح الرئيسية للنظام بأكمله. وهي صفحة طويلة من مفاتيح تشغيل الميزات، مُجمَّعة حسب القسم (المبيعات، المخزون، المحاسبة، وهكذا). يؤدي تشغيل أحد المفاتيح إلى تفعيل قدرة عبر النظام كله. افتحها من **الإعدادات ← الإعدادات العامة**."
+    },
+    {
+      "t": "fig",
+      "file": "settings_general.png",
+      "caption": "صفحة الإعدادات العامة: مفاتيح تشغيل الميزات مُجمَّعة حسب القسم. هنا تُفعَّل الخيارات على مستوى الشركة مثل تعدّد العملات."
+    },
+    {
+      "t": "p",
+      "text": "أهم مفتاح يخصّ مستوردًا مثلنا موجود هنا: **تعدّد العملات (Multi-Currencies)**. ولأن *شركة السودان للمستلزمات الطبية* تمسك دفاترها بالـ SDG لكنها تشتري من موردين أجانب بالـ USD، يجب أن يكون هذا المفتاح **مُفعَّلًا**. وبمجرد تفعيله، يتيح لك النظام تسجيل المستندات بأكثر من عملة، ويحتفظ بتاريخ أسعار الصرف (نتناوله تاليًا)."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **الإعدادات ← الإعدادات العامة**.",
+        "انتقل إلى قسم **العملات (Currencies)**.",
+        "ضع علامة على **تعدّد العملات (Multi-Currencies)** للسماح بأكثر من عملة.",
+        "انقر **حفظ (Save)** في أعلى الصفحة."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "مُفعَّل بالفعل",
+      "text": "في نظامك، تعدّد العملات مُفعَّل أصلًا، ولهذا تعمل طلبات الشراء بالدولار وفواتير الموردين بالدولار والحسابات البنكية بالدولار جاهزةً مباشرةً."
+    },
+
+    { "t": "h2", "text": "4.3 العملات وأسعار الصرف" },
+    {
+      "t": "p",
+      "text": "**العملة** هي ببساطة نوع من النقود — الجنيه السوداني (SDG) أو الدولار الأمريكي (USD). في نظامنا، **SDG هي العملة الأساسية** (العملة التي تُمسَك بها دفاترك)، و**USD هي العملة الأجنبية المرجعية** التي نستخدمها مع الموردين الأجانب مثل *Gulf MedTrade FZE (USD)*. يمكنك رؤية كل عملة يعرفها النظام عبر **المحاسبة ← الإعدادات ← المحاسبة ← العملات**."
+    },
+    {
+      "t": "fig",
+      "file": "currencies_list.png",
+      "caption": "قائمة العملات ضمن إعدادات المحاسبة، تُظهر العملات النشطة بما فيها SDG وUSD."
+    },
+    {
+      "t": "p",
+      "text": "لفحص الدولار أو تحديثه، انقر على سطر **USD** لفتح سجلّ العملة الخاص به."
+    },
+    {
+      "t": "fig",
+      "file": "currency_usd.png",
+      "caption": "سجلّ عملة USD مع فتح تبويب الأسعار، يُظهر تاريخ أسعار الصرف المؤرَّخ بالجنيه السوداني لكل دولار أمريكي عبر 2025–2026."
+    },
+
+    { "t": "h3", "text": "الحقول الرئيسية للعملة" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["Currency (العملة)", "رمز العملة من ثلاثة أحرف وفق المعيار الدولي، مثل *USD* أو *SDG*. (ISO 4217 هو القائمة المعيارية الدولية لرموز العملات.)"],
+        ["Name (الاسم)", "الاسم الكامل المكتوب للعملة، مثل *United States dollar*."],
+        ["Active (نشِط)", "مفتاح تشغيل/إيقاف بسيط. تظهر العملات النشطة فقط في القوائم المنسدلة عند إنشاء المستندات. وكلٌّ من SDG وUSD نشِط."],
+        ["Symbol (الرمز)", "العلامة التي تظهر بجانب المبالغ عند الطباعة، مثل *$* للدولار."],
+        ["Currency Unit (وحدة العملة)", "اسم الوحدة الكاملة (للدولار هي *Dollars*)."],
+        ["Currency Subunit (الوحدة الفرعية)", "اسم الجزء الكسري (للدولار هي *Cents*)."],
+        ["Is Current Company Currency (هي عملة الشركة الحالية)", "علامة للقراءة فقط، تكون مُفعَّلة لـ SDG، لتخبرك أن هذه هي عملتك الأساسية."],
+        ["Display Rounding Warning (إظهار تحذير التقريب)", "علامة للقراءة فقط يرفعها النظام فقط إذا كان تغيير عامل التقريب قد يكون خطِرًا — لن تراها عادةً."]
+      ]
+    },
+
+    { "t": "h3", "text": "الأسعار (تاريخ سعر الصرف)" },
+    {
+      "t": "p",
+      "text": "**سعر الصرف** يخبر النظام بقيمة الدولار الأمريكي الواحد بالجنيه السوداني في يوم معيَّن. ولأن السعر يتغيّر بمرور الوقت، لا يخزّن النظام سعرًا واحدًا، بل يحتفظ بـ**تاريخ مؤرَّخ**. والقاعدة بسيطة وقوية: **يُقيَّم كل مستند بسعر تاريخه هو**. الفاتورة التي تُدخلها في مارس تستخدم سعر مارس؛ وفاتورة يونيو تستخدم سعر يونيو. لن تعيد حساب أي شيء يدويًا، بل تضيف ببساطة سطرًا جديدًا كلما تغيّر السعر، ومن ذلك التاريخ فصاعدًا يستخدم النظام الرقم الجديد."
+    },
+    {
+      "t": "p",
+      "text": "في تبويب **الأسعار (Rates)** ترى الأعمدة التالية. لاحظ أن السعر نفسه يمكن قراءته بطريقتين، والنظام يُظهر كلتيهما:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "معناه / ما الذي تُدخله"],
+      "rows": [
+        ["Current Rate (السعر الحالي)", "السعر التقني لهذه العملة مقابل العملة الأساسية في تاريخ معيَّن."],
+        ["Unit per SDG (الوحدة لكل جنيه سوداني)", "كم دولارًا أمريكيًا يشتري الجنيه السوداني الواحد (العرض المقلوب)."],
+        ["SDG per Unit (جنيه سوداني لكل وحدة)", "كم جنيهًا سودانيًا يلزم لشراء دولار أمريكي واحد — وهي الطريقة اليومية التي يقتبس بها معظم الناس السعر. هذا هو الرقم الذي تقرؤه وتعدّله."],
+        ["Last Updated on (آخر تحديث في)", "تاريخ ووقت آخر تغيير لسطر السعر (يملؤه النظام)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "هذه هي الأسعار المؤرَّخة الحقيقية المُعدّة لشركة *السودان للمستلزمات الطبية* — كل سطر هو قيمة الدولار الأمريكي الواحد بالجنيه السوداني (SDG لكل USD) من ذلك التاريخ فصاعدًا:"
+    },
+    {
+      "t": "table",
+      "headers": ["التاريخ", "جنيه سوداني لكل 1 دولار"],
+      "rows": [
+        ["2025-06-01", "2,400"],
+        ["2025-09-01", "3,000"],
+        ["2026-01-01", "3,600"],
+        ["2026-04-01", "4,200"],
+        ["2026-06-01", "4,500"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "قراءة هذا الجدول: الدولار الذي كان يكلّف 2,400 جنيهًا سودانيًا في يونيو 2025 ارتفع إلى 4,500 جنيهًا سودانيًا بحلول يونيو 2026. فالفاتورة بالدولار بتاريخ 1 أبريل 2026 تُقيَّم تلقائيًا بسعر 4,200 جنيهًا للدولار، بينما تستخدم الفاتورة بتاريخ 1 يونيو 2026 سعر 4,500 — دون أن تجري أي عملية حسابية."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المحاسبة ← الإعدادات ← المحاسبة ← العملات** وافتح **USD**.",
+        "انقر على تبويب **الأسعار (Rates)**.",
+        "انقر على **إضافة سطر (Add a line)**.",
+        "أدخِل **التاريخ** الذي يبدأ منه سريان السعر الجديد.",
+        "اكتب القيمة الجديدة في **SDG per Unit** (الجنيهات السودانية اللازمة لدولار واحد).",
+        "انقر **حفظ (Save)**. الآن يستخدم كل مستند مؤرَّخ في ذلك اليوم أو بعده السعرَ الجديد."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "لماذا يوفّر هذا عليك جهدًا كبيرًا",
+      "text": "لأن الأسعار مؤرَّخة، يقيّم النظام مشترياتك الأجنبية وفواتيرك وأرصدتك البنكية بشكل صحيح عبر الزمن من تلقاء نفسه. وعندما يتباعد الجنيه عن الدولار، يسجّل لك حتى الربح أو الخسارة. ومهمتك الوحيدة هي إضافة سطر واحد عند تغيّر السعر."
+    },
+    {
+      "t": "warn",
+      "title": "أضِف سطرًا جديدًا — لا تستبدل القديم",
+      "text": "عند تغيّر السعر، احرص دائمًا على **إضافة سطر مؤرَّخ جديد**. فإذا عدّلت سطرًا قديمًا، تغيّر طريقة تقييم المستندات السابقة، مما قد يخلّ بأرقامك التاريخية. والإبقاء على التاريخ سليمًا هو ما يجعل كل مستند يبقى مُقيَّمًا بسعر تاريخه هو."
+    },
+
+    { "t": "h2", "text": "4.4 الضرائب" },
+    {
+      "t": "p",
+      "text": "**الضريبة** هي نسبة مئوية إضافية تُضاف إلى السعر يُلزمك القانون بتحصيلها (على المبيعات) أو بدفعها (على المشتريات). في نظامنا توجد ضريبتان مُعدّتان للسودان، كلتاهما بنسبة **15%**: واحدة تُطبَّق عند **البيع** وأخرى تُطبَّق عند **الشراء**. ويضيف النظام الضريبة الصحيحة تلقائيًا إلى كل سطر في فواتيرك وفواتير مورديك، ثم يجمعها على حدة كي ترى بالضبط مقدار الضريبة المعنية."
+    },
+    {
+      "t": "p",
+      "text": "ستجدها عبر **المحاسبة ← الإعدادات ← المحاسبة ← الضرائب**."
+    },
+    {
+      "t": "fig",
+      "file": "taxes_list.png",
+      "caption": "قائمة الضرائب تُظهر ضريبة البيع 15% وضريبة الشراء 15% للسودان."
+    },
+    {
+      "t": "table",
+      "headers": ["الضريبة", "النسبة", "تُستخدم على", "الدولة"],
+      "rows": [
+        ["15%", "15%", "المبيعات (تُضاف إلى فواتير العملاء)", "السودان (SD)"],
+        ["15%", "15%", "المشتريات (تُسجَّل على فواتير الموردين)", "السودان (SD)"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "يمكنك رؤية ذلك عمليًا في البيانات التجريبية. فاتورة العميل المرحَّلة *INV/2026/00001* لـ *مستشفى الخرطوم التعليمي* إجماليها **2,038,950 جنيهًا سودانيًا**، منها **265,950 جنيهًا سودانيًا** هي ضريبة الـ 15% التي حسبها النظام وأدرجها لك. أنت لا تكتب رقم الضريبة بنفسك أبدًا، بل تختار المنتجات فقط، ويحسب النظام الضريبة."
+    },
+    {
+      "t": "tip",
+      "title": "الضريبة تُحسب نيابةً عنك",
+      "text": "بمجرد ربط ضريبة بمنتج أو بشريك، تطبّقها كل فاتورة جديدة وكل فاتورة مورد وتجمعها تلقائيًا. لا شيء عليك أن تتذكّره، ولا مجال لخطأ في كتابة النسبة."
+    },
+
+    { "t": "h2", "text": "4.5 شجرة الحسابات" },
+    {
+      "t": "p",
+      "text": "**شجرة الحسابات** هي القائمة المنظَّمة لكل «وعاء» يمكن أن تُصنَّف فيه أموالك — إيرادات المبيعات، الأرصدة البنكية، الأموال المستحقة لك على العملاء (المدينون/الذمم المدينة)، الأموال المستحقة عليك للموردين (الدائنون/الذمم الدائنة)، الضريبة، وهكذا. (**الذمم المدينة** هي مال لا يزال العميل مدينًا لك به؛ و**الذمم الدائنة** هي مال لا تزال مدينًا به للمورد.) في كل مرة تُرحّل فيها فاتورة أو فاتورة مورد أو دفعة، يصنّف النظام المبالغ في الأوعية الصحيحة هنا تلقائيًا، وهكذا يستطيع إصدار تقارير مثل الميزانية العمومية بضغطة زر."
+    },
+    {
+      "t": "p",
+      "text": "يمكنك تصفّحها عبر **المحاسبة ← الإعدادات ← المحاسبة ← شجرة الحسابات**."
+    },
+    {
+      "t": "fig",
+      "file": "chart_of_accounts.png",
+      "caption": "قائمة شجرة الحسابات مع رمز كل حساب واسمه ونوعه."
+    },
+    {
+      "t": "p",
+      "text": "كل سطر في القائمة هو حساب واحد، يُعرَّف برمز قصير (**Code**) واسم (**Name**) ونوع (**Type**) يخبر النظام إن كان إيرادًا أم أصلًا أم التزامًا وهكذا. لا تحتاج إلى حفظ أيٍّ من هذا — ففي العمل اليومي تنشئ ببساطة الفواتير وفواتير الموردين والدفعات، ويسجّلها النظام في الحسابات الصحيحة خلف الكواليس."
+    },
+    {
+      "t": "note",
+      "title": "اترك هذا لمحاسبك",
+      "text": "نادرًا ما يعدّل الموظفون العاديون شجرة الحسابات. وهي موجودة هنا كي يستطيع النظام إمساك دفاترك بانتظام تلقائيًا. محاسبك *محمد* هو من يعتني بها؛ أما الجميع فيتعاملون فقط مع المستندات اليومية."
+    },
+    {
+      "t": "p",
+      "text": "بوجود الشركة والعملات والضرائب والحسابات في مكانها، تكون الأسس قد اكتملت. تُظهر الفصول التالية كيف يستخدم النظام كل هذا تلقائيًا وأنت تسجّل جهات الاتصال والمنتجات والمشتريات والمبيعات والفواتير والدفعات."
+    }
+  ]
+}

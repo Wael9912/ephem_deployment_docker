@@ -11,6 +11,7 @@ Outputs (docs/manual/):
 Usage:  python3 scripts/build_manual.py
 """
 import html as _html
+import json
 import os
 
 BRAND = "0E6E8E"        # teal
@@ -26,12 +27,12 @@ FONT_DIR = os.path.join(ROOT, "scripts", "fonts")
 META = {
     "en": dict(title="Medical-Supply ERP", subtitle="User Manual",
                org="Sudan MedSupply Co.", platform="Built on Odoo 18 Community",
-               version="Version 2.0", date="June 2026", toc="Table of Contents",
+               version="Version 3.0", date="June 2026", toc="Table of Contents",
                figures="List of Figures",
                labels={"tip": "TIP", "warn": "IMPORTANT", "note": "NOTE", "fig": "Figure"}),
     "ar": dict(title="نظام إدارة موارد المستلزمات الطبية", subtitle="دليل المستخدم",
                org="شركة السودان للمستلزمات الطبية", platform="مبني على أودو 18 المجتمعي",
-               version="الإصدار 2.0", date="يونيو 2026", toc="جدول المحتويات",
+               version="الإصدار 3.0", date="يونيو 2026", toc="جدول المحتويات",
                figures="قائمة الأشكال",
                labels={"tip": "نصيحة", "warn": "هام", "note": "ملاحظة", "fig": "شكل"}),
 }
@@ -52,6 +53,47 @@ class Content:
     def warn(self, title, t): self.C.append(("warn", title, t))
     def note(self, title, t): self.C.append(("note", title, t))
     def fig(self, filename, caption): self.C.append(("fig", filename, caption))
+
+# ====================================================== JSON CONTENT LOADER
+# Chapters produced by scripts/wf_manual_content.js live in docs/manual/_content/
+# as <key>.json with {title_en,title_ar,blocks_en,blocks_ar}. This is the single
+# source of truth for the manual; fill_en/fill_ar below are kept only as fallback.
+CHAPTER_ORDER = [
+    "intro", "interface", "roles", "config_company", "config_partners",
+    "config_banks", "config_inventory", "products", "warehouse", "procurement",
+    "sales", "accounting", "multicurrency", "medical", "journeys",
+    "demo_reference", "admin",
+]
+
+def content_from_json(lang):
+    """Assemble the ordered block-tuple list for a language from the per-chapter
+    JSON files; returns [] if no chapter files are present."""
+    cdir = os.path.join(OUT_DIR, "_content")
+    blocks = []
+    found = False
+    for key in CHAPTER_ORDER:
+        path = os.path.join(cdir, key + ".json")
+        if not os.path.exists(path):
+            continue
+        found = True
+        with open(path, encoding="utf-8") as fh:
+            data = json.load(fh)
+        title = data.get("title_%s" % lang) or data.get("title_en") or key
+        blocks.append(("h1", title))
+        for b in data.get("blocks_%s" % lang, []):
+            t = b.get("t")
+            if t in ("h2", "h3", "p"):
+                blocks.append((t, b.get("text", "")))
+            elif t in ("ul", "ol"):
+                blocks.append((t, list(b.get("items", []))))
+            elif t == "table":
+                blocks.append(("table", list(b.get("headers", [])),
+                               [list(r) for r in b.get("rows", [])]))
+            elif t in ("tip", "warn", "note"):
+                blocks.append((t, b.get("title", ""), b.get("text", "")))
+            elif t == "fig":
+                blocks.append(("fig", b.get("file", ""), b.get("caption", "")))
+    return blocks if found else []
 
 # ============================================================ ENGLISH CONTENT
 def fill_en(d):
@@ -1019,25 +1061,33 @@ if __name__ == "__main__":
     img_en = os.path.join(OUT_DIR, "img", "en")
     img_ar = os.path.join(OUT_DIR, "img", "ar")
 
+    # Prefer the workflow-authored JSON chapters; fall back to fill_en/fill_ar.
+    en_blocks = content_from_json("en")
+    ar_blocks = content_from_json("ar")
+    if not en_blocks:
+        en = Content(); fill_en(en); en_blocks = en.C
+    if not ar_blocks:
+        ar = Content(); fill_ar(ar); ar_blocks = ar.C
+
     # English
-    en = Content(); fill_en(en)
-    build_docx(en.C, META["en"], os.path.join(OUT_DIR, base + "_EN.docx"),
+    build_docx(en_blocks, META["en"], os.path.join(OUT_DIR, base + "_EN.docx"),
                rtl=False, font_name="Calibri", img_dir=img_en)
-    build_html(en.C, META["en"], os.path.join(OUT_DIR, "_manual_EN.html"),
+    build_html(en_blocks, META["en"], os.path.join(OUT_DIR, "_manual_EN.html"),
                rtl=False, font_face="", font_family="'Helvetica Neue',Arial,sans-serif",
                img_dir=img_en)
 
-    # Arabic (RTL). PDF uses the bundled Tajawal font copied into the container.
-    ar_face = ("@font-face{font-family:'Tajawal';font-weight:normal;"
-               "src:url('file:///tmp/fonts/Tajawal-Regular.ttf');}"
-               "@font-face{font-family:'Tajawal';font-weight:bold;"
-               "src:url('file:///tmp/fonts/Tajawal-Bold.ttf');}")
-    ar = Content(); fill_ar(ar)
-    build_docx(ar.C, META["ar"], os.path.join(OUT_DIR, base + "_AR.docx"),
-               rtl=True, font_name="Tajawal", img_dir=img_ar)
-    build_html(ar.C, META["ar"], os.path.join(OUT_DIR, "_manual_AR.html"),
-               rtl=True, font_face=ar_face, font_family="'Tajawal',sans-serif",
+    # Arabic (RTL). Uses Alexandria — the same Arabic font applied to the system
+    # (Spiffy theme). The PDF embeds Alexandria-{Regular,Bold}.ttf copied to the
+    # container at /tmp/fonts/ by the build step.
+    ar_face = ("@font-face{font-family:'Alexandria';font-weight:normal;"
+               "src:url('file:///tmp/fonts/Alexandria-Regular.ttf');}"
+               "@font-face{font-family:'Alexandria';font-weight:bold;"
+               "src:url('file:///tmp/fonts/Alexandria-Bold.ttf');}")
+    build_docx(ar_blocks, META["ar"], os.path.join(OUT_DIR, base + "_AR.docx"),
+               rtl=True, font_name="Alexandria", img_dir=img_ar)
+    build_html(ar_blocks, META["ar"], os.path.join(OUT_DIR, "_manual_AR.html"),
+               rtl=True, font_face=ar_face, font_family="'Alexandria',sans-serif",
                img_dir=img_ar)
 
-    print("EN blocks:", len(en.C), "| AR blocks:", len(ar.C))
+    print("EN blocks:", len(en_blocks), "| AR blocks:", len(ar_blocks))
     print("Outputs in", OUT_DIR)

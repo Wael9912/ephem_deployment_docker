@@ -1,0 +1,425 @@
+{
+ "company": {
+  "name": "Sudan MedSupply Co.",
+  "city": "Khartoum",
+  "country": "Sudan",
+  "currency": "SDG",
+  "fiscal_country": "SD"
+ },
+ "currencies": [
+  "SDG",
+  "USD"
+ ],
+ "usd_rates": [
+  {
+   "date": "2025-06-01",
+   "sdg_per_usd": 2400.0
+  },
+  {
+   "date": "2025-09-01",
+   "sdg_per_usd": 3000.0
+  },
+  {
+   "date": "2026-01-01",
+   "sdg_per_usd": 3600.0
+  },
+  {
+   "date": "2026-04-01",
+   "sdg_per_usd": 4200.0
+  },
+  {
+   "date": "2026-06-01",
+   "sdg_per_usd": 4500.0
+  }
+ ],
+ "warehouses": [
+  {
+   "name": "Khartoum Central Warehouse",
+   "code": "KRT"
+  },
+  {
+   "name": "Port Sudan Warehouse",
+   "code": "PRT"
+  }
+ ],
+ "internal_locations": [
+  "KRT/Stock/Cold Storage (2-8C)",
+  "KRT/Stock/Expired / Damaged",
+  "KRT/Stock/Quarantine"
+ ],
+ "products": [
+  {
+   "name": "Surgical Gloves (Box of 100)",
+   "ref": "CON-GLOVES",
+   "category": "Medical Consumables",
+   "cost": 19300.0,
+   "price": 29000.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 60.0
+  },
+  {
+   "name": "IV Cannula 18G (Box of 50)",
+   "ref": "CON-IVCAN",
+   "category": "Medical Consumables",
+   "cost": 25700.0,
+   "price": 38600.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 0.0
+  },
+  {
+   "name": "N95 Face Mask (Box of 20)",
+   "ref": "CON-N95",
+   "category": "Medical Consumables",
+   "cost": 32000.0,
+   "price": 48000.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 45.0
+  },
+  {
+   "name": "Syringe 5ml (Box of 100)",
+   "ref": "CON-SYR-5",
+   "category": "Medical Consumables",
+   "cost": 12900.0,
+   "price": 20600.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 90.0
+  },
+  {
+   "name": "Digital Blood Pressure Monitor",
+   "ref": "DEV-BPMON",
+   "category": "Medical Devices",
+   "cost": 189000.0,
+   "price": 285000.0,
+   "tracking": "none",
+   "expiry": false,
+   "on_hand": 10.0
+  },
+  {
+   "name": "Digital Thermometer",
+   "ref": "DEV-THERMO",
+   "category": "Medical Devices",
+   "cost": 22500.0,
+   "price": 35400.0,
+   "tracking": "none",
+   "expiry": false,
+   "on_hand": 0.0
+  },
+  {
+   "name": "Amoxicillin 250mg Capsules (100s)",
+   "ref": "MED-AMOX-250",
+   "category": "Pharmaceuticals",
+   "cost": 16000.0,
+   "price": 23000.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 110.0
+  },
+  {
+   "name": "Antiseptic Solution 500ml",
+   "ref": "MED-ANTISEP",
+   "category": "Pharmaceuticals",
+   "cost": 9600.0,
+   "price": 14800.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 100.0
+  },
+  {
+   "name": "Insulin Vial 10ml",
+   "ref": "MED-INSULIN",
+   "category": "Pharmaceuticals",
+   "cost": 63000.0,
+   "price": 90000.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 50.0
+  },
+  {
+   "name": "Paracetamol 500mg Tablets (100s)",
+   "ref": "MED-PARA-500",
+   "category": "Pharmaceuticals",
+   "cost": 7700.0,
+   "price": 11500.0,
+   "tracking": "lot",
+   "expiry": true,
+   "on_hand": 150.0
+  }
+ ],
+ "customers": [
+  "Bahri Community Pharmacy",
+  "Khartoum Teaching Hospital",
+  "Omdurman Family Clinic",
+  "Sudanese Red Crescent"
+ ],
+ "suppliers": [
+  "Gulf MedTrade FZE (USD)",
+  "Khartoum Pharma Imports",
+  "Nile Medical Supplies Co."
+ ],
+ "journals": [
+  {
+   "name": "Customer Invoices",
+   "code": "INV",
+   "type": "sale",
+   "currency": "SDG"
+  },
+  {
+   "name": "Vendor Bills",
+   "code": "BILL",
+   "type": "purchase",
+   "currency": "SDG"
+  },
+  {
+   "name": "Bank of Khartoum (SDG)",
+   "code": "BNKSD",
+   "type": "bank",
+   "currency": "SDG"
+  },
+  {
+   "name": "USD Bank Account",
+   "code": "BNKUS",
+   "type": "bank",
+   "currency": "USD"
+  },
+  {
+   "name": "Main Cash Safe (SDG)",
+   "code": "CSHSD",
+   "type": "cash",
+   "currency": "SDG"
+  },
+  {
+   "name": "USD Cash Safe",
+   "code": "CSHUS",
+   "type": "cash",
+   "currency": "USD"
+  }
+ ],
+ "taxes": [
+  {
+   "name": "15%",
+   "amount": 15.0,
+   "type": "sale",
+   "country": "SD"
+  },
+  {
+   "name": "15%",
+   "amount": 15.0,
+   "type": "purchase",
+   "country": "SD"
+  }
+ ],
+ "purchase_orders": [
+  {
+   "name": "P00001",
+   "vendor": "Nile Medical Supplies Co.",
+   "state": "purchase",
+   "total": 5635000.0,
+   "currency": "SDG"
+  },
+  {
+   "name": "P00002",
+   "vendor": "Gulf MedTrade FZE (USD)",
+   "state": "purchase",
+   "total": 1288.0,
+   "currency": "USD"
+  },
+  {
+   "name": "P00003",
+   "vendor": "Khartoum Pharma Imports",
+   "state": "purchase",
+   "total": 5763800.0,
+   "currency": "SDG"
+  },
+  {
+   "name": "P00004",
+   "vendor": "Nile Medical Supplies Co.",
+   "state": "draft",
+   "total": 241500.0,
+   "currency": "SDG"
+  }
+ ],
+ "sale_orders": [
+  {
+   "name": "S00001",
+   "customer": "Khartoum Teaching Hospital",
+   "state": "sale",
+   "total": 2038950.0,
+   "currency": "SDG"
+  },
+  {
+   "name": "S00002",
+   "customer": "Omdurman Family Clinic",
+   "state": "sale",
+   "total": 1886000.0,
+   "currency": "SDG"
+  },
+  {
+   "name": "S00003",
+   "customer": "Sudanese Red Crescent",
+   "state": "draft",
+   "total": 2018250.0,
+   "currency": "SDG"
+  }
+ ],
+ "customer_invoices": [
+  {
+   "name": "INV/2026/00001",
+   "customer": "Khartoum Teaching Hospital",
+   "state": "posted",
+   "total": 2038950.0,
+   "tax": 265950.0,
+   "currency": "SDG",
+   "due": "2026-06-10",
+   "payment_state": "paid"
+  },
+  {
+   "name": "INV/2026/00002",
+   "customer": "Omdurman Family Clinic",
+   "state": "posted",
+   "total": 1886000.0,
+   "tax": 246000.0,
+   "currency": "SDG",
+   "due": "2026-06-10",
+   "payment_state": "paid"
+  },
+  {
+   "name": "INV/2026/00003",
+   "customer": "Sudanese Red Crescent",
+   "state": "posted",
+   "total": 1237400.0,
+   "tax": 161400.0,
+   "currency": "SDG",
+   "due": "2026-04-19",
+   "payment_state": "not_paid"
+  },
+  {
+   "name": "INV/2026/00004",
+   "customer": "Bahri Community Pharmacy",
+   "state": "posted",
+   "total": 1455900.0,
+   "tax": 189900.0,
+   "currency": "SDG",
+   "due": "2026-05-25",
+   "payment_state": "not_paid"
+  },
+  {
+   "name": "INV/2026/00005",
+   "customer": "Khartoum Teaching Hospital",
+   "state": "posted",
+   "total": 1273050.0,
+   "tax": 166050.0,
+   "currency": "SDG",
+   "due": "2026-07-01",
+   "payment_state": "not_paid"
+  }
+ ],
+ "vendor_bills": [
+  {
+   "name": "BILL/2026/05/0001",
+   "vendor": "Nile Medical Supplies Co.",
+   "state": "posted",
+   "total": 5635000.0,
+   "currency": "SDG",
+   "payment_state": "in_payment"
+  },
+  {
+   "name": "BILL/2026/05/0002",
+   "vendor": "Gulf MedTrade FZE (USD)",
+   "state": "posted",
+   "total": 483.0,
+   "currency": "USD",
+   "payment_state": "not_paid"
+  }
+ ],
+ "payments": [
+  {
+   "name": "PAY00001",
+   "partner": "Khartoum Teaching Hospital",
+   "amount": 2038950.0,
+   "journal": "Bank of Khartoum (SDG)",
+   "type": "inbound",
+   "state": "paid"
+  },
+  {
+   "name": "PAY00002",
+   "partner": "Omdurman Family Clinic",
+   "amount": 1886000.0,
+   "journal": "Main Cash Safe (SDG)",
+   "type": "inbound",
+   "state": "paid"
+  },
+  {
+   "name": "PAY00003",
+   "partner": "Nile Medical Supplies Co.",
+   "amount": 5635000.0,
+   "journal": "Bank of Khartoum (SDG)",
+   "type": "outbound",
+   "state": "in_process"
+  }
+ ],
+ "orderpoints": [
+  {
+   "product": "MED-PARA-500",
+   "min": 50.0,
+   "max": 200.0
+  },
+  {
+   "product": "MED-INSULIN",
+   "min": 20.0,
+   "max": 80.0
+  },
+  {
+   "product": "CON-GLOVES",
+   "min": 30.0,
+   "max": 120.0
+  }
+ ],
+ "bank_statements": [
+  {
+   "name": "STMT/2026/06/KRT",
+   "journal": "Bank of Khartoum (SDG)",
+   "lines": 2
+  }
+ ],
+ "lots": [
+  {
+   "name": "LOT-NILE-01",
+   "product": "MED-PARA-500",
+   "expiry": "2028-06-08 00:00:00"
+  },
+  {
+   "name": "LOT-NILE-02",
+   "product": "MED-AMOX-250",
+   "expiry": "2027-12-01 00:00:00"
+  },
+  {
+   "name": "LOT-NILE-03",
+   "product": "MED-ANTISEP",
+   "expiry": "2027-06-09 00:00:00"
+  },
+  {
+   "name": "LOT-GULF-01",
+   "product": "MED-INSULIN",
+   "expiry": "2027-06-09 00:00:00"
+  },
+  {
+   "name": "LOT-KHP-01",
+   "product": "CON-GLOVES",
+   "expiry": "2029-06-08 00:00:00"
+  },
+  {
+   "name": "LOT-KHP-02",
+   "product": "CON-N95",
+   "expiry": "2030-06-08 00:00:00"
+  },
+  {
+   "name": "LOT-KHP-03",
+   "product": "CON-SYR-5",
+   "expiry": "2031-06-08 00:00:00"
+  }
+ ]
+}

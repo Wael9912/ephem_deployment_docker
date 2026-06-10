@@ -1,0 +1,709 @@
+{
+ "model": "purchase.order",
+ "fields": [
+  {
+   "name": "state",
+   "label": "Status",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "__header__",
+   "selection": [
+    "RFQ",
+    "RFQ Sent",
+    "To Approve",
+    "Purchase Order",
+    "Locked",
+    "Cancelled"
+   ]
+  },
+  {
+   "name": "invoice_count",
+   "label": "Vendor Bills",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "invoice_ids",
+   "label": "Bills",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "account.move"
+  },
+  {
+   "name": "incoming_picking_count",
+   "label": "Receipt",
+   "type": "integer",
+   "help": "Incoming Shipments",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sale_order_count",
+   "label": "Number of Source Sale",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "priority",
+   "label": "Priority",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Normal",
+    "Urgent"
+   ]
+  },
+  {
+   "name": "name",
+   "label": "Order Reference",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "Vendor",
+   "type": "many2one",
+   "help": "You can find a vendor by its Name, TIN, Email or Internal Reference.",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "partner_ref",
+   "label": "Vendor Reference",
+   "type": "char",
+   "help": "Reference of the sales order or bid sent by the vendor. It's used to do the matching when you receive the products as this reference is usually written on the delivery order sent by your vendor.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.currency"
+  },
+  {
+   "name": "is_shipped",
+   "label": "Is Shipped",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "id",
+   "label": "ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "tax_calculation_rounding_method",
+   "label": "Tax calculation rounding method",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Round per Line",
+    "Round Globally"
+   ]
+  },
+  {
+   "name": "date_order",
+   "label": "Order Deadline",
+   "type": "datetime",
+   "help": "Depicts the date within which the Quotation should be confirmed and converted into a purchase order.",
+   "required": true,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "date_approve",
+   "label": "Confirmation Date",
+   "type": "datetime",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "date_planned",
+   "label": "Expected Arrival",
+   "type": "datetime",
+   "help": "Delivery date promised by vendor. This date is used to determine expected arrival of products.",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  },
+  {
+   "name": "mail_reminder_confirmed",
+   "label": "Reminder Confirmed",
+   "type": "boolean",
+   "help": "True if the reminder email is confirmed by the vendor.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "on_time_rate",
+   "label": "On-Time Delivery Rate",
+   "type": "float",
+   "help": "Over the past x days; the number of products received on time divided by the number of ordered products.x is either the System Parameter purchase_stock.on_time_delivery_days or the default 365",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "receipt_reminder_email",
+   "label": "Receipt Reminder Email",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "reminder_date_before_receipt",
+   "label": "Days Before Receipt",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "picking_type_id",
+   "label": "Deliver To",
+   "type": "many2one",
+   "help": "This will determine operation type of incoming shipment",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "stock.picking.type"
+  },
+  {
+   "name": "dest_address_id",
+   "label": "Dropship Address",
+   "type": "many2one",
+   "help": "Put an address if you want to deliver directly from the vendor to the customer. Otherwise, keep empty to deliver to your own company.",
+   "required": true,
+   "readonly": true,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "effective_date",
+   "label": "Arrival",
+   "type": "datetime",
+   "help": "Completion date of the first receipt order.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "tax_country_id",
+   "label": "Tax Country",
+   "type": "many2one",
+   "help": "Technical field to filter the available taxes depending on the fiscal country and fiscal position.",
+   "required": false,
+   "readonly": false,
+   "page": "Products",
+   "relation": "res.country"
+  },
+  {
+   "name": "order_line",
+   "label": "Order Lines",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products",
+   "relation": "purchase.order.line"
+  },
+  {
+   "name": "display_type",
+   "label": "display_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "product_type",
+   "label": "product_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "product_uom_category_id",
+   "label": "product_uom_category_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "invoice_lines",
+   "label": "invoice_lines",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "sequence",
+   "label": "sequence",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "product_id",
+   "label": "Product",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Products",
+   "relation": "product.product"
+  },
+  {
+   "name": "move_dest_ids",
+   "label": "move_dest_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "analytic_distribution",
+   "label": "analytic_distribution",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "product_qty",
+   "label": "product_qty",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "forecasted_issue",
+   "label": "forecasted_issue",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "qty_received_manual",
+   "label": "qty_received_manual",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "qty_received_method",
+   "label": "qty_received_method",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "qty_received",
+   "label": "Received",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "qty_invoiced",
+   "label": "Billed",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "product_uom",
+   "label": "UoM",
+   "type": null,
+   "help": "",
+   "required": true,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "price_unit",
+   "label": "price_unit",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "taxes_id",
+   "label": "taxes_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "discount",
+   "label": "Disc.%",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "price_subtotal",
+   "label": "Amount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "is_downpayment",
+   "label": "is_downpayment",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "is_storable",
+   "label": "is_storable",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "move_ids",
+   "label": "move_ids",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Invoices and Incoming Shipments"
+  },
+  {
+   "name": "price_total",
+   "label": "price_total",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "notes",
+   "label": "Terms and Conditions",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Products"
+  },
+  {
+   "name": "tax_totals",
+   "label": "Tax Totals",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Products"
+  },
+  {
+   "name": "user_id",
+   "label": "Buyer",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Information",
+   "relation": "res.users"
+  },
+  {
+   "name": "origin",
+   "label": "Source Document",
+   "type": "char",
+   "help": "Reference of the document that generated this purchase order request (e.g. a sales order)",
+   "required": false,
+   "readonly": false,
+   "page": "Other Information"
+  },
+  {
+   "name": "default_location_dest_id_usage",
+   "label": "Destination Location Type",
+   "type": "selection",
+   "help": "Technical field used to display the Drop Ship Address",
+   "required": false,
+   "readonly": false,
+   "page": "Other Information",
+   "selection": [
+    "Vendor Location",
+    "View",
+    "Internal Location",
+    "Customer Location",
+    "Inventory Loss",
+    "Production",
+    "Transit Location"
+   ]
+  },
+  {
+   "name": "incoterm_id",
+   "label": "Incoterm",
+   "type": "many2one",
+   "help": "International Commercial Terms are a series of predefined commercial terms used in international transactions.",
+   "required": false,
+   "readonly": true,
+   "page": "Other Information",
+   "relation": "account.incoterms"
+  },
+  {
+   "name": "incoterm_location",
+   "label": "Incoterm Location",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Other Information"
+  },
+  {
+   "name": "receipt_status",
+   "label": "Receipt Status",
+   "type": "selection",
+   "help": "Red: Late\n            Orange: To process today\n            Green: On time",
+   "required": false,
+   "readonly": false,
+   "page": "Other Information",
+   "selection": [
+    "Not Received",
+    "Partially Received",
+    "Fully Received"
+   ]
+  },
+  {
+   "name": "invoice_status",
+   "label": "Billing Status",
+   "type": "selection",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Other Information",
+   "selection": [
+    "Nothing to Bill",
+    "Waiting Bills",
+    "Fully Billed"
+   ]
+  },
+  {
+   "name": "payment_term_id",
+   "label": "Payment Terms",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Other Information",
+   "relation": "account.payment.term"
+  },
+  {
+   "name": "fiscal_position_id",
+   "label": "Fiscal Position",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Other Information",
+   "relation": "account.fiscal.position"
+  },
+  {
+   "name": "partner_bill_count",
+   "label": "# Vendor Bills",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "main"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Send by Email",
+   "name": "action_rfq_send",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Receive Products",
+   "name": "action_view_picking",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Print RFQ",
+   "name": "print_quotation",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Confirm Order",
+   "name": "button_confirm",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Approve Order",
+   "name": "button_approve",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Create Bill",
+   "name": "action_create_invoice",
+   "type": "object",
+   "class": "oe_highlight"
+  },
+  {
+   "label": "Re-Send by Email",
+   "name": "action_rfq_send",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Print RFQ",
+   "name": "print_quotation",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Confirm Order",
+   "name": "button_confirm",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Send PO by Email",
+   "name": "action_rfq_send",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Create Bill",
+   "name": "action_create_invoice",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Set to Draft",
+   "name": "button_draft",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Cancel",
+   "name": "button_cancel",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Lock",
+   "name": "button_done",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Unlock",
+   "name": "button_unlock",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Catalog",
+   "name": "action_add_from_catalog",
+   "type": "object",
+   "class": "px-4 btn-link"
+  }
+ ],
+ "statusbar_states": [
+  "RFQ",
+  "RFQ Sent",
+  "To Approve",
+  "Purchase Order",
+  "Locked",
+  "Cancelled"
+ ],
+ "smart_buttons": []
+}

@@ -1,0 +1,545 @@
+{
+  "key": "accounting",
+  "title_en": "12. Accounting",
+  "title_ar": "12. المحاسبة",
+  "blocks_en": [
+    {"t": "p", "text": "This chapter is for everyone, even if you have never studied accounting in your life. The **Medical-Supply ERP** does almost all of the bookkeeping for you, quietly and automatically, behind every sale, purchase and payment. Your job is mostly to click a few buttons and read the screens. This chapter explains, in plain words, what those screens mean and how to use them with confidence."},
+
+    {"t": "h2", "text": "First, the words explained simply"},
+    {"t": "p", "text": "Accounting has a small vocabulary. Once you know these few words, everything else becomes easy. The first time each one appears later in this chapter we will remind you, but here is the gentle introduction."},
+    {"t": "table", "headers": ["Word", "What it means in plain language"], "rows": [
+      ["Invoice", "A document you send to a *customer* asking them to pay you for goods you sold. Money is coming **in**."],
+      ["Bill", "A document a *supplier* (vendor) sends to you asking you to pay them for goods you bought. Money is going **out**."],
+      ["Credit Note", "A 'reverse invoice'. If you over-charged a customer, returned goods, or cancelled, a credit note reduces what they owe."],
+      ["Post", "To 'finalise' a document. A draft is just a working copy you can still change; once you **post** it, the system records it permanently in the books and gives it an official number."],
+      ["Journal", "Simply a labelled book where similar entries are kept together, for example the 'Customer Invoices' book or the 'Bank of Khartoum' book."],
+      ["Journal entry / Journal items", "The behind-the-scenes bookkeeping lines the system writes for you when you post a document. You normally never touch these."],
+      ["Debit / Credit", "The two columns accountants use to balance the books. Good news: you do **not** need to understand them. The system fills them in automatically every time you post."],
+      ["Payment", "The actual money movement: cash received into a safe, or money paid out of a bank account, linked to an invoice or bill."],
+      ["Reconciliation", "Checking that what your bank statement says matches the payments and invoices already in the system, then ticking them off as 'matched'."],
+      ["Receivable", "Money customers still owe **you**."],
+      ["Payable", "Money you still owe **suppliers**."]
+    ]},
+    {"t": "tip", "title": "You do not post the bookkeeping yourself", "text": "When you confirm a sales order, the system can create the invoice. When you post the invoice, the system writes the debit/credit lines, updates the customer's balance, and even prepares the tax. You only confirm and click."},
+
+    {"t": "h2", "text": "12.1 The Accounting dashboard"},
+    {"t": "p", "text": "Open **Accounting → Dashboard**. This is the home page of accounting. It shows one card for every *journal* (the labelled books). Each card tells you, at a glance, how much work is waiting and how much money is in each place."},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "The Accounting dashboard: one card per journal. The Customer Invoices card shows 3 Unpaid and 2 Late, the Vendor Bills card shows bills To Pay, and the Bank of Khartoum card shows a balance and a small trend chart, each with quick-action buttons."},
+    {"t": "p", "text": "What the cards tell you:"},
+    {"t": "ul", "items": [
+      "**Customer Invoices** card — counts such as **Unpaid** (invoices customers have not yet paid) and **Late** (unpaid invoices whose due date has passed). In this demo it shows **3 Unpaid** and **2 Late**.",
+      "**Vendor Bills** card — how many bills are waiting **To Pay**.",
+      "**Bank of Khartoum (SDG)** and the other bank/cash cards — the current balance and a little chart of the trend over time.",
+      "Each card has a three-dots menu and quick buttons that jump straight to creating a new invoice, importing a statement, or viewing the list."
+    ]},
+    {"t": "note", "title": "Your journals", "text": "This company uses seven books: **Customer Invoices**, **Vendor Bills**, **Bank of Khartoum (SDG)**, **USD Bank Account**, **Main Cash Safe (SDG)**, **USD Cash Safe**, and **Miscellaneous**. The bank and cash books are where payments are recorded."},
+
+    {"t": "h2", "text": "12.2 Customer invoices"},
+    {"t": "p", "text": "An *invoice* is the document you send a **customer** asking them to pay for goods sold. Open **Accounting → Customers → Invoices** to see them all."},
+    {"t": "fig", "file": "customer_invoices_list.png", "caption": "The Customer Invoices list: INV/2026/00001 through 00005 with the customer, amount, due date and a colour-coded payment status (Paid / Not Paid)."},
+    {"t": "p", "text": "In this demo you will find these real invoices:"},
+    {"t": "table", "headers": ["Number", "Customer", "Total (SDG)", "Due date", "Status"], "rows": [
+      ["INV/2026/00001", "Khartoum Teaching Hospital", "2,038,950", "2026-06-10", "Paid"],
+      ["INV/2026/00002", "Omdurman Family Clinic", "1,886,000", "2026-06-10", "Paid"],
+      ["INV/2026/00003", "Sudanese Red Crescent", "1,237,400", "2026-04-19", "Not Paid (overdue)"],
+      ["INV/2026/00004", "Bahri Community Pharmacy", "1,455,900", "2026-05-25", "Not Paid (overdue)"],
+      ["INV/2026/00005", "Khartoum Teaching Hospital", "1,273,050", "2026-07-01", "Not Paid (current)"]
+    ]},
+
+    {"t": "h3", "text": "The invoice header and the status bar"},
+    {"t": "p", "text": "Open any invoice, for example the paid *INV/2026/00001*. At the top is the **status bar**, the life-story of the invoice. It moves left to right:"},
+    {"t": "table", "headers": ["Status", "Meaning"], "rows": [
+      ["Draft", "A working copy. You can still edit everything. Nothing is recorded in the books yet."],
+      ["Posted", "Finalised and recorded. It now has an official number and counts as money owed to you."],
+      ["Cancelled", "Voided. It no longer counts."]
+    ]},
+    {"t": "fig", "file": "customer_invoice.png", "caption": "A posted customer invoice for Khartoum Teaching Hospital in SDG: invoice lines, 15% tax, the total, the status set to Posted with a green Paid banner, and the header buttons Register Payment and Credit Note."},
+    {"t": "p", "text": "The fields in the header area (the top part of the form) are:"},
+    {"t": "table", "headers": ["Field label", "What it means / what to enter"], "rows": [
+      ["Customer", "The hospital, clinic or pharmacy being billed, e.g. *Khartoum Teaching Hospital*."],
+      ["Delivery Date", "The date the goods were (or will be) delivered to the customer."],
+      ["Invoice/Bill Date", "The official date of the invoice; it decides the accounting period."],
+      ["Payment Reference", "The text the customer should quote when paying, so the payment can be matched back to this invoice."],
+      ["Due Date", "The date by which the customer must pay. After this date an unpaid invoice becomes 'Late'."],
+      ["Payment Terms", "A rule that sets the due date automatically, e.g. pay within 30 days."],
+      ["Recipient Bank", "Your company bank account into which the customer should pay."],
+      ["Journal", "The book this invoice belongs to — here, *Customer Invoices*."],
+      ["Currency", "The currency of the invoice; sales here are in SDG."]
+    ]},
+
+    {"t": "h3", "text": "Invoice Lines tab"},
+    {"t": "p", "text": "This tab lists each product being sold. The columns you see for every line are:"},
+    {"t": "table", "headers": ["Column label", "What it means / what to enter"], "rows": [
+      ["Product", "The item sold, e.g. *Paracetamol 500mg Tablets (100s)*."],
+      ["Analytic", "Optional internal cost-tracking tag; usually left blank."],
+      ["quantity", "How many units."],
+      ["UoM", "Unit of Measure — the unit being counted (box, unit, etc.)."],
+      ["Price", "The unit selling price before tax."],
+      ["Disc.%", "A percentage discount on the line, if any."],
+      ["Taxes", "The tax applied, here the **15%** sales tax. A *tax* is a government charge added to the price; the system calculates and tracks it for you."],
+      ["Amount", "The line total. The column appears twice: the subtotal before tax and the total including tax."]
+    ]},
+    {"t": "p", "text": "Below the lines you also see **Terms and Conditions** (free text printed on the invoice) and the **Invoice Totals** box, where the untaxed amount, the 15% tax and the grand total are added up. For *INV/2026/00001* the total is **2,038,950 SDG**, of which **265,950 SDG** is tax. There is also an **Amount Due** field that shows how much is still unpaid."},
+
+    {"t": "h3", "text": "Journal Items tab"},
+    {"t": "p", "text": "This is the automatic bookkeeping the system wrote for you. It lists the debit and credit lines that balance the invoice. You normally only look here; you do not edit it. The columns are: **debit**, **credit**, **balance**, **date_maturity** (when each line is due), **Tax Grids** (which tax box the line feeds), and the account each line hits."},
+    {"t": "note", "title": "Why this tab exists", "text": "It proves the books balance. Every invoice has equal total debits and credits. The system guarantees this, so you can trust the numbers without doing any maths."},
+
+    {"t": "h3", "text": "Other Info tab"},
+    {"t": "table", "headers": ["Field label", "What it means / what to enter"], "rows": [
+      ["Salesperson", "The staff member responsible for the sale."],
+      ["Sales Team", "The team the sale belongs to."],
+      ["Source Document", "The order this invoice came from, e.g. a sales order number."],
+      ["Payment QR-code", "Optional QR code printed to help the customer pay."],
+      ["Incoterm", "International delivery terms, mainly for imports/exports."],
+      ["Fiscal Position", "A rule set that adapts taxes/accounts for special customers (e.g. tax-exempt). A *fiscal* rule is simply a tax-and-account profile."],
+      ["Payment Method", "The preferred way this invoice will be paid."],
+      ["Checked", "A tick meaning a person has reviewed the entry."]
+    ]},
+
+    {"t": "h3", "text": "The buttons on an invoice (what each one does)"},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["Confirm / Post", "Finalises the draft, records the bookkeeping and assigns the official number. The same action is labelled **Confirm** on a draft and **Post** in some views."],
+      ["Register Payment / Pay", "Opens the payment wizard so you can record that the customer paid (see 12.4)."],
+      ["Send", "Emails the invoice (with a PDF) to the customer."],
+      ["Print", "Generates the printable PDF."],
+      ["Preview", "Shows the customer-facing view of the invoice."],
+      ["Credit Note", "Creates a reverse invoice to undo or reduce this one."],
+      ["Reset to Draft", "Sends a posted invoice back to draft so it can be corrected (only when allowed)."],
+      ["Cancel", "Voids the invoice."],
+      ["Lock", "Secures the entry with a tamper-proof hash so it can no longer be changed."],
+      ["Set as Checked", "Marks the entry as reviewed."]
+    ]},
+    {"t": "p", "text": "To create and issue an invoice:"},
+    {"t": "ol", "items": [
+      "Go to **Accounting → Customers → Invoices** and click **New**.",
+      "Choose the **Customer** and confirm the **Invoice/Bill Date** and **Due Date** (or pick **Payment Terms**).",
+      "On the **Invoice Lines** tab, add each **Product**, set the **quantity** and **Price**, and check the **15%** tax is on each line.",
+      "Review the **Invoice Totals** box at the bottom.",
+      "Click **Confirm** (or **Post**). The status moves to **Posted** and the official number appears.",
+      "Click **Send** to email it, or **Print** to download the PDF.",
+      "When the customer pays, click **Register Payment**."
+    ]},
+
+    {"t": "h3", "text": "Overdue invoices"},
+    {"t": "p", "text": "An invoice is **overdue** when it is posted, still **Not Paid**, and its **Due Date** has already passed. In this demo *INV/2026/00003* (Sudanese Red Crescent, due 2026-04-19) and *INV/2026/00004* (Bahri Community Pharmacy, due 2026-05-25) are overdue, while *INV/2026/00005* (due 2026-07-01) is simply not yet due. Overdue invoices are what the **Aged Receivable** report and the follow-up tools (12.7) help you chase."},
+    {"t": "fig", "file": "customer_invoice_overdue.png", "caption": "A posted but unpaid (overdue) customer invoice showing the past due date and the Register Payment button; these are the invoices the aged-receivable report tracks."},
+
+    {"t": "h2", "text": "12.3 Vendor bills"},
+    {"t": "p", "text": "A *bill* is the mirror image of an invoice: it is the document a **supplier** sends **you**, asking you to pay for goods you bought. Money goes **out**. Open **Accounting → Vendors → Bills**."},
+    {"t": "fig", "file": "vendor_bills_list.png", "caption": "The Vendor Bills list including BILL/2026/05/0001 (SDG) and BILL/2026/05/0002 (USD) with their amounts and payment status."},
+    {"t": "table", "headers": ["Number", "Vendor", "Total", "Currency", "Status"], "rows": [
+      ["BILL/2026/05/0001", "Nile Medical Supplies Co.", "5,635,000", "SDG", "In Payment"],
+      ["BILL/2026/05/0002", "Gulf MedTrade FZE (USD)", "483", "USD", "Not Paid"]
+    ]},
+    {"t": "p", "text": "A bill uses the same form as an invoice, with the same three tabs (**Invoice Lines**, **Journal Items**, **Other Info**) and the same status bar (**Draft → Posted → Cancelled**). The differences are that the partner is a **Vendor**, the **Journal** is *Vendor Bills*, and the purchase **15%** tax is used. The header also offers an **Auto-complete** field that can fill the bill from a past purchase order, and a **Reference** field for the supplier's own document number."},
+    {"t": "fig", "file": "vendor_bill_usd.png", "caption": "The USD vendor bill BILL/2026/05/0002 from Gulf MedTrade for 483 USD, with its SDG value shown at the exchange rate on the bill date."},
+    {"t": "note", "title": "Foreign-currency bills", "text": "*BILL/2026/05/0002* is in **USD**. The system stores the amount in USD and also converts it to SDG using the exchange rate for that date, so your Sudanese books always stay in SDG. The **Currency Rate** field on the form shows the rate used."},
+    {"t": "p", "text": "To record a vendor bill:"},
+    {"t": "ol", "items": [
+      "Go to **Accounting → Vendors → Bills** and click **New**.",
+      "Choose the **Vendor** and enter the **Invoice/Bill Date** and the supplier's **Reference** number.",
+      "Add the products and quantities on the **Invoice Lines** tab (or use **Auto-complete** to pull them from the purchase order).",
+      "Check the total and the **15%** purchase tax.",
+      "Click **Confirm**. The bill becomes **Posted** and now counts as money you owe (a *payable*).",
+      "Pay it later with **Register Payment** (see 12.4)."
+    ]},
+
+    {"t": "h2", "text": "12.4 Payments and money safes"},
+    {"t": "p", "text": "A *payment* is the real movement of money: cash a customer hands you, money you pay a supplier, a bank transfer in or out. Every payment goes through a **journal** that is either a **bank** account or a **cash safe**. A *cash safe* is exactly what it sounds like — the physical cash box in the office, tracked in the system. This company has four such places: **Bank of Khartoum (SDG)**, **USD Bank Account**, **Main Cash Safe (SDG)** and **USD Cash Safe**."},
+    {"t": "fig", "file": "payments_list.png", "caption": "The Payments list: customer receipts and a vendor payment, each showing the journal used (Bank of Khartoum, Main Cash Safe) and the amount."},
+    {"t": "p", "text": "The real payments in this demo are:"},
+    {"t": "table", "headers": ["Number", "Partner", "Amount", "Journal (where the money moved)", "Direction"], "rows": [
+      ["PAY00001", "Khartoum Teaching Hospital", "2,038,950 SDG", "Bank of Khartoum (SDG)", "Received from customer"],
+      ["PAY00002", "Omdurman Family Clinic", "1,886,000 SDG", "Main Cash Safe (SDG)", "Received from customer"],
+      ["PAY00003", "Nile Medical Supplies Co.", "5,635,000 SDG", "Bank of Khartoum (SDG)", "Paid to supplier"]
+    ]},
+
+    {"t": "h3", "text": "The Register Payment wizard"},
+    {"t": "p", "text": "The easiest way to record a payment is from the invoice or bill itself: click **Register Payment**. A small pop-up (the wizard) appears with these fields:"},
+    {"t": "table", "headers": ["Field label", "What it means / what to enter"], "rows": [
+      ["Journal", "Choose where the money lands or leaves from — a bank (*Bank of Khartoum (SDG)*) or a cash safe (*Main Cash Safe (SDG)*)."],
+      ["Payment Method", "How it was paid (Manual is the normal choice for a transfer or cash)."],
+      ["Recipient Bank Account", "The bank account involved, when relevant."],
+      ["Amount", "The amount being paid; it pre-fills with the amount due."],
+      ["Payment Date", "The date the money moved."],
+      ["Memo", "A short note, e.g. the invoice number, for your own reference."],
+      ["Group Payments", "If ticked, several bills for the same partner are settled with a single payment instead of one each."],
+      ["Payment Difference Handling", "If the amount paid is not exactly the amount due, choose **Keep open** (leave the rest owing) or **Mark as fully paid** (write off the small difference)."],
+      ["Post Difference In", "The account where any small leftover difference is recorded."]
+    ]},
+    {"t": "p", "text": "The buttons here are **Create Payment** (records it) and **Discard** (cancels the wizard)."},
+    {"t": "ol", "items": [
+      "Open the posted invoice or bill and click **Register Payment**.",
+      "Pick the **Journal**: the bank account or the cash safe that received or sent the money.",
+      "Confirm the **Amount** and the **Payment Date**.",
+      "Add a **Memo** if useful.",
+      "Click **Create Payment**. The invoice's payment status changes to **Paid** (or **In Payment**) and the money shows in the chosen journal."
+    ]},
+
+    {"t": "h3", "text": "The payment form"},
+    {"t": "p", "text": "Each saved payment is a record you can open from **Accounting → Customers → Payments** (or **Vendors → Payments**)."},
+    {"t": "fig", "file": "payment_form.png", "caption": "A customer payment form showing the partner, amount, payment date, the journal used (bank or cash safe) and the invoice it is linked to."},
+    {"t": "table", "headers": ["Field label", "What it means"], "rows": [
+      ["Number", "The payment's own reference, e.g. *PAY00001*."],
+      ["Payment Type", "Whether money is **Receive**d (from a customer) or **Send** (to a supplier)."],
+      ["Customer", "The partner who paid you or whom you paid."],
+      ["Amount", "How much moved."],
+      ["Date", "When it moved."],
+      ["Memo", "Your note about the payment."],
+      ["Journal", "The bank or cash safe involved."],
+      ["Payment Method", "How it was paid."],
+      ["Customer Bank Account", "The partner's bank account, when relevant."],
+      ["Journal Entry", "The automatic bookkeeping entry the system created for this payment."]
+    ]},
+    {"t": "p", "text": "The payment status bar runs **Draft → In Process → Paid** (and can also reach **Canceled** or **Rejected**). The buttons include **Confirm**, **Validate**, **Reset To Draft**, **Refund**, **Cancel**, and **Mark as Sent**. *PAY00003* (the payment to Nile Medical Supplies) is still **In Process**, which is why its bill *BILL/2026/05/0001* shows as **In Payment** rather than fully Paid."},
+
+    {"t": "h2", "text": "12.5 Bank reconciliation"},
+    {"t": "p", "text": "*Reconciliation* sounds technical but is simple: the bank sends you a **statement** — a list of every transaction it saw on your account. Reconciliation just means going down that list and matching each line to the invoice or payment already in the system, then ticking it off as 'matched'. When everything matches, you know your books agree with the bank to the last pound."},
+    {"t": "p", "text": "Open the statements under **Accounting → Accounting → Bank and Cash → Bank Statements**. This demo has one real statement, **STMT/2026/06/KRT**, on the **Bank of Khartoum (SDG)** journal, with **2** transaction lines."},
+    {"t": "table", "headers": ["Field label", "What it means"], "rows": [
+      ["Reference", "The statement's name, e.g. *STMT/2026/06/KRT*."],
+      ["Date", "The statement date."],
+      ["Currency", "The currency of the account (SDG here)."],
+      ["Journal", "The bank book this statement belongs to — *Bank of Khartoum (SDG)*."],
+      ["Starting Balance", "The bank balance at the start of the statement."],
+      ["Ending Balance", "The bank balance the bank reports at the end."],
+      ["Computed Balance", "The balance the system works out from the lines; it should equal the Ending Balance when all is correct."],
+      ["Statement lines", "Each transaction the bank recorded (this statement has 2)."]
+    ]},
+    {"t": "p", "text": "To do the matching, open the reconcile screen via **Accounting → Accounting → Reconcile** (or the **Reconcile** action on the bank card)."},
+    {"t": "fig", "file": "bank_reconcile.png", "caption": "The bank reconciliation screen: each bank-statement line on one side, waiting to be matched against the invoices or payments already recorded in the system."},
+    {"t": "ol", "items": [
+      "Open the reconcile screen for **Bank of Khartoum (SDG)**.",
+      "For each statement line, the system suggests the matching invoice or payment.",
+      "If the suggestion is correct, click to accept the match; if not, search and pick the right one.",
+      "Confirm the line. It turns green / disappears from the to-do side.",
+      "When all lines are matched, the statement is fully reconciled and the **Computed Balance** equals the **Ending Balance**."
+    ]},
+    {"t": "tip", "title": "If you make a mistake", "text": "On the statement form there is a **Revert reconciliation** button that undoes the matching so you can try again."},
+
+    {"t": "h2", "text": "12.6 Reports — what each one tells you"},
+    {"t": "p", "text": "All reports live under **Accounting → Reporting**. You do not need to understand the maths; each report answers one plain question. Most open a small options window first (choose a date and a target, then **Print** to get the PDF)."},
+    {"t": "table", "headers": ["Report (menu path)", "The one question it answers"], "rows": [
+      ["Balance Sheet (Reporting → Financial Reports → Balance Sheet)", "What does the company **own** and **owe** right now?"],
+      ["Profit and Loss (Reporting → Financial Reports → Profit and Loss)", "Did we make a **profit** or a loss over a period? (Sales minus costs.)"],
+      ["General Ledger (Reporting → Audit Reports → General Ledger)", "Every accounting movement, account by account — the full detailed record."],
+      ["Partner Ledger (Reporting → Partner Reports → Partner Ledger)", "Every transaction with one **customer or supplier**, and what they owe or are owed."],
+      ["Trial Balance (Reporting → Audit Reports → Trial Balance)", "A one-line-per-account summary proving the books balance."],
+      ["Aged Receivable (Reporting → Partner Reports → Aged Receivable)", "Which **customers** owe us, and how long their invoices have been overdue."],
+      ["Aged Payable (Reporting → Partner Reports → Aged Payable)", "Which **suppliers** we owe, and how overdue we are."],
+      ["Tax Report (Reporting → Audit Reports → Tax Report)", "How much **15%** tax we collected and paid, ready for the authorities."],
+      ["Day Book (Reporting → Daily Reports → Day Book)", "Every transaction that happened on a given day."],
+      ["Cash Book (Reporting → Daily Reports → Cash Book)", "All movements through the **cash safes** for a period."],
+      ["Bank Book (Reporting → Daily Reports → Bank Book)", "All movements through the **bank accounts** for a period."]
+    ]},
+    {"t": "fig", "file": "report_balance_sheet.png", "caption": "The Balance Sheet report options window: pick the date and target-move filters, then print."},
+    {"t": "fig", "file": "report_aged_receivable.png", "caption": "The Aged Receivable report options window: set the ageing buckets that group overdue customer invoices before printing."},
+    {"t": "tip", "title": "The two reports to know first", "text": "If you only ever open two, make them the **Aged Receivable** (who owes us, and for how long) and the **Profit and Loss** (are we making money). The **Aged Receivable** is the report that turns *INV/2026/00003* and *00004* into a clear to-do list."},
+
+    {"t": "h2", "text": "12.7 Fiscal year, lock dates and following up overdue customers"},
+    {"t": "h3", "text": "Fiscal year"},
+    {"t": "p", "text": "A *fiscal* year is just the 12-month period a company uses for its accounts (often the calendar year). You set it once under **Accounting → Configuration → Accounting → Fiscal Year**. After that, every report knows which months belong to which year."},
+    {"t": "h3", "text": "Lock dates"},
+    {"t": "p", "text": "A **lock date** freezes the books up to a chosen date so nobody can accidentally change last month's figures after they are closed. Set it under **Accounting → Accounting → Lock Dates**. Once a period is locked, the system politely refuses to post or edit anything dated before that date."},
+    {"t": "warn", "title": "Locking is a one-way comfort", "text": "Locking protects closed periods, which is good. But it also means you cannot post a forgotten invoice into a locked month. Always check that everything for the period is entered before you set the lock date."},
+    {"t": "h3", "text": "Customer follow-up (dunning)"},
+    {"t": "p", "text": "*Follow-up*, sometimes called *dunning*, simply means chasing customers who have not paid. The system can do this for you with polite reminders that grow firmer the longer an invoice stays overdue. The tools are under **Accounting → Follow-Ups**."},
+    {"t": "ul", "items": [
+      "**Accounting → Follow-Ups → Do Manual Follow-Ups** — review each overdue customer and send a reminder or log a phone call.",
+      "**Accounting → Follow-Ups → Send Letters and Emails** — send reminders in a batch.",
+      "**Accounting → Follow-Ups → My Follow-Ups** — your personal list of customers to chase.",
+      "**Accounting → Follow-Ups → Follow-ups Analysis** — a report of how the chasing is going.",
+      "The reminder wording and timing are configured under **Accounting → Configuration → Follow-up → Follow-up Levels**."
+    ]},
+    {"t": "ol", "items": [
+      "Open **Accounting → Follow-Ups → Do Manual Follow-Ups**.",
+      "Pick an overdue customer such as *Sudanese Red Crescent* (owing on *INV/2026/00003*).",
+      "Review the overdue invoices the system lists for them.",
+      "Send the reminder email/letter, or log that you phoned them.",
+      "The next reminder level is scheduled automatically if they still do not pay."
+    ]},
+
+    {"t": "h2", "text": "12.8 Which add-on gives you what"},
+    {"t": "p", "text": "The accounting you see is the core Odoo Invoicing app plus a few free OCA / Odoo-Mates add-ons that switch on the fuller features. You never need to think about this in daily work; it is here so you know nothing is missing."},
+    {"t": "table", "headers": ["Capability", "Provided by"], "rows": [
+      ["Customer invoices, vendor bills, payments, taxes, journals", "Invoicing (core)"],
+      ["Full double-entry accounting, ledgers, lock dates, fiscal year", "om_account_accountant"],
+      ["Printable Balance Sheet, Profit & Loss, General/Partner Ledger, Trial Balance, Aged reports, Tax report", "accounting_pdf_reports"],
+      ["Day Book, Cash Book, Bank Book", "om_account_daily_reports"],
+      ["Bank reconciliation screen", "account_reconcile_oca"],
+      ["Customer follow-up / dunning reminders", "om_account_followup"]
+    ]},
+    {"t": "p", "text": "Put together, these give *Sudan MedSupply Co.* a complete accounting department inside one screen: every sale, purchase and payment recorded automatically, the books always balanced, the tax always tracked, and clear reports to tell you who owes you, what you owe, and whether you are making money."}
+  ],
+  "blocks_ar": [
+    {"t": "p", "text": "هذا الفصل لكل الموظفين، حتى لو لم تدرس المحاسبة في حياتك قط. يقوم **نظام تخطيط موارد المستلزمات الطبية (Medical-Supply ERP)** بكل أعمال مسك الدفاتر تقريباً نيابةً عنك، بهدوء وتلقائياً، خلف كل عملية بيع وشراء ودفع. مهمتك في الغالب هي الضغط على بعض الأزرار وقراءة الشاشات. يشرح هذا الفصل، بكلمات بسيطة، معنى تلك الشاشات وكيفية استخدامها بثقة."},
+
+    {"t": "h2", "text": "أولاً، شرح المصطلحات ببساطة"},
+    {"t": "p", "text": "للمحاسبة مفردات قليلة. متى عرفت هذه الكلمات القليلة صار كل شيء سهلاً. سنذكّرك بها لاحقاً عند أول ظهور لكل منها، لكن هذا تعريف لطيف بها."},
+    {"t": "table", "headers": ["المصطلح", "معناه بلغة بسيطة"], "rows": [
+      ["فاتورة العميل (Invoice)", "مستند ترسله إلى *عميل* تطلب منه دفع ثمن بضاعة بعتها له. المال داخل **إليك**."],
+      ["فاتورة المورّد (Bill)", "مستند يرسله إليك *مورّد* يطلب منك دفع ثمن بضاعة اشتريتها. المال خارج **منك**."],
+      ["إشعار دائن (Credit Note)", "فاتورة \"عكسية\". إذا حمّلت العميل أكثر من اللازم، أو أُرجعت البضاعة، أو أُلغيت العملية، فإن الإشعار الدائن يقلّل ما عليه."],
+      ["الترحيل (Post)", "\"تثبيت\" المستند نهائياً. المسودة نسخة عمل يمكن تعديلها؛ وبمجرد **الترحيل** يسجّله النظام في الدفاتر بشكل دائم ويمنحه رقماً رسمياً."],
+      ["اليومية (Journal)", "ببساطة دفتر معنون تُحفظ فيه القيود المتشابهة معاً، مثل دفتر \"فواتير العملاء\" أو دفتر \"بنك الخرطوم\"."],
+      ["قيد اليومية / بنود القيد (Journal items)", "بنود مسك الدفاتر الخلفية التي يكتبها النظام نيابةً عنك عند ترحيل مستند. عادةً لا تلمسها أبداً."],
+      ["مدين / دائن (Debit / Credit)", "العمودان اللذان يستخدمهما المحاسبون لموازنة الدفاتر. والخبر السار: لست بحاجة لفهمهما. يملؤهما النظام تلقائياً عند كل ترحيل."],
+      ["الدفعة (Payment)", "حركة المال الفعلية: نقد يصل إلى الخزنة، أو مال يخرج من حساب بنكي، مرتبط بفاتورة عميل أو فاتورة مورّد."],
+      ["التسوية (Reconciliation)", "التأكد من أن ما يقوله كشف حساب البنك يطابق الدفعات والفواتير الموجودة في النظام، ثم وضع علامة \"مطابَق\"."],
+      ["الذمم المدينة (Receivable)", "أموال ما زال العملاء مدينين بها **لك**."],
+      ["الذمم الدائنة (Payable)", "أموال ما زلت مديناً بها **للموردين**."]
+    ]},
+    {"t": "tip", "title": "أنت لا تُرحّل القيود بنفسك", "text": "عند تأكيد أمر بيع يستطيع النظام إنشاء الفاتورة. وعند ترحيل الفاتورة يكتب النظام بنود المدين/الدائن، ويحدّث رصيد العميل، بل ويجهّز الضريبة. كل ما تفعله هو التأكيد والضغط."},
+
+    {"t": "h2", "text": "12.1 لوحة معلومات المحاسبة"},
+    {"t": "p", "text": "افتح **المحاسبة (Accounting) ← لوحة المعلومات (Dashboard)**. هذه هي الصفحة الرئيسية للمحاسبة. تعرض بطاقة واحدة لكل *يومية* (الدفاتر المعنونة). تخبرك كل بطاقة، بلمحة واحدة، بحجم العمل المنتظر ومقدار المال في كل مكان."},
+    {"t": "fig", "file": "accounting_dashboard.png", "caption": "لوحة معلومات المحاسبة: بطاقة لكل يومية. بطاقة فواتير العملاء تُظهر 3 غير مدفوعة و2 متأخرة، وبطاقة فواتير الموردين تُظهر فواتير للدفع، وبطاقة بنك الخرطوم تُظهر رصيداً ومخططاً صغيراً للاتجاه، ولكل منها أزرار إجراء سريعة."},
+    {"t": "p", "text": "ما الذي تخبرك به البطاقات:"},
+    {"t": "ul", "items": [
+      "بطاقة **فواتير العملاء (Customer Invoices)** — أعداد مثل **غير مدفوعة (Unpaid)** (فواتير لم يدفعها العملاء بعد) و**متأخرة (Late)** (فواتير غير مدفوعة فات تاريخ استحقاقها). في هذا العرض التوضيحي تُظهر **3 غير مدفوعة** و**2 متأخرة**.",
+      "بطاقة **فواتير الموردين (Vendor Bills)** — كم فاتورة تنتظر **الدفع (To Pay)**.",
+      "بطاقة **بنك الخرطوم (SDG)** وبقية بطاقات البنوك/الخزن — الرصيد الحالي ومخطط صغير للاتجاه عبر الزمن.",
+      "لكل بطاقة قائمة بثلاث نقاط وأزرار سريعة تقفز مباشرةً إلى إنشاء فاتورة جديدة، أو استيراد كشف حساب، أو عرض القائمة."
+    ]},
+    {"t": "note", "title": "يومياتك", "text": "تستخدم هذه الشركة سبعة دفاتر: **فواتير العملاء**، و**فواتير الموردين**، و**بنك الخرطوم (SDG)**، و**حساب USD البنكي**، و**الخزنة النقدية الرئيسية (SDG)**، و**خزنة USD النقدية**، و**متنوعة (Miscellaneous)**. دفاتر البنوك والنقد هي حيث تُسجّل الدفعات."},
+
+    {"t": "h2", "text": "12.2 فواتير العملاء"},
+    {"t": "p", "text": "*فاتورة العميل* هي المستند الذي ترسله إلى **العميل** تطلب منه دفع ثمن البضاعة المباعة. افتح **المحاسبة ← العملاء (Customers) ← الفواتير (Invoices)** لرؤيتها كلها."},
+    {"t": "fig", "file": "customer_invoices_list.png", "caption": "قائمة فواتير العملاء: من INV/2026/00001 إلى 00005 مع العميل والمبلغ وتاريخ الاستحقاق وحالة دفع ملوّنة (مدفوعة / غير مدفوعة)."},
+    {"t": "p", "text": "في هذا العرض التوضيحي ستجد هذه الفواتير الحقيقية:"},
+    {"t": "table", "headers": ["الرقم", "العميل", "الإجمالي (SDG)", "تاريخ الاستحقاق", "الحالة"], "rows": [
+      ["INV/2026/00001", "مستشفى الخرطوم التعليمي", "2,038,950", "2026-06-10", "مدفوعة"],
+      ["INV/2026/00002", "عيادة أم درمان العائلية", "1,886,000", "2026-06-10", "مدفوعة"],
+      ["INV/2026/00003", "الهلال الأحمر السوداني", "1,237,400", "2026-04-19", "غير مدفوعة (متأخرة)"],
+      ["INV/2026/00004", "صيدلية بحري المجتمعية", "1,455,900", "2026-05-25", "غير مدفوعة (متأخرة)"],
+      ["INV/2026/00005", "مستشفى الخرطوم التعليمي", "1,273,050", "2026-07-01", "غير مدفوعة (جارية)"]
+    ]},
+
+    {"t": "h3", "text": "ترويسة الفاتورة وشريط الحالة"},
+    {"t": "p", "text": "افتح أي فاتورة، مثلاً الفاتورة المدفوعة *INV/2026/00001*. في الأعلى يوجد **شريط الحالة**، وهو قصة حياة الفاتورة. يتحرك من اليسار إلى اليمين:"},
+    {"t": "table", "headers": ["الحالة", "المعنى"], "rows": [
+      ["مسودة (Draft)", "نسخة عمل. ما زال بإمكانك تعديل كل شيء. لم يُسجَّل شيء في الدفاتر بعد."],
+      ["مُرحَّلة (Posted)", "مثبّتة ومسجّلة. صار لها رقم رسمي وتُحتسب كمال مستحق لك."],
+      ["ملغاة (Cancelled)", "أُبطلت. لم تعد تُحتسب."]
+    ]},
+    {"t": "fig", "file": "customer_invoice.png", "caption": "فاتورة عميل مُرحَّلة لمستشفى الخرطوم التعليمي بالجنيه السوداني: بنود الفاتورة، وضريبة 15%، والإجمالي، والحالة مضبوطة على مُرحَّلة مع شريط أخضر \"مدفوعة\"، وأزرار الترويسة تسجيل دفعة وإشعار دائن."},
+    {"t": "p", "text": "الحقول في منطقة الترويسة (الجزء العلوي من النموذج) هي:"},
+    {"t": "table", "headers": ["اسم الحقل", "معناه / ما الذي تُدخله"], "rows": [
+      ["العميل (Customer)", "المستشفى أو العيادة أو الصيدلية التي تُحرَّر لها الفاتورة، مثل *مستشفى الخرطوم التعليمي*."],
+      ["تاريخ التسليم (Delivery Date)", "تاريخ تسليم البضاعة إلى العميل (أو موعد تسليمها)."],
+      ["تاريخ الفاتورة/المستند (Invoice/Bill Date)", "التاريخ الرسمي للفاتورة؛ وهو يحدّد الفترة المحاسبية."],
+      ["مرجع الدفع (Payment Reference)", "النص الذي ينبغي للعميل ذكره عند الدفع، كي يُربط الدفع بهذه الفاتورة."],
+      ["تاريخ الاستحقاق (Due Date)", "التاريخ الذي يجب أن يدفع العميل بحلوله. بعد هذا التاريخ تصبح الفاتورة غير المدفوعة \"متأخرة\"."],
+      ["شروط الدفع (Payment Terms)", "قاعدة تضبط تاريخ الاستحقاق تلقائياً، مثل الدفع خلال 30 يوماً."],
+      ["البنك المستلِم (Recipient Bank)", "حساب شركتك البنكي الذي ينبغي للعميل الدفع إليه."],
+      ["اليومية (Journal)", "الدفتر الذي تنتمي إليه هذه الفاتورة — هنا *فواتير العملاء*."],
+      ["العملة (Currency)", "عملة الفاتورة؛ والمبيعات هنا بالجنيه السوداني SDG."]
+    ]},
+
+    {"t": "h3", "text": "تبويب بنود الفاتورة (Invoice Lines)"},
+    {"t": "p", "text": "يسرد هذا التبويب كل منتج يُباع. الأعمدة التي تراها لكل بند هي:"},
+    {"t": "table", "headers": ["اسم العمود", "معناه / ما الذي تُدخله"], "rows": [
+      ["المنتج (Product)", "الصنف المباع، مثل *أقراص باراسيتامول 500mg (100 قرص)*."],
+      ["تحليلي (Analytic)", "وسم اختياري لتتبّع التكلفة الداخلية؛ يُترك فارغاً عادةً."],
+      ["الكمية (quantity)", "عدد الوحدات."],
+      ["وحدة القياس (UoM)", "وحدة القياس — الوحدة التي يُعدّ بها (علبة، وحدة، إلخ)."],
+      ["السعر (Price)", "سعر بيع الوحدة قبل الضريبة."],
+      ["خصم % (Disc.%)", "نسبة خصم على البند، إن وُجدت."],
+      ["الضرائب (Taxes)", "الضريبة المطبّقة، وهنا ضريبة المبيعات **15%**. *الضريبة* رسم حكومي يُضاف إلى السعر؛ يحسبها النظام ويتتبّعها نيابةً عنك."],
+      ["المبلغ (Amount)", "إجمالي البند. يظهر العمود مرتين: الإجمالي الفرعي قبل الضريبة، والإجمالي شامل الضريبة."]
+    ]},
+    {"t": "p", "text": "أسفل البنود ترى أيضاً **الشروط والأحكام (Terms and Conditions)** (نص حرّ يُطبع على الفاتورة) وصندوق **إجماليات الفاتورة (Invoice Totals)** حيث يُجمَع المبلغ غير الخاضع للضريبة وضريبة الـ15% والإجمالي الكلي. بالنسبة لـ *INV/2026/00001* الإجمالي **2,038,950 SDG**، منها **265,950 SDG** ضريبة. وهناك أيضاً حقل **المبلغ المستحق (Amount Due)** يوضّح ما تبقّى غير مدفوع."},
+
+    {"t": "h3", "text": "تبويب بنود القيد (Journal Items)"},
+    {"t": "p", "text": "هذا هو مسك الدفاتر التلقائي الذي كتبه النظام نيابةً عنك. يسرد بنود المدين والدائن التي توازن الفاتورة. عادةً تنظر هنا فقط ولا تعدّله. الأعمدة هي: **مدين (debit)**، و**دائن (credit)**، و**الرصيد (balance)**، و**تاريخ الاستحقاق (date_maturity)** (متى يستحق كل بند)، و**شبكات الضريبة (Tax Grids)** (أي خانة ضريبية يغذّيها البند)، والحساب الذي يصيبه كل بند."},
+    {"t": "note", "title": "لماذا يوجد هذا التبويب", "text": "يثبت أن الدفاتر متوازنة. كل فاتورة لها إجمالي مدين يساوي إجمالي دائن. يضمن النظام ذلك، فيمكنك الوثوق بالأرقام دون أي حساب."},
+
+    {"t": "h3", "text": "تبويب معلومات أخرى (Other Info)"},
+    {"t": "table", "headers": ["اسم الحقل", "معناه / ما الذي تُدخله"], "rows": [
+      ["مندوب المبيعات (Salesperson)", "الموظف المسؤول عن البيع."],
+      ["فريق المبيعات (Sales Team)", "الفريق الذي تنتمي إليه عملية البيع."],
+      ["المستند المصدر (Source Document)", "الأمر الذي نشأت منه الفاتورة، مثل رقم أمر البيع."],
+      ["رمز QR للدفع (Payment QR-code)", "رمز QR اختياري يُطبع لتسهيل الدفع على العميل."],
+      ["شرط التسليم الدولي (Incoterm)", "شروط التسليم الدولية، خاصةً للاستيراد/التصدير."],
+      ["الوضع الضريبي (Fiscal Position)", "مجموعة قواعد تكيّف الضرائب/الحسابات لعملاء خاصين (مثل المعفيين من الضريبة). *القاعدة الضريبية (Fiscal)* هي ببساطة ملف ضريبة-وحسابات."],
+      ["طريقة الدفع (Payment Method)", "الطريقة المفضّلة لدفع هذه الفاتورة."],
+      ["مُراجَعة (Checked)", "علامة تعني أن شخصاً راجع القيد."]
+    ]},
+
+    {"t": "h3", "text": "أزرار الفاتورة (ماذا يفعل كل زر)"},
+    {"t": "table", "headers": ["الزر", "ماذا يفعل"], "rows": [
+      ["تأكيد / ترحيل (Confirm / Post)", "يثبّت المسودة، ويسجّل القيود، ويُسند الرقم الرسمي. الإجراء نفسه يُسمّى **تأكيد** على المسودة و**ترحيل** في بعض الواجهات."],
+      ["تسجيل دفعة / ادفع (Register Payment / Pay)", "يفتح معالج الدفع لتسجيل أن العميل دفع (انظر 12.4)."],
+      ["إرسال (Send)", "يرسل الفاتورة (مع ملف PDF) بالبريد إلى العميل."],
+      ["طباعة (Print)", "ينشئ ملف PDF قابل للطباعة."],
+      ["معاينة (Preview)", "يعرض الفاتورة كما يراها العميل."],
+      ["إشعار دائن (Credit Note)", "ينشئ فاتورة عكسية للتراجع عن هذه الفاتورة أو تقليلها."],
+      ["إعادة إلى مسودة (Reset to Draft)", "يعيد فاتورة مُرحَّلة إلى مسودة لتصحيحها (عند السماح بذلك فقط)."],
+      ["إلغاء (Cancel)", "يُبطل الفاتورة."],
+      ["قفل (Lock)", "يؤمّن القيد ببصمة لا يمكن العبث بها فلا يعود قابلاً للتغيير."],
+      ["تعيين كمُراجَع (Set as Checked)", "يضع علامة أن القيد رُوجع."]
+    ]},
+    {"t": "p", "text": "لإنشاء فاتورة وإصدارها:"},
+    {"t": "ol", "items": [
+      "اذهب إلى **المحاسبة ← العملاء ← الفواتير** واضغط **جديد (New)**.",
+      "اختر **العميل** وأكّد **تاريخ الفاتورة** و**تاريخ الاستحقاق** (أو اختر **شروط الدفع**).",
+      "في تبويب **بنود الفاتورة**، أضف كل **منتج**، واضبط **الكمية** و**السعر**، وتحقّق من وجود ضريبة **15%** على كل بند.",
+      "راجع صندوق **إجماليات الفاتورة** في الأسفل.",
+      "اضغط **تأكيد** (أو **ترحيل**). تنتقل الحالة إلى **مُرحَّلة** ويظهر الرقم الرسمي.",
+      "اضغط **إرسال** لإرسالها بالبريد، أو **طباعة** لتنزيل ملف PDF.",
+      "عندما يدفع العميل، اضغط **تسجيل دفعة**."
+    ]},
+
+    {"t": "h3", "text": "الفواتير المتأخرة"},
+    {"t": "p", "text": "تكون الفاتورة **متأخرة** عندما تكون مُرحَّلة، وما زالت **غير مدفوعة**، وفات **تاريخ استحقاقها**. في هذا العرض التوضيحي *INV/2026/00003* (الهلال الأحمر السوداني، تستحق 2026-04-19) و*INV/2026/00004* (صيدلية بحري المجتمعية، تستحق 2026-05-25) متأخرتان، بينما *INV/2026/00005* (تستحق 2026-07-01) لم تستحق بعد ببساطة. الفواتير المتأخرة هي ما يساعدك تقرير **أعمار الذمم المدينة (Aged Receivable)** وأدوات المتابعة (12.7) على ملاحقتها."},
+    {"t": "fig", "file": "customer_invoice_overdue.png", "caption": "فاتورة عميل مُرحَّلة لكنها غير مدفوعة (متأخرة) تُظهر تاريخ الاستحقاق المنقضي وزر تسجيل دفعة؛ هذه هي الفواتير التي يتتبّعها تقرير أعمار الذمم المدينة."},
+
+    {"t": "h2", "text": "12.3 فواتير الموردين"},
+    {"t": "p", "text": "*فاتورة المورّد* هي صورة معكوسة لفاتورة العميل: إنها المستند الذي يرسله **المورّد** **إليك**، يطلب منك دفع ثمن بضاعة اشتريتها. المال خارج **منك**. افتح **المحاسبة ← الموردون (Vendors) ← الفواتير (Bills)**."},
+    {"t": "fig", "file": "vendor_bills_list.png", "caption": "قائمة فواتير الموردين وتشمل BILL/2026/05/0001 (SDG) وBILL/2026/05/0002 (USD) مع مبالغها وحالة الدفع."},
+    {"t": "table", "headers": ["الرقم", "المورّد", "الإجمالي", "العملة", "الحالة"], "rows": [
+      ["BILL/2026/05/0001", "شركة النيل للمستلزمات الطبية", "5,635,000", "SDG", "قيد الدفع (In Payment)"],
+      ["BILL/2026/05/0002", "Gulf MedTrade FZE (USD)", "483", "USD", "غير مدفوعة"]
+    ]},
+    {"t": "p", "text": "تستخدم فاتورة المورّد النموذج نفسه كفاتورة العميل، بالتبويبات الثلاثة نفسها (**بنود الفاتورة**، و**بنود القيد**، و**معلومات أخرى**) وشريط الحالة نفسه (**مسودة ← مُرحَّلة ← ملغاة**). الفروق هي أن الطرف **مورّد**، وأن **اليومية** هي *فواتير الموردين*، وأن ضريبة الشراء **15%** هي المستخدمة. تقدّم الترويسة أيضاً حقل **إكمال تلقائي (Auto-complete)** يمكنه تعبئة الفاتورة من أمر شراء سابق، وحقل **مرجع (Reference)** لرقم مستند المورّد نفسه."},
+    {"t": "fig", "file": "vendor_bill_usd.png", "caption": "فاتورة المورّد بالدولار BILL/2026/05/0002 من Gulf MedTrade بقيمة 483 دولاراً، مع قيمتها بالجنيه السوداني المعروضة بسعر الصرف في تاريخ الفاتورة."},
+    {"t": "note", "title": "الفواتير بالعملة الأجنبية", "text": "*BILL/2026/05/0002* بعملة **USD**. يخزّن النظام المبلغ بالدولار ويحوّله أيضاً إلى الجنيه السوداني بسعر الصرف لذلك التاريخ، فتبقى دفاترك السودانية دائماً بالجنيه. ويُظهر حقل **سعر العملة (Currency Rate)** على النموذج السعر المستخدَم."},
+    {"t": "p", "text": "لتسجيل فاتورة مورّد:"},
+    {"t": "ol", "items": [
+      "اذهب إلى **المحاسبة ← الموردون ← الفواتير** واضغط **جديد**.",
+      "اختر **المورّد** وأدخل **تاريخ الفاتورة** ورقم **مرجع** المورّد.",
+      "أضف المنتجات والكميات في تبويب **بنود الفاتورة** (أو استخدم **إكمال تلقائي** لسحبها من أمر الشراء).",
+      "تحقّق من الإجمالي ومن ضريبة الشراء **15%**.",
+      "اضغط **تأكيد**. تصبح الفاتورة **مُرحَّلة** وتُحتسب الآن كمال عليك (ذمة *دائنة*).",
+      "ادفعها لاحقاً عبر **تسجيل دفعة** (انظر 12.4)."
+    ]},
+
+    {"t": "h2", "text": "12.4 الدفعات والخزن النقدية"},
+    {"t": "p", "text": "*الدفعة* هي حركة المال الحقيقية: نقد يسلّمه لك عميل، أو مال تدفعه لمورّد، أو تحويل بنكي داخل أو خارج. كل دفعة تمرّ عبر **يومية** هي إما حساب **بنك** أو **خزنة نقدية**. *الخزنة النقدية* هي تماماً كما يوحي اسمها — صندوق النقد المادي في المكتب، متتبَّعاً في النظام. لدى هذه الشركة أربعة أماكن من هذا النوع: **بنك الخرطوم (SDG)**، و**حساب USD البنكي**، و**الخزنة النقدية الرئيسية (SDG)**، و**خزنة USD النقدية**."},
+    {"t": "fig", "file": "payments_list.png", "caption": "قائمة الدفعات: مقبوضات من عملاء ودفعة لمورّد، تُظهر كل منها اليومية المستخدمة (بنك الخرطوم، الخزنة النقدية الرئيسية) والمبلغ."},
+    {"t": "p", "text": "الدفعات الحقيقية في هذا العرض التوضيحي هي:"},
+    {"t": "table", "headers": ["الرقم", "الطرف", "المبلغ", "اليومية (مكان حركة المال)", "الاتجاه"], "rows": [
+      ["PAY00001", "مستشفى الخرطوم التعليمي", "2,038,950 SDG", "بنك الخرطوم (SDG)", "مقبوض من عميل"],
+      ["PAY00002", "عيادة أم درمان العائلية", "1,886,000 SDG", "الخزنة النقدية الرئيسية (SDG)", "مقبوض من عميل"],
+      ["PAY00003", "شركة النيل للمستلزمات الطبية", "5,635,000 SDG", "بنك الخرطوم (SDG)", "مدفوع لمورّد"]
+    ]},
+
+    {"t": "h3", "text": "معالج تسجيل الدفعة (Register Payment)"},
+    {"t": "p", "text": "أسهل طريقة لتسجيل دفعة هي من الفاتورة نفسها: اضغط **تسجيل دفعة**. تظهر نافذة منبثقة صغيرة (المعالج) بهذه الحقول:"},
+    {"t": "table", "headers": ["اسم الحقل", "معناه / ما الذي تُدخله"], "rows": [
+      ["اليومية (Journal)", "اختر أين يصل المال أو يخرج منه — بنك (*بنك الخرطوم (SDG)*) أو خزنة نقدية (*الخزنة النقدية الرئيسية (SDG)*)."],
+      ["طريقة الدفع (Payment Method)", "كيف تمّ الدفع (يدوي Manual هو الخيار المعتاد للتحويل أو النقد)."],
+      ["حساب البنك المستلِم (Recipient Bank Account)", "الحساب البنكي المعني، عند الحاجة."],
+      ["المبلغ (Amount)", "المبلغ المدفوع؛ يُعبّأ مسبقاً بالمبلغ المستحق."],
+      ["تاريخ الدفع (Payment Date)", "تاريخ حركة المال."],
+      ["ملاحظة (Memo)", "ملاحظة قصيرة، مثل رقم الفاتورة، لمرجعك الخاص."],
+      ["تجميع الدفعات (Group Payments)", "إذا فُعّلت، تُسوّى عدة فواتير للطرف نفسه بدفعة واحدة بدلاً من واحدة لكل فاتورة."],
+      ["معالجة فرق الدفع (Payment Difference Handling)", "إذا لم يكن المبلغ المدفوع مساوياً تماماً للمستحق، اختر **الإبقاء مفتوحاً (Keep open)** (ترك الباقي مستحقاً) أو **اعتبارها مدفوعة بالكامل (Mark as fully paid)** (شطب الفرق الصغير)."],
+      ["ترحيل الفرق في (Post Difference In)", "الحساب الذي يُسجَّل فيه أي فرق صغير متبقٍّ."]
+    ]},
+    {"t": "p", "text": "الأزرار هنا هي **إنشاء دفعة (Create Payment)** (تسجّلها) و**تجاهل (Discard)** (إلغاء المعالج)."},
+    {"t": "ol", "items": [
+      "افتح الفاتورة المُرحَّلة (عميل أو مورّد) واضغط **تسجيل دفعة**.",
+      "اختر **اليومية**: الحساب البنكي أو الخزنة النقدية التي استلمت المال أو أرسلته.",
+      "أكّد **المبلغ** و**تاريخ الدفع**.",
+      "أضف **ملاحظة** إن كانت مفيدة.",
+      "اضغط **إنشاء دفعة**. تتغيّر حالة دفع الفاتورة إلى **مدفوعة** (أو **قيد الدفع**) ويظهر المال في اليومية المختارة."
+    ]},
+
+    {"t": "h3", "text": "نموذج الدفعة"},
+    {"t": "p", "text": "كل دفعة محفوظة هي سجل يمكنك فتحه من **المحاسبة ← العملاء ← الدفعات (Payments)** (أو **الموردون ← الدفعات**)."},
+    {"t": "fig", "file": "payment_form.png", "caption": "نموذج دفعة عميل يُظهر الطرف والمبلغ وتاريخ الدفع واليومية المستخدمة (بنك أو خزنة نقدية) والفاتورة المرتبطة بها."},
+    {"t": "table", "headers": ["اسم الحقل", "معناه"], "rows": [
+      ["الرقم (Number)", "مرجع الدفعة الخاص، مثل *PAY00001*."],
+      ["نوع الدفعة (Payment Type)", "هل المال **مقبوض (Receive)** (من عميل) أم **مرسَل (Send)** (إلى مورّد)."],
+      ["العميل (Customer)", "الطرف الذي دفع لك أو الذي دفعت له."],
+      ["المبلغ (Amount)", "كم تحرّك من المال."],
+      ["التاريخ (Date)", "متى تحرّك."],
+      ["ملاحظة (Memo)", "ملاحظتك عن الدفعة."],
+      ["اليومية (Journal)", "البنك أو الخزنة النقدية المعنية."],
+      ["طريقة الدفع (Payment Method)", "كيف تمّ الدفع."],
+      ["حساب بنك العميل (Customer Bank Account)", "حساب الطرف البنكي، عند الحاجة."],
+      ["قيد اليومية (Journal Entry)", "قيد مسك الدفاتر التلقائي الذي أنشأه النظام لهذه الدفعة."]
+    ]},
+    {"t": "p", "text": "يسير شريط حالة الدفعة **مسودة ← قيد المعالجة (In Process) ← مدفوعة (Paid)** (وقد يصل أيضاً إلى **ملغاة (Canceled)** أو **مرفوضة (Rejected)**). تشمل الأزرار **تأكيد (Confirm)**، و**اعتماد (Validate)**، و**إعادة إلى مسودة (Reset To Draft)**، و**استرداد (Refund)**، و**إلغاء (Cancel)**، و**تعليم كمرسَل (Mark as Sent)**. لا تزال *PAY00003* (الدفعة لشركة النيل للمستلزمات الطبية) **قيد المعالجة**، ولهذا تظهر فاتورتها *BILL/2026/05/0001* بحالة **قيد الدفع** بدلاً من مدفوعة بالكامل."},
+
+    {"t": "h2", "text": "12.5 تسوية البنك"},
+    {"t": "p", "text": "تبدو *التسوية* مصطلحاً تقنياً لكنها بسيطة: يرسل لك البنك **كشف حساب (statement)** — قائمة بكل حركة رآها على حسابك. التسوية تعني ببساطة المرور على تلك القائمة ومطابقة كل بند بالفاتورة أو الدفعة الموجودة في النظام، ثم وضع علامة \"مطابَق\". وعندما يطابق كل شيء، تعرف أن دفاترك توافق البنك حتى آخر جنيه."},
+    {"t": "p", "text": "افتح كشوف الحساب تحت **المحاسبة ← المحاسبة (Accounting) ← البنك والنقد (Bank and Cash) ← كشوف الحساب البنكية (Bank Statements)**. لهذا العرض التوضيحي كشف حقيقي واحد، **STMT/2026/06/KRT**، على يومية **بنك الخرطوم (SDG)**، يحتوي على **بندين**."},
+    {"t": "table", "headers": ["اسم الحقل", "معناه"], "rows": [
+      ["المرجع (Reference)", "اسم الكشف، مثل *STMT/2026/06/KRT*."],
+      ["التاريخ (Date)", "تاريخ الكشف."],
+      ["العملة (Currency)", "عملة الحساب (SDG هنا)."],
+      ["اليومية (Journal)", "دفتر البنك الذي ينتمي إليه هذا الكشف — *بنك الخرطوم (SDG)*."],
+      ["الرصيد الافتتاحي (Starting Balance)", "رصيد البنك في بداية الكشف."],
+      ["الرصيد الختامي (Ending Balance)", "رصيد البنك الذي يبلّغ عنه البنك في النهاية."],
+      ["الرصيد المحسوب (Computed Balance)", "الرصيد الذي يحسبه النظام من البنود؛ ينبغي أن يساوي الرصيد الختامي عند صحة كل شيء."],
+      ["بنود الكشف (Statement lines)", "كل حركة سجّلها البنك (هذا الكشف فيه بندان)."]
+    ]},
+    {"t": "p", "text": "لإجراء المطابقة، افتح شاشة التسوية عبر **المحاسبة ← المحاسبة ← تسوية (Reconcile)** (أو إجراء **تسوية** على بطاقة البنك)."},
+    {"t": "fig", "file": "bank_reconcile.png", "caption": "شاشة تسوية البنك: كل بند من بنود كشف الحساب على جانب، ينتظر مطابقته بالفواتير أو الدفعات المسجّلة فعلاً في النظام."},
+    {"t": "ol", "items": [
+      "افتح شاشة التسوية لـ **بنك الخرطوم (SDG)**.",
+      "لكل بند في الكشف، يقترح النظام الفاتورة أو الدفعة المطابقة.",
+      "إذا كان الاقتراح صحيحاً، اضغط لقبول المطابقة؛ وإن لم يكن، فابحث واختر الصحيح.",
+      "أكّد البند. يتحوّل إلى الأخضر / يختفي من جانب المهام.",
+      "عندما تُطابَق كل البنود، يصبح الكشف مُسوّى بالكامل ويساوي **الرصيد المحسوب** **الرصيد الختامي**."
+    ]},
+    {"t": "tip", "title": "إن وقع خطأ", "text": "على نموذج الكشف يوجد زر **التراجع عن التسوية (Revert reconciliation)** يتراجع عن المطابقة كي تعيد المحاولة."},
+
+    {"t": "h2", "text": "12.6 التقارير — ماذا يخبرك به كل تقرير"},
+    {"t": "p", "text": "كل التقارير تحت **المحاسبة ← التقارير (Reporting)**. لست بحاجة لفهم الحسابات؛ يجيب كل تقرير عن سؤال واحد بسيط. يفتح معظمها نافذة خيارات صغيرة أولاً (اختر تاريخاً وهدفاً، ثم **طباعة** للحصول على ملف PDF)."},
+    {"t": "table", "headers": ["التقرير (مسار القائمة)", "السؤال الوحيد الذي يجيب عنه"], "rows": [
+      ["الميزانية العمومية (التقارير ← التقارير المالية ← الميزانية العمومية)", "ما الذي **تملكه** الشركة و**تدين به** الآن؟"],
+      ["الأرباح والخسائر (التقارير ← التقارير المالية ← الأرباح والخسائر)", "هل حقّقنا **ربحاً** أم خسارة خلال فترة؟ (المبيعات ناقص التكاليف.)"],
+      ["دفتر الأستاذ العام (التقارير ← تقارير التدقيق ← دفتر الأستاذ العام)", "كل حركة محاسبية، حساباً بحساب — السجل التفصيلي الكامل."],
+      ["دفتر أستاذ الأطراف (التقارير ← تقارير الأطراف ← دفتر أستاذ الأطراف)", "كل معاملة مع **عميل أو مورّد** واحد، وما له أو عليه."],
+      ["ميزان المراجعة (التقارير ← تقارير التدقيق ← ميزان المراجعة)", "ملخّص بسطر واحد لكل حساب يثبت أن الدفاتر متوازنة."],
+      ["أعمار الذمم المدينة (التقارير ← تقارير الأطراف ← أعمار الذمم المدينة)", "أي **العملاء** مدينون لنا، وكم مضى على تأخّر فواتيرهم."],
+      ["أعمار الذمم الدائنة (التقارير ← تقارير الأطراف ← أعمار الذمم الدائنة)", "أي **الموردين** ندين لهم، وكم نحن متأخرون."],
+      ["تقرير الضريبة (التقارير ← تقارير التدقيق ← تقرير الضريبة)", "كم ضريبة **15%** حصّلناها ودفعناها، جاهزة للجهات الرسمية."],
+      ["دفتر اليومية (التقارير ← التقارير اليومية ← دفتر اليومية)", "كل معاملة وقعت في يوم معيّن."],
+      ["دفتر النقدية (التقارير ← التقارير اليومية ← دفتر النقدية)", "كل الحركات عبر **الخزن النقدية** خلال فترة."],
+      ["دفتر البنك (التقارير ← التقارير اليومية ← دفتر البنك)", "كل الحركات عبر **الحسابات البنكية** خلال فترة."]
+    ]},
+    {"t": "fig", "file": "report_balance_sheet.png", "caption": "نافذة خيارات تقرير الميزانية العمومية: اختر التاريخ ومرشّحات الحركة المستهدفة، ثم اطبع."},
+    {"t": "fig", "file": "report_aged_receivable.png", "caption": "نافذة خيارات تقرير أعمار الذمم المدينة: اضبط فئات الأعمار التي تجمّع فواتير العملاء المتأخرة قبل الطباعة."},
+    {"t": "tip", "title": "التقريران اللذان يجب معرفتهما أولاً", "text": "إن لم تفتح سوى تقريرين، فليكونا **أعمار الذمم المدينة** (من يدين لنا، ومنذ متى) و**الأرباح والخسائر** (هل نربح). تقرير **أعمار الذمم المدينة** هو ما يحوّل *INV/2026/00003* و*00004* إلى قائمة مهام واضحة."},
+
+    {"t": "h2", "text": "12.7 السنة المالية وتواريخ القفل ومتابعة العملاء المتأخرين"},
+    {"t": "h3", "text": "السنة المالية"},
+    {"t": "p", "text": "*السنة المالية (Fiscal year)* هي ببساطة فترة الاثني عشر شهراً التي تستخدمها الشركة لحساباتها (غالباً السنة الميلادية). تضبطها مرة واحدة تحت **المحاسبة ← الإعدادات (Configuration) ← المحاسبة ← السنة المالية (Fiscal Year)**. بعدها يعرف كل تقرير أي شهور تنتمي لأي سنة."},
+    {"t": "h3", "text": "تواريخ القفل"},
+    {"t": "p", "text": "**تاريخ القفل (Lock date)** يجمّد الدفاتر حتى تاريخ مختار كي لا يغيّر أحد بالخطأ أرقام الشهر الماضي بعد إغلاقه. اضبطه تحت **المحاسبة ← المحاسبة ← تواريخ القفل (Lock Dates)**. بمجرد قفل فترة، يرفض النظام بأدب ترحيل أو تعديل أي شيء مؤرّخ قبل ذلك التاريخ."},
+    {"t": "warn", "title": "القفل راحة باتجاه واحد", "text": "القفل يحمي الفترات المغلقة، وهذا جيد. لكنه يعني أيضاً أنك لا تستطيع ترحيل فاتورة منسية في شهر مقفول. تحقّق دائماً من إدخال كل شيء للفترة قبل ضبط تاريخ القفل."},
+    {"t": "h3", "text": "متابعة العملاء (المطالبة)"},
+    {"t": "p", "text": "*المتابعة (Follow-up)*، وتُسمّى أحياناً *المطالبة (Dunning)*، تعني ببساطة ملاحقة العملاء الذين لم يدفعوا. يستطيع النظام فعل ذلك نيابةً عنك بتذكيرات مهذّبة تزداد صرامةً كلما طال تأخّر الفاتورة. الأدوات تحت **المحاسبة ← المتابعات (Follow-Ups)**."},
+    {"t": "ul", "items": [
+      "**المحاسبة ← المتابعات ← إجراء متابعات يدوية (Do Manual Follow-Ups)** — راجع كل عميل متأخر وأرسل تذكيراً أو سجّل مكالمة هاتفية.",
+      "**المحاسبة ← المتابعات ← إرسال خطابات ورسائل (Send Letters and Emails)** — أرسل التذكيرات دفعةً واحدة.",
+      "**المحاسبة ← المتابعات ← متابعاتي (My Follow-Ups)** — قائمتك الشخصية بالعملاء للملاحقة.",
+      "**المحاسبة ← المتابعات ← تحليل المتابعات (Follow-ups Analysis)** — تقرير عن سير الملاحقة.",
+      "تُضبط صياغة التذكير وتوقيته تحت **المحاسبة ← الإعدادات ← المتابعة (Follow-up) ← مستويات المتابعة (Follow-up Levels)**."
+    ]},
+    {"t": "ol", "items": [
+      "افتح **المحاسبة ← المتابعات ← إجراء متابعات يدوية**.",
+      "اختر عميلاً متأخراً مثل *الهلال الأحمر السوداني* (مدين على *INV/2026/00003*).",
+      "راجع الفواتير المتأخرة التي يسردها النظام له.",
+      "أرسل بريد/خطاب التذكير، أو سجّل أنك اتصلت به.",
+      "يُجدوَل مستوى التذكير التالي تلقائياً إن استمرّ عدم الدفع."
+    ]},
+
+    {"t": "h2", "text": "12.8 أي إضافة تمنحك ماذا"},
+    {"t": "p", "text": "المحاسبة التي تراها هي تطبيق الفوترة الأساسي في أودو إضافةً إلى بعض الإضافات المجانية من OCA / Odoo-Mates التي تُفعّل الميزات الأوسع. لا تحتاج للتفكير في هذا في العمل اليومي؛ هو هنا فقط لتعرف أنه لا ينقص شيء."},
+    {"t": "table", "headers": ["القدرة", "تُقدّمها"], "rows": [
+      ["فواتير العملاء، فواتير الموردين، الدفعات، الضرائب، اليوميات", "الفوترة (Invoicing) — الأساسي"],
+      ["محاسبة القيد المزدوج الكاملة، دفاتر الأستاذ، تواريخ القفل، السنة المالية", "om_account_accountant"],
+      ["ميزانية عمومية وأرباح وخسائر ودفتر أستاذ عام/أطراف وميزان مراجعة وتقارير أعمار وتقرير ضريبة قابلة للطباعة", "accounting_pdf_reports"],
+      ["دفتر اليومية، دفتر النقدية، دفتر البنك", "om_account_daily_reports"],
+      ["شاشة تسوية البنك", "account_reconcile_oca"],
+      ["تذكيرات متابعة / مطالبة العملاء", "om_account_followup"]
+    ]},
+    {"t": "p", "text": "مجتمعةً، تمنح هذه الإضافات *شركة السودان للمستلزمات الطبية* قسم محاسبة كاملاً داخل شاشة واحدة: كل بيع وشراء ودفع يُسجَّل تلقائياً، والدفاتر متوازنة دائماً، والضريبة متتبَّعة دائماً، وتقارير واضحة تخبرك من يدين لك، وما عليك، وهل تربح."}
+  ]
+}

@@ -1,0 +1,411 @@
+{
+ "model": "account.journal",
+ "fields": [
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "Company related to this journal",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "bank_statements_source",
+   "label": "Bank Feeds",
+   "type": "selection",
+   "help": "Defines how the bank statements will be registered",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Undefined Yet"
+   ]
+  },
+  {
+   "name": "name",
+   "label": "Journal Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "Set active to false to hide the Journal without removing it.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "type",
+   "label": "Type",
+   "type": "selection",
+   "help": "Select 'Sale' for customer invoices journals.\n        Select 'Purchase' for vendor bills journals.\n        Select 'Cash', 'Bank' or 'Credit Card' for journals that are used in customer or vendor payments.\n        Select 'General' for miscellaneous operations journals.",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Sales",
+    "Purchase",
+    "Cash",
+    "Bank",
+    "Credit Card",
+    "Miscellaneous"
+   ]
+  },
+  {
+   "name": "country_code",
+   "label": "Country Code",
+   "type": "char",
+   "help": "The ISO country code in two chars. \nYou can use this field for quick search.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "default_account_type",
+   "label": "Default Account Type",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries"
+  },
+  {
+   "name": "default_account_id",
+   "label": "Default Account",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "account.account"
+  },
+  {
+   "name": "reconcile_mode",
+   "label": "Reconcile Mode",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "Journal Entries",
+   "selection": [
+    "Edit Move",
+    "Keep Suspense Accounts"
+   ]
+  },
+  {
+   "name": "reconcile_aggregate",
+   "label": "Reconcile aggregation",
+   "type": "selection",
+   "help": "Aggregation to use on reconcile view",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "selection": [
+    "Statement",
+    "Day",
+    "Week",
+    "Month"
+   ]
+  },
+  {
+   "name": "suspense_account_id",
+   "label": "Suspense Account",
+   "type": "many2one",
+   "help": "Bank statements transactions will be posted on the suspense account until the final reconciliation allowing finding the right account.",
+   "required": true,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "account.account"
+  },
+  {
+   "name": "profit_account_id",
+   "label": "Profit Account",
+   "type": "many2one",
+   "help": "Used to register a profit when the ending balance of a cash register differs from what the system computes",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "account.account"
+  },
+  {
+   "name": "loss_account_id",
+   "label": "Loss Account",
+   "type": "many2one",
+   "help": "Used to register a loss when the ending balance of a cash register differs from what the system computes",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "account.account"
+  },
+  {
+   "name": "refund_sequence",
+   "label": "Dedicated Credit Note Sequence",
+   "type": "boolean",
+   "help": "Check this box if you don't want to share the same sequence for invoices and credit notes made from this journal",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries"
+  },
+  {
+   "name": "payment_sequence",
+   "label": "Dedicated Payment Sequence",
+   "type": "boolean",
+   "help": "Check this box if you don't want to share the same sequence on payments and bank transactions posted on this journal",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries"
+  },
+  {
+   "name": "code",
+   "label": "Short Code",
+   "type": "char",
+   "help": "Shorter name used for display. The journal entries of this journal will also be named using this prefix by default.",
+   "required": true,
+   "readonly": false,
+   "page": "Journal Entries"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "The currency used to enter statement",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "res.currency"
+  },
+  {
+   "name": "company_partner_id",
+   "label": "Account Holder",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "res.partner"
+  },
+  {
+   "name": "bank_account_id",
+   "label": "Account Number",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "res.partner.bank"
+  },
+  {
+   "name": "bank_id",
+   "label": "Bank",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Journal Entries",
+   "relation": "res.bank"
+  },
+  {
+   "name": "available_payment_method_ids",
+   "label": "Available Payment Method",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments",
+   "relation": "account.payment.method"
+  },
+  {
+   "name": "inbound_payment_method_line_ids",
+   "label": "Inbound Payment Methods",
+   "type": "one2many",
+   "help": "Manual: Get paid by any method outside of Odoo.\nPayment Providers: Each payment provider has its own Payment Method. Request a transaction on/to a card thanks to a payment token saved by the partner when buying or subscribing online.\nBatch Deposit: Collect several customer checks at once generating ",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "payment_type",
+   "label": "payment_type",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "sequence",
+   "label": "Sequence",
+   "type": "integer",
+   "help": "Used to order Journals in the dashboard view",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "payment_method_id",
+   "label": "payment_method_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "payment_account_id",
+   "label": "Outstanding Receipts accounts",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "payment_provider_id",
+   "label": "payment_provider_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "payment_provider_state",
+   "label": "payment_provider_state",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Incoming Payments"
+  },
+  {
+   "name": "outbound_payment_method_line_ids",
+   "label": "Outbound Payment Methods",
+   "type": "one2many",
+   "help": "Manual: Pay by any method outside of Odoo.\nCheck: Pay bills by check and print it from Odoo.\nSEPA Credit Transfer: Pay in the SEPA zone by submitting a SEPA Credit Transfer file to your bank. Module account_sepa is necessary.",
+   "required": false,
+   "readonly": false,
+   "page": "Outgoing Payments",
+   "relation": "account.payment.method.line"
+  },
+  {
+   "name": "selected_payment_method_codes",
+   "label": "Selected Payment Method Codes",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Outgoing Payments"
+  },
+  {
+   "name": "account_control_ids",
+   "label": "Allowed accounts",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings",
+   "relation": "account.account"
+  },
+  {
+   "name": "restrict_mode_hash_table",
+   "label": "Secure Posted Entries with Hash",
+   "type": "boolean",
+   "help": "If ticked, when an entry is posted, we retroactively hash all moves in the sequence from the entry back to the last hashed entry. The hash can also be performed on demand by the Secure Entries wizard.",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings"
+  },
+  {
+   "name": "autocheck_on_post",
+   "label": "Auto-Check on Post",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings"
+  },
+  {
+   "name": "alias_id",
+   "label": "Alias",
+   "type": "many2one",
+   "help": "Send one separate email for each invoice.\n\nAny file extension will be accepted.\n\nOnly PDF and XML files will be interpreted by Odoo",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings",
+   "relation": "mail.alias"
+  },
+  {
+   "name": "display_alias_fields",
+   "label": "Display Alias Fields",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings"
+  },
+  {
+   "name": "alias_name",
+   "label": "Alias Name",
+   "type": "char",
+   "help": "The name of the email alias, e.g. 'jobs' if you want to catch emails for <jobs@example.odoo.com>",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings"
+  },
+  {
+   "name": "alias_domain_id",
+   "label": "Alias Domain",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Advanced Settings",
+   "relation": "mail.alias.domain"
+  },
+  {
+   "name": "invoice_reference_type",
+   "label": "Communication Type",
+   "type": "selection",
+   "help": "You can set here the default communication that will appear on customer invoices, once validated, to help the customer to refer to that particular invoice when making the payment.",
+   "required": true,
+   "readonly": false,
+   "page": "Advanced Settings",
+   "selection": [
+    "Open",
+    "Based on Customer",
+    "Based on Invoice"
+   ]
+  },
+  {
+   "name": "invoice_reference_model",
+   "label": "Communication Standard",
+   "type": "selection",
+   "help": "You can choose different models for each type of reference. The default one is the Odoo reference.",
+   "required": true,
+   "readonly": false,
+   "page": "Advanced Settings",
+   "selection": [
+    "Odoo",
+    "European"
+   ]
+  }
+ ],
+ "buttons": [
+  {
+   "label": "SETUP",
+   "name": "action_open_provider_form",
+   "type": "object",
+   "class": "float-end btn-secondary"
+  }
+ ],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

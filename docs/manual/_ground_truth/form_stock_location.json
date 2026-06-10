@@ -1,0 +1,147 @@
+{
+ "model": "stock.location",
+ "fields": [
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "Let this field empty if this location is shared between companies",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "name",
+   "label": "Location Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "location_id",
+   "label": "Parent Location",
+   "type": "many2one",
+   "help": "The parent location that includes this location. Example : The 'Dispatch Zone' is the 'Gate 1' parent location.",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "By unchecking the active field, you may hide a location without deleting it.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "usage",
+   "label": "Location Type",
+   "type": "selection",
+   "help": "* Vendor Location: Virtual location representing the source location for products coming from your vendors\n* View: Virtual location used to create a hierarchical structures for your warehouse, aggregating its child locations ; can't directly contain products\n* Internal Location: Physical locations i",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Vendor Location",
+    "View",
+    "Internal Location",
+    "Customer Location",
+    "Inventory Loss",
+    "Production",
+    "Transit Location"
+   ]
+  },
+  {
+   "name": "storage_category_id",
+   "label": "Storage Category",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.storage.category"
+  },
+  {
+   "name": "scrap_location",
+   "label": "Is a Scrap Location?",
+   "type": "boolean",
+   "help": "Check this box to allow using this location to put scrapped/damaged goods.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "replenish_location",
+   "label": "Replenish Location",
+   "type": "boolean",
+   "help": "Activate this function to get all quantities to replenish at this particular location",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "cyclic_inventory_frequency",
+   "label": "Inventory Frequency",
+   "type": "integer",
+   "help": "When different than 0, inventory count date for products stored at this location will be automatically set at the defined frequency.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "last_inventory_date",
+   "label": "Last Inventory",
+   "type": "date",
+   "help": "Date of the last inventory at this location.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "next_inventory_date",
+   "label": "Next Expected",
+   "type": "date",
+   "help": "Date for next planned inventory based on cyclic schedule.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "comment",
+   "label": "Additional Information",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  }
+ ],
+ "buttons": [],
+ "statusbar_states": [],
+ "smart_buttons": [
+  {
+   "label": "Putaway Rules",
+   "name": "354",
+   "type": "action",
+   "class": "oe_stat_button"
+  },
+  {
+   "label": "Products",
+   "name": "stock.act_product_location_open",
+   "type": "action",
+   "class": "oe_stat_button"
+  },
+  {
+   "label": "Current Stock",
+   "name": "361",
+   "type": "action",
+   "class": "oe_stat_button"
+  }
+ ]
+}

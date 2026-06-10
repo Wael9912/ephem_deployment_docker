@@ -1,0 +1,315 @@
+{
+  "key": "interface",
+  "title_en": "2. Getting Started & the Interface",
+  "title_ar": "2. البدء وواجهة النظام",
+  "blocks_en": [
+    {"t": "p", "text": "This chapter introduces the **Medical-Supply ERP** to a complete newcomer. You do not need any accounting, computer, or management background. By the end you will be able to open the system, sign in, find any tool, and recognise the handful of screen layouts that the whole system reuses. Once you learn these basics, every app — Sales, Purchase, Inventory, Accounting — feels familiar, because they all share the same look and the same buttons."},
+    {"t": "tip", "title": "One system for everything", "text": "The Medical-Supply ERP keeps your customers, suppliers, products, stock, orders, invoices and bank records in a single place. When you do something in one app (for example confirm a sale), the system *automatically* updates the others (it reserves the stock and prepares the invoice for you). You will see this happen throughout the manual."},
+
+    {"t": "h2", "text": "2.1 Opening the system and signing in"},
+    {"t": "p", "text": "The Medical-Supply ERP runs in your web browser — there is nothing to install on your computer. You reach it by typing an address (a *URL*, the web address of a page) into the browser."},
+    {"t": "ol", "items": [
+      "Open your web browser (Chrome, Firefox or Edge).",
+      "In the address bar type **http://localhost:8069** and press Enter. (This is the address for the local demo installation that runs on this machine. In a live installation your administrator gives you the real address.)",
+      "The **sign-in screen** appears, asking for your login and password.",
+      "Type your **Email** (login) and **Password**, then click **Log in**.",
+      "On the demo database the login is **admin** and the password is **admin**."
+    ]},
+    {"t": "fig", "file": "login.png", "caption": "The sign-in screen for the Medical-Supply ERP: the email/login field, the password field and the Log in button."},
+    {"t": "warn", "title": "Change the demo password", "text": "**admin / admin** is only for trying the demo. Before any real use, change the administrator password (Settings → Users & Companies → Users) and give every staff member their own personal login. Sharing one login hides who did what."},
+    {"t": "note", "title": "Each person, their own login", "text": "The demo already has separate users — *Administrator*, *Amira Hassan* (Procurement Officer), *Khalid Osman* (Sales Representative), *Sara Ahmed* (Warehouse Keeper), *Mohammed Ali* (Accountant) and *Layla Ibrahim* (General Manager). Each person sees only the apps their role allows, which keeps the system tidy and safe."},
+
+    {"t": "h2", "text": "2.2 A tour of the screen (the Spiffy interface)"},
+    {"t": "p", "text": "The system uses a polished interface called the **Spiffy backend theme**. After you log in you land on the home screen, which greets you (for example *\"Good Evening\"*) and shows your apps. Three things are always within reach: the **dark top navigation bar** at the very top, the **app launcher** (the 9-dot grid), and a **quick-action rail** down the side."},
+
+    {"t": "h3", "text": "The dark top navigation bar"},
+    {"t": "p", "text": "The band across the top of every page is the **top navigation bar**. From left to right it usually contains:"},
+    {"t": "ul", "items": [
+      "The **9-dot grid icon** (the *app launcher*) — click it to switch between apps.",
+      "The **name of the app** you are currently in, followed by that app's own menus (for example, in Sales you see **Orders**, **To Invoice**, **Products**, **Reporting** and **Configuration**).",
+      "On the right, the **user / company menu** — your name and photo. Click it to switch the active company, change the interface **language**, open your preferences, or **Log out**."
+    ]},
+    {"t": "note", "title": "Switching language to Arabic", "text": "This same system can show its menus and buttons in Arabic. Open the user menu (top-right) → **Preferences** → set the **Language** to Arabic, then save. Numbers, currency codes (SDG, USD), product references (such as MED-INSULIN) and your data stay the same; only the labels change."},
+
+    {"t": "h3", "text": "The app launcher (the 9-dot grid)"},
+    {"t": "p", "text": "The **app launcher** is how you move between the parts of the system. Click the **9-dot grid icon** in the top-left and a screen of large app icons appears, each opening one area of the business."},
+    {"t": "fig", "file": "apps_home.png", "caption": "The Spiffy app launcher, opened from the 9-dot grid: a search box at the top and large icons for Discuss, Contacts, Sales, Dashboards, Accounting, Purchase, Inventory, Apps and Settings."},
+    {"t": "p", "text": "The main apps you will use, and what each one is for:"},
+    {"t": "table", "headers": ["App", "What you use it for"], "rows": [
+      ["Contacts", "Your address book of customers and suppliers."],
+      ["Sales", "Quotations and customer orders."],
+      ["Purchase", "Requests for quotation and purchase orders to suppliers."],
+      ["Inventory", "Goods receipts, deliveries, stock levels, lots and expiry."],
+      ["Accounting", "Invoices, vendor bills, payments, bank and reports."],
+      ["Dashboards", "At-a-glance charts and figures about the business."],
+      ["Discuss", "Internal messaging between staff."],
+      ["Settings", "Users, the company record and system options."]
+    ]},
+    {"t": "ol", "items": [
+      "Click the **9-dot grid icon** at the top-left.",
+      "To find an app quickly, type part of its name in the **search box** at the top of the launcher.",
+      "Click the app icon you want; the system opens that app and the top bar changes to show its menus."
+    ]},
+
+    {"t": "h3", "text": "The quick-action rail"},
+    {"t": "p", "text": "The **Spiffy** theme adds a slim vertical **quick-action rail** along the side of the window. It gives you handy shortcuts that work on whatever you are looking at, without hunting through menus:"},
+    {"t": "ul", "items": [
+      "**Favourite** — mark the current screen so you can jump back to it later.",
+      "**Search** — a global search to find a record (a customer, a product, an order) from anywhere.",
+      "**Full-screen** — hide the menus and use the whole window for the page you are reading.",
+      "**Zoom** — make the page text larger or smaller for comfortable reading.",
+      "**Bookmark** — save a link to the current page for quick return."
+    ]},
+    {"t": "tip", "title": "Use Search to skip the menus", "text": "If you know the name or number of what you want (for example a customer *Khartoum Teaching Hospital*, or order *S00001*), the global search is the fastest way to open it — just start typing."},
+
+    {"t": "h2", "text": "2.3 The screen types every app shares"},
+    {"t": "p", "text": "Although each app does a different job, they are all built from the same handful of screens. Learn these five and you can use any app: the **list view**, the **form view**, the **kanban / dashboard**, the **search box** with **Filters** and **Group By**, and the **chatter** that sits beside a record."},
+
+    {"t": "h3", "text": "List view"},
+    {"t": "p", "text": "A **list view** shows many records as rows in a table — one row per item, with useful columns. It is how you browse, for example, all your products or all your invoices. Click any row to open that record in full."},
+    {"t": "fig", "file": "products_list.png", "caption": "A list view: the product catalogue showing the 10 medical items with their internal references and on-hand quantities, one product per row."},
+    {"t": "ul", "items": [
+      "Each **column** is a piece of information (name, reference, quantity, total, status).",
+      "Click a **column heading** to sort the list by that column.",
+      "Click any **row** to open the full record in a form view.",
+      "The **New** button (top-left) starts a brand-new record of that type."
+    ]},
+
+    {"t": "h3", "text": "Form view"},
+    {"t": "p", "text": "A **form view** is the detailed page of a single record — one customer, one order, one product. This is where you read and edit every field. Because the form is the heart of the system, it is worth knowing its parts. The picture below points them out using a real sales order."},
+    {"t": "fig", "file": "sale_order.png", "caption": "A form view: Sales Order S00001 for Khartoum Teaching Hospital, priced in SDG, with order lines (Paracetamol, Surgical Gloves, Syringes), the status bar (Quotation → Sales Order) along the top and the smart buttons (Delivery, Invoices)."},
+    {"t": "p", "text": "The parts of a form, from top to bottom:"},
+    {"t": "ul", "items": [
+      "**Breadcrumbs** — the trail at the top-left (for example *Orders / S00001*) showing where you are. Click an earlier step to go back without losing your place.",
+      "**Action buttons** — the buttons at the top-left that *do* something to the record (such as **Confirm**, **Send by Email**, **Cancel**).",
+      "**Status bar** — the steps shown at the top-right that the record moves through over its life (see below).",
+      "**Smart buttons** — boxed shortcuts at the top-right that both show a count and open related records (for example **Delivery** and **Invoices** on an order).",
+      "**Fields, in tabs** — the body of the form, where the information lives, often split into tabs.",
+      "**Chatter** — the message and history panel beside or below the form (see below)."
+    ]},
+
+    {"t": "h3", "text": "The status bar (draft → confirmed → done)"},
+    {"t": "p", "text": "Most business documents move through a *lifecycle* — a series of stages from a rough draft to a finished, locked record. The **status bar** at the top-right of a form shows these stages and highlights the current one. On a sales order the stages are:"},
+    {"t": "table", "headers": ["Stage", "What it means"], "rows": [
+      ["Quotation", "A draft offer to the customer. You can still change everything."],
+      ["Quotation Sent", "The quotation has been emailed to the customer."],
+      ["Sales Order", "The customer accepted; the order is confirmed and stock is reserved automatically."],
+      ["Cancelled", "The order was called off."]
+    ]},
+    {"t": "p", "text": "A confirmed order in our demo, *S00001*, sits at the **Sales Order** stage. Purchases, invoices and warehouse transfers each have their own similar lifecycle (for example draft → confirmed → done), so once you understand one status bar you understand them all."},
+
+    {"t": "h3", "text": "Action buttons and smart buttons"},
+    {"t": "p", "text": "**Action buttons** sit at the top-left and carry out a step. On a sales order, for example, you will see:"},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["Confirm", "Turns a quotation into a confirmed sales order and reserves the goods."],
+      ["Send by Email", "Emails the quotation to the customer."],
+      ["Preview", "Shows the document the way the customer will see it."],
+      ["Create Invoice", "Generates the customer invoice from the order."],
+      ["Cancel", "Calls off the order."],
+      ["Set to Quotation", "Returns a cancelled order to draft so you can edit it again."]
+    ]},
+    {"t": "p", "text": "**Smart buttons** are the boxed shortcuts at the top-right of a form. Each shows a number and opens the linked records behind it. On a sales order you see a **Delivery** smart button (the warehouse pick for this order) and an **Invoices** smart button (the bills raised from it). They save you from searching: one click takes you straight to the related document. Smart buttons appear on many records — for example a product shows **On Hand**, **Forecasted** and **Reordering** counts."},
+    {"t": "tip", "title": "Smart buttons keep everything connected", "text": "Because one click jumps from an order to its delivery, then to its invoice, then to its payment, you can follow any transaction end-to-end without losing the thread. This is the system *automatically* linking your paperwork for you."},
+
+    {"t": "h3", "text": "The chatter (messages and history)"},
+    {"t": "p", "text": "Beside or below most records is the **chatter** — a built-in log and message thread. It is the record's diary: it shows who changed what and when, lets staff post notes to each other, and can schedule reminders (called *activities*). You never lose the story of a document."},
+    {"t": "ul", "items": [
+      "**Send message** — post a note that notifies colleagues (called *followers*).",
+      "**Log note** — write an internal comment that is kept on the record but not emailed out.",
+      "**Activities** — schedule a to-do, such as \"call the customer tomorrow\".",
+      "**History** — every change (confirmation, posting, payment) is recorded automatically with a date and the user's name."
+    ]},
+
+    {"t": "h3", "text": "Kanban and dashboard views"},
+    {"t": "p", "text": "A **kanban** view shows records as cards instead of rows, often grouped into columns — easy to scan at a glance. A **dashboard** is a special overview made of such cards, each showing a count and quick-action buttons so you can jump straight to the work waiting for you. The Inventory app opens on exactly this kind of overview."},
+    {"t": "fig", "file": "inventory_overview.png", "caption": "A dashboard view: the Inventory app Operations overview, with cards for Receipts, Delivery Orders and Internal Transfers, each showing how many are waiting to be processed."},
+    {"t": "p", "text": "On each card the number tells you how much work is outstanding, and the buttons on the card take you straight into that pile of work — for example, to the goods receipts you still need to record."},
+
+    {"t": "h2", "text": "2.4 The search box: Filters and Group By"},
+    {"t": "p", "text": "At the top of every list and kanban screen is a **search box**. It does far more than plain text search — it lets you narrow a long list down to exactly what you need and re-arrange how it is grouped."},
+    {"t": "ul", "items": [
+      "**Type to search** — start typing a name or number; the system suggests matching records.",
+      "**Filters** — ready-made conditions that hide everything except what matches, for example *unpaid* invoices or *late* deliveries.",
+      "**Group By** — clusters the records under headings, for example all orders grouped by customer, or all products grouped by category.",
+      "**Favourites** — save a useful search (a filter plus a grouping) so you can reuse it with one click."
+    ]},
+    {"t": "ol", "items": [
+      "Open any list (for example **Accounting → Customers → Invoices**).",
+      "Click in the **search box** at the top.",
+      "Choose a ready-made **Filter** (such as showing only unpaid invoices), or type to search by name.",
+      "Open **Group By** and pick a grouping (such as by customer) to fold the list into tidy sections.",
+      "If the result is useful, save it under **Favourites** to use again later."
+    ]},
+    {"t": "tip", "title": "Filters answer everyday questions", "text": "\"Which invoices are still unpaid?\" \"Which deliveries are late?\" \"How many orders did this customer place?\" — all of these are a filter or a Group By away, with no report-building required."},
+
+    {"t": "h2", "text": "2.5 Creating, saving and the breadcrumb trail"},
+    {"t": "p", "text": "Across every app, creating and saving a record works the same way, so you only learn it once."},
+    {"t": "ol", "items": [
+      "Click **New** to start a blank record (a new contact, order, invoice and so on).",
+      "Fill in the fields. Required fields must be completed before the record can be saved.",
+      "While you are editing, an **unsaved-changes indicator** appears with two controls: a **save** action (often shown as a cloud or check, sometimes labelled **Save**) and a **discard** action (often an **X**) to throw the changes away.",
+      "Click **save** to keep your work, or **discard** to undo everything since you last saved.",
+      "Use the **breadcrumbs** at the top-left to step back to the list once you are done."
+    ]},
+    {"t": "warn", "title": "Save before you leave", "text": "If you navigate away while there are unsaved changes, the system warns you. Always click **save** (or **discard**) first so you do not lose work or leave a half-finished record."},
+    {"t": "note", "title": "Breadcrumbs are your map", "text": "The breadcrumb trail (for example *Sales / Orders / S00001*) always shows the path you took. Clicking any earlier step returns you there cleanly — there is no need to use the browser's Back button, which can confuse the page."},
+
+    {"t": "h2", "text": "2.6 What you have learned"},
+    {"t": "p", "text": "You can now open the Medical-Supply ERP, sign in safely, and move around with confidence. You can switch apps from the **app launcher**, use the **quick-action rail**, and recognise the five shared screens — **list**, **form**, **kanban/dashboard**, the **search box** with Filters and Group By, and the **chatter**. You know how the **status bar**, **action buttons** and **smart buttons** drive a document through its life, and how **New / save / discard** and the **breadcrumbs** keep your work safe. The chapters that follow use these same skills in every app."}
+  ],
+  "blocks_ar": [
+    {"t": "p", "text": "يقدّم هذا الفصل **نظام إدارة المستلزمات الطبية (Medical-Supply ERP)** للمستخدم المبتدئ تمامًا. لا تحتاج إلى أي خلفية في المحاسبة أو الحاسوب أو الإدارة. بنهاية الفصل ستتمكن من فتح النظام وتسجيل الدخول والعثور على أي أداة، والتعرّف على عدد قليل من تخطيطات الشاشة التي يعيد النظام بأكمله استخدامها. وبمجرد تعلّم هذه الأساسيات، سيبدو لك كل تطبيق — المبيعات والمشتريات والمخزون والمحاسبة — مألوفًا، لأنها جميعًا تتشارك المظهر نفسه والأزرار نفسها."},
+    {"t": "tip", "title": "نظام واحد لكل شيء", "text": "يحفظ نظام إدارة المستلزمات الطبية عملاءك ومورّديك ومنتجاتك ومخزونك وطلباتك وفواتيرك وسجلاتك المصرفية في مكان واحد. وعندما تنفّذ إجراءً في أحد التطبيقات (مثل تأكيد عملية بيع) يحدّث النظام *تلقائيًا* بقية التطبيقات (فيحجز المخزون ويجهّز الفاتورة نيابةً عنك). وسترى ذلك يتكرر طوال هذا الدليل."},
+
+    {"t": "h2", "text": "2.1 فتح النظام وتسجيل الدخول"},
+    {"t": "p", "text": "يعمل نظام إدارة المستلزمات الطبية داخل متصفح الويب لديك — لا يوجد ما يُثبَّت على حاسوبك. وتصل إليه بكتابة عنوان (وهو *URL*، أي عنوان الصفحة على الويب) في شريط العنوان بالمتصفح."},
+    {"t": "ol", "items": [
+      "افتح متصفح الويب (Chrome أو Firefox أو Edge).",
+      "في شريط العنوان اكتب **http://localhost:8069** ثم اضغط Enter. (هذا هو عنوان التثبيت التجريبي المحلي الذي يعمل على هذا الجهاز. أما في التثبيت الفعلي فيمنحك مسؤول النظام العنوان الحقيقي.)",
+      "تظهر **شاشة تسجيل الدخول** وتطلب منك اسم الدخول وكلمة المرور.",
+      "اكتب **البريد الإلكتروني** (اسم الدخول) و**كلمة المرور**، ثم انقر **تسجيل الدخول** (Log in).",
+      "في قاعدة البيانات التجريبية يكون اسم الدخول **admin** وكلمة المرور **admin**."
+    ]},
+    {"t": "fig", "file": "login.png", "caption": "شاشة تسجيل الدخول لنظام إدارة المستلزمات الطبية: حقل البريد الإلكتروني/اسم الدخول، وحقل كلمة المرور، وزر تسجيل الدخول."},
+    {"t": "warn", "title": "غيّر كلمة المرور التجريبية", "text": "إنّ **admin / admin** مخصّصة فقط لتجربة النسخة التجريبية. قبل أي استخدام فعلي غيّر كلمة مرور المسؤول (الإعدادات ← المستخدمون والشركات ← المستخدمون) وامنح كل موظف اسم دخول خاصًا به. فمشاركة اسم دخول واحد تُخفي مَن فعل ماذا."},
+    {"t": "note", "title": "لكل شخص اسم دخوله الخاص", "text": "تتضمّن النسخة التجريبية أصلاً مستخدمين منفصلين — *Administrator* (المسؤول)، و*Amira Hassan* (موظفة المشتريات)، و*Khalid Osman* (مندوب المبيعات)، و*Sara Ahmed* (أمينة المستودع)، و*Mohammed Ali* (المحاسب)، و*Layla Ibrahim* (المديرة العامة). ويرى كل شخص فقط التطبيقات التي يسمح بها دوره، مما يبقي النظام مرتّبًا وآمنًا."},
+
+    {"t": "h2", "text": "2.2 جولة في الشاشة (واجهة Spiffy)"},
+    {"t": "p", "text": "يستخدم النظام واجهة أنيقة تُسمّى **قالب Spiffy للواجهة الخلفية (Spiffy backend theme)**. بعد تسجيل الدخول تصل إلى الشاشة الرئيسية التي ترحّب بك (مثلاً *\"مساء الخير\"*) وتعرض تطبيقاتك. وهناك ثلاثة عناصر دائمًا في متناول يدك: **شريط التنقّل العلوي الداكن** في الأعلى تمامًا، و**مشغّل التطبيقات** (شبكة النقاط التسع)، و**شريط الإجراءات السريعة** على الجانب."},
+
+    {"t": "h3", "text": "شريط التنقّل العلوي الداكن"},
+    {"t": "p", "text": "الشريط الممتد أعلى كل صفحة هو **شريط التنقّل العلوي**. وعادةً يحتوي، من اليسار إلى اليمين، على:"},
+    {"t": "ul", "items": [
+      "**أيقونة شبكة النقاط التسع** (وهي *مشغّل التطبيقات*) — انقرها للتنقّل بين التطبيقات.",
+      "**اسم التطبيق** الذي تعمل فيه حاليًا، تليه قوائم ذلك التطبيق (ففي المبيعات مثلاً ترى **الطلبات**، و**للفوترة**، و**المنتجات**، و**التقارير**، و**الإعداد**).",
+      "على اليمين، **قائمة المستخدم/الشركة** — اسمك وصورتك. انقرها لتبديل الشركة النشطة، أو تغيير **لغة** الواجهة، أو فتح تفضيلاتك، أو **تسجيل الخروج**."
+    ]},
+    {"t": "note", "title": "تبديل اللغة إلى العربية", "text": "يستطيع النظام نفسه عرض قوائمه وأزراره بالعربية. افتح قائمة المستخدم (أعلى اليمين) ← **التفضيلات** ← اضبط **اللغة** على العربية ثم احفظ. تبقى الأرقام ورموز العملات (SDG، USD) ومراجع المنتجات (مثل MED-INSULIN) وبياناتك كما هي؛ تتغيّر التسميات فقط."},
+
+    {"t": "h3", "text": "مشغّل التطبيقات (شبكة النقاط التسع)"},
+    {"t": "p", "text": "**مشغّل التطبيقات** هو وسيلتك للتنقّل بين أجزاء النظام. انقر **أيقونة شبكة النقاط التسع** في أعلى اليسار فتظهر شاشة من أيقونات التطبيقات الكبيرة، يفتح كل منها مجالًا من مجالات العمل."},
+    {"t": "fig", "file": "apps_home.png", "caption": "مشغّل تطبيقات Spiffy، مفتوحًا من شبكة النقاط التسع: مربع بحث في الأعلى وأيقونات كبيرة للمحادثة (Discuss) وجهات الاتصال والمبيعات ولوحات المعلومات والمحاسبة والمشتريات والمخزون والتطبيقات والإعدادات."},
+    {"t": "p", "text": "أهم التطبيقات التي ستستخدمها، وما يُستخدَم كل منها له:"},
+    {"t": "table", "headers": ["التطبيق", "ما تستخدمه له"], "rows": [
+      ["جهات الاتصال (Contacts)", "دفتر عناوين عملائك ومورّديك."],
+      ["المبيعات (Sales)", "عروض الأسعار وطلبات العملاء."],
+      ["المشتريات (Purchase)", "طلبات عروض الأسعار وأوامر الشراء للمورّدين."],
+      ["المخزون (Inventory)", "استلام البضائع والتسليمات ومستويات المخزون والدفعات وتواريخ الانتهاء."],
+      ["المحاسبة (Accounting)", "الفواتير وفواتير المورّدين والمدفوعات والبنوك والتقارير."],
+      ["لوحات المعلومات (Dashboards)", "رسوم وأرقام موجزة عن سير العمل في لمحة."],
+      ["المحادثة (Discuss)", "المراسلة الداخلية بين الموظفين."],
+      ["الإعدادات (Settings)", "المستخدمون وسجل الشركة وخيارات النظام."]
+    ]},
+    {"t": "ol", "items": [
+      "انقر **أيقونة شبكة النقاط التسع** في أعلى اليسار.",
+      "للعثور على تطبيق بسرعة اكتب جزءًا من اسمه في **مربع البحث** أعلى المشغّل.",
+      "انقر أيقونة التطبيق المطلوب؛ يفتح النظام ذلك التطبيق ويتغيّر الشريط العلوي ليعرض قوائمه."
+    ]},
+
+    {"t": "h3", "text": "شريط الإجراءات السريعة"},
+    {"t": "p", "text": "يضيف قالب **Spiffy** شريطًا عموديًا رفيعًا **للإجراءات السريعة** على جانب النافذة. وهو يمنحك اختصارات مفيدة تعمل على ما تنظر إليه أيًّا كان، دون البحث في القوائم:"},
+    {"t": "ul", "items": [
+      "**المفضّلة (Favourite)** — ضع علامة على الشاشة الحالية لتعود إليها لاحقًا.",
+      "**البحث (Search)** — بحث شامل للعثور على سجل (عميل أو منتج أو طلب) من أي مكان.",
+      "**ملء الشاشة (Full-screen)** — إخفاء القوائم واستخدام النافذة كاملةً للصفحة التي تقرؤها.",
+      "**التكبير (Zoom)** — تكبير نص الصفحة أو تصغيره لقراءة مريحة.",
+      "**الإشارة المرجعية (Bookmark)** — حفظ رابط للصفحة الحالية للعودة السريعة إليها."
+    ]},
+    {"t": "tip", "title": "استخدم البحث لتجاوز القوائم", "text": "إذا كنت تعرف اسم أو رقم ما تريد (مثل العميل *مستشفى الخرطوم التعليمي* أو الطلب *S00001*)، فإن البحث الشامل هو أسرع طريقة لفتحه — ابدأ بالكتابة فحسب."},
+
+    {"t": "h2", "text": "2.3 أنواع الشاشات المشتركة بين جميع التطبيقات"},
+    {"t": "p", "text": "رغم أن كل تطبيق يؤدّي مهمة مختلفة، فإنها جميعًا مبنية من العدد القليل نفسه من الشاشات. تعلّم هذه الخمس وستستطيع استخدام أي تطبيق: **عرض القائمة**، و**عرض النموذج**، و**عرض كانبان/لوحة المعلومات**، و**مربع البحث** مع **عوامل التصفية** و**التجميع حسب**، و**سجل المحادثة (chatter)** المجاور للسجل."},
+
+    {"t": "h3", "text": "عرض القائمة"},
+    {"t": "p", "text": "يعرض **عرض القائمة** سجلات كثيرة على هيئة صفوف في جدول — صف لكل عنصر مع أعمدة مفيدة. وهو طريقة تصفّحك، مثلاً، لكل منتجاتك أو كل فواتيرك. انقر أي صف لفتح ذلك السجل بالكامل."},
+    {"t": "fig", "file": "products_list.png", "caption": "عرض قائمة: كتالوج المنتجات يعرض العشرة أصناف الطبية مع مراجعها الداخلية وكمياتها المتوفرة، منتج واحد في كل صف."},
+    {"t": "ul", "items": [
+      "كل **عمود** هو معلومة (الاسم، المرجع، الكمية، الإجمالي، الحالة).",
+      "انقر **عنوان عمود** لفرز القائمة حسب ذلك العمود.",
+      "انقر أي **صف** لفتح السجل كاملاً في عرض النموذج.",
+      "يبدأ زر **جديد (New)** في أعلى اليسار سجلًا جديدًا تمامًا من ذلك النوع."
+    ]},
+
+    {"t": "h3", "text": "عرض النموذج"},
+    {"t": "p", "text": "**عرض النموذج** هو الصفحة التفصيلية لسجل واحد — عميل واحد أو طلب واحد أو منتج واحد. وهنا تقرأ وتعدّل كل حقل. ولأن النموذج هو قلب النظام، يجدر بك معرفة أجزائه. وتوضّح الصورة أدناه هذه الأجزاء عبر أمر بيع حقيقي."},
+    {"t": "fig", "file": "sale_order.png", "caption": "عرض نموذج: أمر البيع S00001 لمستشفى الخرطوم التعليمي بعملة SDG، مع بنود الطلب (باراسيتامول، قفازات جراحية، محاقن)، وشريط الحالة (عرض سعر ← أمر بيع) في الأعلى، والأزرار الذكية (التسليم، الفواتير)."},
+    {"t": "p", "text": "أجزاء النموذج، من الأعلى إلى الأسفل:"},
+    {"t": "ul", "items": [
+      "**مسار التنقّل (Breadcrumbs)** — المسار في أعلى اليسار (مثل *الطلبات / S00001*) يبيّن موقعك. انقر خطوة سابقة للرجوع دون فقدان موضعك.",
+      "**أزرار الإجراءات** — الأزرار في أعلى اليسار التي *تنفّذ* شيئًا على السجل (مثل **تأكيد**، و**إرسال بالبريد الإلكتروني**، و**إلغاء**).",
+      "**شريط الحالة** — المراحل المعروضة في أعلى اليمين التي يمرّ بها السجل خلال دورة حياته (انظر أدناه).",
+      "**الأزرار الذكية** — اختصارات داخل أُطُر في أعلى اليمين تعرض عددًا وتفتح السجلات المرتبطة (مثل **التسليم** و**الفواتير** على الطلب).",
+      "**الحقول داخل تبويبات** — متن النموذج حيث تكمن المعلومات، وغالبًا ما تُقسَّم إلى تبويبات.",
+      "**سجل المحادثة (Chatter)** — لوحة الرسائل والسجل بجانب النموذج أو أسفله (انظر أدناه)."
+    ]},
+
+    {"t": "h3", "text": "شريط الحالة (مسودة ← مؤكَّد ← منجَز)"},
+    {"t": "p", "text": "تمرّ معظم مستندات العمل بدورة حياة — سلسلة مراحل من مسودة أولية إلى سجل منجَز ومقفَل. ويعرض **شريط الحالة** في أعلى يمين النموذج هذه المراحل ويُبرز المرحلة الحالية. وفي أمر البيع تكون المراحل:"},
+    {"t": "table", "headers": ["المرحلة", "ما تعنيه"], "rows": [
+      ["عرض سعر (Quotation)", "عرض مبدئي مسوّدة للعميل. ما زال بإمكانك تغيير كل شيء."],
+      ["تم إرسال عرض السعر (Quotation Sent)", "أُرسِل عرض السعر إلى العميل بالبريد الإلكتروني."],
+      ["أمر بيع (Sales Order)", "قبِل العميل؛ تأكّد الطلب وحُجِز المخزون تلقائيًا."],
+      ["ملغى (Cancelled)", "أُلغِي الطلب."]
+    ]},
+    {"t": "p", "text": "الطلب المؤكَّد في نسختنا التجريبية، *S00001*، يقع في مرحلة **أمر بيع (Sales Order)**. وللمشتريات والفواتير وتحويلات المستودع كلٌّ منها دورة حياة مماثلة (مثل مسودة ← مؤكَّد ← منجَز)، فبمجرد فهمك لشريط حالة واحد تفهمها جميعًا."},
+
+    {"t": "h3", "text": "أزرار الإجراءات والأزرار الذكية"},
+    {"t": "p", "text": "تقع **أزرار الإجراءات** في أعلى اليسار وتنفّذ خطوة. ففي أمر البيع مثلاً سترى:"},
+    {"t": "table", "headers": ["الزر", "ما يفعله"], "rows": [
+      ["تأكيد (Confirm)", "يحوّل عرض السعر إلى أمر بيع مؤكَّد ويحجز البضائع."],
+      ["إرسال بالبريد الإلكتروني (Send by Email)", "يرسل عرض السعر إلى العميل بالبريد الإلكتروني."],
+      ["معاينة (Preview)", "يعرض المستند بالطريقة التي سيراها بها العميل."],
+      ["إنشاء فاتورة (Create Invoice)", "يُنشئ فاتورة العميل من الطلب."],
+      ["إلغاء (Cancel)", "يُلغي الطلب."],
+      ["الإرجاع إلى عرض سعر (Set to Quotation)", "يعيد الطلب الملغى إلى مسودة لتتمكن من تعديله مجددًا."]
+    ]},
+    {"t": "p", "text": "**الأزرار الذكية** هي الاختصارات داخل أُطُر في أعلى يمين النموذج. ويعرض كل منها رقمًا ويفتح السجلات المرتبطة خلفه. ففي أمر البيع ترى زرًا ذكيًا **للتسليم (Delivery)** (أمر السحب من المستودع لهذا الطلب) وزرًا ذكيًا **للفواتير (Invoices)** (الفواتير الناتجة عنه). وهي توفّر عليك البحث: نقرة واحدة تنقلك مباشرةً إلى المستند المرتبط. وتظهر الأزرار الذكية على سجلات كثيرة — فالمنتج مثلاً يعرض أعداد **المتوفر** و**المتوقَّع** و**إعادة الطلب**."},
+    {"t": "tip", "title": "الأزرار الذكية تُبقي كل شيء مترابطًا", "text": "لأن نقرة واحدة تنقلك من الطلب إلى تسليمه، ثم إلى فاتورته، ثم إلى سداده، يمكنك تتبّع أي معاملة من بدايتها إلى نهايتها دون فقدان الخيط. وهذا هو النظام يربط مستنداتك *تلقائيًا* نيابةً عنك."},
+
+    {"t": "h3", "text": "سجل المحادثة (الرسائل والتاريخ)"},
+    {"t": "p", "text": "بجانب معظم السجلات أو أسفلها يوجد **سجل المحادثة (chatter)** — سجل مدمج وسلسلة رسائل. وهو يوميات السجل: يبيّن من غيّر ماذا ومتى، ويتيح للموظفين تدوين ملاحظات لبعضهم، ويمكنه جدولة تذكيرات (تُسمّى *أنشطة*). فلا تفقد أبدًا قصة المستند."},
+    {"t": "ul", "items": [
+      "**إرسال رسالة (Send message)** — تدوين ملاحظة تُخطِر الزملاء (يُسمّون *المتابِعين*).",
+      "**تدوين ملاحظة (Log note)** — كتابة تعليق داخلي يُحفظ على السجل لكنه لا يُرسَل بالبريد.",
+      "**الأنشطة (Activities)** — جدولة مهمة، مثل \"الاتصال بالعميل غدًا\".",
+      "**التاريخ (History)** — يُسجَّل كل تغيير (تأكيد، ترحيل، سداد) تلقائيًا مع التاريخ واسم المستخدم."
+    ]},
+
+    {"t": "h3", "text": "عرض كانبان ولوحة المعلومات"},
+    {"t": "p", "text": "يعرض **كانبان (kanban)** السجلات على هيئة بطاقات بدلًا من صفوف، وغالبًا ما تُجمَّع في أعمدة — يسهل تصفّحها في لمحة. أما **لوحة المعلومات (dashboard)** فهي نظرة عامة خاصة مكوّنة من مثل هذه البطاقات، تعرض كلٌّ منها عددًا وأزرار إجراءات سريعة لتنتقل مباشرةً إلى العمل المنتظِر. ويفتح تطبيق المخزون على هذا النوع من النظرة العامة بالضبط."},
+    {"t": "fig", "file": "inventory_overview.png", "caption": "عرض لوحة معلومات: نظرة عامة على عمليات تطبيق المخزون، ببطاقات للاستلامات وأوامر التسليم والتحويلات الداخلية، يعرض كلٌّ منها عدد ما ينتظر المعالجة."},
+    {"t": "p", "text": "على كل بطاقة يخبرك الرقم بمقدار العمل المتبقّي، وتنقلك أزرار البطاقة مباشرةً إلى ذلك الكمّ من العمل — مثلًا إلى استلامات البضائع التي ما زلت بحاجة إلى تسجيلها."},
+
+    {"t": "h2", "text": "2.4 مربع البحث: عوامل التصفية والتجميع حسب"},
+    {"t": "p", "text": "في أعلى كل شاشة قائمة أو كانبان يوجد **مربع بحث**. وهو يفعل أكثر بكثير من مجرد البحث النصّي — إذ يتيح لك تضييق قائمة طويلة إلى ما تحتاجه بالضبط، وإعادة ترتيب طريقة تجميعها."},
+    {"t": "ul", "items": [
+      "**اكتب للبحث** — ابدأ بكتابة اسم أو رقم؛ يقترح النظام السجلات المطابقة.",
+      "**عوامل التصفية (Filters)** — شروط جاهزة تُخفي كل شيء عدا ما يطابق، مثل الفواتير *غير المدفوعة* أو التسليمات *المتأخرة*.",
+      "**التجميع حسب (Group By)** — يجمّع السجلات تحت عناوين، مثل كل الطلبات مجمَّعة حسب العميل، أو كل المنتجات مجمَّعة حسب الفئة.",
+      "**المفضّلة (Favourites)** — احفظ بحثًا مفيدًا (عامل تصفية مع تجميع) لإعادة استخدامه بنقرة واحدة."
+    ]},
+    {"t": "ol", "items": [
+      "افتح أي قائمة (مثل **المحاسبة ← العملاء ← الفواتير**).",
+      "انقر داخل **مربع البحث** في الأعلى.",
+      "اختر **عامل تصفية** جاهزًا (مثل عرض الفواتير غير المدفوعة فقط)، أو اكتب للبحث بالاسم.",
+      "افتح **التجميع حسب** واختر تجميعًا (مثل حسب العميل) لطيّ القائمة في أقسام مرتّبة.",
+      "إذا كانت النتيجة مفيدة فاحفظها ضمن **المفضّلة** لاستخدامها لاحقًا."
+    ]},
+    {"t": "tip", "title": "عوامل التصفية تجيب عن أسئلة يومية", "text": "\"أي فواتير ما زالت غير مدفوعة؟\" \"أي تسليمات متأخرة؟\" \"كم طلبًا قدّمه هذا العميل؟\" — كل هذه على بُعد عامل تصفية أو تجميع حسب، دون الحاجة إلى بناء تقرير."},
+
+    {"t": "h2", "text": "2.5 الإنشاء والحفظ ومسار التنقّل"},
+    {"t": "p", "text": "في كل تطبيق، يعمل إنشاء السجل وحفظه بالطريقة نفسها، فتتعلّمها مرة واحدة فقط."},
+    {"t": "ol", "items": [
+      "انقر **جديد (New)** لبدء سجل فارغ (جهة اتصال أو طلب أو فاتورة جديدة وهكذا).",
+      "املأ الحقول. يجب إكمال الحقول الإلزامية قبل إمكان حفظ السجل.",
+      "أثناء التعديل يظهر **مؤشّر تغييرات غير محفوظة** مع عنصري تحكّم: إجراء **حفظ** (يُعرض غالبًا كسحابة أو علامة صح، وأحيانًا بعنوان **حفظ**) وإجراء **تجاهل** (غالبًا علامة **X**) للتخلّص من التغييرات.",
+      "انقر **حفظ** للإبقاء على عملك، أو **تجاهل** للتراجع عن كل شيء منذ آخر حفظ.",
+      "استخدم **مسار التنقّل** في أعلى اليسار للرجوع إلى القائمة عند الانتهاء."
+    ]},
+    {"t": "warn", "title": "احفظ قبل المغادرة", "text": "إذا انتقلت إلى مكان آخر بينما توجد تغييرات غير محفوظة، يحذّرك النظام. انقر دائمًا **حفظ** (أو **تجاهل**) أولًا حتى لا تفقد عملك أو تترك سجلًا نصف منجَز."},
+    {"t": "note", "title": "مسار التنقّل هو خريطتك", "text": "يعرض مسار التنقّل دائمًا (مثل *المبيعات / الطلبات / S00001*) الطريق الذي سلكته. ونقر أي خطوة سابقة يعيدك إليها بسلاسة — فلا حاجة إلى زر الرجوع في المتصفح الذي قد يُربك الصفحة."},
+
+    {"t": "h2", "text": "2.6 ما الذي تعلّمته"},
+    {"t": "p", "text": "أصبح بإمكانك الآن فتح نظام إدارة المستلزمات الطبية وتسجيل الدخول بأمان والتنقّل بثقة. يمكنك التبديل بين التطبيقات من **مشغّل التطبيقات**، واستخدام **شريط الإجراءات السريعة**، والتعرّف على الشاشات الخمس المشتركة — **القائمة**، و**النموذج**، و**كانبان/لوحة المعلومات**، و**مربع البحث** مع عوامل التصفية والتجميع حسب، و**سجل المحادثة**. وتعرف كيف يقود **شريط الحالة** و**أزرار الإجراءات** و**الأزرار الذكية** المستند عبر دورة حياته، وكيف تحافظ **جديد / حفظ / تجاهل** و**مسار التنقّل** على عملك. وتستخدم الفصول التالية هذه المهارات نفسها في كل تطبيق."}
+  ]
+}

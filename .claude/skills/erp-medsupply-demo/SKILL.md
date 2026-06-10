@@ -27,12 +27,14 @@ docker inspect -f '{{.State.Health.Status}}' ephem-db
 ```bash
 docker compose run --rm -T odoo odoo -d erpmedsupply \
   -i account,contacts,stock,purchase,sale_management,product_expiry,stock_landed_costs,\
-om_account_accountant,account_reconcile_oca,account_statement_base,account_reconcile_model_oca \
+om_account_accountant,account_reconcile_oca,account_statement_base,account_reconcile_model_oca,\
+spiffy_theme_backend \
   --without-demo=all --stop-after-init --log-level=warn
 ```
 `stock_account`, `purchase_stock`, `sale_stock` auto-install; `om_account_accountant`
 pulls the full accounting suite. `generic_coa` chart loads from `account` (no separate
-`l10n_generic_coa` module in this image).
+`l10n_generic_coa` module in this image). **`spiffy_theme_backend`** is the active backend
+theme used in all screenshots — keep it in the install list.
 
 ## 3. Seed master data + transactions
 ```bash
@@ -43,6 +45,30 @@ docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http --log-level
 exists). It commits in phases via `env.cr.commit()` — **required**, `odoo shell` does not
 auto-commit piped scripts.
 
+Then layer the richer demo + a consistency cleanup (both idempotent, run in order):
+```bash
+docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http --log-level=error < scripts/seed_more.py
+docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http --log-level=error < scripts/seed_cleanup.py
+```
+- `seed_more.py` adds **role users** (amira/khalid/sara/mohammed/layla, pwd `demo1234`), customer
+  **payments** (bank + cash safe), a posted+paid SDG **vendor bill** and a posted unpaid **USD bill**,
+  3 more posted customer invoices with staggered/overdue due dates (aged reports), **reordering rules**,
+  a draft **RFQ**, and a **bank statement** for the reconciliation demo. It also aligns the fiscal country
+  + the 15% taxes to **Sudan** (generic_coa ships them as US-country, which blocks direct invoice posting).
+- `seed_cleanup.py` re-asserts the **USD rate history 2,400→4,500** (the real 1 USD = 4,500 SDG; SDG prices
+  are scaled to match, so the rate and prices must move together), recreates the USD bill at the 4,500 rate,
+  moves the reconciliation statement onto *Bank of Khartoum (SDG)*, and deactivates the empty generic
+  **Bank/Cash** journals so the dashboard shows only the four named bank/cash journals.
+
+## 3b. Extract ground truth (anti-hallucination source for the manual)
+```bash
+docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http < scripts/extract_ground_truth.py > /tmp/gt.txt
+# split the JSON between ===GT_JSON_START/END=== into docs/manual/_ground_truth/*.json (see the inline splitter)
+```
+Produces per-model `form_*.json` (every field label/help/type/page + buttons + statusbar states),
+`menu_tree.json`, `roles.json`, and `demo.json` (exact counts/records). The manual is written **against
+these files** so field names, menu paths and numbers are never invented.
+
 ## 4. Serve + verify
 ```bash
 docker compose up -d odoo
@@ -52,12 +78,31 @@ Verification snippet (counts, stock math, FEFO lots, cold-storage location, invo
 currency = SDG, USD rate history) is in the transcript; rerun via
 `docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http < /tmp/verify_medsupply.py`.
 
-## Rebuild from scratch
-Stop Odoo to free connections, then drop and repeat from step 2:
+## Rebuild from scratch (preserves the Spiffy theme + Alexandria font)
+The economy is built at the **real 1 USD = 4,500 SDG** (SDG prices are scaled to match in
+`seed_medsupply.py`/`seed_more.py`, so rate and prices move together — don't change one alone).
 ```bash
+# 0. back up the Spiffy theme (so the exact teal/dark palette + Alexandria font survive the drop)
+docker compose exec -T db pg_dump -U odoo -d erpmedsupply --data-only --column-inserts \
+  --table=backend_config --table=google_font_family > backups/spiffy/spiffy_theme.sql
+# 1. drop + reinstall (step 2 list, incl. spiffy_theme_backend) + seed (step 3: medsupply, more)
 docker compose stop odoo
 docker compose exec -T db psql -U odoo -d postgres -c "DROP DATABASE IF EXISTS erpmedsupply WITH (FORCE);"
+#    ...run step 2 install, then seed_medsupply.py + seed_more.py...
+# 2. restore the theme + select Alexandria + activate Arabic (ORM is safer than truncate:
+#    res_users.backend_theme_config FKs backend_config, so TRUNCATE CASCADE would delete users).
+#    Re-apply the saved backend.config field values to every backend.config row and create a
+#    google.font.family(name='Alexandria', is_selected=True) per user's config; then run the
+#    Arabic language-install wizard. (See the session transcript / restore_theme_lang.py.)
+docker compose up -d odoo
 ```
+Gotchas:
+- **The Odoo container is recreated on a `compose up` after image/config drift**, which **loses
+  pip/apt packages installed at runtime** — reinstall WeasyPrint + poppler before building/rendering:
+  `docker compose exec -u root odoo bash -lc 'apt-get install -y -qq libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 poppler-utils && pip install --break-system-packages -q weasyprint'`
+- After a rebuild, record IDs shift slightly — re-run the ID probe and update the `ID` dict in
+  `scripts/capture_screens.py` before re-capturing.
+- The fiscal-country tax fix (Sudan) lives in `seed_more.py`; without it, directly-posted invoices fail.
 
 ## Install Arabic in the system (bilingual UI / Arabic screenshots)
 `ar_001` (generic Arabic, maps to the `ar` .po files) is the Sudan UI language. Activate
@@ -72,45 +117,53 @@ PY
 ```
 The app name "Sales" stays English (Odoo default); everything else translates.
 
-## Capture real screenshots (EN + AR)
-`scripts/capture_screens.py` drives headless Chromium (Playwright) and deep-links into the
-actual demo records → `docs/manual/img/{en,ar}/`, embedded by the manual builder.
+## Capture real screenshots (EN + AR) — Spiffy theme
+The UI now runs the **Spiffy backend theme** (`spiffy_theme_backend`, dark navbar, a 9-dot app
+launcher, a vertical quick-action rail). `scripts/capture_screens.py` drives headless Chromium
+(Playwright) over a **~53-shot manifest** covering every module, key forms (it opens specific
+notebook tabs by index — language-independent — e.g. product Inventory=3, Purchase=2; partner
+Sales&Purchase=1, Accounting=3), lists, dashboards and functions → `docs/manual/img/{en,ar}/`.
 ```bash
 pip3 install --user playwright && python3 -m playwright install chromium   # host, once
-python3 scripts/capture_screens.py en                                       # admin must be en_US
-# Arabic UI: set admin.lang=ar_001, RESTART odoo (the web worker caches user lang AND
-# currency rates — a separate-process commit is NOT seen without a restart), then
-# `capture_screens.py ar`, finally reset admin.lang=en_US and restart again.
+# EN: set admin lang en_US, RESTART odoo, capture
+printf "env.ref('base.user_admin').lang='en_US'\nenv.cr.commit()\n" | docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http
+docker compose restart odoo && sleep 12
+python3 scripts/capture_screens.py en
+# AR: set admin lang ar_001, RESTART odoo, capture (then leave it ar_001 — the user's UI language)
+printf "env.ref('base.user_admin').lang='ar_001'\nenv.cr.commit()\n" | docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http
+docker compose restart odoo && sleep 12
+python3 scripts/capture_screens.py ar
 ```
-Gotchas: `dbfilter` matches 2 DBs, so the script logs in via `/web/login?db=erpmedsupply`;
-Odoo holds a long-poll socket, so after login wait on `.o_main_navbar`, never `networkidle`.
+Gotchas:
+- `dbfilter` matches >1 DB → log in via `/web/login?db=erpmedsupply`; Odoo holds a long-poll
+  socket so after login wait on `.o_main_navbar`, never `networkidle`.
+- **App launcher (apps_home)**: the Spiffy toggle is `a.appDrawerToggle` and Playwright's normal
+  click is intercepted — open it with `page.eval_on_selector("a.appDrawerToggle","e=>e.click()")`.
+- The worker **caches user lang + FX rates** — `docker compose restart odoo` before each capture.
+- The script removes onboarding/tour overlays (`.o_onboarding_container`, etc.) via JS before each shot.
 
-## Regenerate the user manual (Word + PDF, EN + AR)
-Single source: `scripts/build_manual.py` — `fill_en()` / `fill_ar()` hold the content;
-`d.fig(file, caption)` embeds a numbered screenshot from `docs/manual/img/<lang>/`.
-Renderers emit DOCX (python-docx, images embedded) and HTML (images base64-inlined, so the
-PDF step needs no image copy). Inline `**bold**` and paired `*italic*` are supported.
-Arabic is RTL and uses Tajawal in both DOCX and PDF.
+## Write the manual content (bilingual, grounded) — Workflow
+`scripts/wf_manual_content.js` is a **Workflow** (run via the Workflow tool) that drafts then
+**adversarially verifies** 17 chapters (EN + AR), each grounded in `docs/manual/_ground_truth/*`
+and `figures.json`. Draft and verify agents read the ground-truth files and **write each chapter to
+`docs/manual/_content/<key>.json`** (`{title_en,title_ar,blocks_en,blocks_ar}`); the verify pass
+fact-checks every field label, menu path, button and number against the ground truth + live DB and
+fixes mismatches in place. The workflow returns only small status (content lives in the files).
+Chapter order is the `CHAPTER_ORDER` list in `build_manual.py`.
+
+## Build the manual (Word + PDF, EN + AR)
+`scripts/build_manual.py` assembles `docs/manual/_content/*.json` (falls back to the legacy
+`fill_en/fill_ar` only if `_content` is empty), renders DOCX (python-docx) and HTML (images
+base64-inlined). Arabic is RTL and uses **Alexandria** — the same Arabic font applied to the system
+via Spiffy (`scripts/fonts/Alexandria-{Regular,Bold}.ttf`, `@font-face` at `file:///tmp/fonts/...`).
+WeasyPrint in the container renders correct Arabic bidi (never wkhtmltopdf for AR) — but a container
+recreate loses it, so reinstall if `No module named weasyprint` (see the Rebuild gotchas). One command
+does it all:
 ```bash
-pip3 install --user python-docx        # host, once
-python3 scripts/build_manual.py        # -> docs/manual/*_EN/_AR.docx + _manual_EN/AR.html
-
-# container: WeasyPrint renders correct Arabic bidi (wkhtmltopdf here is unpatched Qt
-# and garbles RTL inline runs + mixed Latin/Arabic headings — do NOT use it for AR).
-docker compose exec -u root odoo bash -lc \
-  'apt-get update -qq && apt-get install -y -qq libpango-1.0-0 libpangocairo-1.0-0 libpangoft2-1.0-0 && pip install --break-system-packages -q weasyprint'
-docker compose exec -T odoo mkdir -p /tmp/fonts
-docker cp scripts/fonts/Tajawal-Regular.ttf ephem-app:/tmp/fonts/Tajawal-Regular.ttf
-docker cp scripts/fonts/Tajawal-Bold.ttf    ephem-app:/tmp/fonts/Tajawal-Bold.ttf
-for L in EN AR; do
-  docker cp docs/manual/_manual_$L.html ephem-app:/tmp/manual_$L.html
-  docker compose exec -T odoo python3 -m weasyprint /tmp/manual_$L.html /tmp/manual_$L.pdf
-  docker cp ephem-app:/tmp/manual_$L.pdf docs/manual/Medical-Supply_ERP_User_Manual_$L.pdf
-done
+bash scripts/build_manual_pdf.sh   # -> docs/manual/Medical-Supply_ERP_User_Manual_{EN,AR}.{docx,pdf}
 ```
 Notes:
-- The Arabic PDF embeds the bundled **Tajawal** font (`scripts/fonts/`, referenced via
-  `@font-face` at `file:///tmp/fonts/...`). The container has no Arabic system font.
+- The container has no Arabic system font, so the AR PDF embeds Alexandria from `scripts/fonts/`.
 - The manuals must **not** mention "ePHEM" (per client request) — keep `META`/content clean.
 
 ## Gotchas learned

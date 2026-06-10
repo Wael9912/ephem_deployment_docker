@@ -1,0 +1,81 @@
+{
+ "model": "stock.warehouse",
+ "fields": [
+  {
+   "name": "name",
+   "label": "Warehouse",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "The company is automatically set from your user preferences.",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "code",
+   "label": "Short Name",
+   "type": "char",
+   "help": "Short name used to identify your warehouse",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "partner_id",
+   "label": "Address",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.partner"
+  },
+  {
+   "name": "buy_to_resupply",
+   "label": "Buy to Resupply",
+   "type": "boolean",
+   "help": "When products are bought, they can be delivered to this warehouse",
+   "required": false,
+   "readonly": false,
+   "page": "Warehouse Configuration"
+  },
+  {
+   "name": "resupply_wh_ids",
+   "label": "Resupply From",
+   "type": "many2many",
+   "help": "Routes will be created automatically to resupply this warehouse from the warehouses ticked",
+   "required": false,
+   "readonly": false,
+   "page": "Warehouse Configuration",
+   "relation": "stock.warehouse"
+  }
+ ],
+ "buttons": [],
+ "statusbar_states": [],
+ "smart_buttons": [
+  {
+   "label": "Routes",
+   "name": "action_view_all_routes",
+   "type": "object",
+   "class": "oe_stat_button"
+  }
+ ]
+}

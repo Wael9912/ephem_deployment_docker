@@ -1,0 +1,72 @@
+{
+ "model": "res.users",
+ "fields": [
+  {
+   "name": "image_1920",
+   "label": "Image",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "email",
+   "label": "Email",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "login",
+   "label": "Login",
+   "type": "char",
+   "help": "Used to log into the system",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "phone",
+   "label": "Phone",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "mobile",
+   "label": "Mobile",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "property_warehouse_id",
+   "label": "Default Warehouse",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.warehouse"
+  }
+ ],
+ "buttons": [],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

@@ -1,0 +1,966 @@
+{
+ "model": "product.template",
+ "fields": [
+  {
+   "name": "product_variant_count",
+   "label": "# Product Variants",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "service_type",
+   "label": "Track Service",
+   "type": "selection",
+   "help": "Manually set quantities on order: Invoice based on the manually entered quantity, without creating an analytic account.\nTimesheets on contract: Invoice based on the tracked hours on the related timesheet.\nCreate a task and track hours: Create a task on the sales order validation and track the work h",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "Manually set quantities on order"
+   ]
+  },
+  {
+   "name": "visible_expense_policy",
+   "label": "Re-Invoice Policy visible",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_product_variant",
+   "label": "Is a product variant",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "attribute_line_ids",
+   "label": "Product Attributes",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "product.template.attribute.line"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "fiscal_country_codes",
+   "label": "Fiscal Country Codes",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "pricelist_item_count",
+   "label": "Number of price rules",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "tracking",
+   "label": "Tracking",
+   "type": "selection",
+   "help": "Ensure the traceability of a storable product in your warehouse.",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "selection": [
+    "By Unique Serial Number",
+    "By Lots",
+    "By Quantity"
+   ]
+  },
+  {
+   "name": "show_on_hand_qty_status_button",
+   "label": "Show On Hand Qty Status Button",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "show_forecasted_qty_status_button",
+   "label": "Show Forecasted Qty Status Button",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "qty_available",
+   "label": "Quantity On Hand",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "uom_name",
+   "label": "Unit of Measure Name",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "virtual_available",
+   "label": "Forecasted Quantity",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_document_count",
+   "label": "Documents",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sales_count",
+   "label": "Sold",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchased_product_qty",
+   "label": "Purchased",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "reordering_min_qty",
+   "label": "Reordering Min Qty",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "reordering_max_qty",
+   "label": "Reordering Max Qty",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "nbr_reordering_rules",
+   "label": "Reordering Rules",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "nbr_moves_in",
+   "label": "Nbr Moves In",
+   "type": "integer",
+   "help": "Number of incoming stock moves in the past 12 months",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "nbr_moves_out",
+   "label": "Nbr Moves Out",
+   "type": "integer",
+   "help": "Number of outgoing stock moves in the past 12 months",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "id",
+   "label": "ID",
+   "type": "integer",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "image_1920",
+   "label": "Image",
+   "type": "binary",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "is_favorite",
+   "label": "Favorite",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "name",
+   "label": "Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "sale_ok",
+   "label": "Sales",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "purchase_ok",
+   "label": "Purchase",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "If unchecked, it will allow you to hide the product without removing it.",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "type",
+   "label": "Product Type",
+   "type": "selection",
+   "help": "Goods are tangible materials and merchandise you provide.\nA service is a non-material product you provide.",
+   "required": true,
+   "readonly": false,
+   "page": "General Information",
+   "selection": [
+    "Goods",
+    "Service",
+    "Combo"
+   ]
+  },
+  {
+   "name": "invoice_policy",
+   "label": "Invoicing Policy",
+   "type": "selection",
+   "help": "Ordered Quantity: Invoice quantities ordered by the customer.\nDelivered Quantity: Invoice quantities delivered to the customer.",
+   "required": true,
+   "readonly": false,
+   "page": "General Information",
+   "selection": [
+    "Ordered quantities",
+    "Delivered quantities"
+   ]
+  },
+  {
+   "name": "is_storable",
+   "label": "Track Inventory",
+   "type": "boolean",
+   "help": "A storable product is a product for which you manage stock.",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "combo_ids",
+   "label": "Combo Choices",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "product.combo"
+  },
+  {
+   "name": "service_tracking",
+   "label": "Create on Order",
+   "type": "selection",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "General Information",
+   "selection": [
+    "Nothing"
+   ]
+  },
+  {
+   "name": "product_tooltip",
+   "label": "Product Tooltip",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "lot_valuated",
+   "label": "Valuation by Lot/Serial number",
+   "type": "boolean",
+   "help": "If checked, the valuation will be specific by Lot/Serial number.",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "list_price",
+   "label": "Sales Price",
+   "type": "float",
+   "help": "Price at which the product is sold to customers.",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "uom_id",
+   "label": "Unit of Measure",
+   "type": "many2one",
+   "help": "Default unit of measure used for all stock operations.",
+   "required": true,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "uom.uom"
+  },
+  {
+   "name": "taxes_id",
+   "label": "Sales Taxes",
+   "type": "many2many",
+   "help": "Default taxes used when selling the product",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "account.tax"
+  },
+  {
+   "name": "tax_string",
+   "label": "Tax String",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "standard_price",
+   "label": "Cost",
+   "type": "float",
+   "help": "Value of the product (automatically computed in AVCO).\n        Used to value the product when the purchase cost is not known (e.g. inventory adjustment).\n        Used to compute margins on sale orders.",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "supplier_taxes_id",
+   "label": "Purchase Taxes",
+   "type": "many2many",
+   "help": "Default taxes used when buying the product",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "account.tax"
+  },
+  {
+   "name": "categ_id",
+   "label": "Category",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "product.category"
+  },
+  {
+   "name": "default_code",
+   "label": "Reference",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "valid_product_template_attribute_line_ids",
+   "label": "Valid Product Attribute Lines",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "product.template.attribute.line"
+  },
+  {
+   "name": "barcode",
+   "label": "Barcode",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "currency_id",
+   "label": "Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "res.currency"
+  },
+  {
+   "name": "cost_currency_id",
+   "label": "Cost Currency",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "res.currency"
+  },
+  {
+   "name": "product_variant_id",
+   "label": "Product",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information",
+   "relation": "product.product"
+  },
+  {
+   "name": "product_properties",
+   "label": "Properties",
+   "type": "properties",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "description",
+   "label": "Description",
+   "type": "html",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "General Information"
+  },
+  {
+   "name": "optional_product_ids",
+   "label": "Optional Products",
+   "type": "many2many",
+   "help": "Optional Products are suggested whenever the customer hits *Add to Cart* (cross-sell strategy, e.g. for computers: warranty, software, etc.).",
+   "required": false,
+   "readonly": false,
+   "page": "Sales",
+   "relation": "product.template"
+  },
+  {
+   "name": "product_tag_ids",
+   "label": "Tags",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Sales",
+   "relation": "product.tag"
+  },
+  {
+   "name": "description_sale",
+   "label": "Sales Description",
+   "type": "text",
+   "help": "A description of the Product that you want to communicate to your customers. This description will be copied to every Sales Order, Delivery Order and Customer Invoice/Credit Note",
+   "required": false,
+   "readonly": false,
+   "page": "Sales"
+  },
+  {
+   "name": "expense_policy",
+   "label": "Re-Invoice Costs",
+   "type": "selection",
+   "help": "Validated expenses, vendor bills, or stock pickings (set up to track costs) can be invoiced to the customer at either cost or sales price.",
+   "required": false,
+   "readonly": false,
+   "page": "Sales",
+   "selection": [
+    "No",
+    "At cost",
+    "Sales price"
+   ]
+  },
+  {
+   "name": "seller_ids",
+   "label": "Vendors",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Purchase",
+   "relation": "product.supplierinfo"
+  },
+  {
+   "name": "sequence",
+   "label": "Sequence",
+   "type": "integer",
+   "help": "Gives the sequence order when displaying a product list",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "partner_id",
+   "label": "partner_id",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Purchase"
+  },
+  {
+   "name": "product_tmpl_id",
+   "label": "Product",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Purchase"
+  },
+  {
+   "name": "product_name",
+   "label": "product_name",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "product_code",
+   "label": "product_code",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "date_start",
+   "label": "date_start",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "date_end",
+   "label": "date_end",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "min_qty",
+   "label": "min_qty",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "product_uom",
+   "label": "product_uom",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "price",
+   "label": "Price",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "discount",
+   "label": "discount",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "delay",
+   "label": "delay",
+   "type": null,
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "variant_seller_ids",
+   "label": "Variant Seller",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": true,
+   "page": "Purchase",
+   "relation": "product.supplierinfo"
+  },
+  {
+   "name": "service_to_purchase",
+   "label": "Subcontract Service",
+   "type": "boolean",
+   "help": "If ticked, each time you sell this product through a SO, a RfQ is automatically created to buy the product. Tip: don't forget to set a vendor on the product.",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "uom_po_id",
+   "label": "Purchase Unit",
+   "type": "many2one",
+   "help": "Default unit of measure used for purchase orders. It must be in the same category as the default unit of measure.",
+   "required": true,
+   "readonly": false,
+   "page": "Purchase",
+   "relation": "uom.uom"
+  },
+  {
+   "name": "landed_cost_ok",
+   "label": "Is a Landed Cost",
+   "type": "boolean",
+   "help": "Indicates whether the product is a landed cost: when receiving a vendor bill, you can allocate this cost on preceding receipts.",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "split_method_landed_cost",
+   "label": "Default Split Method",
+   "type": "selection",
+   "help": "Default Split Method when used for Landed Cost",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase",
+   "selection": [
+    "Equal",
+    "By Quantity",
+    "By Current Cost",
+    "By Weight",
+    "By Volume"
+   ]
+  },
+  {
+   "name": "purchase_method",
+   "label": "Control Policy",
+   "type": "selection",
+   "help": "On ordered quantities: Control bills based on ordered quantities.\nOn received quantities: Control bills based on received quantities.",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase",
+   "selection": [
+    "On ordered quantities",
+    "On received quantities"
+   ]
+  },
+  {
+   "name": "description_purchase",
+   "label": "Purchase Description",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Purchase"
+  },
+  {
+   "name": "has_available_route_ids",
+   "label": "Routes can be selected on this product",
+   "type": "boolean",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "route_ids",
+   "label": "Routes",
+   "type": "many2many",
+   "help": "Depending on the modules installed, this will allow you to define the route of the product: whether it will be bought, manufactured, replenished on order, etc.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory",
+   "relation": "stock.route"
+  },
+  {
+   "name": "route_from_categ_ids",
+   "label": "Category Routes",
+   "type": "many2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory",
+   "relation": "stock.route"
+  },
+  {
+   "name": "responsible_id",
+   "label": "Responsible",
+   "type": "many2one",
+   "help": "This user will be responsible of the next activities related to logistic operations for this product.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory",
+   "relation": "res.users"
+  },
+  {
+   "name": "weight",
+   "label": "Weight",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "weight_uom_name",
+   "label": "Weight unit of measure label",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "volume",
+   "label": "Volume",
+   "type": "float",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "volume_uom_name",
+   "label": "Volume unit of measure label",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "sale_delay",
+   "label": "Customer Lead Time",
+   "type": "integer",
+   "help": "Delivery lead time, in days. It's the number of days, promised to the customer, between the confirmation of the sales order and the delivery.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "use_expiration_date",
+   "label": "Expiration Date",
+   "type": "boolean",
+   "help": "When this box is ticked, you have the possibility to specify dates to manage product expiration, on the product and on the corresponding lot/serial numbers",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "expiration_time",
+   "label": "Expiration Date",
+   "type": "integer",
+   "help": "Number of days after the receipt of the products (from the vendor or in stock after production) after which the goods may become dangerous and must not be consumed. It will be computed on the lot/serial number.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "use_time",
+   "label": "Best Before Date",
+   "type": "integer",
+   "help": "Number of days before the Expiration Date after which the goods starts deteriorating, without being dangerous yet. It will be computed on the lot/serial number.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "removal_time",
+   "label": "Removal Date",
+   "type": "integer",
+   "help": "Number of days before the Expiration Date after which the goods should be removed from the stock. It will be computed on the lot/serial number.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "alert_time",
+   "label": "Alert Date",
+   "type": "integer",
+   "help": "Number of days before the Expiration Date after which an alert should be raised on the lot/serial number. It will be computed on the lot/serial number.",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "description_pickingin",
+   "label": "Description on Receptions",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "description_pickingout",
+   "label": "Description on Delivery Orders",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "description_picking",
+   "label": "Description on Picking",
+   "type": "text",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Inventory"
+  },
+  {
+   "name": "property_account_income_id",
+   "label": "Income Account",
+   "type": "many2one",
+   "help": "Keep this field empty to use the default value from the product category.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.account"
+  },
+  {
+   "name": "property_account_expense_id",
+   "label": "Expense Account",
+   "type": "many2one",
+   "help": "Keep this field empty to use the default value from the product category. If anglo-saxon accounting with automated valuation method is configured, the expense account on the product category will be used.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.account"
+  },
+  {
+   "name": "property_account_creditor_price_difference",
+   "label": "Price Difference Account",
+   "type": "many2one",
+   "help": "This account is used in automated inventory valuation to record the price difference between a purchase order and its related vendor bill when validating this vendor bill.",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.account"
+  },
+  {
+   "name": "asset_category_id",
+   "label": "Asset Type",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "Accounting",
+   "relation": "account.asset.category"
+  },
+  {
+   "name": "uom_category_id",
+   "label": "UoM Category",
+   "type": "many2one",
+   "help": "Conversion between Units of Measure can only occur if they belong to the same category. The conversion will be made based on the ratios.",
+   "required": false,
+   "readonly": true,
+   "page": "main",
+   "relation": "uom.category"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Update Quantity",
+   "name": "action_update_quantity_on_hand",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "Replenish",
+   "name": "349",
+   "type": "action",
+   "class": ""
+  },
+  {
+   "label": "Print Labels",
+   "name": "action_open_label_layout",
+   "type": "object",
+   "class": ""
+  },
+  {
+   "label": "View Diagram",
+   "name": "397",
+   "type": "action",
+   "class": "btn btn-link pt-0"
+  }
+ ],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

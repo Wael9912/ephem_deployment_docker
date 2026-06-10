@@ -1,0 +1,669 @@
+{
+  "key": "medical",
+  "title_en": "14. Medical-Supply Specifics",
+  "title_ar": "14. خصوصيات المستلزمات الطبية",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "Distributing medicines and medical supplies is not like selling ordinary goods. A box of *Insulin Vial 10ml* must stay cold from the moment it arrives until it reaches the clinic; a batch of *Amoxicillin 250mg Capsules (100s)* must be shipped before it expires; and if a manufacturer recalls a faulty batch, you must be able to say exactly which customers received it — within minutes. The Medical-Supply ERP is built for *Sudan MedSupply Co.* precisely because it handles all of this for you automatically. This chapter explains, in plain words, the six features that make the system a true medical-distribution platform: **batch/lot traceability**, **expiry control**, **FEFO**, the **cold chain**, **quarantine and expired/damaged** locations, and **imports** (buying abroad in USD while keeping your books in SDG, plus adding freight and customs to the true cost of goods)."
+    },
+    {
+      "t": "note",
+      "title": "Why this matters for a medical distributor",
+      "text": "Recalls, audits and expiry control are not optional in healthcare — they are legal and ethical duties. The features in this chapter let one warehouse clerk do, with a few clicks, what would otherwise need a wall of paper ledgers and constant manual checking."
+    },
+
+    { "t": "h2", "text": "14.1 Batch / Lot Traceability — knowing exactly which goods went where" },
+    {
+      "t": "p",
+      "text": "A **lot** (also called a *batch*) is a group of identical units that were produced together in one manufacturing run and therefore share the same production details and the same expiry date. (A *lot* = one manufacturing batch tracked as a single unit.) In your system, almost every medical item is tracked **By Lots** — the gloves, syringes, masks, IV cannulas and all the pharmaceuticals. Only the two devices (*Digital Blood Pressure Monitor* and *Digital Thermometer*) are not lot-tracked, because they do not expire and do not need batch recall."
+    },
+    {
+      "t": "p",
+      "text": "Because the ERP records the lot number on every receipt and every delivery, it can answer two questions instantly: *which customers received a given batch* (a forward trace, used for recalls) and *which supplier batch a delivered item came from* (a backward trace, used for audits and complaints). You never reconstruct this by hand."
+    },
+    {
+      "t": "p",
+      "text": "You can see all your batches under **Inventory → Products → Lots / Serial Numbers**. Each demo batch is named after its supplier so its origin is obvious at a glance."
+    },
+    {
+      "t": "table",
+      "headers": ["Lot / Serial Number", "Product", "Expiration Date"],
+      "rows": [
+        ["LOT-NILE-01", "Paracetamol 500mg Tablets (100s)", "2028-06-08"],
+        ["LOT-NILE-02", "Amoxicillin 250mg Capsules (100s)", "2027-12-01"],
+        ["LOT-NILE-03", "Antiseptic Solution 500ml", "2027-06-09"],
+        ["LOT-GULF-01", "Insulin Vial 10ml", "2027-06-09"],
+        ["LOT-KHP-01", "Surgical Gloves (Box of 100)", "2029-06-08"],
+        ["LOT-KHP-02", "N95 Face Mask (Box of 20)", "2030-06-08"],
+        ["LOT-KHP-03", "Syringe 5ml (Box of 100)", "2031-06-08"]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "lot_insulin.png",
+      "caption": "The lot form for LOT-GULF-01 (Insulin Vial 10ml): the lot number, the product, the on-hand quantity and the expiration date (2027-06-09)."
+    },
+    {
+      "t": "p",
+      "text": "Opening a single lot, for example *LOT-GULF-01* for the insulin, shows you everything the ERP knows about that batch. Below are the fields you see."
+    },
+    { "t": "h3", "text": "Main details" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Lot/Serial Number", "The unique batch code, for example *LOT-GULF-01*. This is the label printed on the box."],
+        ["Product", "The medical item this batch contains (read-only once stock has moved), for example *Insulin Vial 10ml*."],
+        ["On Hand Quantity", "How many units of this exact batch you currently hold."],
+        ["Unit of Measure", "The unit the quantity is counted in."],
+        ["Internal Reference", "Your own reference number, used when it differs from the manufacturer's lot code."],
+        ["Location", "Where this batch is physically stored right now (for insulin, *Cold Storage (2-8C)*)."],
+        ["Product Expiry Alert", "Turns on automatically when the batch has reached its expiration date, so it cannot be missed."],
+        ["Company", "The company that owns the batch (*Sudan MedSupply Co.*)."],
+        ["Total Value / Average Cost / Cost", "The accounting value of the batch and its unit cost — kept automatically so the stock you hold is always correctly valued."]
+      ]
+    },
+    { "t": "h3", "text": "Dates tab" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Use Expiration Date", "When ticked, this batch carries expiry dates. It is on for every perishable medical item."],
+        ["Expiration Date", "The date the goods may become dangerous and must not be used — *2027-06-09* for the insulin batch."],
+        ["Removal Date", "The date the batch should be pulled from stock; this is the date FEFO uses to decide what leaves first."],
+        ["Best before Date", "The date the goods start to deteriorate, though not yet dangerous."],
+        ["Alert Date", "The date from which the batch shows up under the *Expiration Alerts* filter so you are warned in time."]
+      ]
+    },
+    { "t": "h3", "text": "Description tab" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Description", "A free-text note about the batch — handy for storage instructions or handling notes."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Recall in two clicks",
+      "text": "If a supplier recalls a batch, open its lot record and use the **Transfers** count to see every movement of that batch — in and out — so you know exactly which customers to contact. No spreadsheets, no guesswork."
+    },
+
+    { "t": "h2", "text": "14.2 Expiry Control — never sell out-of-date stock" },
+    {
+      "t": "p",
+      "text": "Every perishable product in your catalogue has **expiry control** switched on. This is done once on the product, and from then on every batch you receive automatically gets the right expiration date. You set it up on the **Inventory** tab of the product form (**Inventory → Products → Products**, then open the product)."
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_inventory.png",
+      "caption": "The Inventory tab of the Insulin Vial 10ml product: Traceability set to track By Lots with Expiration Date switched on, and the expiry date setting (Expiration Date = 365 days after receipt)."
+    },
+    {
+      "t": "p",
+      "text": "These are the expiry-related fields on the product's **Inventory** tab. They are expressed as a number of days; the ERP turns them into real calendar dates on each batch as it arrives."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Expiration Date (switch)", "Ticking this enables expiry management for the product and all its batches. It is on for the insulin and every other perishable item."],
+        ["Expiration Date (days)", "Number of days after receipt before the goods expire — *365* for insulin. When a batch arrives, the ERP stamps its expiry date a year ahead automatically."],
+        ["Best Before Date (days)", "Number of days before expiry when the goods begin to deteriorate (but are not yet dangerous)."],
+        ["Removal Date (days)", "Number of days before expiry when the goods should be pulled from stock — this feeds FEFO."],
+        ["Alert Date (days)", "Number of days before expiry when the system should raise an alert so staff act in good time."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Near-expiry batches are flagged for you",
+      "text": "Once the Alert Date is reached, the batch shows a **Product Expiry Alert** and appears under the *Expiration Alerts* filter on the Lots / Serial Numbers list. You do not have to walk the shelves checking dates — the ERP surfaces what is about to expire."
+    },
+    {
+      "t": "p",
+      "text": "To confirm or change a product's expiry settings:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Products → Products** and click the product, for example *Insulin Vial 10ml*.",
+        "Go to the **Inventory** tab.",
+        "Check that **Expiration Date** is ticked under Traceability.",
+        "Set the **Expiration Date (days)** to the shelf life after receipt (for insulin this is *365*).",
+        "Optionally set **Best Before**, **Removal** and **Alert** days so the system warns you ahead of expiry.",
+        "Save. From now on, every batch received for this product gets its dates calculated automatically."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "Record the real expiry on arrival",
+      "text": "The day-count settings give a sensible default, but the printed date on the box is the truth. When you receive goods, always confirm or correct the **Expiration Date** on the lot so FEFO and the alerts work on accurate figures."
+    },
+
+    { "t": "h2", "text": "14.3 FEFO — the oldest-dating stock leaves first" },
+    {
+      "t": "note",
+      "title": "What is FEFO?",
+      "text": "**FEFO** stands for *First-Expiry, First-Out*: when you ship an order, the ERP automatically reserves the batch whose expiry date is **soonest**, so the stock closest to expiring goes out first and nothing is left to expire on your shelves. You never pick the batch by hand."
+    },
+    {
+      "t": "p",
+      "text": "FEFO is configured on the **product category**, not on each product, so it applies consistently to whole groups of goods. Your three categories — *Pharmaceuticals*, *Medical Consumables* and *Medical Devices* — all use **First In First Out (FIFO)** for costing and a **FEFO** removal strategy for picking. (FIFO and FEFO are different things: FIFO decides which cost is used when goods leave; FEFO decides which physical batch is picked.) You can review this under **Inventory → Configuration → Products → Product Categories**."
+    },
+    {
+      "t": "p",
+      "text": "On a product category form the field that drives FEFO is:"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means"],
+      "rows": [
+        ["Force Removal Strategy", "The rule that decides which batch is taken when goods leave. Set to **FEFO** here, so the soonest-to-expire batch is always reserved first."],
+        ["Costing Method", "How the value of goods leaving is calculated. Set to **First In First Out (FIFO)** — the cost of the earliest-received goods is used first."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "In practice this means that when *Khartoum Teaching Hospital* orders paracetamol, the warehouse delivery automatically reserves the batch with the nearest **Removal Date**. The clerk simply validates the delivery; the ERP has already chosen the correct batch."
+    },
+    {
+      "t": "tip",
+      "title": "FEFO protects you silently",
+      "text": "Because removal is driven by the batch's Removal Date, your team cannot accidentally ship a fresh batch while an older one sits expiring at the back of the shelf. The system always favours the oldest-dating stock."
+    },
+
+    { "t": "h2", "text": "14.4 The Cold Chain — insulin routed straight to Cold Storage" },
+    {
+      "t": "p",
+      "text": "Some medicines must be kept refrigerated from delivery to dispatch — this unbroken chilled journey is called the **cold chain**. In your warehouse the dedicated refrigerated area is **KRT/Stock/Cold Storage (2-8C)**, kept between 2 and 8 degrees Celsius. The system makes sure cold-chain goods land there automatically using a **putaway** rule."
+    },
+    {
+      "t": "note",
+      "title": "What is putaway?",
+      "text": "**Putaway** is an automatic 'where does this go?' instruction. When goods are received, a putaway rule decides the exact storage location they should be moved to — so the warehouse clerk does not have to remember that insulin belongs in the fridge."
+    },
+    {
+      "t": "p",
+      "text": "For *Insulin Vial 10ml* the putaway rule sends every received batch straight to *Cold Storage (2-8C)*. You can see the dedicated locations under **Inventory → Configuration → Warehouse Management → Locations**."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "The Locations list showing the internal sub-locations under KRT/Stock: Cold Storage (2-8C), Quarantine and Expired / Damaged."
+    },
+    {
+      "t": "p",
+      "text": "A location form (open one from the list) shows where the area sits in your warehouse and how it behaves. The key fields are:"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Location Name", "The name of the area, for example *Cold Storage (2-8C)*."],
+        ["Parent Location", "The location this one sits inside — here it is *KRT/Stock*, the Khartoum Central Warehouse stock."],
+        ["Location Type", "What kind of place it is; for storage areas this is **Internal Location** (a real, physical place that holds products)."],
+        ["Is a Scrap Location?", "When ticked, this area is used for scrapped or damaged goods — set on the *Expired / Damaged* location."],
+        ["Storage Category", "An optional capacity/condition grouping for the area."],
+        ["Additional Information", "Free-text notes, for example temperature requirements."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Each location form also offers three smart buttons that turn a storage area into a control panel:"
+    },
+    {
+      "t": "table",
+      "headers": ["Smart button", "What it shows"],
+      "rows": [
+        ["Putaway Rules", "The automatic routing rules that send incoming goods to this location (this is how insulin reaches Cold Storage)."],
+        ["Products", "The products currently stored in this location."],
+        ["Current Stock", "The live on-hand quantities held in this location."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "If you ever need to move chilled stock by hand — for example after a fridge repair — follow these steps:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Transfers → Internal** and click **New**.",
+        "Set the **Source Location** to where the goods are now.",
+        "Set the **Destination Location** to *KRT/Stock/Cold Storage (2-8C)*.",
+        "On the **Operations** tab add *Insulin Vial 10ml*, its lot (*LOT-GULF-01*) and the quantity.",
+        "Click **Mark as Todo**, then **Check Availability** until the status is **Ready**.",
+        "Click **Validate**; the batch now shows in Cold Storage."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "Never break the cold chain",
+      "text": "Cold-chain medicines that warm up may be unsafe even if they look fine. Keep insulin and similar items in *Cold Storage (2-8C)* until the moment of dispatch; the putaway rule gets them there on arrival, and FEFO ships the soonest-to-expire batch when they leave."
+    },
+
+    { "t": "h2", "text": "14.5 Quarantine and Expired / Damaged — keeping bad stock out of orders" },
+    {
+      "t": "p",
+      "text": "Two more dedicated locations protect your customers and your records. Both sit under *KRT/Stock* alongside Cold Storage."
+    },
+    {
+      "t": "table",
+      "headers": ["Location", "What it is for"],
+      "rows": [
+        ["KRT/Stock/Quarantine", "A holding area for goods awaiting inspection or approval. Stock parked here is not normally available to sell until it is released to main stock."],
+        ["KRT/Stock/Expired / Damaged", "Where out-of-date or damaged goods are set aside (a *scrap* location), so they can never be picked for a customer order by mistake."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Moving stock into either area uses exactly the same internal-transfer steps as the cold-chain example above — only the **Destination Location** changes. Use **Quarantine** for goods you need to inspect before selling, and **Expired / Damaged** for goods you must take out of circulation."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Transfers → Internal** and click **New**.",
+        "Set the **Source Location** to the main stock where the goods are now.",
+        "Set the **Destination Location** to *KRT/Stock/Quarantine* (for inspection) or *KRT/Stock/Expired / Damaged* (for write-off).",
+        "On the **Operations** tab add the product, its lot number and the quantity to move.",
+        "Click **Mark as Todo**, **Check Availability** until **Ready**, then **Validate**."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Expired alerts plus a safe location",
+      "text": "Expiry control flags a near-expiry batch; the *Expired / Damaged* location then gives you a safe place to put it. Together they make sure an out-of-date batch is both *spotted* and *physically separated* from sellable stock."
+    },
+
+    { "t": "h2", "text": "14.6 Imports — buying abroad in USD, valued in SDG" },
+    {
+      "t": "p",
+      "text": "Much medical stock is imported. Your foreign supplier *Gulf MedTrade FZE (USD)* in Dubai invoices in **US dollars (USD)**, but your books are kept in **Sudanese pounds (SDG)**. The ERP bridges the two automatically: you order and bill in USD, and the system converts every figure to SDG at the **exchange rate** in force on the document's date. (An *exchange rate* is simply how many SDG one USD is worth on a given day.)"
+    },
+    {
+      "t": "p",
+      "text": "The system keeps a dated history of USD rates, so an order from June 2025 is valued differently from one in June 2026 — exactly as the real economy behaves. The demo rates are:"
+    },
+    {
+      "t": "table",
+      "headers": ["Date", "1 USD = ? SDG"],
+      "rows": [
+        ["2025-06-01", "2,400"],
+        ["2025-09-01", "3,000"],
+        ["2026-01-01", "3,600"],
+        ["2026-04-01", "4,200"],
+        ["2026-06-01", "4,500"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "A real example is purchase order *P00002* to *Gulf MedTrade FZE (USD)*: 50 Insulin vials at $14 and 10 Blood Pressure Monitors at $42. The goods themselves come to $1,120.00; adding 15% tax brings the order total to **$1,288.00**, with the SDG equivalent shown right beneath it. The matching vendor bill *BILL/2026/05/0002* is **$483.00**, and it is recorded in your books in SDG at the rate on its date. You see the foreign-currency figure and the local-currency value side by side, so nothing is lost in translation."
+    },
+    {
+      "t": "note",
+      "title": "The ERP does the currency maths for you",
+      "text": "You never reach for a calculator or a currency app. Enter the price in USD, and the system shows the SDG value automatically using the correct dated rate — on the purchase order, the vendor bill and every accounting entry."
+    },
+    {
+      "t": "p",
+      "text": "Imports also carry costs that are not on the supplier's invoice — **freight** (shipping) and **customs** duties. The true cost of an imported box is the supplier price *plus* its share of these extra costs. The ERP captures this with a **landed cost**: an extra cost you allocate onto a receipt so it is added to the unit value of the goods. (A *landed cost* = a freight/customs/handling charge folded into the real cost of the goods.) You manage these under **Inventory → Operations → Adjustments → Landed Costs**."
+    },
+    {
+      "t": "p",
+      "text": "To add freight or customs to the cost of an imported shipment:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Open **Inventory → Operations → Adjustments → Landed Costs** and click **New**.",
+        "Select the **Transfer** (the receipt of the imported goods, for example the receipt from purchase order *P00002*).",
+        "Add the cost lines — for example a freight charge and a customs charge — each pointing at a *landed cost* product.",
+        "Choose how the cost is shared across the goods (the **Split Method**, such as *By Quantity*, *By Weight* or *By Volume*).",
+        "Confirm and validate; the ERP raises the unit cost of each received item by its share of the freight and customs."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Marking a product as a landed cost",
+      "text": "A freight or customs charge is set up as a product with **Is a Landed Cost** ticked on its **Purchase** tab and a **Default Split Method** (Equal, By Quantity, By Current Cost, By Weight or By Volume). Once ticked, that charge can be allocated onto receipts so your stock is valued at its true delivered cost — not just the foreign supplier's price."
+    },
+
+    { "t": "h2", "text": "14.7 Putting it together" },
+    {
+      "t": "p",
+      "text": "These six capabilities work as one safety net for a medical distributor. Goods are **imported** in USD and valued correctly in SDG, with freight and customs folded into their true cost. Each batch arrives with a **lot** number and an **expiry date**, and cold-chain items are routed by **putaway** straight into **Cold Storage (2-8C)**. Anything needing checks waits in **Quarantine**, and anything out of date is parked in **Expired / Damaged** so it can never be shipped. When an order goes out, **FEFO** automatically picks the soonest-to-expire batch, and full **lot traceability** means that if a recall ever happens you can find every affected customer in moments. The Medical-Supply ERP turns the strict, error-prone demands of pharmaceutical distribution into a handful of confident clicks."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "توزيع الأدوية والمستلزمات الطبية ليس كبيع البضائع العادية. فعلبة *قارورة إنسولين 10 مل* يجب أن تبقى باردة من لحظة وصولها حتى تصل إلى العيادة؛ ودفعة *كبسولات أموكسيسيلين 250 ملغ (100)* يجب أن تُشحن قبل انتهاء صلاحيتها؛ وإذا سحب المُصنّع دفعةً معيبة، فعليك أن تعرف بدقة أي العملاء استلموها — خلال دقائق. وُضِع نظام تخطيط موارد المستلزمات الطبية لـ *شركة السودان للمستلزمات الطبية* تحديدًا لأنه يتولى كل ذلك نيابةً عنك تلقائيًا. يشرح هذا الفصل، بكلمات بسيطة، الميزات الست التي تجعل النظام منصّة توزيع طبي حقيقية: **تتبّع الدفعات (Lot)**، و**ضبط انتهاء الصلاحية**، و**FEFO**، و**السلسلة الباردة**، ومواقع **الحجر والمنتهي الصلاحية/التالف**، و**الاستيراد** (الشراء من الخارج بالدولار مع إبقاء الدفاتر بالجنيه السوداني، وإضافة الشحن والجمارك إلى التكلفة الحقيقية للبضاعة)."
+    },
+    {
+      "t": "note",
+      "title": "لماذا يهمّ هذا موزّع المستلزمات الطبية",
+      "text": "عمليات السحب والتدقيق وضبط انتهاء الصلاحية ليست اختيارية في القطاع الصحي — بل هي واجبات قانونية وأخلاقية. تتيح ميزات هذا الفصل لموظّف مستودع واحد أن يُنجز ببضع نقرات ما كان يتطلّب لولاها جدارًا من السجلّات الورقية وتدقيقًا يدويًا دائمًا."
+    },
+
+    { "t": "h2", "text": "14.1 تتبّع الدفعات (Lot) — معرفة أي بضاعة ذهبت إلى أين بالضبط" },
+    {
+      "t": "p",
+      "text": "الـ **دفعة (Lot)** (وتُسمى أيضًا *Batch*) هي مجموعة من الوحدات المتطابقة التي أُنتجت معًا في عملية تصنيع واحدة، ولذلك تشترك في تفاصيل الإنتاج نفسها وتاريخ انتهاء الصلاحية نفسه. (الـ *دفعة* = دفعة تصنيع واحدة تُتتبَّع كوحدة واحدة.) في نظامك، يُتتبَّع كل صنف طبي تقريبًا **بالدفعات (By Lots)** — القفازات والمحاقن والكمامات وقُنيّات الوريد وجميع الأدوية. الجهازان فقط (*جهاز قياس ضغط الدم الرقمي* و*ميزان الحرارة الرقمي*) غير متتبَّعين بالدفعة، لأنهما لا تنتهي صلاحيتهما ولا يحتاجان إلى سحب الدفعات."
+    },
+    {
+      "t": "p",
+      "text": "ولأن النظام يسجّل رقم الدفعة في كل استلام وكل تسليم، فبإمكانه الإجابة فورًا عن سؤالين: *أي العملاء استلموا دفعةً معيّنة* (تتبّع أمامي، يُستخدم للسحب)، و*من أي دفعة مورّد جاء صنف مُسلَّم* (تتبّع خلفي، يُستخدم للتدقيق والشكاوى). ولن تعيد بناء ذلك يدويًا أبدًا."
+    },
+    {
+      "t": "p",
+      "text": "يمكنك رؤية كل دفعاتك ضمن **المخزون ← المنتجات ← الدفعات / الأرقام التسلسلية (Inventory → Products → Lots / Serial Numbers)**. سُمّيت كل دفعة تجريبية باسم مورّدها كي يكون مصدرها واضحًا بنظرة واحدة."
+    },
+    {
+      "t": "table",
+      "headers": ["الدفعة / الرقم التسلسلي", "المنتج", "تاريخ انتهاء الصلاحية"],
+      "rows": [
+        ["LOT-NILE-01", "أقراص باراسيتامول 500 ملغ (100)", "2028-06-08"],
+        ["LOT-NILE-02", "كبسولات أموكسيسيلين 250 ملغ (100)", "2027-12-01"],
+        ["LOT-NILE-03", "محلول مطهّر 500 مل", "2027-06-09"],
+        ["LOT-GULF-01", "قارورة إنسولين 10 مل", "2027-06-09"],
+        ["LOT-KHP-01", "قفازات جراحية (علبة 100)", "2029-06-08"],
+        ["LOT-KHP-02", "كمامة N95 (علبة 20)", "2030-06-08"],
+        ["LOT-KHP-03", "محقنة 5 مل (علبة 100)", "2031-06-08"]
+      ]
+    },
+    {
+      "t": "fig",
+      "file": "lot_insulin.png",
+      "caption": "نموذج الدفعة LOT-GULF-01 (قارورة إنسولين 10 مل): رقم الدفعة والمنتج والكمية المتوفرة وتاريخ انتهاء الصلاحية (2027-06-09)."
+    },
+    {
+      "t": "p",
+      "text": "فتح دفعة واحدة، مثل *LOT-GULF-01* للإنسولين، يُظهر لك كل ما يعرفه النظام عن تلك الدفعة. فيما يلي الحقول التي تراها."
+    },
+    { "t": "h3", "text": "التفاصيل الرئيسية" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الدفعة / الرقم التسلسلي (Lot/Serial Number)", "رمز الدفعة الفريد، مثل *LOT-GULF-01*. وهو الملصق المطبوع على العلبة."],
+        ["المنتج (Product)", "العنصر الطبي الذي تحتويه هذه الدفعة (للقراءة فقط بعد تحرّك المخزون)، مثل *قارورة إنسولين 10 مل*."],
+        ["الكمية المتوفرة (On Hand Quantity)", "عدد الوحدات من هذه الدفعة بعينها التي بحوزتك حاليًا."],
+        ["وحدة القياس (Unit of Measure)", "الوحدة التي تُعَدّ بها الكمية."],
+        ["المرجع الداخلي (Internal Reference)", "رقم مرجعك الخاص، يُستخدم حين يختلف عن رمز دفعة المُصنّع."],
+        ["الموقع (Location)", "أين تُخزَّن هذه الدفعة فعليًا الآن (للإنسولين: *التخزين البارد (2-8C)*)."],
+        ["تنبيه انتهاء صلاحية المنتج (Product Expiry Alert)", "يُفعَّل تلقائيًا عند بلوغ الدفعة تاريخ انتهاء صلاحيتها، كي لا يُفوَّت."],
+        ["الشركة (Company)", "الشركة المالكة للدفعة (*شركة السودان للمستلزمات الطبية*)."],
+        ["القيمة الإجمالية / متوسط التكلفة / التكلفة (Total Value / Average Cost / Cost)", "القيمة المحاسبية للدفعة وتكلفة وحدتها — تُحفظ تلقائيًا كي يُقيَّم مخزونك دائمًا تقييمًا صحيحًا."]
+      ]
+    },
+    { "t": "h3", "text": "علامة التبويب: التواريخ (Dates)" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["استخدام تاريخ انتهاء الصلاحية (Use Expiration Date)", "عند تفعيله، تحمل هذه الدفعة تواريخ صلاحية. وهو مفعّل لكل صنف طبي قابل للتلف."],
+        ["تاريخ انتهاء الصلاحية (Expiration Date)", "التاريخ الذي قد تصبح فيه البضاعة خطِرة ولا يجوز استخدامها — *2027-06-09* لدفعة الإنسولين."],
+        ["تاريخ الإزالة (Removal Date)", "التاريخ الذي ينبغي عنده سحب الدفعة من المخزون؛ وهو التاريخ الذي يستخدمه FEFO ليقرّر ما يخرج أولًا."],
+        ["تاريخ الاستخدام الأمثل (Best before Date)", "التاريخ الذي تبدأ عنده البضاعة بالتدهور، دون أن تصبح خطِرة بعد."],
+        ["تاريخ التنبيه (Alert Date)", "التاريخ الذي تظهر منه الدفعة ضمن مرشّح *تنبيهات الصلاحية (Expiration Alerts)* لتُنبَّه في الوقت المناسب."]
+      ]
+    },
+    { "t": "h3", "text": "علامة التبويب: الوصف (Description)" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الوصف (Description)", "ملاحظة نصّية حرة حول الدفعة — مفيدة لتعليمات التخزين أو المناولة."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "السحب بنقرتين",
+      "text": "إذا سحب مورّد دفعةً، فافتح سجلّ دفعتها واستخدم عدّاد **التحويلات (Transfers)** لرؤية كل حركة لتلك الدفعة — دخولًا وخروجًا — فتعرف بالضبط أي العملاء تتواصل معهم. بلا جداول بيانات وبلا تخمين."
+    },
+
+    { "t": "h2", "text": "14.2 ضبط انتهاء الصلاحية — لا تبِع مخزونًا منتهيًا أبدًا" },
+    {
+      "t": "p",
+      "text": "كل منتج قابل للتلف في كتالوجك مُفعَّل عليه **ضبط انتهاء الصلاحية**. يُضبط هذا مرة واحدة على المنتج، ومن ثَمّ يحصل كل دفعة تستلمها على تاريخ انتهاء الصلاحية الصحيح تلقائيًا. تضبطه في علامة التبويب **المخزون (Inventory)** في نموذج المنتج (**المخزون ← المنتجات ← المنتجات**، ثم افتح المنتج)."
+    },
+    {
+      "t": "fig",
+      "file": "product_insulin_inventory.png",
+      "caption": "علامة التبويب المخزون لمنتج قارورة إنسولين 10 مل: التتبّع مضبوط على بالدفعات مع تفعيل تاريخ انتهاء الصلاحية، وإعداد تاريخ الصلاحية (تاريخ انتهاء الصلاحية = 365 يومًا بعد الاستلام)."
+    },
+    {
+      "t": "p",
+      "text": "هذه هي حقول الصلاحية في علامة التبويب **المخزون** للمنتج. وهي مُعبَّر عنها بعدد الأيام؛ يحوّلها النظام إلى تواريخ تقويمية حقيقية على كل دفعة عند وصولها."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["تاريخ انتهاء الصلاحية (مفتاح التفعيل) (Expiration Date)", "تفعيله يُمكِّن إدارة الصلاحية للمنتج وكل دفعاته. وهو مفعّل للإنسولين وكل صنف قابل للتلف."],
+        ["تاريخ انتهاء الصلاحية (بالأيام) (Expiration Date)", "عدد الأيام بعد الاستلام قبل انتهاء صلاحية البضاعة — *365* للإنسولين. عند وصول دفعة، يختم النظام تاريخ صلاحيتها بعد عام تلقائيًا."],
+        ["تاريخ الاستخدام الأمثل (بالأيام) (Best Before Date)", "عدد الأيام قبل انتهاء الصلاحية حين تبدأ البضاعة بالتدهور (دون أن تصبح خطِرة بعد)."],
+        ["تاريخ الإزالة (بالأيام) (Removal Date)", "عدد الأيام قبل انتهاء الصلاحية حين ينبغي سحب البضاعة من المخزون — وهذا يغذّي FEFO."],
+        ["تاريخ التنبيه (بالأيام) (Alert Date)", "عدد الأيام قبل انتهاء الصلاحية حين ينبغي للنظام إطلاق تنبيه ليتصرّف الموظفون في الوقت المناسب."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "الدفعات القريبة من الانتهاء تُعلَّم لك",
+      "text": "بمجرد بلوغ تاريخ التنبيه، تُظهر الدفعة **تنبيه انتهاء صلاحية المنتج (Product Expiry Alert)** وتظهر ضمن مرشّح *تنبيهات الصلاحية (Expiration Alerts)* في قائمة الدفعات / الأرقام التسلسلية. لست مضطرًا للتجوّل بين الرفوف لفحص التواريخ — فالنظام يُبرز ما يوشك على الانتهاء."
+    },
+    {
+      "t": "p",
+      "text": "لتأكيد إعدادات صلاحية منتج أو تغييرها:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← المنتجات ← المنتجات (Inventory → Products → Products)** وانقر المنتج، مثل *قارورة إنسولين 10 مل*.",
+        "انتقل إلى علامة التبويب **المخزون (Inventory)**.",
+        "تأكّد من تفعيل **تاريخ انتهاء الصلاحية (Expiration Date)** ضمن التتبّع.",
+        "اضبط **تاريخ انتهاء الصلاحية (بالأيام)** على مدّة الصلاحية بعد الاستلام (للإنسولين هي *365*).",
+        "اختياريًا اضبط أيام **الاستخدام الأمثل** و**الإزالة** و**التنبيه** كي ينبّهك النظام قبل انتهاء الصلاحية.",
+        "احفظ. من الآن، تُحسب تواريخ كل دفعة تُستلَم لهذا المنتج تلقائيًا."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "سجّل الصلاحية الحقيقية عند الوصول",
+      "text": "إعدادات عدد الأيام تعطي قيمةً افتراضيةً معقولة، لكن التاريخ المطبوع على العلبة هو الحقيقة. عند استلام البضائع، أكّد أو صحّح دائمًا **تاريخ انتهاء الصلاحية** على الدفعة كي يعمل FEFO والتنبيهات على أرقام دقيقة."
+    },
+
+    { "t": "h2", "text": "14.3 FEFO — المخزون الأقدم تاريخًا يخرج أولًا" },
+    {
+      "t": "note",
+      "title": "ما هو FEFO؟",
+      "text": "**FEFO** يعني *الأقرب انتهاءً يخرج أولًا (First-Expiry, First-Out)*: عند شحن أمر، يحجز النظام تلقائيًا الدفعة التي تاريخ صلاحيتها **الأقرب**، فيخرج المخزون الأقرب للانتهاء أولًا ولا يبقى شيء لينتهي على رفوفك. لست أنت من يختار الدفعة يدويًا أبدًا."
+    },
+    {
+      "t": "p",
+      "text": "يُضبط FEFO على **فئة المنتج**، لا على كل منتج، فيُطبَّق باتساق على مجموعات كاملة من البضائع. فئاتك الثلاث — *الأدوية (Pharmaceuticals)* و*المستهلكات الطبية (Medical Consumables)* و*الأجهزة الطبية (Medical Devices)* — تستخدم جميعها **الوارد أولًا يصدر أولًا (FIFO)** للتكلفة و**استراتيجية إزالة FEFO** للتجهيز. (FIFO وFEFO أمران مختلفان: FIFO يقرّر أي تكلفة تُستخدم عند خروج البضائع؛ وFEFO يقرّر أي دفعة فعلية تُجهَّز.) يمكنك مراجعة ذلك ضمن **المخزون ← الإعدادات ← المنتجات ← فئات المنتجات (Inventory → Configuration → Products → Product Categories)**."
+    },
+    {
+      "t": "p",
+      "text": "في نموذج فئة المنتج، الحقل الذي يُشغّل FEFO هو:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني"],
+      "rows": [
+        ["فرض استراتيجية الإزالة (Force Removal Strategy)", "القاعدة التي تقرّر أي دفعة تُؤخذ عند خروج البضائع. مضبوطة هنا على **FEFO**، فتُحجز الدفعة الأقرب انتهاءً أولًا دائمًا."],
+        ["طريقة التكلفة (Costing Method)", "كيف تُحسب قيمة البضائع الخارجة. مضبوطة على **الوارد أولًا يصدر أولًا (FIFO)** — تُستخدم تكلفة البضائع المستلَمة أولًا أولًا."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "عمليًا، يعني هذا أنه عندما يطلب *مستشفى الخرطوم التعليمي* الباراسيتامول، يحجز تسليم المستودع تلقائيًا الدفعة ذات **تاريخ الإزالة (Removal Date)** الأقرب. يكتفي الموظف باعتماد التسليم؛ فالنظام اختار الدفعة الصحيحة بالفعل."
+    },
+    {
+      "t": "tip",
+      "title": "FEFO يحميك بصمت",
+      "text": "لأن الإزالة تُدار بتاريخ إزالة الدفعة، لا يمكن لفريقك أن يشحن دفعةً جديدة بالخطأ بينما تنتهي صلاحية دفعة أقدم في آخر الرفّ. النظام يُفضّل دائمًا المخزون الأقدم تاريخًا."
+    },
+
+    { "t": "h2", "text": "14.4 السلسلة الباردة — توجيه الإنسولين مباشرةً إلى التخزين البارد" },
+    {
+      "t": "p",
+      "text": "بعض الأدوية يجب أن تبقى مبرَّدة من التسليم إلى الإرسال — وتُسمى هذه الرحلة المبرَّدة المتصلة **السلسلة الباردة (Cold Chain)**. في مستودعك، منطقة التبريد المخصّصة هي **KRT/Stock/التخزين البارد (2-8C)**، وتُحفظ بين 2 و8 درجات مئوية. ويضمن النظام وصول بضائع السلسلة الباردة إليها تلقائيًا عبر قاعدة **تخزين/إيداع (Putaway)**."
+    },
+    {
+      "t": "note",
+      "title": "ما هو التخزين/الإيداع (Putaway)؟",
+      "text": "**التخزين/الإيداع (Putaway)** تعليمة 'إلى أين يذهب هذا؟' تلقائية. عند استلام البضائع، تقرّر قاعدة الإيداع الموقع الدقيق الذي ينبغي نقلها إليه — كي لا يضطر موظف المستودع إلى تذكّر أن الإنسولين يخصّ الثلاجة."
+    },
+    {
+      "t": "p",
+      "text": "بالنسبة إلى *قارورة إنسولين 10 مل* تُرسل قاعدة الإيداع كل دفعة مستلَمة مباشرةً إلى *التخزين البارد (2-8C)*. يمكنك رؤية المواقع المخصّصة ضمن **المخزون ← الإعدادات ← إدارة المستودعات ← المواقع (Inventory → Configuration → Warehouse Management → Locations)**."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "قائمة المواقع تعرض المواقع الفرعية الداخلية ضمن KRT/Stock: التخزين البارد (2-8C) والحجر والمنتهي الصلاحية / التالف."
+    },
+    {
+      "t": "p",
+      "text": "يُظهر نموذج الموقع (افتح أحدها من القائمة) أين تقع المنطقة في مستودعك وكيف تتصرّف. الحقول الأساسية هي:"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["اسم الموقع (Location Name)", "اسم المنطقة، مثل *التخزين البارد (2-8C)*."],
+        ["الموقع الأب (Parent Location)", "الموقع الذي يقع هذا داخله — وهو هنا *KRT/Stock*، مخزون مستودع الخرطوم المركزي."],
+        ["نوع الموقع (Location Type)", "أي نوع من المكان هو؛ لمناطق التخزين هو **موقع داخلي (Internal Location)** (مكان فعلي حقيقي يحتوي على منتجات)."],
+        ["موقع شطب؟ (Is a Scrap Location?)", "عند تفعيله، تُستخدم هذه المنطقة للبضائع المشطوبة أو التالفة — مفعّل على موقع *المنتهي الصلاحية / التالف*."],
+        ["فئة التخزين (Storage Category)", "تجميع اختياري حسب السعة/الحالة للمنطقة."],
+        ["معلومات إضافية (Additional Information)", "ملاحظات نصّية حرة، مثل متطلبات درجة الحرارة."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "كما يقدّم كل نموذج موقع ثلاثة أزرار ذكية تحوّل منطقة التخزين إلى لوحة تحكّم:"
+    },
+    {
+      "t": "table",
+      "headers": ["الزر الذكي", "ماذا يعرض"],
+      "rows": [
+        ["قواعد الإيداع (Putaway Rules)", "قواعد التوجيه التلقائي التي ترسل البضائع الواردة إلى هذا الموقع (هكذا يصل الإنسولين إلى التخزين البارد)."],
+        ["المنتجات (Products)", "المنتجات المخزّنة حاليًا في هذا الموقع."],
+        ["المخزون الحالي (Current Stock)", "الكميات المتوفرة المباشرة المحفوظة في هذا الموقع."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "إن احتجت يومًا إلى نقل مخزون مبرَّد يدويًا — مثلًا بعد إصلاح ثلاجة — فاتبع هذه الخطوات:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التحويلات ← داخلي (Inventory → Operations → Transfers → Internal)** وانقر **جديد (New)**.",
+        "اضبط **موقع المصدر** على المكان الذي توجد فيه البضائع الآن.",
+        "اضبط **موقع الوجهة** على *KRT/Stock/التخزين البارد (2-8C)*.",
+        "في علامة التبويب **العمليات** أضِف *قارورة إنسولين 10 مل* ودفعتها (*LOT-GULF-01*) والكمية.",
+        "انقر **تحديد كمهمة (Mark as Todo)**، ثم **التحقق من التوفّر (Check Availability)** حتى تصبح الحالة **جاهز (Ready)**.",
+        "انقر **اعتماد (Validate)**؛ تظهر الدفعة الآن في التخزين البارد."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "لا تقطع السلسلة الباردة أبدًا",
+      "text": "أدوية السلسلة الباردة التي ترتفع حرارتها قد تصبح غير آمنة حتى لو بدت سليمة. أبقِ الإنسولين وما شابهه في *التخزين البارد (2-8C)* حتى لحظة الإرسال؛ فقاعدة الإيداع تُوصلها إليه عند الوصول، وFEFO يشحن الدفعة الأقرب انتهاءً عند خروجها."
+    },
+
+    { "t": "h2", "text": "14.5 الحجر والمنتهي الصلاحية / التالف — إبعاد المخزون السيّئ عن الطلبات" },
+    {
+      "t": "p",
+      "text": "موقعان مخصّصان آخران يحميان عملاءك وسجلّاتك. وكلاهما يقع ضمن *KRT/Stock* إلى جانب التخزين البارد."
+    },
+    {
+      "t": "table",
+      "headers": ["الموقع", "الغرض منه"],
+      "rows": [
+        ["KRT/Stock/الحجر (Quarantine)", "منطقة انتظار للبضائع ريثما تُفحص أو يُوافَق عليها. والمخزون الموقوف هنا لا يكون متاحًا للبيع عادةً حتى يُحرَّر إلى المخزون الرئيسي."],
+        ["KRT/Stock/المنتهي الصلاحية / التالف (Expired / Damaged)", "حيث تُعزل البضائع المنتهية أو التالفة (موقع *شطب*)، كي لا تُجهَّز أبدًا لأمر عميل بالخطأ."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "نقل المخزون إلى أيٍّ من المنطقتين يتبع خطوات التحويل الداخلي نفسها تمامًا كما في مثال السلسلة الباردة أعلاه — يتغيّر **موقع الوجهة** فقط. استخدم **الحجر** للبضائع التي تحتاج إلى فحصها قبل البيع، و**المنتهي الصلاحية / التالف** للبضائع التي يجب سحبها من التداول."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التحويلات ← داخلي (Inventory → Operations → Transfers → Internal)** وانقر **جديد (New)**.",
+        "اضبط **موقع المصدر** على المخزون الرئيسي حيث توجد البضائع الآن.",
+        "اضبط **موقع الوجهة** على *KRT/Stock/الحجر (Quarantine)* (للفحص) أو *KRT/Stock/المنتهي الصلاحية / التالف (Expired / Damaged)* (للشطب).",
+        "في علامة التبويب **العمليات** أضِف المنتج ورقم دفعته والكمية المراد نقلها.",
+        "انقر **تحديد كمهمة (Mark as Todo)**، ثم **التحقق من التوفّر (Check Availability)** حتى **جاهز**، ثم **اعتماد (Validate)**."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "تنبيهات الانتهاء مع موقع آمن",
+      "text": "يُعلِّم ضبط الصلاحية الدفعة القريبة من الانتهاء؛ ثم يمنحك موقع *المنتهي الصلاحية / التالف* مكانًا آمنًا لوضعها. وهما معًا يضمنان أن الدفعة المنتهية تُكتشَف *وتُفصل فعليًا* عن المخزون القابل للبيع."
+    },
+
+    { "t": "h2", "text": "14.6 الاستيراد — الشراء من الخارج بالدولار، والتقييم بالجنيه السوداني" },
+    {
+      "t": "p",
+      "text": "كثير من المخزون الطبي مستورَد. مورّدك الأجنبي *Gulf MedTrade FZE (USD)* في دبي يُصدر فواتيره بـ **الدولار الأمريكي (USD)**، لكن دفاترك تُمسَك بـ **الجنيه السوداني (SDG)**. يربط النظام بينهما تلقائيًا: تطلب وتُفوتر بالدولار، ويحوّل النظام كل رقم إلى الجنيه السوداني بـ **سعر الصرف (Exchange Rate)** الساري في تاريخ المستند. (سعر الصرف هو ببساطة كم جنيهًا سودانيًا يساوي دولار واحد في يوم معيّن.)"
+    },
+    {
+      "t": "p",
+      "text": "يحتفظ النظام بسجلّ مؤرَّخ لأسعار الدولار، فيُقيَّم أمرٌ من يونيو 2025 تقييمًا مختلفًا عن أمرٍ في يونيو 2026 — تمامًا كما يتصرّف الاقتصاد الحقيقي. الأسعار التجريبية هي:"
+    },
+    {
+      "t": "table",
+      "headers": ["التاريخ", "1 دولار = ؟ جنيه سوداني"],
+      "rows": [
+        ["2025-06-01", "2,400"],
+        ["2025-09-01", "3,000"],
+        ["2026-01-01", "3,600"],
+        ["2026-04-01", "4,200"],
+        ["2026-06-01", "4,500"]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "مثال حقيقي هو أمر الشراء *P00002* إلى *Gulf MedTrade FZE (USD)*: 50 قارورة إنسولين بسعر 14 دولارًا و10 أجهزة قياس ضغط الدم بسعر 42 دولارًا. تبلغ قيمة البضائع نفسها 1,120.00 دولار؛ وبإضافة ضريبة 15% يصبح إجمالي الأمر **1,288.00 دولار**، مع عرض المعادل بالجنيه السوداني أسفله مباشرةً. وفاتورة المورّد المطابقة *BILL/2026/05/0002* بقيمة **483.00 دولار**، وتُسجَّل في دفاترك بالجنيه السوداني بالسعر الساري في تاريخها. ترى رقم العملة الأجنبية وقيمة العملة المحلية جنبًا إلى جنب، فلا يضيع شيء في التحويل."
+    },
+    {
+      "t": "note",
+      "title": "النظام يقوم بحسابات العملة نيابةً عنك",
+      "text": "لن تمدّ يدك إلى آلة حاسبة أو تطبيق عملة أبدًا. أدخِل السعر بالدولار، فيعرض النظام القيمة بالجنيه السوداني تلقائيًا بالسعر المؤرَّخ الصحيح — على أمر الشراء، وفاتورة المورّد، وكل قيد محاسبي."
+    },
+    {
+      "t": "p",
+      "text": "كما تحمل الواردات تكاليف ليست على فاتورة المورّد — **الشحن (Freight)** و**الجمارك (Customs)**. والتكلفة الحقيقية لعلبة مستورَدة هي سعر المورّد *زائد* حصّتها من هذه التكاليف الإضافية. يلتقط النظام هذا عبر **التكلفة المُحمَّلة (Landed Cost)**: تكلفة إضافية تُوزّعها على استلام كي تُضاف إلى قيمة وحدة البضاعة. (التكلفة المُحمَّلة = رسم شحن/جمارك/مناولة يُدمَج في التكلفة الحقيقية للبضاعة.) تديرها ضمن **المخزون ← العمليات ← التسويات ← التكاليف المُحمَّلة (Inventory → Operations → Adjustments → Landed Costs)**."
+    },
+    {
+      "t": "p",
+      "text": "لإضافة الشحن أو الجمارك إلى تكلفة شحنة مستورَدة:"
+    },
+    {
+      "t": "ol",
+      "items": [
+        "افتح **المخزون ← العمليات ← التسويات ← التكاليف المُحمَّلة (Inventory → Operations → Adjustments → Landed Costs)** وانقر **جديد (New)**.",
+        "اختر **التحويل (Transfer)** (استلام البضائع المستورَدة، مثل استلام أمر الشراء *P00002*).",
+        "أضِف سطور التكلفة — مثل رسم شحن ورسم جمارك — وكلٌّ منها يشير إلى منتج *تكلفة محمَّلة*.",
+        "اختر كيفية توزيع التكلفة على البضائع (**طريقة التقسيم (Split Method)**، مثل *حسب الكمية* أو *حسب الوزن* أو *حسب الحجم*).",
+        "أكّد واعتمد؛ يرفع النظام تكلفة وحدة كل صنف مستلَم بحصّته من الشحن والجمارك."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "تعليم منتج كتكلفة محمَّلة",
+      "text": "يُعَدّ رسم الشحن أو الجمارك كمنتج عليه **تكلفة محمَّلة (Is a Landed Cost)** مفعّل في علامة التبويب **الشراء (Purchase)**، مع **طريقة تقسيم افتراضية (Default Split Method)** (متساوٍ، حسب الكمية، حسب التكلفة الحالية، حسب الوزن أو حسب الحجم). بمجرد تفعيله، يمكن توزيع ذلك الرسم على الاستلامات كي يُقيَّم مخزونك بتكلفته الحقيقية المُسلَّمة — لا بسعر المورّد الأجنبي وحده."
+    },
+
+    { "t": "h2", "text": "14.7 الصورة الكاملة" },
+    {
+      "t": "p",
+      "text": "تعمل هذه القدرات الست كشبكة أمان واحدة لموزّع المستلزمات الطبية. تُستورَد البضائع بالدولار وتُقيَّم تقييمًا صحيحًا بالجنيه السوداني، مع دمج الشحن والجمارك في تكلفتها الحقيقية. وتصل كل دفعة برقم **دفعة (Lot)** و**تاريخ انتهاء صلاحية**، وتُوجَّه أصناف السلسلة الباردة بـ **الإيداع (Putaway)** مباشرةً إلى **التخزين البارد (2-8C)**. وينتظر ما يحتاج إلى فحص في **الحجر (Quarantine)**، ويُعزل ما انتهت صلاحيته في **المنتهي الصلاحية / التالف** كي لا يُشحن أبدًا. وعند خروج أمر، يختار **FEFO** تلقائيًا الدفعة الأقرب انتهاءً، ويعني **تتبّع الدفعات** الكامل أنه إذا حدث سحبٌ يومًا أمكنك العثور على كل عميل متأثّر في لحظات. يحوّل نظام تخطيط موارد المستلزمات الطبية المتطلباتِ الصارمة المعرَّضة للخطأ في توزيع الأدوية إلى حفنة من النقرات الواثقة."
+    }
+  ]
+}

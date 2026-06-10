@@ -1,0 +1,138 @@
+{
+ "model": "stock.warehouse.orderpoint",
+ "fields": [
+  {
+   "name": "name",
+   "label": "Name",
+   "type": "char",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "active",
+   "label": "Active",
+   "type": "boolean",
+   "help": "If the active field is set to False, it will allow you to hide the orderpoint without removing it.",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "company_id",
+   "label": "Company",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "res.company"
+  },
+  {
+   "name": "route_id",
+   "label": "Route",
+   "type": "many2one",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.route"
+  },
+  {
+   "name": "product_id",
+   "label": "Product",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "product.product"
+  },
+  {
+   "name": "product_min_qty",
+   "label": "Min Quantity",
+   "type": "float",
+   "help": "When the virtual stock goes below the Min Quantity specified for this field, Odoo generates a procurement to bring the forecasted quantity above of this Min Quantity.",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_uom_name",
+   "label": "Product unit of measure label",
+   "type": "char",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "product_max_qty",
+   "label": "Max Quantity",
+   "type": "float",
+   "help": "When the virtual stock goes below the Min Quantity, Odoo generates a procurement to bring the forecasted quantity up to (or near to) the Max Quantity specified for this field (or to Min Quantity, whichever is bigger).",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "qty_multiple",
+   "label": "Quantity Multiple",
+   "type": "float",
+   "help": "The procurement quantity will be rounded up to a multiple of this field quantity. If it is 0, it is not rounded.",
+   "required": true,
+   "readonly": false,
+   "page": "main"
+  },
+  {
+   "name": "allowed_location_ids",
+   "label": "Allowed Location",
+   "type": "one2many",
+   "help": "",
+   "required": false,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "warehouse_id",
+   "label": "Warehouse",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.warehouse"
+  },
+  {
+   "name": "location_id",
+   "label": "Location",
+   "type": "many2one",
+   "help": "",
+   "required": true,
+   "readonly": false,
+   "page": "main",
+   "relation": "stock.location"
+  },
+  {
+   "name": "visibility_days",
+   "label": "Visibility Days",
+   "type": "float",
+   "help": "Consider product forecast these many days in the future upon product replenishment, set to 0 for just-in-time.\nThe value depends on the type of the route (Buy or Manufacture)",
+   "required": false,
+   "readonly": false,
+   "page": "main"
+  }
+ ],
+ "buttons": [
+  {
+   "label": "Forecast Description",
+   "name": "stock.action_stock_replenishment_info",
+   "type": "action",
+   "class": ""
+  }
+ ],
+ "statusbar_states": [],
+ "smart_buttons": []
+}

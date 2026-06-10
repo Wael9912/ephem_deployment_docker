@@ -1,0 +1,385 @@
+{
+  "key": "demo_reference",
+  "title_en": "16. Demo Data Reference",
+  "title_ar": "16. مرجع البيانات التجريبية",
+  "blocks_en": [
+    {"t":"p","text":"This chapter is a precise reference of **everything that is already loaded** in the demo database of *Sudan MedSupply Co.* When you first open the Medical-Supply ERP, you do not start with an empty system: a complete, realistic set of records is ready so you can explore, practise and learn safely. Every number, name, code and date listed below matches the system exactly. Use this chapter as a lookup table whenever you want to check a value while reading the other chapters."},
+    {"t":"note","title":"Why a demo dataset?","text":"The demo data lets a brand-new user click around with confidence. Nothing here is invented: these are the same products, customers, suppliers, orders and money records you will see on screen, so the screenshots and examples in the rest of the manual line up with what is in front of you."},
+    {"t":"fig","file":"login.png","caption":"The sign-in screen for the demo database. Enter your login and password, then press Log in to reach the records described in this chapter."},
+
+    {"t":"h2","text":"Company and Currencies"},
+    {"t":"p","text":"The company that owns the system is *Sudan MedSupply Co.* Its **base currency** (the main money it keeps its books in) is the Sudanese Pound (SDG). A second currency, the US Dollar (USD), is enabled because some suppliers are paid in dollars."},
+    {"t":"table","headers":["Field","Value"],"rows":[
+      ["Company name","Sudan MedSupply Co."],
+      ["City","Khartoum"],
+      ["Country","Sudan"],
+      ["Base currency","SDG (Sudanese Pound)"],
+      ["Fiscal country","SD (Sudan)"],
+      ["Second currency enabled","USD (US Dollar)"]
+    ]},
+    {"t":"fig","file":"company.png","caption":"The company record for Sudan MedSupply Co.: legal name, address in Khartoum, Sudan, contact details and currency."},
+    {"t":"p","text":"An **exchange rate** tells the system how much one currency is worth in another. Because the SDG/USD rate changes over time, the system stores a dated history of rates. When a document is dated, the ERP automatically picks the rate that was in force on that date. The rates below are expressed as **how many SDG one USD is worth**."},
+    {"t":"table","headers":["Date","SDG per 1 USD"],"rows":[
+      ["2025-06-01","2,400"],
+      ["2025-09-01","3,000"],
+      ["2026-01-01","3,600"],
+      ["2026-04-01","4,200"],
+      ["2026-06-01","4,500"]
+    ]},
+    {"t":"fig","file":"currency_usd.png","caption":"The USD currency record with the Rates tab open, showing the dated exchange-rate history that the system uses to convert dollars to Sudanese pounds."},
+    {"t":"tip","title":"Automatic conversion","text":"You never have to do the maths by hand. When you enter a USD document, the ERP looks up the correct dated rate and shows the SDG equivalent for you."},
+
+    {"t":"h2","text":"Warehouses and Internal Locations"},
+    {"t":"p","text":"A **warehouse** is a physical building where stock is kept. The demo has two. Each warehouse code is the short label the system uses on operations and locations."},
+    {"t":"table","headers":["Warehouse","Code"],"rows":[
+      ["Khartoum Central Warehouse","KRT"],
+      ["Port Sudan Warehouse","PRT"]
+    ]},
+    {"t":"fig","file":"warehouses.png","caption":"The Warehouses list (Inventory → Configuration → Warehouses): Khartoum Central Warehouse (KRT) and Port Sudan Warehouse (PRT)."},
+    {"t":"p","text":"Inside the Khartoum warehouse there are special **internal locations** — named shelves or rooms used to separate stock for safety and quality reasons."},
+    {"t":"table","headers":["Internal location","What it is for"],"rows":[
+      ["KRT/Stock/Cold Storage (2-8C)","The cold room (2–8°C) where temperature-sensitive items such as insulin are kept."],
+      ["KRT/Stock/Expired / Damaged","A holding area for goods that are past their expiry date or broken, so they are not sold by mistake."],
+      ["KRT/Stock/Quarantine","A waiting area for stock that must be checked or held before it can be released for sale."]
+    ]},
+    {"t":"fig","file":"locations_list.png","caption":"The Locations list showing the internal sub-locations under KRT/Stock: Cold Storage (2-8C), Quarantine and Expired / Damaged."},
+
+    {"t":"h2","text":"Products"},
+    {"t":"p","text":"The catalogue holds **10 products** in three categories: *Pharmaceuticals*, *Medical Consumables* and *Medical Devices*. For each product the table shows its internal reference (the SKU code), the **cost** (what the company pays to buy one unit), the **sales price** (what a customer pays), the **tracking** method, and the **on-hand quantity** (how many units are physically in stock right now)."},
+    {"t":"p","text":"**Tracking** means how the system follows individual stock. *Lot* tracking groups units into batches with a shared lot (batch) number and expiry date; *None* means the item is not batch-tracked. A **lot** is one production batch of a product, identified by a code and an expiry date. All figures are in SDG."},
+    {"t":"table","headers":["Product","Reference","Category","Cost (SDG)","Sales price (SDG)","Tracking","Expiry?","On hand"],"rows":[
+      ["Surgical Gloves (Box of 100)","CON-GLOVES","Medical Consumables","19,300","29,000","Lot","Yes","60"],
+      ["IV Cannula 18G (Box of 50)","CON-IVCAN","Medical Consumables","25,700","38,600","Lot","Yes","0"],
+      ["N95 Face Mask (Box of 20)","CON-N95","Medical Consumables","32,000","48,000","Lot","Yes","45"],
+      ["Syringe 5ml (Box of 100)","CON-SYR-5","Medical Consumables","12,900","20,600","Lot","Yes","90"],
+      ["Digital Blood Pressure Monitor","DEV-BPMON","Medical Devices","189,000","285,000","None","No","10"],
+      ["Digital Thermometer","DEV-THERMO","Medical Devices","22,500","35,400","None","No","0"],
+      ["Amoxicillin 250mg Capsules (100s)","MED-AMOX-250","Pharmaceuticals","16,000","23,000","Lot","Yes","110"],
+      ["Antiseptic Solution 500ml","MED-ANTISEP","Pharmaceuticals","9,600","14,800","Lot","Yes","100"],
+      ["Insulin Vial 10ml","MED-INSULIN","Pharmaceuticals","63,000","90,000","Lot","Yes","50"],
+      ["Paracetamol 500mg Tablets (100s)","MED-PARA-500","Pharmaceuticals","7,700","11,500","Lot","Yes","150"]
+    ]},
+    {"t":"fig","file":"products_list.png","caption":"The product catalogue (Inventory → Products → Products) listing the ten medical items with their internal references and on-hand quantities."},
+    {"t":"note","title":"Items at zero stock","text":"Two products — *IV Cannula 18G* (CON-IVCAN) and *Digital Thermometer* (DEV-THERMO) — currently show **0 on hand**. They exist in the catalogue but have no stock yet, which is normal and useful for practising purchases."},
+
+    {"t":"h2","text":"Customers"},
+    {"t":"p","text":"A **customer** is a contact the company sells to — here hospitals, clinics, pharmacies and aid organisations. The demo has four."},
+    {"t":"ul","items":[
+      "*Bahri Community Pharmacy*",
+      "*Khartoum Teaching Hospital*",
+      "*Omdurman Family Clinic*",
+      "*Sudanese Red Crescent*"
+    ]},
+    {"t":"fig","file":"contact_customer.png","caption":"The contact record for Khartoum Teaching Hospital, one of the four demo customers: name, address and contact details."},
+
+    {"t":"h2","text":"Suppliers"},
+    {"t":"p","text":"A **supplier** (vendor) is a contact the company buys from. The demo has three. Note that *Gulf MedTrade FZE* is a foreign supplier whose purchases are priced in USD."},
+    {"t":"ul","items":[
+      "*Gulf MedTrade FZE (USD)* — foreign supplier, priced in US Dollars",
+      "*Khartoum Pharma Imports*",
+      "*Nile Medical Supplies Co.*"
+    ]},
+    {"t":"fig","file":"contact_supplier.png","caption":"The contact record for Gulf MedTrade FZE (USD), the foreign supplier whose purchase currency is US Dollars."},
+
+    {"t":"h2","text":"Journals"},
+    {"t":"p","text":"A **journal** is a book of records of one kind — for example all customer invoices, or all the money that moves through one bank account. Each journal has a short **code** and is tied to one currency. A **bank** journal mirrors a real bank account; a **cash** journal (a cash safe) mirrors physical money kept on the premises."},
+    {"t":"table","headers":["Journal","Code","Type","Currency"],"rows":[
+      ["Customer Invoices","INV","Sale","SDG"],
+      ["Vendor Bills","BILL","Purchase","SDG"],
+      ["Bank of Khartoum (SDG)","BNKSD","Bank","SDG"],
+      ["USD Bank Account","BNKUS","Bank","USD"],
+      ["Main Cash Safe (SDG)","CSHSD","Cash","SDG"],
+      ["USD Cash Safe","CSHUS","Cash","USD"]
+    ]},
+    {"t":"fig","file":"journals_list.png","caption":"The Journals list (Accounting → Configuration → Journals): Customer Invoices, Vendor Bills, the two bank journals and the two cash safes."},
+
+    {"t":"h2","text":"Taxes"},
+    {"t":"p","text":"A **tax** is an extra percentage added on top of a price that the company must collect or pay according to the law. The demo uses a single **15%** rate, defined separately for sales and for purchases, both for Sudan (SD)."},
+    {"t":"table","headers":["Tax","Rate","Applies to","Country"],"rows":[
+      ["15%","15%","Sale","SD"],
+      ["15%","15%","Purchase","SD"]
+    ]},
+    {"t":"fig","file":"taxes_list.png","caption":"The Taxes list showing the 15% sale tax and the 15% purchase tax for Sudan."},
+
+    {"t":"h2","text":"Purchase Orders"},
+    {"t":"p","text":"A **purchase order** is a confirmed instruction to buy goods from a supplier. A status of *Purchase Order* means the order is confirmed; *RFQ* (a draft request for quotation) means it has not yet been confirmed."},
+    {"t":"table","headers":["Order","Vendor","Status","Total","Currency"],"rows":[
+      ["P00001","Nile Medical Supplies Co.","Purchase Order","5,635,000","SDG"],
+      ["P00002","Gulf MedTrade FZE (USD)","Purchase Order","1,288","USD"],
+      ["P00003","Khartoum Pharma Imports","Purchase Order","5,763,800","SDG"],
+      ["P00004","Nile Medical Supplies Co.","RFQ (Draft)","241,500","SDG"]
+    ]},
+    {"t":"fig","file":"purchase_orders.png","caption":"The Purchase Orders list (Purchase → Orders) with P00001–P00004, their vendors, totals and statuses."},
+    {"t":"fig","file":"po_usd.png","caption":"Purchase Order P00002 for Gulf MedTrade (USD): a total of $1,288.00 with the Sudanese-pound equivalent shown beneath it, illustrating automatic currency conversion."},
+
+    {"t":"h2","text":"Sales Orders"},
+    {"t":"p","text":"A **sales order** is a confirmed agreement to sell goods to a customer. A status of *Sales Order* means it is confirmed; *Quotation* (Draft) means it is still a quotation."},
+    {"t":"table","headers":["Order","Customer","Status","Total (SDG)"],"rows":[
+      ["S00001","Khartoum Teaching Hospital","Sales Order","2,038,950"],
+      ["S00002","Omdurman Family Clinic","Sales Order","1,886,000"],
+      ["S00003","Sudanese Red Crescent","Quotation (Draft)","2,018,250"]
+    ]},
+    {"t":"fig","file":"sale_orders_list.png","caption":"The Sales Orders list (Sales → Orders) showing the confirmed orders S00001 and S00002 with totals in SDG."},
+
+    {"t":"h2","text":"Customer Invoices"},
+    {"t":"p","text":"A **customer invoice** is the bill the company sends to a customer asking to be paid. *Posted* means the invoice is final and recorded in the books. The **tax** column is the 15% portion included in the total. The **due date** is when payment is expected, and the **payment status** tells you whether it has been paid yet. All amounts are in SDG."},
+    {"t":"table","headers":["Invoice","Customer","Status","Total","Tax","Due date","Payment status"],"rows":[
+      ["INV/2026/00001","Khartoum Teaching Hospital","Posted","2,038,950","265,950","2026-06-10","Paid"],
+      ["INV/2026/00002","Omdurman Family Clinic","Posted","1,886,000","246,000","2026-06-10","Paid"],
+      ["INV/2026/00003","Sudanese Red Crescent","Posted","1,237,400","161,400","2026-04-19","Not Paid"],
+      ["INV/2026/00004","Bahri Community Pharmacy","Posted","1,455,900","189,900","2026-05-25","Not Paid"],
+      ["INV/2026/00005","Khartoum Teaching Hospital","Posted","1,273,050","166,050","2026-07-01","Not Paid"]
+    ]},
+    {"t":"fig","file":"customer_invoices_list.png","caption":"The Customer Invoices list (Accounting → Customers → Invoices): INV/2026/00001–00005 with customers, amounts, due dates and payment status."},
+    {"t":"note","title":"Overdue invoices","text":"Today's date in the demo is **2026-06-10**. Invoices INV/2026/00003 (due 2026-04-19) and INV/2026/00004 (due 2026-05-25) are past their due date and still unpaid, so they appear as overdue in receivable reports."},
+
+    {"t":"h2","text":"Vendor Bills"},
+    {"t":"p","text":"A **vendor bill** is the supplier's invoice that the company must pay. *In Payment* means a payment has been started but not yet fully cleared; *Not Paid* means it is still outstanding."},
+    {"t":"table","headers":["Bill","Vendor","Status","Total","Currency","Payment status"],"rows":[
+      ["BILL/2026/05/0001","Nile Medical Supplies Co.","Posted","5,635,000","SDG","In Payment"],
+      ["BILL/2026/05/0002","Gulf MedTrade FZE (USD)","Posted","483","USD","Not Paid"]
+    ]},
+    {"t":"fig","file":"vendor_bills_list.png","caption":"The Vendor Bills list (Accounting → Vendors → Bills) including BILL/2026/05/0001 in SDG and BILL/2026/05/0002 in USD, with their payment status."},
+
+    {"t":"h2","text":"Payments"},
+    {"t":"p","text":"A **payment** is a record of money received or sent. *Inbound* means money coming in from a customer; *Outbound* means money going out to a supplier. The journal tells you which bank account or cash safe the money moved through. Amounts are in SDG."},
+    {"t":"table","headers":["Payment","Partner","Amount","Journal","Direction","Status"],"rows":[
+      ["PAY00001","Khartoum Teaching Hospital","2,038,950","Bank of Khartoum (SDG)","Inbound","Paid"],
+      ["PAY00002","Omdurman Family Clinic","1,886,000","Main Cash Safe (SDG)","Inbound","Paid"],
+      ["PAY00003","Nile Medical Supplies Co.","5,635,000","Bank of Khartoum (SDG)","Outbound","In Process"]
+    ]},
+    {"t":"fig","file":"payments_list.png","caption":"The Payments list showing the two customer receipts and the vendor payment, with the journal each one moved through and the amount."},
+
+    {"t":"h2","text":"Reordering Rules"},
+    {"t":"p","text":"A **reordering rule** (order point) tells the system to suggest buying more of a product when stock falls below a minimum. The system aims to refill stock up to the maximum. This keeps essential items always in stock without manual checking."},
+    {"t":"table","headers":["Product","Minimum","Maximum"],"rows":[
+      ["Paracetamol 500mg (MED-PARA-500)","50","200"],
+      ["Insulin Vial 10ml (MED-INSULIN)","20","80"],
+      ["Surgical Gloves (CON-GLOVES)","30","120"]
+    ]},
+    {"t":"fig","file":"reordering_rules.png","caption":"The Reordering Rules list with the minimum/maximum levels for Paracetamol (50/200), Insulin (20/80) and Gloves (30/120)."},
+
+    {"t":"h2","text":"Lots and Expiry Dates"},
+    {"t":"p","text":"A **lot** is one batch of a product, identified by a lot number and carrying its own expiry date. Tracking lots lets the system sell the oldest stock first (this is called **FEFO** — First Expired, First Out) and warn you before goods expire. The demo includes seven lots."},
+    {"t":"table","headers":["Lot number","Product","Expiry date"],"rows":[
+      ["LOT-NILE-01","Paracetamol 500mg (MED-PARA-500)","2028-06-08"],
+      ["LOT-NILE-02","Amoxicillin 250mg (MED-AMOX-250)","2027-12-01"],
+      ["LOT-NILE-03","Antiseptic Solution 500ml (MED-ANTISEP)","2027-06-09"],
+      ["LOT-GULF-01","Insulin Vial 10ml (MED-INSULIN)","2027-06-09"],
+      ["LOT-KHP-01","Surgical Gloves (CON-GLOVES)","2029-06-08"],
+      ["LOT-KHP-02","N95 Face Mask (CON-N95)","2030-06-08"],
+      ["LOT-KHP-03","Syringe 5ml (CON-SYR-5)","2031-06-08"]
+    ]},
+    {"t":"fig","file":"lots_list.png","caption":"The Lots/Serial Numbers list showing the seven demo batches, such as LOT-GULF-01 and LOT-NILE-01, with their products and expiry dates."},
+
+    {"t":"h2","text":"Bank Statement"},
+    {"t":"p","text":"A **bank statement** is the list of transactions the bank reports for an account, used during **reconciliation** (the act of matching the bank's records against the company's own records to confirm they agree). The demo has one statement with two lines."},
+    {"t":"table","headers":["Statement","Journal","Lines"],"rows":[
+      ["STMT/2026/06/KRT","Bank of Khartoum (SDG)","2"]
+    ]},
+    {"t":"fig","file":"bank_reconcile.png","caption":"The bank reconciliation screen, where the statement's lines are matched against the company's invoices and payments."},
+
+    {"t":"h2","text":"Users and Roles"},
+    {"t":"p","text":"A **user** is a person who can log in, and a **role** is the set of permissions that decides what that person may see and do. The demo includes six users, each set up for a typical job in a medical-supply company."},
+    {"t":"table","headers":["User","Role / typical job"],"rows":[
+      ["Administrator","Full system administrator"],
+      ["Amira","Procurement (buying / purchase orders)"],
+      ["Khalid","Sales (quotations and sales orders)"],
+      ["Sara","Warehouse (receipts, deliveries, stock)"],
+      ["Mohammed","Accountant (invoices, bills, payments)"],
+      ["Layla","General Manager (full management access)"]
+    ]},
+    {"t":"fig","file":"users_list.png","caption":"The Users list (Settings → Users) showing the six demo users and their jobs: Administrator, Amira, Khalid, Sara, Mohammed and Layla."},
+    {"t":"tip","title":"Try each role","text":"Logging in as a different user is the quickest way to see how the menus change for each job. A salesperson, for example, sees the Sales tools but not the deep accounting settings."}
+  ],
+  "blocks_ar": [
+    {"t":"p","text":"هذا الفصل مرجع دقيق لـ**كل ما هو محمَّل مسبقاً** في قاعدة البيانات التجريبية لـ*شركة السودان للمستلزمات الطبية*. عند فتحك نظام تخطيط موارد المستلزمات الطبية لأول مرة، لا تبدأ بنظام فارغ: توجد مجموعة كاملة وواقعية من السجلات جاهزة كي تستكشف وتتدرّب وتتعلّم بأمان. كل رقم واسم ورمز وتاريخ مذكور أدناه يطابق النظام تماماً. استخدم هذا الفصل كجدول بحث كلما أردت التحقق من قيمة أثناء قراءة الفصول الأخرى."},
+    {"t":"note","title":"لماذا بيانات تجريبية؟","text":"تتيح البيانات التجريبية للمستخدم الجديد تماماً أن يتنقّل بثقة. لا شيء هنا مُختلَق: هذه هي نفس المنتجات والعملاء والموردين والطلبات والسجلات المالية التي ستراها على الشاشة، حتى تتطابق لقطات الشاشة والأمثلة في بقية الدليل مع ما هو أمامك."},
+    {"t":"fig","file":"login.png","caption":"شاشة تسجيل الدخول لقاعدة البيانات التجريبية. أدخل اسم الدخول وكلمة المرور ثم اضغط Log in للوصول إلى السجلات الموصوفة في هذا الفصل."},
+
+    {"t":"h2","text":"الشركة والعملات"},
+    {"t":"p","text":"الشركة المالكة للنظام هي *شركة السودان للمستلزمات الطبية*. عملتها **الأساسية** (العملة الرئيسية التي تمسك بها دفاترها) هي الجنيه السوداني (SDG). وقد تم تفعيل عملة ثانية، الدولار الأمريكي (USD)، لأن بعض الموردين يُدفع لهم بالدولار."},
+    {"t":"table","headers":["الحقل","القيمة"],"rows":[
+      ["اسم الشركة","شركة السودان للمستلزمات الطبية"],
+      ["المدينة","الخرطوم"],
+      ["الدولة","السودان"],
+      ["العملة الأساسية","SDG (الجنيه السوداني)"],
+      ["الدولة الضريبية","SD (السودان)"],
+      ["العملة الثانية المُفعّلة","USD (الدولار الأمريكي)"]
+    ]},
+    {"t":"fig","file":"company.png","caption":"سجل شركة السودان للمستلزمات الطبية: الاسم القانوني والعنوان في الخرطوم بالسودان وبيانات الاتصال والعملة."},
+    {"t":"p","text":"**سعر الصرف** يخبر النظام بقيمة عملة مقابل أخرى. ولأن سعر صرف SDG/USD يتغير مع الوقت، يخزّن النظام سجلاً مؤرّخاً للأسعار. وعند تأريخ أي مستند، يختار النظام تلقائياً السعر الساري في ذلك التاريخ. الأسعار أدناه معبَّر عنها بـ**كم جنيهاً سودانياً يساوي دولار واحد**."},
+    {"t":"table","headers":["التاريخ","SDG لكل 1 USD"],"rows":[
+      ["2025-06-01","2,400"],
+      ["2025-09-01","3,000"],
+      ["2026-01-01","3,600"],
+      ["2026-04-01","4,200"],
+      ["2026-06-01","4,500"]
+    ]},
+    {"t":"fig","file":"currency_usd.png","caption":"سجل عملة الدولار الأمريكي مع فتح تبويب الأسعار (Rates)، يعرض سجل أسعار الصرف المؤرّخ الذي يستخدمه النظام لتحويل الدولار إلى الجنيه السوداني."},
+    {"t":"tip","title":"تحويل تلقائي","text":"لست مضطراً أبداً لإجراء الحساب يدوياً. عند إدخالك مستنداً بالدولار، يبحث النظام عن السعر المؤرّخ الصحيح ويعرض لك ما يعادله بالجنيه السوداني."},
+
+    {"t":"h2","text":"المستودعات والمواقع الداخلية"},
+    {"t":"p","text":"**المستودع** هو مبنى فعلي يُحفظ فيه المخزون. يوجد في النسخة التجريبية مستودعان. ورمز كل مستودع هو الاختصار الذي يستخدمه النظام في العمليات والمواقع."},
+    {"t":"table","headers":["المستودع","الرمز"],"rows":[
+      ["مستودع الخرطوم المركزي","KRT"],
+      ["مستودع بورتسودان","PRT"]
+    ]},
+    {"t":"fig","file":"warehouses.png","caption":"قائمة المستودعات (المخزون ← الإعدادات ← المستودعات): مستودع الخرطوم المركزي (KRT) ومستودع بورتسودان (PRT)."},
+    {"t":"p","text":"يوجد داخل مستودع الخرطوم **مواقع داخلية** خاصة — رفوف أو غرف مُسمّاة تُستخدم لفصل المخزون لأسباب تتعلق بالسلامة والجودة."},
+    {"t":"table","headers":["الموقع الداخلي","الغرض منه"],"rows":[
+      ["KRT/Stock/Cold Storage (2-8C)","الغرفة الباردة (2–8°م) التي تُحفظ فيها الأصناف الحساسة للحرارة مثل الإنسولين."],
+      ["KRT/Stock/Expired / Damaged","منطقة احتجاز للبضائع منتهية الصلاحية أو التالفة، حتى لا تُباع بالخطأ."],
+      ["KRT/Stock/Quarantine","منطقة انتظار للمخزون الذي يجب فحصه أو حجزه قبل الإفراج عنه للبيع."]
+    ]},
+    {"t":"fig","file":"locations_list.png","caption":"قائمة المواقع تعرض المواقع الفرعية الداخلية ضمن KRT/Stock: الغرفة الباردة (2-8C) والحجر الصحي (Quarantine) ومنتهي/تالف (Expired / Damaged)."},
+
+    {"t":"h2","text":"المنتجات"},
+    {"t":"p","text":"يضم الكتالوج **10 منتجات** في ثلاث فئات: *الأدوية* و*المستهلكات الطبية* و*الأجهزة الطبية*. ولكل منتج يعرض الجدول مرجعه الداخلي (رمز SKU)، و**التكلفة** (ما تدفعه الشركة لشراء وحدة واحدة)، و**سعر البيع** (ما يدفعه العميل)، وطريقة **التتبّع**، و**الكمية المتوفرة** (عدد الوحدات الموجودة فعلياً في المخزون الآن)."},
+    {"t":"p","text":"**التتبّع** يعني كيف يتابع النظام كل وحدة من المخزون. تتبّع *Lot* (الدفعة) يجمع الوحدات في دفعات لها رقم دفعة وتاريخ انتهاء مشترك؛ و*None* (بلا) يعني أن الصنف غير متتبَّع بالدفعات. و**الدفعة (Lot)** هي دفعة إنتاج واحدة من المنتج، تُعرَّف برمز وتاريخ انتهاء. جميع الأرقام بالجنيه السوداني (SDG)."},
+    {"t":"table","headers":["المنتج","المرجع","الفئة","التكلفة (SDG)","سعر البيع (SDG)","التتبّع","صلاحية؟","المتوفر"],"rows":[
+      ["قفازات جراحية (علبة 100)","CON-GLOVES","مستهلكات طبية","19,300","29,000","دفعة","نعم","60"],
+      ["كانيولا وريدية 18G (علبة 50)","CON-IVCAN","مستهلكات طبية","25,700","38,600","دفعة","نعم","0"],
+      ["كمامة N95 (علبة 20)","CON-N95","مستهلكات طبية","32,000","48,000","دفعة","نعم","45"],
+      ["محقن 5مل (علبة 100)","CON-SYR-5","مستهلكات طبية","12,900","20,600","دفعة","نعم","90"],
+      ["جهاز قياس ضغط الدم الرقمي","DEV-BPMON","أجهزة طبية","189,000","285,000","بلا","لا","10"],
+      ["ميزان حرارة رقمي","DEV-THERMO","أجهزة طبية","22,500","35,400","بلا","لا","0"],
+      ["أموكسيسيلين 250مج كبسولات (100)","MED-AMOX-250","أدوية","16,000","23,000","دفعة","نعم","110"],
+      ["محلول مطهّر 500مل","MED-ANTISEP","أدوية","9,600","14,800","دفعة","نعم","100"],
+      ["قارورة إنسولين 10مل","MED-INSULIN","أدوية","63,000","90,000","دفعة","نعم","50"],
+      ["باراسيتامول 500مج أقراص (100)","MED-PARA-500","أدوية","7,700","11,500","دفعة","نعم","150"]
+    ]},
+    {"t":"fig","file":"products_list.png","caption":"كتالوج المنتجات (المخزون ← المنتجات ← المنتجات) يعرض الأصناف الطبية العشرة ومراجعها الداخلية والكميات المتوفرة."},
+    {"t":"note","title":"أصناف برصيد صفر","text":"يَظهر منتجان — *كانيولا وريدية 18G* (CON-IVCAN) و*ميزان حرارة رقمي* (DEV-THERMO) — حالياً بـ**رصيد 0**. هما موجودان في الكتالوج لكن دون مخزون بعد، وهذا طبيعي ومفيد للتدرّب على الشراء."},
+
+    {"t":"h2","text":"العملاء"},
+    {"t":"p","text":"**العميل** هو جهة اتصال تبيع لها الشركة — هنا مستشفيات وعيادات وصيدليات ومنظمات إغاثة. يوجد في النسخة التجريبية أربعة."},
+    {"t":"ul","items":[
+      "*صيدلية بحري المجتمعية*",
+      "*مستشفى الخرطوم التعليمي*",
+      "*عيادة أم درمان العائلية*",
+      "*الهلال الأحمر السوداني*"
+    ]},
+    {"t":"fig","file":"contact_customer.png","caption":"سجل جهة الاتصال لمستشفى الخرطوم التعليمي، أحد العملاء الأربعة في النسخة التجريبية: الاسم والعنوان وبيانات الاتصال."},
+
+    {"t":"h2","text":"الموردون"},
+    {"t":"p","text":"**المورد** هو جهة اتصال تشتري منها الشركة. يوجد في النسخة التجريبية ثلاثة. لاحظ أن *Gulf MedTrade FZE* مورد أجنبي تُسعَّر مشترياته بالدولار الأمريكي (USD)."},
+    {"t":"ul","items":[
+      "*Gulf MedTrade FZE (USD)* — مورد أجنبي، التسعير بالدولار الأمريكي",
+      "*Khartoum Pharma Imports*",
+      "*Nile Medical Supplies Co.*"
+    ]},
+    {"t":"fig","file":"contact_supplier.png","caption":"سجل جهة الاتصال لـ Gulf MedTrade FZE (USD)، المورد الأجنبي الذي تكون عملة الشراء لديه الدولار الأمريكي."},
+
+    {"t":"h2","text":"دفاتر اليومية (Journals)"},
+    {"t":"p","text":"**دفتر اليومية (Journal)** هو سجل لنوع واحد من القيود — مثلاً كل فواتير العملاء، أو كل الأموال التي تمر عبر حساب بنكي واحد. لكل دفتر **رمز** قصير ويرتبط بعملة واحدة. دفتر **البنك (bank)** يحاكي حساباً بنكياً حقيقياً؛ ودفتر **النقد (cash)** (خزنة نقدية) يحاكي الأموال الفعلية المحفوظة في المقر."},
+    {"t":"table","headers":["الدفتر","الرمز","النوع","العملة"],"rows":[
+      ["فواتير العملاء (Customer Invoices)","INV","بيع","SDG"],
+      ["فواتير الموردين (Vendor Bills)","BILL","شراء","SDG"],
+      ["بنك الخرطوم (SDG)","BNKSD","بنك","SDG"],
+      ["الحساب البنكي بالدولار (USD Bank Account)","BNKUS","بنك","USD"],
+      ["الخزنة النقدية الرئيسية (SDG)","CSHSD","نقد","SDG"],
+      ["الخزنة النقدية بالدولار (USD Cash Safe)","CSHUS","نقد","USD"]
+    ]},
+    {"t":"fig","file":"journals_list.png","caption":"قائمة الدفاتر (المحاسبة ← الإعدادات ← الدفاتر): فواتير العملاء وفواتير الموردين ودفترا البنك وخزنتا النقد."},
+
+    {"t":"h2","text":"الضرائب"},
+    {"t":"p","text":"**الضريبة** نسبة إضافية تُضاف فوق السعر يجب على الشركة تحصيلها أو دفعها وفقاً للقانون. تستخدم النسخة التجريبية نسبة واحدة **15%**، مُعرَّفة بشكل منفصل للبيع وللشراء، وكلتاهما للسودان (SD)."},
+    {"t":"table","headers":["الضريبة","النسبة","تنطبق على","الدولة"],"rows":[
+      ["15%","15%","بيع","SD"],
+      ["15%","15%","شراء","SD"]
+    ]},
+    {"t":"fig","file":"taxes_list.png","caption":"قائمة الضرائب تعرض ضريبة البيع 15% وضريبة الشراء 15% للسودان."},
+
+    {"t":"h2","text":"أوامر الشراء"},
+    {"t":"p","text":"**أمر الشراء** هو تعليمة مؤكَّدة لشراء بضائع من مورد. الحالة *Purchase Order* تعني أن الأمر مؤكَّد؛ و*RFQ* (طلب عرض أسعار، مسودة) تعني أنه لم يُؤكَّد بعد."},
+    {"t":"table","headers":["الأمر","المورد","الحالة","الإجمالي","العملة"],"rows":[
+      ["P00001","Nile Medical Supplies Co.","Purchase Order","5,635,000","SDG"],
+      ["P00002","Gulf MedTrade FZE (USD)","Purchase Order","1,288","USD"],
+      ["P00003","Khartoum Pharma Imports","Purchase Order","5,763,800","SDG"],
+      ["P00004","Nile Medical Supplies Co.","RFQ (مسودة)","241,500","SDG"]
+    ]},
+    {"t":"fig","file":"purchase_orders.png","caption":"قائمة أوامر الشراء (المشتريات ← الأوامر) تعرض P00001–P00004 ومورديها وإجمالياتها وحالاتها."},
+    {"t":"fig","file":"po_usd.png","caption":"أمر الشراء P00002 لـ Gulf MedTrade (USD): إجمالي 1,288.00 دولار مع عرض ما يعادله بالجنيه السوداني أسفله، ما يوضّح التحويل التلقائي للعملة."},
+
+    {"t":"h2","text":"أوامر البيع"},
+    {"t":"p","text":"**أمر البيع** هو اتفاق مؤكَّد لبيع بضائع لعميل. الحالة *Sales Order* تعني أنه مؤكَّد؛ و*Quotation* (عرض أسعار، مسودة) تعني أنه ما زال عرض أسعار."},
+    {"t":"table","headers":["الأمر","العميل","الحالة","الإجمالي (SDG)"],"rows":[
+      ["S00001","مستشفى الخرطوم التعليمي","Sales Order","2,038,950"],
+      ["S00002","عيادة أم درمان العائلية","Sales Order","1,886,000"],
+      ["S00003","الهلال الأحمر السوداني","Quotation (مسودة)","2,018,250"]
+    ]},
+    {"t":"fig","file":"sale_orders_list.png","caption":"قائمة أوامر البيع (المبيعات ← الأوامر) تعرض الأمرين المؤكَّدين S00001 و S00002 بإجماليات بالجنيه السوداني."},
+
+    {"t":"h2","text":"فواتير العملاء"},
+    {"t":"p","text":"**فاتورة العميل** هي الفاتورة التي ترسلها الشركة للعميل مطالِبةً بالدفع. *Posted* (مُرحَّلة) تعني أن الفاتورة نهائية ومُسجَّلة في الدفاتر. عمود **الضريبة** هو حصة الـ15% المتضمَّنة في الإجمالي. و**تاريخ الاستحقاق** هو موعد توقُّع السداد، و**حالة السداد** تخبرك إن كانت سُدِّدت بعد. جميع المبالغ بالجنيه السوداني (SDG)."},
+    {"t":"table","headers":["الفاتورة","العميل","الحالة","الإجمالي","الضريبة","تاريخ الاستحقاق","حالة السداد"],"rows":[
+      ["INV/2026/00001","مستشفى الخرطوم التعليمي","Posted","2,038,950","265,950","2026-06-10","مدفوعة"],
+      ["INV/2026/00002","عيادة أم درمان العائلية","Posted","1,886,000","246,000","2026-06-10","مدفوعة"],
+      ["INV/2026/00003","الهلال الأحمر السوداني","Posted","1,237,400","161,400","2026-04-19","غير مدفوعة"],
+      ["INV/2026/00004","صيدلية بحري المجتمعية","Posted","1,455,900","189,900","2026-05-25","غير مدفوعة"],
+      ["INV/2026/00005","مستشفى الخرطوم التعليمي","Posted","1,273,050","166,050","2026-07-01","غير مدفوعة"]
+    ]},
+    {"t":"fig","file":"customer_invoices_list.png","caption":"قائمة فواتير العملاء (المحاسبة ← العملاء ← الفواتير): INV/2026/00001–00005 مع العملاء والمبالغ وتواريخ الاستحقاق وحالة السداد."},
+    {"t":"note","title":"فواتير متأخرة","text":"التاريخ الحالي في النسخة التجريبية هو **2026-06-10**. الفاتورتان INV/2026/00003 (تستحق 2026-04-19) وINV/2026/00004 (تستحق 2026-05-25) تجاوزتا تاريخ استحقاقهما وما زالتا غير مدفوعتين، لذا تظهران كمتأخرات في تقارير الذمم المدينة."},
+
+    {"t":"h2","text":"فواتير الموردين"},
+    {"t":"p","text":"**فاتورة المورد** هي فاتورة المورد التي يجب على الشركة سدادها. *In Payment* (قيد السداد) تعني أن السداد بدأ لكنه لم يكتمل بعد؛ و*Not Paid* (غير مدفوعة) تعني أنها ما زالت مستحقة."},
+    {"t":"table","headers":["الفاتورة","المورد","الحالة","الإجمالي","العملة","حالة السداد"],"rows":[
+      ["BILL/2026/05/0001","Nile Medical Supplies Co.","Posted","5,635,000","SDG","قيد السداد"],
+      ["BILL/2026/05/0002","Gulf MedTrade FZE (USD)","Posted","483","USD","غير مدفوعة"]
+    ]},
+    {"t":"fig","file":"vendor_bills_list.png","caption":"قائمة فواتير الموردين (المحاسبة ← الموردون ← الفواتير) وتشمل BILL/2026/05/0001 بالجنيه السوداني و BILL/2026/05/0002 بالدولار، مع حالة السداد لكل منهما."},
+
+    {"t":"h2","text":"المدفوعات"},
+    {"t":"p","text":"**الدفعة** سجل لأموال مستلَمة أو مُرسَلة. *Inbound* (واردة) تعني أموالاً قادمة من عميل؛ و*Outbound* (صادرة) تعني أموالاً ذاهبة إلى مورد. ويخبرك الدفتر بأي حساب بنكي أو خزنة نقدية تحرّكت الأموال خلاله. المبالغ بالجنيه السوداني (SDG)."},
+    {"t":"table","headers":["الدفعة","الطرف","المبلغ","الدفتر","الاتجاه","الحالة"],"rows":[
+      ["PAY00001","مستشفى الخرطوم التعليمي","2,038,950","بنك الخرطوم (SDG)","واردة","مدفوعة"],
+      ["PAY00002","عيادة أم درمان العائلية","1,886,000","الخزنة النقدية الرئيسية (SDG)","واردة","مدفوعة"],
+      ["PAY00003","Nile Medical Supplies Co.","5,635,000","بنك الخرطوم (SDG)","صادرة","قيد المعالجة"]
+    ]},
+    {"t":"fig","file":"payments_list.png","caption":"قائمة المدفوعات تعرض دفعتي تحصيل من العملاء ودفعة سداد للمورد، مع الدفتر الذي تحرّكت الأموال خلاله والمبلغ."},
+
+    {"t":"h2","text":"قواعد إعادة الطلب"},
+    {"t":"p","text":"**قاعدة إعادة الطلب** (نقطة الطلب) تُخبر النظام باقتراح شراء المزيد من المنتج عندما يهبط المخزون دون الحد الأدنى. ويسعى النظام لإعادة ملء المخزون حتى الحد الأقصى. هذا يبقي الأصناف الأساسية متوفرة دائماً دون فحص يدوي."},
+    {"t":"table","headers":["المنتج","الحد الأدنى","الحد الأقصى"],"rows":[
+      ["باراسيتامول 500مج (MED-PARA-500)","50","200"],
+      ["قارورة إنسولين 10مل (MED-INSULIN)","20","80"],
+      ["قفازات جراحية (CON-GLOVES)","30","120"]
+    ]},
+    {"t":"fig","file":"reordering_rules.png","caption":"قائمة قواعد إعادة الطلب مع حدّي الأدنى/الأقصى للباراسيتامول (50/200) والإنسولين (20/80) والقفازات (30/120)."},
+
+    {"t":"h2","text":"الدفعات وتواريخ الانتهاء"},
+    {"t":"p","text":"**الدفعة (Lot)** هي دفعة واحدة من المنتج، تُعرَّف برقم دفعة وتحمل تاريخ انتهاء خاصاً بها. يتيح تتبّع الدفعات للنظام بيع أقدم مخزون أولاً (يُسمّى هذا **FEFO** — الأول انتهاءً هو الأول خروجاً) والتنبيه قبل انتهاء البضائع. تتضمن النسخة التجريبية سبع دفعات."},
+    {"t":"table","headers":["رقم الدفعة","المنتج","تاريخ الانتهاء"],"rows":[
+      ["LOT-NILE-01","باراسيتامول 500مج (MED-PARA-500)","2028-06-08"],
+      ["LOT-NILE-02","أموكسيسيلين 250مج (MED-AMOX-250)","2027-12-01"],
+      ["LOT-NILE-03","محلول مطهّر 500مل (MED-ANTISEP)","2027-06-09"],
+      ["LOT-GULF-01","قارورة إنسولين 10مل (MED-INSULIN)","2027-06-09"],
+      ["LOT-KHP-01","قفازات جراحية (CON-GLOVES)","2029-06-08"],
+      ["LOT-KHP-02","كمامة N95 (CON-N95)","2030-06-08"],
+      ["LOT-KHP-03","محقن 5مل (CON-SYR-5)","2031-06-08"]
+    ]},
+    {"t":"fig","file":"lots_list.png","caption":"قائمة الدفعات/الأرقام التسلسلية تعرض الدفعات السبع في النسخة التجريبية، مثل LOT-GULF-01 و LOT-NILE-01، مع منتجاتها وتواريخ انتهائها."},
+
+    {"t":"h2","text":"كشف الحساب البنكي"},
+    {"t":"p","text":"**كشف الحساب البنكي** هو قائمة المعاملات التي يبلّغ عنها البنك لحساب ما، ويُستخدم أثناء **التسوية (reconciliation)** (مطابقة سجلات البنك مع سجلات الشركة للتأكد من توافقهما). تحتوي النسخة التجريبية على كشف واحد بسطرين."},
+    {"t":"table","headers":["الكشف","الدفتر","الأسطر"],"rows":[
+      ["STMT/2026/06/KRT","بنك الخرطوم (SDG)","2"]
+    ]},
+    {"t":"fig","file":"bank_reconcile.png","caption":"شاشة التسوية البنكية، حيث تُطابَق أسطر الكشف مع فواتير الشركة ومدفوعاتها."},
+
+    {"t":"h2","text":"المستخدمون والأدوار"},
+    {"t":"p","text":"**المستخدم** شخص يستطيع تسجيل الدخول، و**الدور** مجموعة الصلاحيات التي تحدد ما يمكن لهذا الشخص رؤيته وفعله. تتضمن النسخة التجريبية ستة مستخدمين، كلٌّ مُهيّأ لوظيفة نمطية في شركة مستلزمات طبية."},
+    {"t":"table","headers":["المستخدم","الدور / الوظيفة النمطية"],"rows":[
+      ["Administrator","مدير النظام الكامل"],
+      ["Amira","المشتريات (الشراء / أوامر الشراء)"],
+      ["Khalid","المبيعات (عروض الأسعار وأوامر البيع)"],
+      ["Sara","المستودع (الاستلام والتسليم والمخزون)"],
+      ["Mohammed","المحاسب (الفواتير وفواتير الموردين والمدفوعات)"],
+      ["Layla","المدير العام (صلاحية إدارية كاملة)"]
+    ]},
+    {"t":"fig","file":"users_list.png","caption":"قائمة المستخدمين (الإعدادات ← المستخدمون) تعرض المستخدمين الستة ووظائفهم: Administrator و Amira و Khalid و Sara و Mohammed و Layla."},
+    {"t":"tip","title":"جرّب كل دور","text":"تسجيل الدخول كمستخدم مختلف هو أسرع طريقة لرؤية كيف تتغيّر القوائم لكل وظيفة. فمندوب المبيعات مثلاً يرى أدوات المبيعات لكنه لا يرى إعدادات المحاسبة العميقة."}
+  ]
+}

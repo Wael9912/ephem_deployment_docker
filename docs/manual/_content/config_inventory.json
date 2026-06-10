@@ -1,0 +1,571 @@
+{
+  "key": "config_inventory",
+  "title_en": "7. Configuration — Warehouses, Locations, Units & Categories",
+  "title_ar": "7. الإعدادات — المستودعات والمواقع والوحدات والفئات",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "Before you receive, store, sell or count a single item, the Medical-Supply ERP needs to know *where* you keep your goods and *how* you measure and classify them. This chapter walks you through the four building blocks of your warehouse setup: **Warehouses** (your physical sites), **Locations** (the shelves and zones inside each site), **Units of Measure** (how you buy, stock and sell — e.g. by the box or by the single unit), and **Product Categories** (the groups that decide how the system values your stock and chooses what to ship first). You usually configure these once, and then the system takes care of the routine work for you every day."
+    },
+    {
+      "t": "note",
+      "title": "Who does this?",
+      "text": "These pages live in *Configuration* menus and are normally set up by a manager or warehouse administrator. Day-to-day staff rarely change them — but understanding them helps you read every other screen with confidence."
+    },
+
+    { "t": "h2", "text": "7.1 Warehouses" },
+    {
+      "t": "p",
+      "text": "A **warehouse** is a physical site where you store goods. *Sudan MedSupply Co.* runs two warehouses, and the system already knows about both."
+    },
+    {
+      "t": "fig",
+      "file": "warehouses.png",
+      "caption": "The Warehouses list under Inventory → Configuration: Khartoum Central Warehouse (KRT) and Port Sudan Warehouse (PRT)."
+    },
+    {
+      "t": "table",
+      "headers": ["Warehouse", "Short Name", "What it is"],
+      "rows": [
+        ["Khartoum Central Warehouse", "KRT", "The main distribution warehouse in Khartoum where most stock is held and orders are picked."],
+        ["Port Sudan Warehouse", "PRT", "The coastal warehouse at Port Sudan, the natural first stop for imported goods arriving by sea."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "To open the list, go to **Inventory → Configuration → Warehouse Management → Warehouses**. Click any line to open its form."
+    },
+
+    { "t": "h3", "text": "Fields on the Warehouse form" },
+    {
+      "t": "p",
+      "text": "The form opens on its main area. The two settings about resupply sit on a separate **Warehouse Configuration** tab."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Warehouse", "The full name of the site, e.g. *Khartoum Central Warehouse*. Required."],
+        ["Active", "A simple on/off switch. Untick it to retire a warehouse without deleting its history."],
+        ["Company", "The company that owns the warehouse. Filled in automatically from your user profile (here, *Sudan MedSupply Co.*)."],
+        ["Short Name", "A short code used to label the site and its documents, e.g. *KRT* or *PRT*. Required."],
+        ["Address", "The postal/contact address of the warehouse, chosen from your Contacts."]
+      ]
+    },
+    { "t": "h3", "text": "Warehouse Configuration tab" },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Buy to Resupply", "When ticked, goods you purchase can be delivered into this warehouse. Keep it on for warehouses that receive supplier shipments."],
+        ["Resupply From", "Pick one or more other warehouses to restock this one from. The system then creates the internal routes automatically — handy if Khartoum is topped up from Port Sudan."]
+      ]
+    },
+    { "t": "h3", "text": "Smart button" },
+    {
+      "t": "ul",
+      "items": [
+        "**Routes** — opens the list of stock routes linked to this warehouse. A *route* is simply a pre-defined path that goods follow (for example: supplier → receipt → stock). You rarely need to touch this, but it is there if you do."
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Each warehouse automatically comes with its own **Receipts** operation (bringing goods in from a supplier) and **Delivery** operation (sending goods out to a customer). You will use those daily from the Inventory app — they are described in the Inventory chapter."
+    },
+    {
+      "t": "tip",
+      "title": "How receipts and deliveries flow",
+      "text": "Think of every warehouse as having a front door and a back door. A **Receipt** is the front door: a supplier delivery arrives, you confirm what physically came in, and the stock count goes up. A **Delivery** is the back door: a customer order is picked, you confirm what physically left, and the stock count goes down. The system creates these documents for you the moment a purchase or sale is confirmed."
+    },
+
+    { "t": "h2", "text": "7.2 Locations" },
+    {
+      "t": "p",
+      "text": "A **location** is a precise spot *inside* a warehouse — a zone, a room or a shelf. While the warehouse answers \"which building?\", the location answers \"which corner of it?\". Tracking locations lets you keep delicate or risky stock separate from everything else."
+    },
+    {
+      "t": "p",
+      "text": "Open them at **Inventory → Configuration → Warehouse Management → Locations**. Inside the Khartoum Central Warehouse stock area (*KRT/Stock*) the system has three important internal sub-locations."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "The Locations list showing internal sub-locations under KRT/Stock: Cold Storage (2-8C), Quarantine, and Expired / Damaged."
+    },
+    {
+      "t": "table",
+      "headers": ["Location", "What it is for"],
+      "rows": [
+        ["KRT/Stock/Cold Storage (2-8C)", "The refrigerated zone kept between 2 and 8 degrees Celsius. Cold-chain products such as *Insulin Vial 10ml* must live here."],
+        ["KRT/Stock/Quarantine", "A holding zone for goods that have just arrived and are awaiting inspection or paperwork, so they are not sold by mistake before being cleared."],
+        ["KRT/Stock/Expired / Damaged", "A set-aside zone for items that are past their expiry date or were broken in handling, kept apart from sellable stock until they are written off."]
+      ]
+    },
+
+    { "t": "h3", "text": "Fields on the Location form" },
+    {
+      "t": "p",
+      "text": "Click any location to open its form. The fields below all appear on the form's main area."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Company", "The owning company. Leave it empty only if the location is to be shared between companies (not the case here)."],
+        ["Location Name", "The short name of the spot, e.g. *Cold Storage (2-8C)*. Required."],
+        ["Parent Location", "The location this one sits inside — for example *Cold Storage* sits inside *KRT/Stock*. This is how the warehouse hierarchy is built."],
+        ["Active", "On/off switch. Untick to hide a location without deleting it."],
+        ["Location Type", "What kind of place this is. *Internal Location* means a physical spot in your own warehouse (the usual choice). Other types are virtual, e.g. *Vendor Location* (where supplier goods come from), *Customer Location* (where sold goods go), *Inventory Loss*, *Transit Location*, *Production*, and *View* (a grouping that holds no goods itself). Required."],
+        ["Storage Category", "An optional label that lets you set storage rules (such as which products are allowed here)."],
+        ["Is a Scrap Location?", "Tick this for a location used to hold scrapped or damaged goods."],
+        ["Replenish Location", "Tick this to have the system gather quantities to restock at this particular spot."],
+        ["Inventory Frequency", "If set to a number of days, the system schedules a recurring stock count for this location. Leave at 0 for no automatic schedule."],
+        ["Last Inventory", "The date this location was last counted (filled in by the system)."],
+        ["Next Expected", "The date of the next scheduled count, based on the frequency above."],
+        ["Additional Information", "A free-text note for any extra instructions about the location."]
+      ]
+    },
+    { "t": "h3", "text": "Smart buttons" },
+    {
+      "t": "ul",
+      "items": [
+        "**Putaway Rules** — opens the auto-routing rules that send products to this location on arrival (see below).",
+        "**Products** — lists the products currently sitting in this location.",
+        "**Current Stock** — shows the live on-hand quantities at this location."
+      ]
+    },
+
+    { "t": "h3", "text": "Putaway rules — automatic routing on receipt" },
+    {
+      "t": "p",
+      "text": "A **putaway rule** tells the system, automatically, where a product should be stored the moment it is received — so staff never have to remember the cold-chain policy by hand. In this database a rule routes *Insulin Vial 10ml* straight into **Cold Storage (2-8C)** on receipt, keeping it within the safe 2–8 °C range from the very first scan."
+    },
+    {
+      "t": "warn",
+      "title": "Why this matters for medicines",
+      "text": "Insulin and similar products lose potency if they get warm. The putaway rule removes human error: the moment an insulin receipt is validated, the system itself files it in Cold Storage instead of ordinary shelving."
+    },
+    {
+      "t": "p",
+      "text": "You can review or add putaway rules at **Inventory → Configuration → Warehouse Management → Putaway Rules**, or by opening a location and clicking its **Putaway Rules** smart button."
+    },
+    { "t": "h3", "text": "To create a putaway rule" },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Inventory → Configuration → Warehouse Management → Putaway Rules**.",
+        "Click **New**.",
+        "Choose the **product** (or product category) the rule applies to, e.g. *Insulin Vial 10ml*.",
+        "Set the **When product arrives in** location (the receiving zone, e.g. *KRT/Stock*).",
+        "Set the **Store to** location the system should move it to, e.g. *Cold Storage (2-8C)*.",
+        "**Save**. From now on, every receipt of that product is filed in the chosen location for you."
+      ]
+    },
+
+    { "t": "h2", "text": "7.3 Units of Measure" },
+    {
+      "t": "p",
+      "text": "A **unit of measure** (UoM) is simply *how you count a product* — by the single piece, by the box, by weight, and so on. The clever part is that you can **buy, stock and sell in different units** and the system converts between them automatically. Several items here are bought and stocked as a *box*, but their names make the pack size clear — for example *Surgical Gloves (Box of 100)*, *Syringe 5ml (Box of 100)* and *N95 Face Mask (Box of 20)*."
+    },
+    {
+      "t": "fig",
+      "file": "uom_list.png",
+      "caption": "The Units of Measure list, grouped by category (Unit, Weight, Volume, and so on)."
+    },
+    {
+      "t": "p",
+      "text": "Units are grouped into **categories** (such as *Unit*, *Weight*, *Volume*). The system can only convert between two units that belong to the *same* category — it would never try to turn litres into grams. To browse the individual units, go to **Sales → Configuration → Units of Measure → Units of Measure** (the same list is also reachable from **Inventory → Configuration → Units of Measures → UoM**). To see or edit the families themselves, open the sibling menu **Units of Measure Categories** (called **UoM Categories** under the Inventory app)."
+    },
+    {
+      "t": "table",
+      "headers": ["Term", "Plain meaning"],
+      "rows": [
+        ["Unit of Measure category", "A family of compatible units (e.g. everything in the *Unit* family, or everything in the *Weight* family). Conversions only happen within one family."],
+        ["Reference unit", "The base unit of a category that all others are measured against (for example, the single *Units* unit)."],
+        ["Bigger / Smaller than reference", "How a pack relates to the base — e.g. a *Box of 100* is 100 times bigger than one piece, so 1 box converts to 100 pieces."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "What this does for you",
+      "text": "If you stock gloves as a *Box of 100* but a clinic asks for them by the box, you never do mental arithmetic. Enter the quantity in whichever unit suits the document and the system keeps the underlying stock count correct on its own."
+    },
+
+    { "t": "h2", "text": "7.4 Product Categories" },
+    {
+      "t": "p",
+      "text": "A **product category** is a group that products belong to. It does more than tidy the catalogue: a category decides **how the system values your stock** (its costing method) and **which items leave first** (its removal strategy). Set it once on the category, and every product inside it follows the same rules. *Sudan MedSupply Co.* uses three categories."
+    },
+    {
+      "t": "fig",
+      "file": "categories_list.png",
+      "caption": "The Product Categories list: Pharmaceuticals, Medical Consumables and Medical Devices."
+    },
+    {
+      "t": "table",
+      "headers": ["Category", "Example products"],
+      "rows": [
+        ["Pharmaceuticals", "*Insulin Vial 10ml*, *Paracetamol 500mg Tablets (100s)*, *Amoxicillin 250mg Capsules (100s)*, *Antiseptic Solution 500ml*."],
+        ["Medical Consumables", "*Surgical Gloves (Box of 100)*, *Syringe 5ml (Box of 100)*, *N95 Face Mask (Box of 20)*, *IV Cannula 18G (Box of 50)*."],
+        ["Medical Devices", "*Digital Blood Pressure Monitor*, *Digital Thermometer*."]
+      ]
+    },
+
+    { "t": "h3", "text": "Costing and removal explained simply" },
+    {
+      "t": "ul",
+      "items": [
+        "**FIFO (First In, First Out)** — the *costing method* used here. When you sell an item, the system values it at the cost of the **oldest** stock you still hold. For medical goods whose purchase price drifts upward, this keeps your cost figures honest and orderly.",
+        "**FEFO (First Expired, First Out)** — the *removal strategy* used here. When picking goods for a delivery, the system reserves the batch with the **nearest expiry date** first, so older medicine ships before newer medicine and waste is minimised. A *lot* (also called a batch) is a group of identical units produced together that share one expiry date.",
+        "**Periodic (manual) valuation** — in this demo, inventory valuation is set to *Manual* (also called periodic). That means the accounting value of stock is recorded in bookkeeping at chosen moments rather than re-posting an entry on every single move. It keeps the books simpler while FIFO still governs the cost of each item."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "FEFO vs FIFO — the difference in one line",
+      "text": "FIFO answers *what does this item cost?* (oldest stock first). FEFO answers *which physical batch do we ship?* (nearest expiry first). Together they keep both your books and your shelves in good order."
+    },
+
+    { "t": "h3", "text": "Fields on the Product Category form" },
+    {
+      "t": "p",
+      "text": "Open a category at **Inventory → Configuration → Products → Product Categories** (also reachable via **Accounting → Configuration → Management → Product Categories**). All fields appear on the form's main area; the accounting fields only matter when valuation is automated."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["# Products", "How many products are filed under this category (a count shown by the system)."],
+        ["Name", "The category name, e.g. *Pharmaceuticals*. Required."],
+        ["Parent Category", "An optional larger category this one belongs to, to build a hierarchy."],
+        ["Force Removal Strategy", "The rule for which goods leave first. Here it is set so the system ships the nearest-expiry batch first (FEFO). Other options include FIFO, LIFO and Closest location."],
+        ["Costing Method", "How stock is valued: *Standard Price*, *Average Cost (AVCO)* or *First In First Out (FIFO)*. These categories use FIFO. Required."],
+        ["Price Difference Account", "Accounting account that captures any gap between the purchase price and the booked cost."],
+        ["Income Account", "The account credited when a customer invoice for these products is validated."],
+        ["Expense Account", "The account charged when a vendor bill for these products is validated."],
+        ["Downpayment Account", "The account used on down-payment invoices."],
+        ["Inventory Valuation", "*Manual* or *Automated*. *Manual* (periodic) means stock value is not posted to the books on every move; *Automated* posts an entry each time goods enter or leave. This demo uses Manual. Required."],
+        ["Stock Valuation Account", "The account that would hold the current value of stock when valuation is automated."],
+        ["Stock Journal", "The accounting journal (record book) used for automatic stock entries. A *journal* is simply a book where similar accounting entries are grouped."],
+        ["Stock Input Account", "Where the value of incoming goods is recorded under automated valuation."],
+        ["Stock Output Account", "Where the value of outgoing goods is recorded under automated valuation."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Demo uses periodic valuation",
+      "text": "Because this database is set to *Manual* (periodic) inventory valuation, the accounting fields (stock journal, stock input/output and valuation accounts) are present on the form but are not posted to automatically on each stock move. FIFO costing and FEFO removal still apply to your goods."
+    },
+    { "t": "h3", "text": "Buttons" },
+    {
+      "t": "ul",
+      "items": [
+        "**locations** — a quick link from the category to the related locations.",
+        "**Putaway Rules** (smart button) — opens the putaway rules tied to this category, so you can route a whole category to a zone at once."
+      ]
+    },
+
+    { "t": "h3", "text": "To create a new product category" },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Inventory → Configuration → Products → Product Categories**.",
+        "Click **New**.",
+        "Enter the **Name** (for example a new sub-group of supplies).",
+        "If it belongs under another group, choose a **Parent Category**.",
+        "Set the **Costing Method** to *First In First Out (FIFO)* to match the existing categories.",
+        "Set **Force Removal Strategy** to the nearest-expiry-first option (FEFO) for any goods that expire.",
+        "Leave **Inventory Valuation** as *Manual* to match this demo, unless your accountant asks for automated valuation.",
+        "**Save**. Products you file under this category now inherit these rules automatically."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Set it once, benefit every day",
+      "text": "Configuring warehouses, locations, units and categories well is a one-time effort that pays off on every receipt, delivery, sale and stock count afterwards — the system applies cold-chain putaway, FIFO costing and FEFO picking for you, automatically, without anyone having to remember the rules."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "قبل أن تستلم أو تخزّن أو تبيع أو تجرد صنفاً واحداً، يحتاج نظام إدارة المستلزمات الطبية إلى معرفة *أين* تحفظ بضائعك و*كيف* تقيسها وتصنّفها. يأخذك هذا الفصل عبر الركائز الأربع لإعداد المستودع: **المستودعات** (مواقعك الفعلية)، و**المواقع** (الرفوف والمناطق داخل كل موقع)، و**وحدات القياس** (كيف تشتري وتخزّن وتبيع — مثلاً بالعلبة أو بالوحدة المفردة)، و**فئات المنتجات** (المجموعات التي تحدد كيف يقيّم النظام مخزونك ويختار ما يُشحن أولاً). عادةً ما تُعدّ هذه مرة واحدة، ثم يتولى النظام العمل الروتيني نيابةً عنك كل يوم."
+    },
+    {
+      "t": "note",
+      "title": "من يقوم بذلك؟",
+      "text": "تقع هذه الصفحات ضمن قوائم *الإعدادات (Configuration)* ويُعدّها عادةً مدير أو مسؤول المستودع. نادراً ما يغيّرها الموظفون اليومياً — لكن فهمها يساعدك على قراءة كل شاشة أخرى بثقة."
+    },
+
+    { "t": "h2", "text": "7.1 المستودعات" },
+    {
+      "t": "p",
+      "text": "**المستودع** هو موقع فعلي تخزّن فيه البضائع. تدير *شركة السودان للمستلزمات الطبية* مستودعين، والنظام يعرفهما بالفعل."
+    },
+    {
+      "t": "fig",
+      "file": "warehouses.png",
+      "caption": "قائمة المستودعات ضمن المخزون ← الإعدادات: مستودع الخرطوم المركزي (KRT) ومستودع بورتسودان (PRT)."
+    },
+    {
+      "t": "table",
+      "headers": ["المستودع", "الاسم المختصر", "ما هو"],
+      "rows": [
+        ["مستودع الخرطوم المركزي", "KRT", "مستودع التوزيع الرئيسي في الخرطوم حيث يُحفظ معظم المخزون وتُجهّز الطلبات."],
+        ["مستودع بورتسودان", "PRT", "المستودع الساحلي في بورتسودان، المحطة الأولى الطبيعية للبضائع المستوردة الواصلة بحراً."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "لفتح القائمة، اذهب إلى **المخزون ← الإعدادات ← إدارة المستودعات ← المستودعات**. انقر أي سطر لفتح نموذجه."
+    },
+
+    { "t": "h3", "text": "حقول نموذج المستودع" },
+    {
+      "t": "p",
+      "text": "يُفتح النموذج على منطقته الرئيسية. ويقع الإعدادان الخاصان بإعادة التزويد في تبويب منفصل اسمه **إعدادات المستودع (Warehouse Configuration)**."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["المستودع (Warehouse)", "الاسم الكامل للموقع، مثل *مستودع الخرطوم المركزي*. إلزامي."],
+        ["نشط (Active)", "مفتاح تشغيل/إيقاف بسيط. ألغِ تحديده لإيقاف مستودع دون حذف سجلّه."],
+        ["الشركة (Company)", "الشركة المالكة للمستودع. تُملأ تلقائياً من ملف المستخدم (هنا *شركة السودان للمستلزمات الطبية*)."],
+        ["الاسم المختصر (Short Name)", "رمز مختصر يُستخدم لتمييز الموقع ووثائقه، مثل *KRT* أو *PRT*. إلزامي."],
+        ["العنوان (Address)", "العنوان البريدي/التواصلي للمستودع، يُختار من جهات الاتصال."]
+      ]
+    },
+    { "t": "h3", "text": "تبويب إعدادات المستودع" },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الشراء لإعادة التزويد (Buy to Resupply)", "عند تحديده، يمكن تسليم البضائع المشتراة إلى هذا المستودع. أبقِه مفعّلاً للمستودعات التي تستقبل شحنات المورّدين."],
+        ["إعادة التزويد من (Resupply From)", "اختر مستودعاً أو أكثر لإعادة تزويد هذا المستودع منه. عندئذٍ ينشئ النظام المسارات الداخلية تلقائياً — مفيد إذا كانت الخرطوم تُزوَّد من بورتسودان."]
+      ]
+    },
+    { "t": "h3", "text": "الزر الذكي" },
+    {
+      "t": "ul",
+      "items": [
+        "**المسارات (Routes)** — يفتح قائمة مسارات المخزون المرتبطة بهذا المستودع. *المسار (Route)* ببساطة هو طريق محدّد مسبقاً تتبعه البضائع (مثلاً: المورّد ← الاستلام ← المخزون). نادراً ما تحتاج إلى تعديله، لكنه متاح عند الحاجة."
+      ]
+    },
+    {
+      "t": "p",
+      "text": "يأتي كل مستودع تلقائياً بعملية **استلام (Receipts)** خاصة به (إدخال البضائع من مورّد) وعملية **تسليم (Delivery)** (إخراج البضائع إلى عميل). ستستخدمها يومياً من تطبيق المخزون — وهي موصوفة في فصل المخزون."
+    },
+    {
+      "t": "tip",
+      "title": "كيف تسير عمليات الاستلام والتسليم",
+      "text": "تخيّل أن لكل مستودع باباً أمامياً وباباً خلفياً. **الاستلام (Receipt)** هو الباب الأمامي: تصل شحنة المورّد، فتؤكّد ما دخل فعلياً، فيرتفع رصيد المخزون. و**التسليم (Delivery)** هو الباب الخلفي: يُجهّز طلب العميل، فتؤكّد ما خرج فعلياً، فينخفض رصيد المخزون. ينشئ النظام هذه الوثائق نيابةً عنك بمجرد تأكيد أمر شراء أو بيع."
+    },
+
+    { "t": "h2", "text": "7.2 المواقع" },
+    {
+      "t": "p",
+      "text": "**الموقع (Location)** هو نقطة محددة *داخل* المستودع — منطقة أو غرفة أو رفّ. فبينما يجيب المستودع عن سؤال «أي مبنى؟»، يجيب الموقع عن سؤال «أي ركن منه؟». وتتبّع المواقع يتيح لك فصل المخزون الحساس أو الخطر عن سائر البضائع."
+    },
+    {
+      "t": "p",
+      "text": "افتحها من **المخزون ← الإعدادات ← إدارة المستودعات ← المواقع**. داخل منطقة مخزون مستودع الخرطوم المركزي (*KRT/Stock*) لدى النظام ثلاثة مواقع فرعية داخلية مهمة."
+    },
+    {
+      "t": "fig",
+      "file": "locations_list.png",
+      "caption": "قائمة المواقع تُظهر المواقع الفرعية الداخلية تحت KRT/Stock: التخزين البارد (2-8C)، والحجر، والمنتهي الصلاحية / التالف."
+    },
+    {
+      "t": "table",
+      "headers": ["الموقع", "الغرض منه"],
+      "rows": [
+        ["KRT/Stock/Cold Storage (2-8C)", "منطقة التبريد المحفوظة بين 2 و8 درجات مئوية. يجب أن تُحفظ منتجات سلسلة التبريد مثل *قارورة الإنسولين 10 مل* هنا."],
+        ["KRT/Stock/Quarantine", "منطقة حجز للبضائع الواصلة حديثاً والتي تنتظر الفحص أو المستندات، حتى لا تُباع خطأً قبل إجازتها."],
+        ["KRT/Stock/Expired / Damaged", "منطقة عزل للأصناف التي تجاوزت تاريخ صلاحيتها أو تلفت أثناء المناولة، تُفصل عن المخزون القابل للبيع حتى تُشطب."]
+      ]
+    },
+
+    { "t": "h3", "text": "حقول نموذج الموقع" },
+    {
+      "t": "p",
+      "text": "انقر أي موقع لفتح نموذجه. كل الحقول أدناه تظهر في المنطقة الرئيسية للنموذج."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["الشركة (Company)", "الشركة المالكة. اتركه فارغاً فقط إذا كان الموقع مشتركاً بين شركات (وليس الحال هنا)."],
+        ["اسم الموقع (Location Name)", "الاسم المختصر للنقطة، مثل *Cold Storage (2-8C)*. إلزامي."],
+        ["الموقع الأب (Parent Location)", "الموقع الذي يقع هذا داخله — مثلاً *التخزين البارد* يقع داخل *KRT/Stock*. هكذا يُبنى التسلسل الهرمي للمستودع."],
+        ["نشط (Active)", "مفتاح تشغيل/إيقاف. ألغِ تحديده لإخفاء موقع دون حذفه."],
+        ["نوع الموقع (Location Type)", "نوع المكان. *Internal Location* يعني نقطة فعلية في مستودعك (الخيار المعتاد). الأنواع الأخرى افتراضية، مثل *Vendor Location* (مصدر بضائع المورّد)، و*Customer Location* (وجهة البضائع المباعة)، و*Inventory Loss*، و*Transit Location*، و*Production*، و*View* (تجميع لا يحوي بضائع بذاته). إلزامي."],
+        ["فئة التخزين (Storage Category)", "تصنيف اختياري يتيح ضبط قواعد التخزين (مثل المنتجات المسموح بها هنا)."],
+        ["هل هو موقع خردة؟ (Is a Scrap Location?)", "حدّده لموقع يُستخدم لحفظ البضائع المشطوبة أو التالفة."],
+        ["موقع إعادة التزويد (Replenish Location)", "حدّده لكي يجمع النظام الكميات المطلوب إعادة تزويدها عند هذه النقطة بالذات."],
+        ["تكرار الجرد (Inventory Frequency)", "إذا ضُبط على عدد من الأيام، يجدول النظام جرداً دورياً لهذا الموقع. اتركه 0 لإلغاء الجدولة التلقائية."],
+        ["آخر جرد (Last Inventory)", "تاريخ آخر جرد لهذا الموقع (يملؤه النظام)."],
+        ["المتوقَّع التالي (Next Expected)", "تاريخ الجرد المجدول التالي، بناءً على التكرار أعلاه."],
+        ["معلومات إضافية (Additional Information)", "ملاحظة نصّية حرّة لأي تعليمات إضافية حول الموقع."]
+      ]
+    },
+    { "t": "h3", "text": "الأزرار الذكية" },
+    {
+      "t": "ul",
+      "items": [
+        "**قواعد التخزين (Putaway Rules)** — تفتح قواعد التوجيه التلقائي التي تُرسل المنتجات إلى هذا الموقع عند وصولها (انظر أدناه).",
+        "**المنتجات (Products)** — تسرد المنتجات الموجودة حالياً في هذا الموقع.",
+        "**المخزون الحالي (Current Stock)** — تعرض الكميات المتاحة الحيّة في هذا الموقع."
+      ]
+    },
+
+    { "t": "h3", "text": "قواعد التخزين — التوجيه التلقائي عند الاستلام" },
+    {
+      "t": "p",
+      "text": "**قاعدة التخزين (Putaway Rule)** تخبر النظام تلقائياً بالمكان الذي ينبغي تخزين المنتج فيه لحظة استلامه — فلا يحتاج الموظفون لتذكّر سياسة سلسلة التبريد يدوياً. في هذه القاعدة البيانية، تُوجِّه قاعدةٌ *قارورة الإنسولين 10 مل* مباشرةً إلى **التخزين البارد (2-8C)** عند الاستلام، فتبقى ضمن المدى الآمن 2–8 درجات مئوية منذ أول مسح."
+    },
+    {
+      "t": "warn",
+      "title": "لماذا يهم هذا للأدوية",
+      "text": "يفقد الإنسولين وما شابهه فاعليته إذا سخن. قاعدة التخزين تُزيل الخطأ البشري: بمجرد اعتماد استلام إنسولين، يحفظه النظام نفسه في التخزين البارد بدل الرفوف العادية."
+    },
+    {
+      "t": "p",
+      "text": "يمكنك مراجعة قواعد التخزين أو إضافتها من **المخزون ← الإعدادات ← إدارة المستودعات ← قواعد التخزين**، أو بفتح موقع والنقر على زر **قواعد التخزين (Putaway Rules)** الذكي فيه."
+    },
+    { "t": "h3", "text": "لإنشاء قاعدة تخزين" },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المخزون ← الإعدادات ← إدارة المستودعات ← قواعد التخزين**.",
+        "انقر **جديد (New)**.",
+        "اختر **المنتج** (أو فئة المنتج) الذي تنطبق عليه القاعدة، مثل *قارورة الإنسولين 10 مل*.",
+        "حدّد موقع **عند وصول المنتج إلى (When product arrives in)** (منطقة الاستلام، مثل *KRT/Stock*).",
+        "حدّد موقع **التخزين في (Store to)** الذي ينبغي للنظام نقله إليه، مثل *Cold Storage (2-8C)*.",
+        "**احفظ (Save)**. منذ الآن، يُحفظ كل استلام لذلك المنتج في الموقع المختار نيابةً عنك."
+      ]
+    },
+
+    { "t": "h2", "text": "7.3 وحدات القياس" },
+    {
+      "t": "p",
+      "text": "**وحدة القياس (UoM)** هي ببساطة *الطريقة التي تَعُدّ بها المنتج* — بالقطعة المفردة، أو بالعلبة، أو بالوزن، وهكذا. والميزة الذكية أنه يمكنك **الشراء والتخزين والبيع بوحدات مختلفة** ويحوّل النظام بينها تلقائياً. عدة أصناف هنا تُشترى وتُخزَّن كـ*علبة*، لكن أسماءها توضّح حجم العبوة — مثل *قفازات جراحية (علبة 100)* و*محقن 5 مل (علبة 100)* و*كمامة N95 (علبة 20)*."
+    },
+    {
+      "t": "fig",
+      "file": "uom_list.png",
+      "caption": "قائمة وحدات القياس، مجمّعة حسب الفئة (وحدة، وزن، حجم، وهكذا)."
+    },
+    {
+      "t": "p",
+      "text": "تُجمَّع الوحدات في **فئات (Categories)** (مثل *Unit* و*Weight* و*Volume*). ولا يستطيع النظام التحويل إلا بين وحدتين تنتميان إلى *نفس* الفئة — فلن يحاول أبداً تحويل اللترات إلى الغرامات. لتصفّح الوحدات المفردة، اذهب إلى **المبيعات ← الإعدادات ← وحدات القياس ← وحدات القياس (Units of Measure)** (وتُتاح القائمة نفسها أيضاً من **المخزون ← الإعدادات ← وحدات القياس ← UoM**). ولرؤية العائلات نفسها أو تعديلها، افتح القائمة الشقيقة **فئات وحدات القياس (Units of Measure Categories)** (وتُسمى **UoM Categories** ضمن تطبيق المخزون)."
+    },
+    {
+      "t": "table",
+      "headers": ["المصطلح", "المعنى المبسّط"],
+      "rows": [
+        ["فئة وحدة القياس", "عائلة من الوحدات المتوافقة (مثل كل ما في عائلة *Unit*، أو كل ما في عائلة *Weight*). لا يحدث التحويل إلا داخل عائلة واحدة."],
+        ["الوحدة المرجعية", "الوحدة الأساس في الفئة التي تُقاس عليها كل الوحدات الأخرى (مثلاً الوحدة المفردة *Units*)."],
+        ["أكبر / أصغر من المرجع", "كيف ترتبط العبوة بالأساس — مثلاً *علبة 100* أكبر بمئة مرة من القطعة الواحدة، فتتحول علبة واحدة إلى 100 قطعة."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "ماذا يفعل هذا لك",
+      "text": "إذا خزّنت القفازات كـ*علبة 100* وطلبتها عيادة بالعلبة، فلن تجري حساباً ذهنياً. أدخِل الكمية بالوحدة الملائمة للوثيقة، ويحافظ النظام بنفسه على صحة رصيد المخزون الأساسي."
+    },
+
+    { "t": "h2", "text": "7.4 فئات المنتجات" },
+    {
+      "t": "p",
+      "text": "**فئة المنتج (Product Category)** هي مجموعة تنتمي إليها المنتجات. وهي تفعل أكثر من ترتيب الكتالوج: فالفئة تحدد **كيف يقيّم النظام مخزونك** (طريقة التكلفة) و**أي الأصناف تخرج أولاً** (إستراتيجية السحب). تضبطها مرة واحدة على الفئة، فيتبع كل منتج بداخلها القواعد نفسها. تستخدم *شركة السودان للمستلزمات الطبية* ثلاث فئات."
+    },
+    {
+      "t": "fig",
+      "file": "categories_list.png",
+      "caption": "قائمة فئات المنتجات: المستحضرات الدوائية، والمستهلكات الطبية، والأجهزة الطبية."
+    },
+    {
+      "t": "table",
+      "headers": ["الفئة", "أمثلة المنتجات"],
+      "rows": [
+        ["المستحضرات الدوائية (Pharmaceuticals)", "*قارورة الإنسولين 10 مل*، *أقراص باراسيتامول 500 مغ (100)*, *كبسولات أموكسيسيلين 250 مغ (100)*، *محلول مطهّر 500 مل*."],
+        ["المستهلكات الطبية (Medical Consumables)", "*قفازات جراحية (علبة 100)*، *محقن 5 مل (علبة 100)*، *كمامة N95 (علبة 20)*، *قنية وريدية 18G (علبة 50)*."],
+        ["الأجهزة الطبية (Medical Devices)", "*جهاز قياس ضغط الدم الرقمي*، *ميزان حرارة رقمي*."]
+      ]
+    },
+
+    { "t": "h3", "text": "شرح مبسّط للتكلفة والسحب" },
+    {
+      "t": "ul",
+      "items": [
+        "**FIFO (الوارد أولاً يصرف أولاً)** — *طريقة التكلفة* المستخدمة هنا. عند بيع صنف، يقيّمه النظام بتكلفة **أقدم** مخزون لا يزال لديك. وللبضائع الطبية التي يميل سعر شرائها إلى الارتفاع، يبقي هذا أرقام التكلفة دقيقة ومنظّمة.",
+        "**FEFO (الأقرب انتهاءً يصرف أولاً)** — *إستراتيجية السحب* المستخدمة هنا. عند تجهيز بضائع لتسليم، يحجز النظام الدفعة ذات **أقرب تاريخ انتهاء** أولاً، فيُشحن الدواء الأقدم قبل الأحدث ويقلّ الهدر. و*الدفعة (Lot)* (وتُسمى أيضاً batch) هي مجموعة وحدات متطابقة أُنتجت معاً وتتشارك تاريخ انتهاء واحداً.",
+        "**التقييم الدوري (اليدوي)** — في هذه القاعدة البيانية، ضُبط تقييم المخزون على *يدوي (Manual)* (ويُسمى أيضاً دورياً). أي أن القيمة المحاسبية للمخزون تُسجَّل في الدفاتر في لحظات مختارة بدل ترحيل قيد عند كل حركة. وهذا يبسّط الدفاتر بينما تظل FIFO تحكم تكلفة كل صنف."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "الفرق بين FEFO وFIFO في سطر",
+      "text": "تجيب FIFO عن سؤال *ما تكلفة هذا الصنف؟* (الأقدم أولاً). وتجيب FEFO عن سؤال *أي دفعة فعلية نشحن؟* (الأقرب انتهاءً أولاً). معاً تبقيان دفاترك ورفوفك في حسن نظام."
+    },
+
+    { "t": "h3", "text": "حقول نموذج فئة المنتج" },
+    {
+      "t": "p",
+      "text": "افتح فئة من **المخزون ← الإعدادات ← المنتجات ← فئات المنتجات** (وتُتاح أيضاً عبر **المحاسبة ← الإعدادات ← الإدارة ← فئات المنتجات**). كل الحقول تظهر في المنطقة الرئيسية للنموذج؛ ولا تهم الحقول المحاسبية إلا حين يكون التقييم آلياً."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ماذا يعني / ماذا تُدخل"],
+      "rows": [
+        ["عدد المنتجات (# Products)", "كم منتجاً مصنّفاً تحت هذه الفئة (عدد يعرضه النظام)."],
+        ["الاسم (Name)", "اسم الفئة، مثل *المستحضرات الدوائية*. إلزامي."],
+        ["الفئة الأب (Parent Category)", "فئة أكبر اختيارية تنتمي إليها هذه، لبناء تسلسل هرمي."],
+        ["فرض إستراتيجية السحب (Force Removal Strategy)", "قاعدة تحدد أي البضائع تخرج أولاً. ضُبطت هنا كي يشحن النظام الدفعة الأقرب انتهاءً أولاً (FEFO). من الخيارات الأخرى FIFO وLIFO وأقرب موقع."],
+        ["طريقة التكلفة (Costing Method)", "كيف يُقيَّم المخزون: *Standard Price* أو *Average Cost (AVCO)* أو *First In First Out (FIFO)*. تستخدم هذه الفئات FIFO. إلزامي."],
+        ["حساب فرق السعر (Price Difference Account)", "حساب محاسبي يلتقط أي فرق بين سعر الشراء والتكلفة المسجَّلة."],
+        ["حساب الإيراد (Income Account)", "الحساب الدائن عند اعتماد فاتورة عميل لهذه المنتجات."],
+        ["حساب المصروف (Expense Account)", "الحساب المدين عند اعتماد فاتورة مورّد لهذه المنتجات."],
+        ["حساب الدفعة المقدمة (Downpayment Account)", "الحساب المستخدم في فواتير الدفعات المقدمة."],
+        ["تقييم المخزون (Inventory Valuation)", "*Manual* أو *Automated*. يعني *Manual* (الدوري) عدم ترحيل قيمة المخزون إلى الدفاتر عند كل حركة؛ بينما *Automated* يرحّل قيداً كلما دخلت بضاعة أو خرجت. تستخدم هذه القاعدة البيانية Manual. إلزامي."],
+        ["حساب تقييم المخزون (Stock Valuation Account)", "الحساب الذي يحتفظ بالقيمة الحالية للمخزون حين يكون التقييم آلياً."],
+        ["دفتر يومية المخزون (Stock Journal)", "دفتر اليومية المحاسبي المستخدم لقيود المخزون الآلية. و*دفتر اليومية (Journal)* ببساطة دفتر تُجمَّع فيه القيود المحاسبية المتشابهة."],
+        ["حساب مدخلات المخزون (Stock Input Account)", "حيث تُسجَّل قيمة البضائع الواردة في التقييم الآلي."],
+        ["حساب مخرجات المخزون (Stock Output Account)", "حيث تُسجَّل قيمة البضائع الصادرة في التقييم الآلي."]
+      ]
+    },
+    {
+      "t": "note",
+      "title": "القاعدة البيانية تستخدم التقييم الدوري",
+      "text": "لأن هذه القاعدة البيانية مضبوطة على تقييم مخزون *يدوي (Manual)* (دوري)، فإن الحقول المحاسبية (دفتر يومية المخزون، ومدخلات/مخرجات المخزون، وحسابات التقييم) موجودة في النموذج لكنها لا تُرحَّل تلقائياً عند كل حركة مخزون. وتبقى تكلفة FIFO وسحب FEFO ساريين على بضائعك."
+    },
+    { "t": "h3", "text": "الأزرار" },
+    {
+      "t": "ul",
+      "items": [
+        "**المواقع (locations)** — رابط سريع من الفئة إلى المواقع المرتبطة.",
+        "**قواعد التخزين (Putaway Rules)** (زر ذكي) — يفتح قواعد التخزين المرتبطة بهذه الفئة، فيمكنك توجيه فئة كاملة إلى منطقة دفعةً واحدة."
+      ]
+    },
+
+    { "t": "h3", "text": "لإنشاء فئة منتج جديدة" },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **المخزون ← الإعدادات ← المنتجات ← فئات المنتجات**.",
+        "انقر **جديد (New)**.",
+        "أدخِل **الاسم (Name)** (مثلاً مجموعة فرعية جديدة من المستلزمات).",
+        "إذا كانت تنتمي إلى مجموعة أخرى، فاختر **الفئة الأب (Parent Category)**.",
+        "اضبط **طريقة التكلفة (Costing Method)** على *First In First Out (FIFO)* لمطابقة الفئات القائمة.",
+        "اضبط **فرض إستراتيجية السحب (Force Removal Strategy)** على خيار الأقرب انتهاءً أولاً (FEFO) لأي بضائع تنتهي صلاحيتها.",
+        "اترك **تقييم المخزون (Inventory Valuation)** على *Manual* لمطابقة هذه القاعدة البيانية، إلا إذا طلب محاسبك التقييم الآلي.",
+        "**احفظ (Save)**. المنتجات التي تصنّفها تحت هذه الفئة ترث هذه القواعد تلقائياً الآن."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "اضبطها مرة، واستفد كل يوم",
+      "text": "إعداد المستودعات والمواقع والوحدات والفئات إعداداً جيداً جهدٌ لمرة واحدة يؤتي ثماره في كل استلام وتسليم وبيع وجرد بعد ذلك — إذ يطبّق النظام نيابةً عنك تخزين سلسلة التبريد، وتكلفة FIFO، وسحب FEFO، تلقائياً، دون أن يضطر أحد لتذكّر القواعد."
+    }
+  ]
+}

@@ -1,0 +1,369 @@
+{
+  "key": "procurement",
+  "title_en": "10. Procurement (Purchasing)",
+  "title_ar": "10. المشتريات",
+  "blocks_en": [
+    {"t": "p", "text": "Procurement is how *Sudan MedSupply Co.* buys the medical supplies and pharmaceuticals it later stores and sells. This chapter walks you through the whole buying journey — from asking a supplier for prices, to confirming the order, to receiving the goods in the warehouse, to recording the supplier's invoice. You will do all of this in the **Purchase** app, and the system quietly takes care of the hard parts: currency conversion, stock updates, and matching what you ordered against what you actually received and were billed for."},
+    {"t": "note", "title": "A few words you will meet", "text": "A **RFQ** (Request for Quotation) is a draft order you send to a supplier to ask 'how much?' before you commit. A **Purchase Order (PO)** is the confirmed order — a promise to buy. A **Vendor Bill** is the invoice the supplier sends you asking for payment. A **vendor** (or *supplier*) is the company you buy from."},
+
+    {"t": "h2", "text": "10.1 The Purchasing Flow at a Glance"},
+    {"t": "p", "text": "Buying always follows the same four steps. The Medical-Supply ERP guides you from one to the next and remembers everything along the way, so nothing falls through the cracks."},
+    {"t": "ol", "items": [
+      "**Request for Quotation (RFQ)** — you create a draft order and (optionally) email it to the supplier to confirm prices and availability.",
+      "**Purchase Order** — once you are happy, you press **Confirm Order** and the RFQ becomes a real, committed Purchase Order.",
+      "**Receipt** — when the goods arrive at the warehouse, you receive them; the system increases your stock and records the lot numbers and expiry dates.",
+      "**Vendor Bill** — you record the supplier's invoice so the Accounting team knows what to pay and when."
+    ]},
+    {"t": "tip", "title": "The system does the matching for you", "text": "You never have to reconcile spreadsheets by hand. The PO keeps a running tally of how much was **ordered**, **received** and **billed**, and warns you if a bill asks for more than you actually received."},
+    {"t": "fig", "file": "purchase_orders.png", "caption": "The Purchase Orders list with orders P00001 to P00004, their vendors, totals and statuses (RFQ / Purchase Order)."},
+
+    {"t": "h2", "text": "10.2 Finding Your Way Around"},
+    {"t": "p", "text": "Open the **Purchase** app from the 9-dot app launcher. The main menus you will use are:"},
+    {"t": "table", "headers": ["Menu path", "What you find there"], "rows": [
+      ["**Purchase → Orders → Requests for Quotation**", "All the draft orders (RFQs) you are still negotiating or have not yet confirmed."],
+      ["**Purchase → Orders → Purchase Orders**", "Every order, including confirmed POs. This is the list shown above."],
+      ["**Purchase → Orders → Vendors**", "Your suppliers' contact records (e.g. *Gulf MedTrade FZE*, *Nile Medical Supplies Co.*)."],
+      ["**Purchase → Products → Products**", "The catalogue of items you can buy."],
+      ["**Purchase → Reporting → Purchase**", "Charts and tables analysing your spending and supplier performance."],
+      ["**Purchase → Configuration → Vendor Pricelists**", "The agreed price each supplier charges for each product."],
+      ["**Purchase → Configuration → Settings**", "Switches that turn purchasing features on or off."]
+    ]},
+    {"t": "fig", "file": "rfq_list.png", "caption": "The Requests for Quotation list — the draft purchase orders that have not yet been confirmed."},
+
+    {"t": "h2", "text": "10.3 Vendor Pricelists"},
+    {"t": "p", "text": "A **vendor pricelist** is simply the list of prices a particular supplier has agreed to charge you for each product, together with details like the supplier's lead time (how many days they need to deliver). When you add a product to an order, the system automatically fills in the price from this list, so you do not have to remember or re-type it."},
+    {"t": "p", "text": "In our demo, the *Insulin Vial 10ml* product carries a vendor line for *Gulf MedTrade FZE* at **14.00 USD**. That is exactly why, when you order insulin from Gulf MedTrade, the system proposes $14 per vial without being asked."},
+    {"t": "note", "title": "Where pricelists live", "text": "You can see a product's vendor prices on the **Purchase** tab of the product form, or all of them together under **Purchase → Configuration → Vendor Pricelists**."},
+
+    {"t": "h2", "text": "10.4 Multi-Currency Purchasing (USD)"},
+    {"t": "p", "text": "*Sudan MedSupply Co.* keeps its books in **SDG** (Sudanese Pound), but some suppliers — such as *Gulf MedTrade FZE*, based in Dubai — sell in **USD**. The Medical-Supply ERP handles this for you:"},
+    {"t": "ul", "items": [
+      "The supplier's **purchase currency** is set on their contact record. *Gulf MedTrade FZE (USD)* is configured to buy in USD, so its orders default to dollars.",
+      "Prices, the order total and the bill are all shown in the supplier's currency (USD).",
+      "Behind the scenes, the system converts to SDG using the dated exchange-rate table, so Accounting always sees the local-currency value. On 01 June 2026 the rate is **1 USD = 4,500 SDG**."
+    ]},
+    {"t": "tip", "title": "You only type the foreign price", "text": "Enter $14 for insulin and the system does the SDG maths for you using the rate on the order's date. No calculator needed."},
+
+    {"t": "h2", "text": "10.5 The Purchase Order Form"},
+    {"t": "p", "text": "Whether it is still an RFQ or a confirmed PO, you work on the same form. The top of the form shows the **Order Reference** (e.g. *P00002*) and a **status bar** that tracks where the order is in its life. Below the header are three tabs: **Products**, **Invoices and Incoming Shipments**, and **Other Information**."},
+    {"t": "fig", "file": "po_usd.png", "caption": "Purchase Order P00002 for Gulf MedTrade in USD: lines for 50 Insulin @ $14 and 10 BP Monitors @ $42, the status bar from RFQ to Purchase Order, a total of $1,288.00, and the header buttons Create Bill and Receipt."},
+
+    {"t": "h3", "text": "Status bar"},
+    {"t": "p", "text": "The status bar at the top right shows, and lets you follow, the order's stage. The possible stages are:"},
+    {"t": "table", "headers": ["Status", "Meaning"], "rows": [
+      ["**RFQ**", "A brand-new draft request for quotation, not yet sent or confirmed."],
+      ["**RFQ Sent**", "The quotation request has been emailed to the supplier."],
+      ["**To Approve**", "The order is awaiting a manager's approval (used when an approval rule applies)."],
+      ["**Purchase Order**", "The order is confirmed — a real commitment to buy."],
+      ["**Locked**", "The order is finished and protected from further changes."],
+      ["**Cancelled**", "The order has been cancelled."]
+    ]},
+
+    {"t": "h3", "text": "Header fields"},
+    {"t": "p", "text": "These fields sit at the top of the form, above the tabs."},
+    {"t": "table", "headers": ["Field", "What it means / what to enter"], "rows": [
+      ["**Status**", "The current stage of the order, shown in the status bar (read-only)."],
+      ["**Priority**", "Mark the order *Normal* or *Urgent* (the star) to flag rush purchases."],
+      ["**Order Reference**", "The order's unique number, generated automatically (e.g. *P00002*)."],
+      ["**Vendor**", "The supplier you are buying from. You can find a vendor by Name, TIN (tax number), email or internal reference."],
+      ["**Vendor Reference**", "The supplier's own number for this order or bid; it helps match goods when they arrive, as the supplier usually writes it on the delivery note."],
+      ["**Currency**", "The currency of the order (e.g. *USD* for Gulf MedTrade). Comes from the vendor's purchase currency."],
+      ["**Company**", "Which company is placing the order (*Sudan MedSupply Co.*)."],
+      ["**Order Deadline**", "The date by which this quotation should be confirmed and turned into a purchase order."],
+      ["**Confirmation Date**", "The date the order was actually confirmed (filled in when you confirm)."],
+      ["**Expected Arrival**", "The delivery date promised by the supplier; used to plan when stock will arrive."],
+      ["**Deliver To**", "The operation type / warehouse that will receive the goods — this decides where the incoming shipment is created."],
+      ["**Dropship Address**", "Fill in only if the supplier should ship directly to your customer; otherwise leave blank to deliver to your own warehouse."],
+      ["**Arrival**", "The completion date of the first receipt (filled in once goods are received)."]
+    ]},
+
+    {"t": "h3", "text": "Smart buttons (top-right counters)"},
+    {"t": "p", "text": "These clickable counters appear once an order is confirmed and let you jump straight to related documents."},
+    {"t": "table", "headers": ["Button", "What it shows"], "rows": [
+      ["**Receipt**", "The incoming shipment(s) created for this order — click to receive the goods."],
+      ["**Vendor Bills**", "The supplier invoice(s) linked to this order."]
+    ]},
+
+    {"t": "h3", "text": "Tab: Products"},
+    {"t": "p", "text": "This is the heart of the order — the list of items you are buying. Each line shows:"},
+    {"t": "table", "headers": ["Field", "What it means / what to enter"], "rows": [
+      ["**Product**", "The item being purchased (e.g. *Insulin Vial 10ml*)."],
+      ["**product_qty** (Quantity)", "How many units you are ordering."],
+      ["**Received**", "How many units have actually arrived so far (updates automatically as you receive goods)."],
+      ["**Billed**", "How many units have been invoiced by the supplier so far."],
+      ["**UoM**", "The unit of measure for the quantity (e.g. *Units*)."],
+      ["**price_unit** (Unit Price)", "The price per unit, proposed automatically from the vendor pricelist."],
+      ["**taxes_id** (Taxes)", "The purchase tax applied to the line (e.g. the Sudan 15% purchase tax). A *tax* is a government charge added to the price."],
+      ["**Disc.%**", "An optional percentage discount on the line."],
+      ["**Amount**", "The line subtotal (quantity × price, less discount)."]
+    ]},
+    {"t": "p", "text": "Beneath the lines you will also find:"},
+    {"t": "table", "headers": ["Field", "What it means"], "rows": [
+      ["**Terms and Conditions**", "Free text for any notes or conditions that should appear on the printed order."],
+      ["**Tax Totals**", "The automatically calculated breakdown of untaxed amount, tax and grand total."]
+    ]},
+
+    {"t": "h3", "text": "Tab: Invoices and Incoming Shipments"},
+    {"t": "p", "text": "This tab gathers the logistics and billing side of the order. It tracks the **stock moves** (the goods coming in) so you can see, line by line, what has been received against this order."},
+
+    {"t": "h3", "text": "Tab: Other Information"},
+    {"t": "table", "headers": ["Field", "What it means / what to enter"], "rows": [
+      ["**Buyer**", "The staff member responsible for this order (e.g. *Amira*, Procurement)."],
+      ["**Source Document**", "The reference of the document that triggered this order — for example a sales order, when goods are bought specifically to fulfil a customer."],
+      ["**Incoterm**", "An internationally agreed shipping term (who pays freight, where risk passes) used in cross-border purchases."],
+      ["**Incoterm Location**", "The named place that goes with the Incoterm (e.g. a port)."],
+      ["**Receipt Status**", "Whether goods are *Not Received*, *Partially Received* or *Fully Received*."],
+      ["**Billing Status**", "Whether there is *Nothing to Bill*, you are *Waiting Bills*, or it is *Fully Billed*."],
+      ["**Payment Terms**", "When the bill is due (e.g. immediately, or in 30 days)."],
+      ["**Fiscal Position**", "A rule set that adjusts taxes and accounts automatically — useful for foreign or tax-exempt suppliers."]
+    ]},
+
+    {"t": "h3", "text": "Header buttons"},
+    {"t": "p", "text": "The buttons available change with the order's status. Together they cover the whole purchasing flow:"},
+    {"t": "table", "headers": ["Button", "What it does"], "rows": [
+      ["**Send by Email**", "Emails the RFQ to the supplier to ask for prices/availability."],
+      ["**Print RFQ**", "Produces a printable PDF of the request for quotation."],
+      ["**Confirm Order**", "Turns the RFQ into a confirmed Purchase Order and creates the incoming shipment."],
+      ["**Approve Order**", "Approves an order that is *To Approve* (when an approval rule applies)."],
+      ["**Re-Send by Email** / **Send PO by Email**", "Sends the confirmed order to the supplier again or as a PO."],
+      ["**Receive Products**", "Opens the receipt so you can record the goods arriving in the warehouse."],
+      ["**Create Bill**", "Drafts the vendor bill from the order, pre-filled with what was ordered/received."],
+      ["**Catalog**", "Opens the product catalogue to add several items quickly."],
+      ["**Set to Draft**", "Returns a confirmed order to RFQ so you can edit it."],
+      ["**Lock**", "Locks a completed order against further changes."],
+      ["**Unlock**", "Re-opens a locked order for editing."],
+      ["**Cancel**", "Cancels the order."]
+    ]},
+
+    {"t": "h2", "text": "10.6 Step-by-Step: Create and Confirm a Purchase Order"},
+    {"t": "p", "text": "Follow these steps to buy goods from a supplier."},
+    {"t": "ol", "items": [
+      "Open the **Purchase** app and go to **Purchase → Orders → Requests for Quotation**.",
+      "Click **New** to start a fresh RFQ.",
+      "In **Vendor**, choose the supplier (e.g. *Gulf MedTrade FZE (USD)*). The **Currency** fills in automatically from the vendor — USD in this case.",
+      "On the **Products** tab, click **Add a line**, pick a **Product**, and set the **Quantity**. The **Unit Price** appears automatically from the vendor pricelist; adjust it only if the agreed price has changed.",
+      "Repeat for each item you want to order. Watch the **Tax Totals** under the lines update as you go.",
+      "Optionally click **Send by Email** to ask the supplier to confirm, or **Print RFQ** for a paper copy.",
+      "When ready, click **Confirm Order**. The status bar moves to **Purchase Order**, the **Confirmation Date** is filled in, and a **Receipt** is created for the warehouse."
+    ]},
+    {"t": "warn", "title": "Choose the vendor first", "text": "Because the currency, prices and payment terms all flow from the supplier, always select the **Vendor** before adding products. This guarantees the right prices and the right currency."},
+
+    {"t": "h2", "text": "10.7 Step-by-Step: Receive the Goods"},
+    {"t": "p", "text": "When the supplier's delivery reaches the warehouse, record it so your stock is accurate."},
+    {"t": "ol", "items": [
+      "Open the confirmed Purchase Order and click the **Receive Products** button (or the **Receipt** smart button).",
+      "Check that the products and quantities match what physically arrived.",
+      "For tracked items, enter the **Lot/Serial Number** and confirm the expiry date (e.g. *LOT-GULF-01* for the insulin).",
+      "Click **Validate** to confirm receipt. Stock rises immediately, and the **Received** column on the order updates."
+    ]},
+    {"t": "note", "title": "Why lots matter", "text": "A *lot* is a batch of a product that shares one expiry date. Recording lots lets the warehouse later sell the oldest stock first (FEFO — First-Expiry, First-Out), so medicines never expire on the shelf."},
+
+    {"t": "h2", "text": "10.8 Step-by-Step: Create the Vendor Bill"},
+    {"t": "p", "text": "Once goods are received and the supplier sends their invoice, record it."},
+    {"t": "ol", "items": [
+      "Open the Purchase Order and click **Create Bill**.",
+      "The system drafts the bill, pre-filled with the lines from the order.",
+      "Enter the supplier's **Bill Date** and their invoice number in **Vendor Reference**.",
+      "Check the amounts against the paper invoice, then click **Confirm** to post the bill.",
+      "The bill now appears for the Accounting team to pay (see the Accounting chapter)."
+    ]},
+    {"t": "tip", "title": "Bill Control = received quantities", "text": "By default the system bills you for what you **received**, not just what you ordered. So if you ordered 50 vials but only 40 arrived, the draft bill proposes 40 — protecting you from overpaying. The **Billing Status** field (*Nothing to Bill* / *Waiting Bills* / *Fully Billed*) tells you at a glance where the order stands."},
+
+    {"t": "h2", "text": "10.9 Worked Example: Order P00002 from Gulf MedTrade (USD)"},
+    {"t": "p", "text": "Let us follow a real order from the demo system. *P00002* is a confirmed Purchase Order placed with the foreign supplier *Gulf MedTrade FZE (USD)*, based in Dubai. Because Gulf MedTrade sells in dollars, the whole order is in **USD**."},
+    {"t": "table", "headers": ["Product", "Quantity", "Unit Price (USD)", "Line Amount (USD)"], "rows": [
+      ["*Insulin Vial 10ml*", "50", "$14.00", "$700.00"],
+      ["*Digital Blood Pressure Monitor*", "10", "$42.00", "$420.00"]
+    ]},
+    {"t": "p", "text": "The order totals **$1,288.00**. (The line amounts of $700 and $420 come to $1,120 before the 15% purchase tax; with tax the grand total reaches $1,288.00.) Because the company keeps its books in SDG, the system also values the order in local currency using the rate on the order's date: at **1 USD = 4,500 SDG**, $1,288.00 equals **5,796,000 SDG** — and you never had to reach for a calculator."},
+    {"t": "p", "text": "On the order form the status bar reads **Purchase Order** (it has already been confirmed), and the header offers **Create Bill** and **Receipt**, ready for the next steps. The demo also includes a separate USD vendor bill from the same supplier, *BILL/2026/05/0002* for **483 USD**, which you can see in the Vendor Bills list (covered in the Accounting chapter)."},
+    {"t": "fig", "file": "po_usd.png", "caption": "Order P00002 in USD — 50 Insulin @ $14 and 10 BP Monitors @ $42 — confirmed as a Purchase Order, with the USD total and its SDG value shown together."},
+
+    {"t": "h2", "text": "10.10 Draft RFQ Awaiting Confirmation: P00004"},
+    {"t": "p", "text": "Not every order is confirmed yet. *P00004* is a draft **RFQ** for the local supplier *Nile Medical Supplies Co.*, totalling **241,500 SDG**. Because it is still a draft, it sits in **Purchase → Orders → Requests for Quotation** and waits for someone to review the prices and press **Confirm Order**. Until then it makes no commitment and changes no stock — it is simply a question to the supplier."},
+    {"t": "fig", "file": "po_rfq.png", "caption": "Draft RFQ P00004 for Nile Medical Supplies, before confirmation, showing the Confirm Order button."},
+    {"t": "tip", "title": "Spot the difference", "text": "A glance at the status bar tells you everything: *P00002* reads **Purchase Order** (committed, in USD), while *P00004* still reads **RFQ** (a draft, in SDG)."}
+  ],
+  "blocks_ar": [
+    {"t": "p", "text": "المشتريات هي الطريقة التي تشتري بها *شركة السودان للمستلزمات الطبية* المستلزمات الطبية والأدوية التي تخزّنها وتبيعها لاحقًا. يأخذك هذا الفصل عبر رحلة الشراء كاملةً — من طلب الأسعار من المورّد، إلى تأكيد الطلب، إلى استلام البضائع في المستودع، إلى تسجيل فاتورة المورّد. ستقوم بكل ذلك من خلال تطبيق **المشتريات (Purchase)**، ويتولّى النظام في صمت الأجزاء الصعبة: تحويل العملات، وتحديث المخزون، ومطابقة ما طلبته مع ما استلمته فعليًا وما فُوتر عليك."},
+    {"t": "note", "title": "بعض المصطلحات التي ستقابلها", "text": "**طلب عرض السعر (RFQ)** هو طلب مبدئي تُرسله إلى المورّد لتسأل «بكم؟» قبل أن تلتزم. **أمر الشراء (Purchase Order)** هو الطلب المؤكَّد — وعدٌ بالشراء. **فاتورة المورّد (Vendor Bill)** هي الفاتورة التي يرسلها المورّد مطالبًا بالدفع. و**المورّد (Vendor)** هو الجهة التي تشتري منها."},
+
+    {"t": "h2", "text": "10.1 نظرة سريعة على مسار الشراء"},
+    {"t": "p", "text": "يتّبع الشراء دائمًا الخطوات الأربع نفسها. يرشدك نظام ERP للمستلزمات الطبية من خطوة إلى التي تليها ويتذكّر كل شيء على طول الطريق، فلا يضيع شيء."},
+    {"t": "ol", "items": [
+      "**طلب عرض السعر (RFQ)** — تنشئ طلبًا مبدئيًا و(اختياريًا) ترسله بالبريد الإلكتروني إلى المورّد لتأكيد الأسعار والتوفّر.",
+      "**أمر الشراء (Purchase Order)** — حين تطمئن، تضغط **تأكيد الطلب** فيتحوّل طلب عرض السعر إلى أمر شراء حقيقي ومُلزِم.",
+      "**الاستلام (Receipt)** — عند وصول البضائع إلى المستودع تستلمها؛ فيرفع النظام مخزونك ويسجّل أرقام الدُفعات (Lots) وتواريخ انتهاء الصلاحية.",
+      "**فاتورة المورّد (Vendor Bill)** — تسجّل فاتورة المورّد ليعرف قسم المحاسبة ما يجب دفعه ومتى."
+    ]},
+    {"t": "tip", "title": "النظام يقوم بالمطابقة نيابةً عنك", "text": "لن تضطر أبدًا لمطابقة الجداول يدويًا. يحتفظ أمر الشراء بإحصاء مستمر لما تم **طلبه** و**استلامه** و**فوترته**، وينبّهك إذا طالبت فاتورةٌ بأكثر مما استلمته فعليًا."},
+    {"t": "fig", "file": "purchase_orders.png", "caption": "قائمة أوامر الشراء من P00001 إلى P00004 مع المورّدين والإجماليات والحالات (طلب عرض سعر / أمر شراء)."},
+
+    {"t": "h2", "text": "10.2 التنقّل داخل التطبيق"},
+    {"t": "p", "text": "افتح تطبيق **المشتريات (Purchase)** من مشغّل التطبيقات ذي النقاط التسع. أهم القوائم التي ستستخدمها:"},
+    {"t": "table", "headers": ["مسار القائمة", "ما تجده هناك"], "rows": [
+      ["**المشتريات ← الطلبات ← طلبات عروض الأسعار (Purchase → Orders → Requests for Quotation)**", "كل الطلبات المبدئية (RFQ) التي ما زلت تتفاوض عليها أو لم تؤكّدها بعد."],
+      ["**المشتريات ← الطلبات ← أوامر الشراء (Purchase → Orders → Purchase Orders)**", "كل الطلبات، بما فيها أوامر الشراء المؤكَّدة. وهي القائمة المعروضة أعلاه."],
+      ["**المشتريات ← الطلبات ← المورّدون (Purchase → Orders → Vendors)**", "سجلات جهات الاتصال لمورّديك (مثل *Gulf MedTrade FZE* و*Nile Medical Supplies Co.*)."],
+      ["**المشتريات ← المنتجات ← المنتجات (Purchase → Products → Products)**", "كتالوج الأصناف التي يمكنك شراؤها."],
+      ["**المشتريات ← التقارير ← المشتريات (Purchase → Reporting → Purchase)**", "رسوم بيانية وجداول تحلّل إنفاقك وأداء المورّدين."],
+      ["**المشتريات ← الإعدادات ← قوائم أسعار المورّدين (Purchase → Configuration → Vendor Pricelists)**", "السعر المتفق عليه الذي يفرضه كل مورّد لكل منتج."],
+      ["**المشتريات ← الإعدادات ← الإعدادات (Purchase → Configuration → Settings)**", "مفاتيح لتفعيل خصائص الشراء أو تعطيلها."]
+    ]},
+    {"t": "fig", "file": "rfq_list.png", "caption": "قائمة طلبات عروض الأسعار — أوامر الشراء المبدئية التي لم تُؤكَّد بعد."},
+
+    {"t": "h2", "text": "10.3 قوائم أسعار المورّدين"},
+    {"t": "p", "text": "**قائمة أسعار المورّد (Vendor Pricelist)** هي ببساطة قائمة الأسعار التي وافق مورّد معيّن على فرضها عليك لكل منتج، إلى جانب تفاصيل مثل مهلة التوريد (عدد الأيام التي يحتاجها للتسليم). عند إضافة منتج إلى طلب، يملأ النظام السعر تلقائيًا من هذه القائمة، فلا تضطر إلى تذكّره أو إعادة كتابته."},
+    {"t": "p", "text": "في نموذجنا التجريبي، يحمل منتج *Insulin Vial 10ml* سطر مورّد لـ *Gulf MedTrade FZE* بسعر **14.00 USD**. ولهذا بالضبط، حين تطلب الإنسولين من Gulf MedTrade، يقترح النظام 14 دولارًا للقارورة دون أن تطلب ذلك."},
+    {"t": "note", "title": "أين توجد قوائم الأسعار", "text": "يمكنك رؤية أسعار مورّدي منتج ما في تبويب **الشراء (Purchase)** في نموذج المنتج، أو رؤيتها كلها مجتمعة من **المشتريات ← الإعدادات ← قوائم أسعار المورّدين**."},
+
+    {"t": "h2", "text": "10.4 الشراء متعدّد العملات (USD)"},
+    {"t": "p", "text": "تمسك *شركة السودان للمستلزمات الطبية* دفاترها بـ **الجنيه السوداني (SDG)**، لكن بعض المورّدين — مثل *Gulf MedTrade FZE* في دبي — يبيعون بـ **الدولار (USD)**. يتولّى نظام ERP للمستلزمات الطبية هذا الأمر نيابةً عنك:"},
+    {"t": "ul", "items": [
+      "تُضبط **عملة الشراء** للمورّد في سجل جهة الاتصال الخاصة به. فالمورّد *Gulf MedTrade FZE (USD)* مهيّأ للشراء بالدولار، لذا تكون طلباته بالدولار افتراضيًا.",
+      "تُعرض الأسعار وإجمالي الطلب والفاتورة كلها بعملة المورّد (USD).",
+      "خلف الكواليس، يحوّل النظام إلى الجنيه السوداني باستخدام جدول أسعار الصرف المؤرّخ، ليرى قسم المحاسبة دائمًا القيمة بالعملة المحلية. وفي 1 يونيو 2026 يكون السعر **1 USD = 4,500 SDG**."
+    ]},
+    {"t": "tip", "title": "أنت تُدخل السعر الأجنبي فقط", "text": "أدخل 14 دولارًا للإنسولين ويقوم النظام بحساب الجنيه السوداني نيابةً عنك باستخدام السعر في تاريخ الطلب. لا حاجة إلى آلة حاسبة."},
+
+    {"t": "h2", "text": "10.5 نموذج أمر الشراء"},
+    {"t": "p", "text": "سواء أكان لا يزال طلب عرض سعر أم أمر شراء مؤكَّدًا، فأنت تعمل على النموذج نفسه. يُظهر أعلى النموذج **مرجع الطلب (Order Reference)** (مثل *P00002*) و**شريط الحالة (status bar)** الذي يتتبّع موضع الطلب في دورة حياته. وأسفل الترويسة ثلاثة تبويبات: **المنتجات (Products)**، و**الفواتير والشحنات الواردة (Invoices and Incoming Shipments)**، و**معلومات أخرى (Other Information)**."},
+    {"t": "fig", "file": "po_usd.png", "caption": "أمر الشراء P00002 لـ Gulf MedTrade بالدولار: سطران لـ 50 إنسولين بسعر 14$ و10 أجهزة قياس ضغط بسعر 42$، وشريط الحالة من طلب عرض السعر إلى أمر الشراء، وإجمالي 1,288.00$، وأزرار الترويسة إنشاء فاتورة (Create Bill) واستلام (Receipt)."},
+
+    {"t": "h3", "text": "شريط الحالة"},
+    {"t": "p", "text": "يُظهر شريط الحالة أعلى اليمين مرحلة الطلب ويتيح لك متابعتها. والمراحل الممكنة هي:"},
+    {"t": "table", "headers": ["الحالة", "المعنى"], "rows": [
+      ["**RFQ (طلب عرض سعر)**", "طلب عرض سعر مبدئي جديد تمامًا، لم يُرسَل أو يُؤكَّد بعد."],
+      ["**RFQ Sent (أُرسِل الطلب)**", "أُرسِل طلب عرض السعر بالبريد الإلكتروني إلى المورّد."],
+      ["**To Approve (بانتظار الاعتماد)**", "الطلب بانتظار اعتماد مدير (عند انطباق قاعدة اعتماد)."],
+      ["**Purchase Order (أمر شراء)**", "الطلب مؤكَّد — التزامٌ حقيقي بالشراء."],
+      ["**Locked (مقفل)**", "الطلب منتهٍ ومحميٌّ من أي تعديل."],
+      ["**Cancelled (ملغى)**", "أُلغي الطلب."]
+    ]},
+
+    {"t": "h3", "text": "حقول الترويسة"},
+    {"t": "p", "text": "تقع هذه الحقول أعلى النموذج، فوق التبويبات."},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه / ما تُدخله"], "rows": [
+      ["**Status (الحالة)**", "المرحلة الحالية للطلب، تظهر في شريط الحالة (للقراءة فقط)."],
+      ["**Priority (الأولوية)**", "حدّد الطلب *عادي (Normal)* أو *عاجل (Urgent)* (النجمة) للإشارة إلى المشتريات المستعجلة."],
+      ["**Order Reference (مرجع الطلب)**", "رقم الطلب الفريد، يُولَّد تلقائيًا (مثل *P00002*)."],
+      ["**Vendor (المورّد)**", "المورّد الذي تشتري منه. يمكنك إيجاده بالاسم أو الرقم الضريبي (TIN) أو البريد الإلكتروني أو المرجع الداخلي."],
+      ["**Vendor Reference (مرجع المورّد)**", "رقم المورّد الخاص بهذا الطلب أو العرض؛ يساعد في مطابقة البضائع عند وصولها لأن المورّد عادةً يكتبه على إشعار التسليم."],
+      ["**Currency (العملة)**", "عملة الطلب (مثل *USD* لـ Gulf MedTrade). تأتي من عملة الشراء الخاصة بالمورّد."],
+      ["**Company (الشركة)**", "الشركة التي تضع الطلب (*شركة السودان للمستلزمات الطبية*)."],
+      ["**Order Deadline (الموعد النهائي للطلب)**", "التاريخ الذي ينبغي خلاله تأكيد عرض السعر وتحويله إلى أمر شراء."],
+      ["**Confirmation Date (تاريخ التأكيد)**", "تاريخ تأكيد الطلب فعليًا (يُملأ عند التأكيد)."],
+      ["**Expected Arrival (الوصول المتوقع)**", "تاريخ التسليم الذي وعد به المورّد؛ يُستخدم لتخطيط موعد وصول المخزون."],
+      ["**Deliver To (التسليم إلى)**", "نوع العملية / المستودع الذي سيستلم البضائع — وهذا يحدّد مكان إنشاء الشحنة الواردة."],
+      ["**Dropship Address (عنوان الشحن المباشر)**", "تملؤه فقط إذا أردت أن يشحن المورّد مباشرةً إلى عميلك؛ وإلا اتركه فارغًا ليُسلَّم إلى مستودعك."],
+      ["**Arrival (الوصول)**", "تاريخ إتمام أول استلام (يُملأ بمجرد استلام البضائع)."]
+    ]},
+
+    {"t": "h3", "text": "الأزرار الذكية (العدّادات أعلى اليمين)"},
+    {"t": "p", "text": "تظهر هذه العدّادات القابلة للنقر بعد تأكيد الطلب وتتيح لك الانتقال مباشرةً إلى المستندات المرتبطة."},
+    {"t": "table", "headers": ["الزر", "ما يعرضه"], "rows": [
+      ["**Receipt (الاستلام)**", "الشحنة (الشحنات) الواردة المُنشأة لهذا الطلب — انقر لاستلام البضائع."],
+      ["**Vendor Bills (فواتير المورّد)**", "فاتورة (فواتير) المورّد المرتبطة بهذا الطلب."]
+    ]},
+
+    {"t": "h3", "text": "تبويب: المنتجات (Products)"},
+    {"t": "p", "text": "هذا هو قلب الطلب — قائمة الأصناف التي تشتريها. يُظهر كل سطر:"},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه / ما تُدخله"], "rows": [
+      ["**Product (المنتج)**", "الصنف الذي يُشترى (مثل *Insulin Vial 10ml*)."],
+      ["**الكمية (product_qty)**", "عدد الوحدات التي تطلبها."],
+      ["**Received (المُستلَم)**", "عدد الوحدات التي وصلت فعليًا حتى الآن (يتحدّث تلقائيًا مع استلام البضائع)."],
+      ["**Billed (المُفوتَر)**", "عدد الوحدات التي فوترها المورّد حتى الآن."],
+      ["**UoM (وحدة القياس)**", "وحدة قياس الكمية (مثل *وحدات*)."],
+      ["**سعر الوحدة (price_unit)**", "سعر الوحدة، المقترح تلقائيًا من قائمة أسعار المورّد."],
+      ["**Taxes (الضرائب)**", "ضريبة الشراء المطبَّقة على السطر (مثل ضريبة الشراء السودانية 15%). و*الضريبة* هي رسم حكومي يُضاف إلى السعر."],
+      ["**Disc.% (الخصم %)**", "نسبة خصم اختيارية على السطر."],
+      ["**Amount (المبلغ)**", "المجموع الفرعي للسطر (الكمية × السعر، بعد الخصم)."]
+    ]},
+    {"t": "p", "text": "أسفل السطور ستجد أيضًا:"},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه"], "rows": [
+      ["**Terms and Conditions (الشروط والأحكام)**", "نص حر لأي ملاحظات أو شروط ينبغي أن تظهر على الطلب المطبوع."],
+      ["**Tax Totals (إجماليات الضريبة)**", "التفصيل المحسوب تلقائيًا للمبلغ قبل الضريبة والضريبة والإجمالي الكلي."]
+    ]},
+
+    {"t": "h3", "text": "تبويب: الفواتير والشحنات الواردة (Invoices and Incoming Shipments)"},
+    {"t": "p", "text": "يجمع هذا التبويب الجانب اللوجستي والفوترة للطلب. فهو يتتبّع **حركات المخزون (stock moves)** (البضائع الواردة) لترى، سطرًا بسطر، ما تم استلامه مقابل هذا الطلب."},
+
+    {"t": "h3", "text": "تبويب: معلومات أخرى (Other Information)"},
+    {"t": "table", "headers": ["الحقل", "ما يعنيه / ما تُدخله"], "rows": [
+      ["**Buyer (المشتري)**", "الموظف المسؤول عن هذا الطلب (مثل *أميرة*، المشتريات)."],
+      ["**Source Document (المستند المصدر)**", "مرجع المستند الذي أطلق هذا الطلب — مثل أمر بيع، حين تُشترى البضائع خصيصًا لتلبية عميل."],
+      ["**Incoterm (شرط الشحن الدولي)**", "شرط شحن متفق عليه دوليًا (من يدفع الشحن، وأين تنتقل المخاطرة) يُستخدم في المشتريات عبر الحدود."],
+      ["**Incoterm Location (موقع شرط الشحن)**", "المكان المحدّد المصاحب لشرط الشحن (مثل ميناء)."],
+      ["**Receipt Status (حالة الاستلام)**", "ما إذا كانت البضائع *غير مُستلَمة* أو *مُستلَمة جزئيًا* أو *مُستلَمة بالكامل*."],
+      ["**Billing Status (حالة الفوترة)**", "ما إذا كان *لا شيء للفوترة* أو *بانتظار الفواتير* أو *تمت الفوترة بالكامل*."],
+      ["**Payment Terms (شروط الدفع)**", "موعد استحقاق الفاتورة (مثل فورًا، أو خلال 30 يومًا)."],
+      ["**Fiscal Position (الوضع الضريبي)**", "مجموعة قواعد تعدّل الضرائب والحسابات تلقائيًا — مفيدة للمورّدين الأجانب أو المعفيين من الضريبة."]
+    ]},
+
+    {"t": "h3", "text": "أزرار الترويسة"},
+    {"t": "p", "text": "تتغيّر الأزرار المتاحة بحسب حالة الطلب. وهي معًا تغطّي مسار الشراء بالكامل:"},
+    {"t": "table", "headers": ["الزر", "ما يفعله"], "rows": [
+      ["**Send by Email (إرسال بالبريد)**", "يرسل طلب عرض السعر بالبريد إلى المورّد لطلب الأسعار/التوفّر."],
+      ["**Print RFQ (طباعة طلب عرض السعر)**", "ينتج ملف PDF قابلًا للطباعة لطلب عرض السعر."],
+      ["**Confirm Order (تأكيد الطلب)**", "يحوّل طلب عرض السعر إلى أمر شراء مؤكَّد وينشئ الشحنة الواردة."],
+      ["**Approve Order (اعتماد الطلب)**", "يعتمد طلبًا في حالة *بانتظار الاعتماد* (عند انطباق قاعدة اعتماد)."],
+      ["**Re-Send by Email / Send PO by Email (إعادة الإرسال / إرسال أمر الشراء)**", "يرسل الطلب المؤكَّد إلى المورّد مجددًا أو كأمر شراء."],
+      ["**Receive Products (استلام المنتجات)**", "يفتح الاستلام لتسجيل وصول البضائع إلى المستودع."],
+      ["**Create Bill (إنشاء فاتورة)**", "يُنشئ مسودة فاتورة المورّد من الطلب، مملوءة مسبقًا بما طُلب/استُلم."],
+      ["**Catalog (الكتالوج)**", "يفتح كتالوج المنتجات لإضافة عدة أصناف بسرعة."],
+      ["**Set to Draft (إعادة إلى مسودة)**", "يعيد طلبًا مؤكَّدًا إلى طلب عرض سعر لتتمكن من تعديله."],
+      ["**Lock (قفل)**", "يقفل طلبًا منتهيًا ضد أي تعديل."],
+      ["**Unlock (إلغاء القفل)**", "يعيد فتح طلب مقفل للتعديل."],
+      ["**Cancel (إلغاء)**", "يلغي الطلب."]
+    ]},
+
+    {"t": "h2", "text": "10.6 خطوة بخطوة: إنشاء أمر شراء وتأكيده"},
+    {"t": "p", "text": "اتّبع هذه الخطوات لشراء بضائع من مورّد."},
+    {"t": "ol", "items": [
+      "افتح تطبيق **المشتريات** وانتقل إلى **المشتريات ← الطلبات ← طلبات عروض الأسعار**.",
+      "انقر **جديد (New)** لبدء طلب عرض سعر جديد.",
+      "في حقل **المورّد (Vendor)**، اختر المورّد (مثل *Gulf MedTrade FZE (USD)*). تُملأ **العملة (Currency)** تلقائيًا من المورّد — وهي الدولار في هذه الحالة.",
+      "في تبويب **المنتجات (Products)**، انقر **إضافة سطر (Add a line)**، اختر **المنتج**، وحدّد **الكمية**. يظهر **سعر الوحدة** تلقائيًا من قائمة أسعار المورّد؛ عدّله فقط إذا تغيّر السعر المتفق عليه.",
+      "كرّر ذلك لكل صنف تريد طلبه. راقب تحديث **إجماليات الضريبة (Tax Totals)** أسفل السطور أثناء عملك.",
+      "اختياريًا، انقر **إرسال بالبريد (Send by Email)** لتطلب من المورّد التأكيد، أو **طباعة طلب عرض السعر (Print RFQ)** لنسخة ورقية.",
+      "عند الجاهزية، انقر **تأكيد الطلب (Confirm Order)**. ينتقل شريط الحالة إلى **أمر شراء (Purchase Order)**، ويُملأ **تاريخ التأكيد**، ويُنشأ **استلام (Receipt)** للمستودع."
+    ]},
+    {"t": "warn", "title": "اختر المورّد أولًا", "text": "لأن العملة والأسعار وشروط الدفع تنبع كلها من المورّد، اختر دائمًا **المورّد** قبل إضافة المنتجات. هذا يضمن الأسعار الصحيحة والعملة الصحيحة."},
+
+    {"t": "h2", "text": "10.7 خطوة بخطوة: استلام البضائع"},
+    {"t": "p", "text": "حين تصل شحنة المورّد إلى المستودع، سجّلها ليكون مخزونك دقيقًا."},
+    {"t": "ol", "items": [
+      "افتح أمر الشراء المؤكَّد وانقر زر **استلام المنتجات (Receive Products)** (أو الزر الذكي **Receipt**).",
+      "تحقّق من أن المنتجات والكميات تطابق ما وصل فعليًا.",
+      "للأصناف المتتبَّعة، أدخل **رقم الدفعة/التسلسل (Lot/Serial Number)** وأكّد تاريخ انتهاء الصلاحية (مثل *LOT-GULF-01* للإنسولين).",
+      "انقر **تأكيد (Validate)** لإثبات الاستلام. يرتفع المخزون فورًا، ويتحدّث عمود **المُستلَم (Received)** في الطلب."
+    ]},
+    {"t": "note", "title": "لماذا تهمّ الدُفعات", "text": "*الدفعة (Lot)* هي مجموعة من المنتج تشترك في تاريخ انتهاء صلاحية واحد. تسجيل الدُفعات يتيح للمستودع لاحقًا بيع أقدم المخزون أولًا (FEFO — الأقرب انتهاءً يُصرف أولًا)، فلا تنتهي صلاحية الأدوية على الرف."},
+
+    {"t": "h2", "text": "10.8 خطوة بخطوة: إنشاء فاتورة المورّد"},
+    {"t": "p", "text": "بمجرد استلام البضائع وإرسال المورّد فاتورته، سجّلها."},
+    {"t": "ol", "items": [
+      "افتح أمر الشراء وانقر **إنشاء فاتورة (Create Bill)**.",
+      "يُنشئ النظام مسودة الفاتورة، مملوءة مسبقًا بسطور الطلب.",
+      "أدخل **تاريخ الفاتورة (Bill Date)** الخاص بالمورّد ورقم فاتورته في **مرجع المورّد (Vendor Reference)**.",
+      "تحقّق من المبالغ مقابل الفاتورة الورقية، ثم انقر **تأكيد (Confirm)** لترحيل الفاتورة.",
+      "تظهر الفاتورة الآن لقسم المحاسبة لدفعها (انظر فصل المحاسبة)."
+    ]},
+    {"t": "tip", "title": "ضبط الفوترة = الكميات المُستلَمة", "text": "افتراضيًا يفوترك النظام على ما **استلمته**، لا مجرد ما طلبته. فإذا طلبت 50 قارورة ووصلت 40 فقط، تقترح مسودة الفاتورة 40 — لتحميك من الدفع الزائد. ويخبرك حقل **حالة الفوترة (Billing Status)** (*لا شيء للفوترة* / *بانتظار الفواتير* / *تمت الفوترة بالكامل*) بموضع الطلب بنظرة واحدة."},
+
+    {"t": "h2", "text": "10.9 مثال تطبيقي: الطلب P00002 من Gulf MedTrade (بالدولار)"},
+    {"t": "p", "text": "لنتابع طلبًا حقيقيًا من النظام التجريبي. *P00002* هو أمر شراء مؤكَّد مُقدَّم للمورّد الأجنبي *Gulf MedTrade FZE (USD)* في دبي. ولأن Gulf MedTrade يبيع بالدولار، فإن الطلب كله بـ **الدولار (USD)**."},
+    {"t": "table", "headers": ["المنتج", "الكمية", "سعر الوحدة (USD)", "مبلغ السطر (USD)"], "rows": [
+      ["*Insulin Vial 10ml*", "50", "14.00$", "700.00$"],
+      ["*Digital Blood Pressure Monitor*", "10", "42.00$", "420.00$"]
+    ]},
+    {"t": "p", "text": "يبلغ إجمالي الطلب **1,288.00$**. (مبالغ السطور 700$ و420$ تساوي 1,120$ قبل ضريبة الشراء 15%؛ ومع الضريبة يصل الإجمالي الكلي إلى 1,288.00$.) ولأن الشركة تمسك دفاترها بالجنيه السوداني، يقيّم النظام الطلب أيضًا بالعملة المحلية مستخدمًا السعر في تاريخ الطلب: فعند **1 USD = 4,500 SDG**، يساوي 1,288.00$ مبلغ **5,796,000 SDG** بالضبط — ولم تحتج إلى آلة حاسبة قط."},
+    {"t": "p", "text": "في نموذج الطلب يقرأ شريط الحالة **أمر شراء (Purchase Order)** (فقد تم تأكيده بالفعل)، وتعرض الترويسة زرَّي **إنشاء فاتورة (Create Bill)** و**استلام (Receipt)**، جاهزَين للخطوات التالية. ويتضمّن النموذج التجريبي أيضًا فاتورة مورّد منفصلة بالدولار من المورّد نفسه، هي *BILL/2026/05/0002* بمبلغ **483 USD**، يمكنك رؤيتها في قائمة فواتير المورّدين (يتناولها فصل المحاسبة)."},
+    {"t": "fig", "file": "po_usd.png", "caption": "الطلب P00002 بالدولار — 50 إنسولين بسعر 14$ و10 أجهزة قياس ضغط بسعر 42$ — مؤكَّد كأمر شراء، مع عرض الإجمالي بالدولار وقيمته بالجنيه السوداني معًا."},
+
+    {"t": "h2", "text": "10.10 طلب عرض سعر مبدئي بانتظار التأكيد: P00004"},
+    {"t": "p", "text": "ليست كل الطلبات مؤكَّدة بعد. *P00004* هو **طلب عرض سعر (RFQ)** مبدئي للمورّد المحلي *Nile Medical Supplies Co.*، بإجمالي **241,500 SDG**. ولأنه لا يزال مسودة، فهو يجلس في **المشتريات ← الطلبات ← طلبات عروض الأسعار** بانتظار من يراجع الأسعار ويضغط **تأكيد الطلب (Confirm Order)**. وحتى ذلك الحين لا يُنشئ أي التزام ولا يغيّر أي مخزون — إنه مجرد سؤال موجَّه إلى المورّد."},
+    {"t": "fig", "file": "po_rfq.png", "caption": "طلب عرض السعر المبدئي P00004 لـ Nile Medical Supplies، قبل التأكيد، مع ظهور زر تأكيد الطلب (Confirm Order)."},
+    {"t": "tip", "title": "تمييز الفرق", "text": "نظرة واحدة إلى شريط الحالة تخبرك بكل شيء: *P00002* يقرأ **أمر شراء (Purchase Order)** (مُلتزَم به، بالدولار)، بينما *P00004* لا يزال يقرأ **RFQ (طلب عرض سعر)** (مسودة، بالجنيه السوداني)."}
+  ]
+}

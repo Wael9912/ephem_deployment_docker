@@ -1,0 +1,195 @@
+{
+ "categories": {
+  "Administration": [
+   {
+    "name": "Access Rights",
+    "members": [
+     "admin",
+     "layla"
+    ]
+   },
+   {
+    "name": "Settings",
+    "members": [
+     "admin",
+     "layla"
+    ]
+   }
+  ],
+  "Accounting": [
+   {
+    "name": "Accountant",
+    "members": [
+     "admin",
+     "layla",
+     "mohammed"
+    ]
+   },
+   {
+    "name": "Advisor",
+    "members": [
+     "admin",
+     "layla"
+    ]
+   },
+   {
+    "name": "Auditor",
+    "members": [
+     "admin",
+     "layla",
+     "mohammed"
+    ]
+   },
+   {
+    "name": "Invoicing",
+    "members": [
+     "admin",
+     "amira",
+     "layla",
+     "mohammed"
+    ]
+   }
+  ],
+  "Purchase": [
+   {
+    "name": "Administrator",
+    "members": [
+     "admin",
+     "layla"
+    ]
+   },
+   {
+    "name": "User",
+    "members": [
+     "admin",
+     "amira",
+     "layla",
+     "mohammed"
+    ]
+   }
+  ],
+  "Sales": [
+   {
+    "name": "Administrator",
+    "members": [
+     "admin",
+     "layla"
+    ]
+   },
+   {
+    "name": "User: All Documents",
+    "members": [
+     "admin",
+     "khalid",
+     "layla"
+    ]
+   },
+   {
+    "name": "User: Own Documents Only",
+    "members": [
+     "admin",
+     "khalid",
+     "layla",
+     "mohammed"
+    ]
+   }
+  ],
+  "Inventory": [
+   {
+    "name": "Administrator",
+    "members": [
+     "admin",
+     "layla",
+     "sara"
+    ]
+   },
+   {
+    "name": "User",
+    "members": [
+     "admin",
+     "amira",
+     "khalid",
+     "layla",
+     "sara"
+    ]
+   }
+  ]
+ },
+ "users": [
+  {
+   "login": "admin",
+   "name": "Administrator",
+   "groups": [
+    "Administration/Access Rights",
+    "Accounting/Accountant",
+    "Sales/Administrator",
+    "Inventory/Administrator",
+    "Purchase/Administrator",
+    "Accounting/Advisor",
+    "Accounting/Auditor",
+    "Accounting/Invoicing",
+    "Administration/Settings",
+    "Purchase/User",
+    "Inventory/User",
+    "Sales/User: All Documents",
+    "Sales/User: Own Documents Only"
+   ]
+  },
+  {
+   "login": "amira",
+   "name": "Amira Hassan (Procurement Officer)",
+   "groups": [
+    "Accounting/Invoicing",
+    "Inventory/User",
+    "Purchase/User"
+   ]
+  },
+  {
+   "login": "khalid",
+   "name": "Khalid Osman (Sales Representative)",
+   "groups": [
+    "Inventory/User",
+    "Sales/User: All Documents",
+    "Sales/User: Own Documents Only"
+   ]
+  },
+  {
+   "login": "sara",
+   "name": "Sara Ahmed (Warehouse Keeper)",
+   "groups": [
+    "Inventory/Administrator",
+    "Inventory/User"
+   ]
+  },
+  {
+   "login": "mohammed",
+   "name": "Mohammed Ali (Accountant)",
+   "groups": [
+    "Accounting/Accountant",
+    "Accounting/Auditor",
+    "Accounting/Invoicing",
+    "Purchase/User",
+    "Sales/User: Own Documents Only"
+   ]
+  },
+  {
+   "login": "layla",
+   "name": "Layla Ibrahim (General Manager)",
+   "groups": [
+    "Administration/Access Rights",
+    "Accounting/Accountant",
+    "Inventory/Administrator",
+    "Purchase/Administrator",
+    "Sales/Administrator",
+    "Accounting/Advisor",
+    "Accounting/Auditor",
+    "Accounting/Invoicing",
+    "Administration/Settings",
+    "Inventory/User",
+    "Purchase/User",
+    "Sales/User: All Documents",
+    "Sales/User: Own Documents Only"
+   ]
+  }
+ ]
+}

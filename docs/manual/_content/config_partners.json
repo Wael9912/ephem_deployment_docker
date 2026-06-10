@@ -1,0 +1,559 @@
+{
+  "key": "config_partners",
+  "title_en": "5. Configuration — Customers & Suppliers",
+  "title_ar": "5. الإعدادات — العملاء والموردون",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "Every person or organisation the company deals with — the hospitals and pharmacies you sell to, and the local and foreign companies you buy from — lives in one shared address book called **Contacts**. In the Medical-Supply ERP a contact is not just a name and a phone number: it remembers each party's prices, payment rules, currency, and even the special bookkeeping accounts the system should use for them. Set a contact up once, correctly, and the system will automatically apply the right price, the right payment terms and the right currency every time you make a sale or a purchase for that party — you will not have to remember any of it again."
+    },
+    {
+      "t": "note",
+      "title": "One contact can be both customer and supplier",
+      "text": "There is a single list. The same record can be a *customer* (you sell to them) and a *vendor / supplier* (you buy from them) at the same time. Never create a second contact for the same company — that would split its history. Always search first and re-use the existing record."
+    },
+    {
+      "t": "h2",
+      "text": "Where to find Contacts"
+    },
+    {
+      "t": "p",
+      "text": "There are three doors into the same address book, so you can reach a contact from wherever you happen to be working:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Contacts → Contacts** — the main directory of everyone (customers and suppliers together).",
+        "**Sales → Orders → Customers** — the same records, filtered to the people you sell to.",
+        "**Purchase → Orders → Vendors** — the same records, filtered to the companies you buy from."
+      ]
+    },
+    {
+      "t": "p",
+      "text": "The screenshots in this chapter use the **Contacts** app, where you see everybody at once."
+    },
+    {
+      "t": "fig",
+      "file": "contacts_list.png",
+      "caption": "The Contacts directory: customers and suppliers listed together, including *Khartoum Teaching Hospital* and *Gulf MedTrade*."
+    },
+    {
+      "t": "tip",
+      "title": "Searching the directory",
+      "text": "Type any part of a name in the search box at the top to filter instantly. You can also use the **Filters** and **Group By** menus to show only customers, only vendors, or group contacts by country or company — handy when the list grows."
+    },
+    {
+      "t": "h2",
+      "text": "The contact form — what every field means"
+    },
+    {
+      "t": "p",
+      "text": "When you open a contact (or click **New**), you first choose whether it is a **Company** or an **Individual** using the two buttons at the top of the form, and then fill the general header. Below the header are four tabs: **Contacts & Addresses**, **Sales & Purchase**, **Payment Follow-up** and **Accounting**. The tables below list the fields a normal user actually sets, grouped by where they appear."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer.png",
+      "caption": "The contact form for the customer *Khartoum Teaching Hospital* (a Company): name, address, phone and email in the General Information area."
+    },
+    {
+      "t": "h3",
+      "text": "General header (top of the form)"
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Company Type", "Choose **Company** for an organisation (a hospital, a clinic, a supplier firm) or **Individual** for a single person. Most of your contacts — like *Khartoum Teaching Hospital* — are companies."],
+        ["Name", "The full name of the company or person. This is the only required name field. Example: *Gulf MedTrade FZE (USD)*."],
+        ["Company Name", "If you set up an individual who works for a company, you can type the employer's name here."],
+        ["Related Company", "Links this contact to a parent company when it is a branch, department or employee of a larger organisation."],
+        ["Address Type", "For the main record this is **Contact**. Sub-addresses you add can be marked **Invoice Address**, **Delivery Address** or **Other Address**."],
+        ["Street / Street2", "The street address. *Street2* is for an extra line (building, floor, district)."],
+        ["City", "The city, e.g. *Khartoum* or *Dubai*."],
+        ["State", "The province / federal state, if the country uses them."],
+        ["Zip", "The postal code, where one exists."],
+        ["Country", "The country, e.g. *Sudan* for local customers or *United Arab Emirates* for *Gulf MedTrade*. The country also controls how the **Tax ID** is validated."],
+        ["Tax ID", "The party's tax-registration number. (A *tax* is a government charge added to a sale; the Tax ID is the official number the tax authority gives a business.) You may type '/' to mark a contact that is not subject to tax."],
+        ["Job Position", "For an individual, their role or title (e.g. *Procurement Officer*)."],
+        ["Phone", "The main landline / office number."],
+        ["Mobile", "The mobile number."],
+        ["Email", "The email address. This is used to send quotations, invoices and follow-up reminders, so keep it accurate."],
+        ["Website", "The party's website address, if any."],
+        ["Title", "An honorific for an individual (e.g. *Doctor*, *Mister*)."],
+        ["Language", "The language used for documents and emails sent to this contact — *Arabic / الْعَرَبيّة* or *English (US)*. Set it to the language your customer prefers and their invoices print in that language automatically."],
+        ["Tags", "Free labels you can attach to group contacts (e.g. *Hospital*, *Pharmacy*, *Foreign supplier*) for easy filtering."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Contacts & Addresses"
+    },
+    {
+      "t": "p",
+      "text": "This tab holds the people and extra addresses that belong to the contact. A hospital, for example, may have a separate delivery dock and a separate accounts department — you add each as a line here."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Contact (child addresses)", "Add the individual people and additional addresses (invoice, delivery, other) that sit under this company. Click **Add** to create a contact line, give it a name, an address type and its own phone/email."],
+        ["Is a Company", "Ticked when the contact is an organisation rather than a single person (set automatically by the Company / Individual choice at the top)."],
+        ["GLN", "Global Location Number — an international code that uniquely identifies a physical location; only needed if a partner asks for it in electronic documents."],
+        ["Company", "Which of your own companies this contact belongs to (here it is always *Sudan MedSupply Co.*)."],
+        ["Notes", "A free-text area for any internal remarks about this contact."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Sales & Purchase"
+    },
+    {
+      "t": "p",
+      "text": "This is the most important tab for day-to-day trading. The **Sales** half decides what happens when you sell to the contact; the **Purchase** half decides what happens when you buy from them. Filling it in once is what lets the system price and bill automatically afterwards."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer_salespurchase.png",
+      "caption": "The Sales & Purchase tab of *Khartoum Teaching Hospital*: pricelist, payment terms, salesperson and currency settings."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Salesperson", "The internal staff member responsible for this contact. New sales for them will default to this person."],
+        ["Payment Terms (Sales)", "When the customer is expected to pay — for example *Immediate Payment* or *30 Days*. (A *payment term* is the agreed deadline and schedule for paying an invoice.) This is used instead of the default on the customer's quotations and invoices."],
+        ["Payment Method (incoming)", "The preferred way this customer pays you (e.g. a particular bank or cash channel). It pre-fills on payments you receive from them."],
+        ["Pricelist", "Which price list applies when you sell to this customer. (A *pricelist* is a named set of selling prices/rules — it lets you give different customers different prices or currencies.) Sales to this partner use this list instead of the default."],
+        ["Buyer", "The internal staff member who handles purchasing from this contact (used when the contact is a supplier)."],
+        ["Payment Terms (Purchase)", "When you have agreed to pay this supplier. Used instead of the default on purchase orders and vendor bills."],
+        ["Payment Method (outgoing)", "The preferred way you pay this supplier; it pre-fills on payments you send them."],
+        ["Receipt Reminder", "If ticked, the system automatically emails the vendor a few days before goods are due, asking them to confirm the delivery date."],
+        ["Days Before Receipt", "How many days before the promised delivery date that reminder is sent."],
+        ["Supplier Currency", "The currency you buy from this supplier in. For a local supplier leave it on SDG; for a foreign supplier like *Gulf MedTrade FZE (USD)* set it to **USD** so purchases are priced in dollars and converted to SDG automatically."],
+        ["Fiscal Position", "A rule set that swaps the taxes and accounts used for this contact. (A *fiscal position* adapts tax treatment — for example, removing tax for an export or a tax-exempt body.) Leave blank unless a special tax situation applies."],
+        ["Company ID", "The official company-registry number, used when it differs from the Tax ID. Must be unique per country."],
+        ["Reference", "Your own internal code or reference for this contact, if you use one."],
+        ["Industry", "The contact's line of business (e.g. *Healthcare*), for reporting and grouping."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Why the currency setting matters",
+      "text": "For *Gulf MedTrade FZE (USD)* the **Supplier Currency** is set to USD. Because of this, when you raise a purchase order or a vendor bill for them the amounts appear in dollars and the system shows the SDG equivalent using the exchange rate on that date — you never convert by hand."
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Payment Follow-up"
+    },
+    {
+      "t": "p",
+      "text": "This tab helps you chase customers who are late paying. (A *follow-up* is a reminder the system tracks and can send when an invoice is overdue.) Most fields here are filled by the system as it works through overdue invoices; you usually only set the responsible person and read the rest."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Latest Follow-up Date", "The last date this customer's follow-up status changed (filled automatically)."],
+        ["Latest Follow-up Level", "The most advanced reminder stage reached for this customer (e.g. first reminder, final notice)."],
+        ["Follow-up Responsible", "The staff member you put in charge of chasing this customer's overdue payments."],
+        ["Next Action Date", "When the next manual chase is due; set automatically, but you may adjust it."],
+        ["Next Action", "A short note of what to do next (e.g. *call the accounts office*)."],
+        ["Customer Payment Promise", "A note recording what the customer promised about paying."],
+        ["Amount Due", "The total this customer currently owes that is overdue (calculated by the system)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Two buttons on this tab let you act directly on overdue balances: **Print Overdue Payments** produces a printable statement of what the customer owes, and **Send Overdue Email** emails the reminder to the customer."
+    },
+    {
+      "t": "h3",
+      "text": "Tab: Accounting"
+    },
+    {
+      "t": "p",
+      "text": "The Accounting tab tells the bookkeeping system which accounts to use for this party and stores their bank details. You normally only confirm the two account fields (they are pre-filled from the company defaults) and add a bank account where needed."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer_accounting.png",
+      "caption": "The Accounting tab of the contact: the receivable / payable accounts, bank accounts and fiscal information."
+    },
+    {
+      "t": "table",
+      "headers": ["Field", "What it means / what to enter"],
+      "rows": [
+        ["Banks", "The contact's bank account(s) — account number, bank and account holder name. You record a customer's bank to identify their incoming transfers, and a supplier's bank to know where to send their payment."],
+        ["Account Receivable", "The bookkeeping account that tracks money this customer owes you. (*Receivable* = money owed to you that you expect to collect.) Pre-filled from the company default; change only on advice from accounting."],
+        ["Account Payable", "The bookkeeping account that tracks money you owe this supplier. (*Payable* = money you owe and must pay out.) Also pre-filled by default."],
+        ["Total Receivable", "How much this customer currently owes you in total (shown by the system, read-only)."],
+        ["Days Sales Outstanding (DSO)", "On average how many days this customer takes to pay — a quick health check (calculated automatically)."],
+        ["Partner Limit", "Tick to switch on a credit-limit check for this customer."],
+        ["Credit Limit", "The maximum unpaid amount you will allow this customer; the system warns you if a new order would exceed it."],
+        ["Invoice sending", "How invoices reach this contact — **Download**, **by Email** or **by Post**."],
+        ["Auto-post bills", "Whether vendor bills from this trusted supplier post automatically: **Always**, **Ask after 3 validations without edits**, or **Never**."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "Smart buttons and other actions"
+    },
+    {
+      "t": "p",
+      "text": "Across the top of a saved contact you will see counters that double as shortcuts — open the contact and click any of them to drill into that party's history:"
+    },
+    {
+      "t": "table",
+      "headers": ["Button / counter", "What it shows"],
+      "rows": [
+        ["Sales", "All sales orders raised for this customer."],
+        ["Purchases", "All purchase orders sent to this supplier."],
+        ["Vendor Bills", "Every bill recorded from this supplier."],
+        ["Total Invoiced", "The running total you have invoiced this party."],
+        ["On-time Rate", "For a supplier, the share of products that arrived on time recently."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Other useful actions on the form include **Create company** (turns an individual into / attaches them to a company record) and links such as **the parent company** that jump to a contact's parent organisation."
+    },
+    {
+      "t": "h2",
+      "text": "Step by step: create a customer"
+    },
+    {
+      "t": "p",
+      "text": "We will create the customer *Khartoum Teaching Hospital* — a local hospital you sell to in Sudanese Pounds (SDG)."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Contacts → Contacts** and click **New**.",
+        "At the top of the form, choose **Company** (the hospital is an organisation, not a person).",
+        "In **Name**, type *Khartoum Teaching Hospital*.",
+        "Fill the address: **City** *Khartoum* and **Country** *Sudan*; add **Street**, **Phone** and **Email** as available.",
+        "Open the **Sales & Purchase** tab. Set the **Salesperson**, choose **Payment Terms** for sales (e.g. *Immediate Payment*), and leave **Pricelist** on your SDG selling list so the hospital is billed in Sudanese Pounds.",
+        "Open the **Accounting** tab and check that **Account Receivable** is filled (it comes from the company default). Add the hospital's **Banks** details if you have them.",
+        "Optionally set a **Credit Limit** and tick **Partner Limit** if you want the system to warn you when their unpaid balance gets too high.",
+        "Click **Save**. The contact is now ready — when you create a sale for *Khartoum Teaching Hospital*, the SDG prices, the payment terms and the receivable account all apply by themselves."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "You have seen this customer before",
+      "text": "*Khartoum Teaching Hospital* is the customer on sales order *S00001* and on invoice *INV/2026/00001* (total **2,038,950 SDG**, including **265,950 SDG** of 15% tax). Because the contact was set up in SDG, every one of those documents was priced and totalled in Sudanese Pounds without any manual conversion."
+    },
+    {
+      "t": "h2",
+      "text": "Step by step: create a foreign (USD) supplier"
+    },
+    {
+      "t": "p",
+      "text": "Now we create the foreign supplier *Gulf MedTrade FZE (USD)* — a company in Dubai you buy from in US Dollars. The key difference from a local supplier is the purchase currency."
+    },
+    {
+      "t": "fig",
+      "file": "contact_supplier.png",
+      "caption": "The contact form for the foreign supplier *Gulf MedTrade FZE (USD)* in Dubai, whose purchase currency is USD."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Contacts → Contacts** (or **Purchase → Orders → Vendors**) and click **New**.",
+        "Choose **Company** at the top, and in **Name** type *Gulf MedTrade FZE (USD)*.",
+        "Set the address: **City** *Dubai* and **Country** *United Arab Emirates*; add **Phone** and **Email**.",
+        "Open the **Sales & Purchase** tab. In the Purchase half, set **Supplier Currency** to **USD** — this is the step that makes purchases price in dollars.",
+        "Set the supplier's **Payment Terms** (purchase) and, if you wish, a **Buyer** responsible for ordering from them.",
+        "Open the **Accounting** tab, confirm the **Account Payable** is filled, and record the supplier's **Banks** (account number and bank) so you know where to send payment.",
+        "Click **Save**. From now on, every purchase order and vendor bill for *Gulf MedTrade* is entered in USD and the system shows its SDG value at the day's exchange rate automatically."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "See it in action",
+      "text": "Purchase order *P00002* for *Gulf MedTrade FZE (USD)* totals **1,288.00 USD**, and its vendor bill *BILL/2026/05/0002* is **483.00 USD** — both shown with their SDG equivalents. None of those dollar amounts had to be converted by hand: the USD supplier currency you set on the contact, combined with the dated exchange rates, does it for you."
+    },
+    {
+      "t": "warn",
+      "title": "Never duplicate a contact",
+      "text": "Before adding anyone, search the directory. If *Gulf MedTrade FZE (USD)* or *Khartoum Teaching Hospital* already exists, open the existing record and edit it instead of creating a new one. A duplicate splits the party's orders, invoices and balances across two records and makes the reports wrong."
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "كل شخص أو جهة تتعامل معها الشركة — المستشفيات والصيدليات التي تبيع لها، والشركات المحلية والأجنبية التي تشتري منها — يوجد في دفتر عناوين مشترك واحد اسمه **جهات الاتصال (Contacts)**. في نظام إدارة المستلزمات الطبية ليست جهة الاتصال مجرد اسم ورقم هاتف، بل يتذكر النظام لكل طرف أسعاره وقواعد سداده وعملته، بل وحتى الحسابات المحاسبية الخاصة التي ينبغي للنظام استخدامها معه. أعدّ جهة الاتصال مرة واحدة بشكل صحيح، وسيطبّق النظام تلقائيًا السعر الصحيح وشروط السداد الصحيحة والعملة الصحيحة في كل مرة تبيع فيها أو تشتري لذلك الطرف — ولن تحتاج إلى تذكّر أيٍّ من ذلك مجددًا."
+    },
+    {
+      "t": "note",
+      "title": "جهة اتصال واحدة يمكن أن تكون عميلًا وموردًا معًا",
+      "text": "هناك قائمة واحدة فقط. يمكن للسجل نفسه أن يكون *عميلًا* (تبيع له) و*موردًا* (تشتري منه) في الوقت ذاته. لا تنشئ أبدًا سجلًا ثانيًا للشركة نفسها — فذلك يُفرّق سجلّها. ابحث دائمًا أولًا وأعد استخدام السجل الموجود."
+    },
+    {
+      "t": "h2",
+      "text": "أين تجد جهات الاتصال"
+    },
+    {
+      "t": "p",
+      "text": "هناك ثلاثة أبواب تؤدي إلى دفتر العناوين نفسه، حتى تتمكن من الوصول إلى جهة الاتصال من أي مكان تعمل فيه:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**جهات الاتصال ← جهات الاتصال (Contacts → Contacts)** — الدليل الرئيسي للجميع (العملاء والموردون معًا).",
+        "**المبيعات ← الطلبات ← العملاء (Sales → Orders → Customers)** — السجلات نفسها مُصفّاة على من تبيع لهم.",
+        "**المشتريات ← الطلبات ← الموردون (Purchase → Orders → Vendors)** — السجلات نفسها مُصفّاة على الشركات التي تشتري منها."
+      ]
+    },
+    {
+      "t": "p",
+      "text": "تستخدم لقطات الشاشة في هذا الفصل تطبيق **جهات الاتصال (Contacts)**، حيث ترى الجميع دفعة واحدة."
+    },
+    {
+      "t": "fig",
+      "file": "contacts_list.png",
+      "caption": "دليل جهات الاتصال: العملاء والموردون مدرجون معًا، ومن بينهم *مستشفى الخرطوم التعليمي* و*Gulf MedTrade*."
+    },
+    {
+      "t": "tip",
+      "title": "البحث في الدليل",
+      "text": "اكتب أي جزء من الاسم في مربع البحث أعلى الصفحة للتصفية فورًا. كما يمكنك استخدام قائمتَي **عوامل التصفية (Filters)** و**تجميع حسب (Group By)** لإظهار العملاء فقط، أو الموردين فقط، أو تجميع جهات الاتصال حسب الدولة أو الشركة — وهذا مفيد عندما تكبر القائمة."
+    },
+    {
+      "t": "h2",
+      "text": "نموذج جهة الاتصال — معنى كل حقل"
+    },
+    {
+      "t": "p",
+      "text": "عند فتح جهة اتصال (أو الضغط على **جديد New**) تختار أولًا ما إذا كانت **شركة (Company)** أم **فرد (Individual)** باستخدام الزرّين أعلى النموذج، ثم تملأ الترويسة العامة. أسفل الترويسة توجد أربع علامات تبويب: **جهات الاتصال والعناوين (Contacts & Addresses)** و**المبيعات والمشتريات (Sales & Purchase)** و**متابعة السداد (Payment Follow-up)** و**المحاسبة (Accounting)**. تسرد الجداول التالية الحقول التي يضبطها المستخدم العادي فعليًا، مجمّعة حسب مكان ظهورها."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer.png",
+      "caption": "نموذج جهة الاتصال للعميل *مستشفى الخرطوم التعليمي* (شركة): الاسم والعنوان والهاتف والبريد الإلكتروني في منطقة المعلومات العامة."
+    },
+    {
+      "t": "h3",
+      "text": "الترويسة العامة (أعلى النموذج)"
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"],
+      "rows": [
+        ["نوع الشركة (Company Type)", "اختر **شركة (Company)** لجهة (مستشفى أو عيادة أو شركة مورّدة) أو **فرد (Individual)** لشخص واحد. معظم جهات اتصالك — مثل *مستشفى الخرطوم التعليمي* — شركات."],
+        ["الاسم (Name)", "الاسم الكامل للشركة أو الشخص. هذا حقل الاسم الوحيد الإلزامي. مثال: *Gulf MedTrade FZE (USD)*."],
+        ["اسم الشركة (Company Name)", "إذا أنشأت فردًا يعمل لدى شركة، يمكنك كتابة اسم جهة العمل هنا."],
+        ["الشركة ذات الصلة (Related Company)", "يربط جهة الاتصال هذه بشركة أمّ عندما تكون فرعًا أو قسمًا أو موظفًا تابعًا لجهة أكبر."],
+        ["نوع العنوان (Address Type)", "بالنسبة للسجل الرئيسي يكون **جهة اتصال (Contact)**. أما العناوين الفرعية فيمكن وسمها بـ**عنوان الفوترة (Invoice Address)** أو **عنوان التسليم (Delivery Address)** أو **عنوان آخر (Other Address)**."],
+        ["الشارع / الشارع 2 (Street / Street2)", "عنوان الشارع. *الشارع 2* لسطر إضافي (المبنى، الطابق، الحي)."],
+        ["المدينة (City)", "المدينة، مثل *الخرطوم* أو *دبي*."],
+        ["الولاية (State)", "الولاية / المقاطعة إن كانت الدولة تستخدمها."],
+        ["الرمز البريدي (Zip)", "الرمز البريدي حيثما وُجد."],
+        ["الدولة (Country)", "الدولة، مثل *السودان* للعملاء المحليين أو *الإمارات العربية المتحدة* لـ*Gulf MedTrade*. تتحكم الدولة أيضًا في طريقة التحقق من **الرقم الضريبي**."],
+        ["الرقم الضريبي (Tax ID)", "رقم التسجيل الضريبي للطرف. (الـ*ضريبة* رسم حكومي يُضاف على البيع؛ والرقم الضريبي هو الرقم الرسمي الذي تمنحه الجهة الضريبية للمنشأة.) يمكنك كتابة '/' لتمييز جهة غير خاضعة للضريبة."],
+        ["المسمى الوظيفي (Job Position)", "للفرد، دوره أو منصبه (مثل *مسؤول المشتريات*)."],
+        ["الهاتف (Phone)", "الرقم الأرضي / المكتبي الرئيسي."],
+        ["الجوال (Mobile)", "رقم الجوال."],
+        ["البريد الإلكتروني (Email)", "عنوان البريد الإلكتروني. يُستخدم لإرسال عروض الأسعار والفواتير وتذكيرات المتابعة، لذا حافظ على دقته."],
+        ["الموقع الإلكتروني (Website)", "عنوان موقع الطرف الإلكتروني إن وُجد."],
+        ["اللقب (Title)", "لقب تشريفي للفرد (مثل *دكتور*، *السيد*)."],
+        ["اللغة (Language)", "اللغة المستخدمة للمستندات ورسائل البريد المُرسلة لجهة الاتصال — *العربية / الْعَرَبيّة* أو *الإنجليزية (US)*. اضبطها على اللغة التي يفضّلها عميلك فتُطبع فواتيره بتلك اللغة تلقائيًا."],
+        ["الوسوم (Tags)", "ملصقات حرة تربطها لتجميع جهات الاتصال (مثل *مستشفى*، *صيدلية*، *مورد أجنبي*) لتسهيل التصفية."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "علامة التبويب: جهات الاتصال والعناوين (Contacts & Addresses)"
+    },
+    {
+      "t": "p",
+      "text": "تحتوي هذه العلامة على الأشخاص والعناوين الإضافية التابعة لجهة الاتصال. فالمستشفى مثلًا قد يكون له رصيف تسليم منفصل وقسم حسابات منفصل — تضيف كلًّا منها كسطر هنا."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"],
+      "rows": [
+        ["جهة الاتصال (العناوين الفرعية)", "أضف الأفراد والعناوين الإضافية (فوترة، تسليم، أخرى) التابعين لهذه الشركة. اضغط **إضافة (Add)** لإنشاء سطر جهة اتصال، وامنحه اسمًا ونوع عنوان وهاتفًا/بريدًا خاصًّا به."],
+        ["جهة هي شركة (Is a Company)", "تُحدَّد عندما تكون جهة الاتصال منشأة لا فردًا (تُضبط تلقائيًا باختيار شركة / فرد في الأعلى)."],
+        ["GLN", "رقم الموقع العالمي — رمز دولي يُعرّف موقعًا فعليًا تعريفًا فريدًا؛ لا يلزم إلا إذا طلبه شريك في المستندات الإلكترونية."],
+        ["الشركة (Company)", "أيّ من شركاتك تتبع لها جهة الاتصال هذه (هنا هي دائمًا *شركة السودان للمستلزمات الطبية*)."],
+        ["ملاحظات (Notes)", "منطقة نص حر لأي ملاحظات داخلية حول جهة الاتصال هذه."]
+      ]
+    },
+    {
+      "t": "h3",
+      "text": "علامة التبويب: المبيعات والمشتريات (Sales & Purchase)"
+    },
+    {
+      "t": "p",
+      "text": "هذه أهم علامة تبويب للتعامل اليومي. النصف الخاص بـ**المبيعات** يقرر ما يحدث عند البيع لجهة الاتصال؛ والنصف الخاص بـ**المشتريات** يقرر ما يحدث عند الشراء منها. وملؤها مرة واحدة هو ما يتيح للنظام التسعير والفوترة تلقائيًا بعد ذلك."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer_salespurchase.png",
+      "caption": "علامة تبويب المبيعات والمشتريات لـ*مستشفى الخرطوم التعليمي*: قائمة الأسعار وشروط السداد ومندوب المبيعات وإعدادات العملة."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"],
+      "rows": [
+        ["مندوب المبيعات (Salesperson)", "الموظف الداخلي المسؤول عن جهة الاتصال هذه. تُضبط المبيعات الجديدة افتراضيًا على هذا الشخص."],
+        ["شروط السداد (مبيعات) (Payment Terms)", "موعد المتوقّع أن يدفع فيه العميل — مثل *الدفع الفوري* أو *30 يومًا*. (الـ*شرط* هو الموعد النهائي والجدول المتفق عليهما لسداد الفاتورة.) يُستخدم بدلًا من الافتراضي على عروض أسعار العميل وفواتيره."],
+        ["طريقة الدفع (واردة) (Payment Method)", "الطريقة المفضّلة التي يدفع بها هذا العميل لك (مثل بنك معيّن أو قناة نقدية). تُملأ مسبقًا على المدفوعات الواردة منه."],
+        ["قائمة الأسعار (Pricelist)", "أي قائمة أسعار تُطبَّق عند البيع لهذا العميل. (الـ*قائمة* مجموعة مُسمّاة من أسعار/قواعد البيع — تتيح منح عملاء مختلفين أسعارًا أو عملات مختلفة.) تستخدم المبيعات لهذا الطرف هذه القائمة بدلًا من الافتراضية."],
+        ["المشتري (Buyer)", "الموظف الداخلي الذي يتولى الشراء من جهة الاتصال هذه (يُستخدم عندما تكون جهة الاتصال موردًا)."],
+        ["شروط السداد (مشتريات) (Payment Terms)", "موعد اتفاقك على الدفع لهذا المورد. يُستخدم بدلًا من الافتراضي على أوامر الشراء وفواتير الموردين."],
+        ["طريقة الدفع (صادرة) (Payment Method)", "الطريقة المفضّلة لدفعك لهذا المورد؛ تُملأ مسبقًا على المدفوعات التي ترسلها إليه."],
+        ["تذكير الاستلام (Receipt Reminder)", "إذا حُدِّد، يرسل النظام تلقائيًا بريدًا إلى المورد قبل أيام من موعد وصول البضائع يطلب منه تأكيد تاريخ التسليم."],
+        ["الأيام قبل الاستلام (Days Before Receipt)", "كم يومًا قبل تاريخ التسليم الموعود يُرسل ذلك التذكير."],
+        ["عملة المورد (Supplier Currency)", "العملة التي تشتري بها من هذا المورد. للمورد المحلي اتركها على SDG؛ وللمورد الأجنبي مثل *Gulf MedTrade FZE (USD)* اضبطها على **USD** كي تُسعَّر المشتريات بالدولار وتُحوَّل إلى SDG تلقائيًا."],
+        ["الوضع الضريبي (Fiscal Position)", "مجموعة قواعد تستبدل الضرائب والحسابات المستخدمة لجهة الاتصال هذه. (الـ*وضع الضريبي fiscal* يكيّف المعاملة الضريبية — مثل إزالة الضريبة لتصدير أو لجهة معفاة.) اتركه فارغًا ما لم تنطبق حالة ضريبية خاصة."],
+        ["معرّف الشركة (Company ID)", "رقم السجل التجاري الرسمي، يُستخدم عندما يختلف عن الرقم الضريبي. يجب أن يكون فريدًا لكل دولة."],
+        ["المرجع (Reference)", "رمزك أو مرجعك الداخلي لجهة الاتصال هذه، إن كنت تستخدم واحدًا."],
+        ["القطاع (Industry)", "مجال نشاط جهة الاتصال (مثل *الرعاية الصحية*)، لأغراض التقارير والتجميع."]
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "لماذا يهم إعداد العملة",
+      "text": "بالنسبة لـ*Gulf MedTrade FZE (USD)* ضُبطت **عملة المورد** على USD. ولهذا، عند إصدار أمر شراء أو فاتورة مورد له تظهر المبالغ بالدولار ويعرض النظام المعادل بالـ SDG وفق سعر الصرف في ذلك التاريخ — ولا تحوّل يدويًا أبدًا."
+    },
+    {
+      "t": "h3",
+      "text": "علامة التبويب: متابعة السداد (Payment Follow-up)"
+    },
+    {
+      "t": "p",
+      "text": "تساعدك هذه العلامة على متابعة العملاء المتأخرين في السداد. (الـ*متابعة* تذكير يتعقّبه النظام ويمكنه إرساله عند تأخّر الفاتورة.) يملأ النظام معظم الحقول هنا أثناء معالجته للفواتير المتأخرة؛ وعادةً لا تضبط أنت سوى المسؤول وتقرأ الباقي."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"],
+      "rows": [
+        ["تاريخ آخر متابعة (Latest Follow-up Date)", "آخر تاريخ تغيّرت فيه حالة متابعة هذا العميل (يُملأ تلقائيًا)."],
+        ["مستوى آخر متابعة (Latest Follow-up Level)", "أقصى مرحلة تذكير وصل إليها هذا العميل (مثل التذكير الأول، الإشعار الأخير)."],
+        ["مسؤول المتابعة (Follow-up Responsible)", "الموظف الذي توكل إليه متابعة المدفوعات المتأخرة لهذا العميل."],
+        ["تاريخ الإجراء التالي (Next Action Date)", "موعد المتابعة اليدوية التالية؛ يُضبط تلقائيًا، ويمكنك تعديله."],
+        ["الإجراء التالي (Next Action)", "ملاحظة قصيرة بما يجب فعله تاليًا (مثل *اتصل بمكتب الحسابات*)."],
+        ["وعد سداد العميل (Customer Payment Promise)", "ملاحظة تسجّل ما وعد به العميل بشأن السداد."],
+        ["المبلغ المستحق (Amount Due)", "إجمالي ما يدين به هذا العميل حاليًا من متأخرات (يحسبه النظام)."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "يتيح لك زرّان في هذه العلامة التصرّف مباشرةً في الأرصدة المتأخرة: **طباعة المدفوعات المتأخرة (Print Overdue Payments)** ينتج كشفًا قابلًا للطباعة بما يدين به العميل، و**إرسال بريد المتأخرات (Send Overdue Email)** يرسل التذكير بالبريد إلى العميل."
+    },
+    {
+      "t": "h3",
+      "text": "علامة التبويب: المحاسبة (Accounting)"
+    },
+    {
+      "t": "p",
+      "text": "تخبر علامة المحاسبة نظامَ مسك الدفاتر بالحسابات التي يستخدمها لهذا الطرف، وتخزّن بياناته البنكية. عادةً تكتفي بتأكيد حقلَي الحساب (وهما مملوءان مسبقًا من إعدادات الشركة) وإضافة حساب بنكي عند الحاجة."
+    },
+    {
+      "t": "fig",
+      "file": "contact_customer_accounting.png",
+      "caption": "علامة تبويب المحاسبة لجهة الاتصال: حسابا المدينين / الدائنين، والحسابات البنكية، والمعلومات الضريبية."
+    },
+    {
+      "t": "table",
+      "headers": ["الحقل", "ما يعنيه / ما الذي تُدخله"],
+      "rows": [
+        ["البنوك (Banks)", "حساب (حسابات) جهة الاتصال البنكية — رقم الحساب والبنك واسم صاحب الحساب. تسجّل بنك العميل لتعريف تحويلاته الواردة، وبنك المورد لتعرف إلى أين ترسل دفعته."],
+        ["حساب المدينين (Account Receivable)", "الحساب المحاسبي الذي يتعقّب الأموال التي يدين بها هذا العميل لك. (*المدينون* = أموال مستحقة لك تتوقّع تحصيلها.) مملوء مسبقًا من افتراضي الشركة؛ لا تغيّره إلا بمشورة المحاسبة."],
+        ["حساب الدائنين (Account Payable)", "الحساب المحاسبي الذي يتعقّب الأموال التي تدين بها لهذا المورد. (*الدائنون* = أموال تدين بها ويجب أن تدفعها.) مملوء مسبقًا افتراضيًا أيضًا."],
+        ["إجمالي المدينين (Total Receivable)", "كم يدين به هذا العميل لك إجمالًا حاليًا (يعرضه النظام، للقراءة فقط)."],
+        ["أيام المبيعات القائمة (DSO)", "متوسط عدد الأيام التي يستغرقها هذا العميل ليدفع — فحص سريع لصحة الحساب (يُحسب تلقائيًا)."],
+        ["حدّ الشريك (Partner Limit)", "حدِّده لتفعيل فحص حدّ الائتمان لهذا العميل."],
+        ["حدّ الائتمان (Credit Limit)", "أقصى مبلغ غير مسدّد تسمح به لهذا العميل؛ ينبّهك النظام إن تجاوزه طلب جديد."],
+        ["إرسال الفاتورة (Invoice sending)", "كيف تصل الفواتير لجهة الاتصال — **تنزيل (Download)** أو **بالبريد الإلكتروني (by Email)** أو **بالبريد العادي (by Post)**."],
+        ["الترحيل التلقائي للفواتير (Auto-post bills)", "هل تُرحَّل فواتير هذا المورد الموثوق تلقائيًا: **دائمًا (Always)** أو **اسأل بعد 3 تحقّقات دون تعديل** أو **أبدًا (Never)**."]
+      ]
+    },
+    {
+      "t": "h2",
+      "text": "الأزرار الذكية والإجراءات الأخرى"
+    },
+    {
+      "t": "p",
+      "text": "أعلى جهة الاتصال المحفوظة سترى عدّادات تعمل أيضًا كاختصارات — افتح جهة الاتصال واضغط أيًّا منها للتعمّق في سجلّ ذلك الطرف:"
+    },
+    {
+      "t": "table",
+      "headers": ["الزر / العدّاد", "ما الذي يعرضه"],
+      "rows": [
+        ["المبيعات (Sales)", "كل أوامر البيع المُصدَرة لهذا العميل."],
+        ["المشتريات (Purchases)", "كل أوامر الشراء المُرسَلة لهذا المورد."],
+        ["فواتير الموردين (Vendor Bills)", "كل فاتورة مسجّلة من هذا المورد."],
+        ["إجمالي المُفوتر (Total Invoiced)", "الإجمالي الجاري لما فوترته لهذا الطرف."],
+        ["معدّل الالتزام بالموعد (On-time Rate)", "للمورد، نسبة المنتجات التي وصلت في موعدها مؤخرًا."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "من الإجراءات المفيدة الأخرى في النموذج **إنشاء شركة (Create company)** (يحوّل الفرد إلى سجل شركة أو يربطه به) وروابط مثل **الشركة الأم (the parent company)** التي تنقلك إلى الجهة الأم لجهة الاتصال."
+    },
+    {
+      "t": "h2",
+      "text": "خطوة بخطوة: إنشاء عميل"
+    },
+    {
+      "t": "p",
+      "text": "سننشئ العميل *مستشفى الخرطوم التعليمي* — مستشفى محلي تبيع له بالجنيه السوداني (SDG)."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **جهات الاتصال ← جهات الاتصال (Contacts → Contacts)** واضغط **جديد (New)**.",
+        "أعلى النموذج، اختر **شركة (Company)** (فالمستشفى منشأة لا شخص).",
+        "في **الاسم (Name)** اكتب *مستشفى الخرطوم التعليمي*.",
+        "املأ العنوان: **المدينة** *الخرطوم* و**الدولة** *السودان*؛ وأضف **الشارع** و**الهاتف** و**البريد الإلكتروني** حسب المتاح.",
+        "افتح علامة **المبيعات والمشتريات (Sales & Purchase)**. اضبط **مندوب المبيعات**، واختر **شروط السداد** للمبيعات (مثل *الدفع الفوري*)، واترك **قائمة الأسعار** على قائمة بيعك بالـ SDG كي تُفوتَر المستشفى بالجنيه السوداني.",
+        "افتح علامة **المحاسبة (Accounting)** وتحقّق من ملء **حساب المدينين** (يأتي من افتراضي الشركة). أضف بيانات **بنوك** المستشفى إن توافرت لديك.",
+        "اختياريًا اضبط **حدّ ائتمان** وحدِّد **حدّ الشريك** إن أردت أن ينبّهك النظام عندما يرتفع رصيده غير المسدّد كثيرًا.",
+        "اضغط **حفظ (Save)**. جهة الاتصال جاهزة الآن — وعند إنشاء بيع لـ*مستشفى الخرطوم التعليمي* تُطبَّق أسعار الـ SDG وشروط السداد وحساب المدينين من تلقاء نفسها."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "لقد رأيت هذا العميل من قبل",
+      "text": "*مستشفى الخرطوم التعليمي* هو العميل في أمر البيع *S00001* وفي الفاتورة *INV/2026/00001* (الإجمالي **2,038,950 SDG**، شاملًا **265,950 SDG** ضريبة 15%). ولأن جهة الاتصال أُعدّت بالـ SDG، سُعِّر كل مستند من تلك المستندات وجُمِع بالجنيه السوداني دون أي تحويل يدوي."
+    },
+    {
+      "t": "h2",
+      "text": "خطوة بخطوة: إنشاء مورد أجنبي (بالدولار USD)"
+    },
+    {
+      "t": "p",
+      "text": "ننشئ الآن المورد الأجنبي *Gulf MedTrade FZE (USD)* — شركة في دبي تشتري منها بالدولار الأمريكي. الفرق الجوهري عن المورد المحلي هو عملة الشراء."
+    },
+    {
+      "t": "fig",
+      "file": "contact_supplier.png",
+      "caption": "نموذج جهة الاتصال للمورد الأجنبي *Gulf MedTrade FZE (USD)* في دبي، وعملة شرائه هي USD."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "اذهب إلى **جهات الاتصال ← جهات الاتصال (Contacts → Contacts)** (أو **المشتريات ← الطلبات ← الموردون Purchase → Orders → Vendors**) واضغط **جديد (New)**.",
+        "اختر **شركة (Company)** في الأعلى، وفي **الاسم** اكتب *Gulf MedTrade FZE (USD)*.",
+        "اضبط العنوان: **المدينة** *دبي* و**الدولة** *الإمارات العربية المتحدة*؛ وأضف **الهاتف** و**البريد الإلكتروني**.",
+        "افتح علامة **المبيعات والمشتريات (Sales & Purchase)**. في نصف المشتريات اضبط **عملة المورد (Supplier Currency)** على **USD** — هذه هي الخطوة التي تجعل المشتريات تُسعَّر بالدولار.",
+        "اضبط **شروط السداد** للمورد (مشتريات)، وإن شئت **مشتريًا (Buyer)** مسؤولًا عن الطلب منه.",
+        "افتح علامة **المحاسبة (Accounting)**، وتأكّد من ملء **حساب الدائنين**، وسجّل **بنوك** المورد (رقم الحساب والبنك) لتعرف إلى أين ترسل الدفعة.",
+        "اضغط **حفظ (Save)**. من الآن فصاعدًا، يُدخَل كل أمر شراء وفاتورة مورد لـ*Gulf MedTrade* بالدولار، ويعرض النظام قيمتها بالـ SDG وفق سعر الصرف اليومي تلقائيًا."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "شاهدها عمليًا",
+      "text": "أمر الشراء *P00002* لـ*Gulf MedTrade FZE (USD)* مجموعه **1,288.00 USD**، وفاتورة المورد *BILL/2026/05/0002* مبلغها **483.00 USD** — وكلاهما معروض بمعادله بالـ SDG. ولم يلزم تحويل أيٍّ من هذه المبالغ الدولارية يدويًا: فعملة المورد USD التي ضبطتها على جهة الاتصال، مع أسعار الصرف المؤرّخة، تتولى ذلك نيابةً عنك."
+    },
+    {
+      "t": "warn",
+      "title": "لا تكرّر جهة اتصال أبدًا",
+      "text": "قبل إضافة أي طرف، ابحث في الدليل. إن كان *Gulf MedTrade FZE (USD)* أو *مستشفى الخرطوم التعليمي* موجودًا أصلًا، افتح السجل الموجود وعدّله بدلًا من إنشاء سجل جديد. فالتكرار يُفرّق طلبات الطرف وفواتيره وأرصدته بين سجلَّين ويجعل التقارير خاطئة."
+    }
+  ]
+}

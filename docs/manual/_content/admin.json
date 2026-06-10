@@ -1,0 +1,365 @@
+{
+  "key": "admin",
+  "title_en": "17. Administration, Maintenance & Glossary",
+  "title_ar": "17. الإدارة والصيانة ومسرد المصطلحات",
+  "blocks_en": [
+    {
+      "t": "p",
+      "text": "This final chapter is for whoever looks after the system day to day. It explains how to manage the people who log in (**users**) and what each of them is allowed to do (their **access rights**), how to keep your data safe with **backups**, how the demonstration data can be rebuilt, and the few important settings you must lock down before going live. At the end you will find a **Glossary** that explains, in plain language, every business and accounting word used in this manual, so no term is left a mystery."
+    },
+
+    { "t": "h2", "text": "17.1 Users & Access" },
+    {
+      "t": "p",
+      "text": "Every person who signs in to the Medical-Supply ERP is a **user**. Each user has a **Login** (the name they type to sign in, usually their email), a password, and a set of **access rights** that decide which apps they can open and what they may do inside them (for example, only see their own sales, or manage the whole warehouse). Giving each person exactly the rights they need keeps the system tidy and your data protected. The full explanation of the roles used in this demo is in *Chapter 3 — Users, Roles & Logging In*; this section shows where to find and adjust them."
+    },
+    {
+      "t": "p",
+      "text": "To open the list of users go to **Settings → Users & Companies → Users**. You will see every account in the system."
+    },
+    {
+      "t": "fig",
+      "file": "users_list.png",
+      "caption": "The Users list under Settings, showing the six demo accounts: Administrator, Amira Hassan (Procurement Officer), Khalid Osman (Sales Representative), Sara Ahmed (Warehouse Keeper), Mohammed Ali (Accountant) and Layla Ibrahim (General Manager)."
+    },
+    {
+      "t": "p",
+      "text": "The demo ships with six accounts. Each one is set up with only the access it needs for its job:"
+    },
+    {
+      "t": "table",
+      "headers": ["Login", "Name (role)", "What they can do"],
+      "rows": [
+        ["admin", "Administrator", "Full access to every app, including Access Rights and Settings — the technical owner of the system."],
+        ["layla", "Layla Ibrahim (General Manager)", "Administrator-level access across Sales, Purchase and Inventory, plus Accounting Advisor and Settings — she can see and manage everything."],
+        ["amira", "Amira Hassan (Procurement Officer)", "Purchase User, Inventory User and Invoicing — she raises purchase orders and receives goods."],
+        ["khalid", "Khalid Osman (Sales Representative)", "Sales User (All Documents) and Inventory User — he handles quotations, sales orders and deliveries."],
+        ["sara", "Sara Ahmed (Warehouse Keeper)", "Inventory Administrator and Inventory User — she runs receipts, deliveries, transfers and stock counts."],
+        ["mohammed", "Mohammed Ali (Accountant)", "Accounting Accountant, Auditor and Invoicing, plus basic Purchase and Sales — he posts invoices, records payments and reconciles the bank."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "Click any name to open that person's user form. The access is controlled on the **Access Rights** tab, where each application shows a level such as *User*, *Administrator* or a blank (no access). To change what someone may do, pick a different level from the drop-down for that app and save. *Chapter 3* explains every level in detail."
+    },
+    {
+      "t": "fig",
+      "file": "user_role.png",
+      "caption": "The user form for Layla Ibrahim (General Manager) with the Access Rights tab open. Each application — Sales, Purchase, Inventory, Accounting and Administration — shows the level she is granted, and these levels together define her role."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "Go to **Settings → Users & Companies → Users**.",
+        "Click **New** to create a person, or click an existing name to edit them.",
+        "Fill in the **Name**, and set the **Login** (this is what they type to sign in — usually their email). You can also record their **Email**.",
+        "Open the **Access Rights** tab and set the level for each application (Sales, Purchase, Inventory, Accounting, Administration).",
+        "Click **Save**. For a new user, use the **Send Password Reset Instructions** action so they can set their own password."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Grant the least access needed",
+      "text": "Give each person only the rights their job requires. A warehouse keeper rarely needs accounting access, and a salesperson does not need to change company settings. Fewer rights means fewer mistakes and safer data."
+    },
+    {
+      "t": "warn",
+      "title": "Protect the Administrator account",
+      "text": "The *admin* account can change anything, including everyone else's access. Use it only for setup and administration, give it a strong password, and never share it. For everyday work, sign in with your own named account instead."
+    },
+
+    { "t": "h2", "text": "17.2 Backups" },
+    {
+      "t": "p",
+      "text": "A **backup** is a complete saved copy of the system's database — every product, contact, invoice, payment and setting — taken at a moment in time. If a computer fails, a mistake wipes out records, or you simply want to go back to how things were, a backup lets you restore everything. Backups are the single most important habit for protecting the business."
+    },
+    {
+      "t": "p",
+      "text": "What to do:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Back up regularly.** Take a fresh backup on a fixed schedule — daily is ideal for a working company. The more often you back up, the less work you can lose.",
+        "**Keep off-site copies.** Store at least one recent backup somewhere away from the main server (an external drive kept in another building, or secure cloud storage). A fire or theft should never destroy both the system and its only backup.",
+        "**Always back up before an upgrade or any big change.** Before installing a new version, adding modules, or running data scripts, take a backup first. If anything goes wrong you can restore in minutes.",
+        "**Test a restore from time to time.** A backup is only useful if it actually restores. Once in a while, confirm a backup file can be brought back successfully."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "Where backups live",
+      "text": "On this Odoo 18 setup, the database can be backed up and restored from the database manager screen, and your IT team or hosting provider may also run automated server-level backups. Agree on a clear schedule and storage location with whoever maintains the server, and write it down."
+    },
+
+    { "t": "h2", "text": "17.3 Rebuilding the Demo" },
+    {
+      "t": "p",
+      "text": "The whole demonstration company — *Sudan MedSupply Co.*, its two warehouses, the 10 medical products, the customers and suppliers, the journals, and all the sample purchase orders, sales orders, invoices and payments — was created automatically by the project's seed scripts. This means the demonstration can be wiped and rebuilt from scratch at any time, which is perfect for training and for trying things out without fear."
+    },
+    {
+      "t": "ul",
+      "items": [
+        "The seed scripts recreate the complete demo data set exactly as described throughout this manual — the same product references (such as *CON-GLOVES* and *MED-INSULIN*), the same lots (such as *LOT-GULF-01*), and the same opening figures.",
+        "Rebuilding gives every trainee a clean, identical starting point, so exercises always behave the same way.",
+        "The exact procedure and commands live in the project documentation maintained by your technical team."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "Never rebuild a live database",
+      "text": "Rebuilding the demo erases and recreates data. Run it only against the training or demonstration database — never against the real company database that holds genuine invoices and stock. Take a backup first (see 17.2)."
+    },
+    {
+      "t": "note",
+      "title": "Follow the project documentation",
+      "text": "For the step-by-step rebuild instructions, refer to the project's own setup and seed documentation. This manual deliberately does not repeat the commands, so that there is a single, up-to-date source of truth maintained by the technical team."
+    },
+
+    { "t": "h2", "text": "17.4 Production Hardening" },
+    {
+      "t": "p",
+      "text": "\"Hardening\" means closing the doors that an attacker or an accident could slip through before the system is used for real business. The settings below take only minutes but are essential. Do them all before the system goes live, and review them after any major change."
+    },
+    {
+      "t": "fig",
+      "file": "settings_general.png",
+      "caption": "The General Settings page in the Settings app, where company-wide options and security-related features are switched on or off."
+    },
+    {
+      "t": "warn",
+      "title": "Complete this checklist before going live",
+      "text": "Until every item below is done, treat the system as a test environment only. A single default password or an exposed database manager can put the whole company's data at risk."
+    },
+    {
+      "t": "table",
+      "headers": ["Hardening step", "Why it matters"],
+      "rows": [
+        ["Change all default passwords", "Every account that shipped with a known or simple password — especially the *admin* account and the database master password — must be changed to a strong, unique password. Default passwords are the easiest way in for an attacker."],
+        ["Disable the database manager", "The database manager screen lets anyone who reaches it create, delete, back up or restore databases. On a live server it must be switched off so the outside world cannot reach it."],
+        ["Enable HTTPS", "HTTPS encrypts the connection between the browser and the server, so logins, invoices and customer data cannot be read or tampered with in transit. Always serve the live system over HTTPS, never plain HTTP."],
+        ["Restrict the database filter", "Lock the server to serve only your one real database, so the login screen never offers a choice of databases and the database name stays hidden from visitors."]
+      ]
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**Change all default passwords** — set strong, unique passwords for *admin*, for every staff account, and for the database master password.",
+        "**Disable the database manager** so the create/delete/restore screen is not reachable from outside.",
+        "**Enable HTTPS** so all traffic between staff browsers and the server is encrypted.",
+        "**Restrict the database filter** so only the real company database is served and its name is not exposed."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "Ask your IT team",
+      "text": "Disabling the database manager, enabling HTTPS and restricting the database filter are configured on the server, not from inside the app. If you are not the person who runs the server, share this checklist with your IT team or hosting provider and confirm each item is done."
+    },
+
+    { "t": "h2", "text": "17.5 Glossary" },
+    {
+      "t": "p",
+      "text": "Plain-language definitions of the business and accounting terms used in this manual. Keep this page handy until the words feel familiar."
+    },
+    {
+      "t": "table",
+      "headers": ["Term", "Plain-language meaning"],
+      "rows": [
+        ["SKU / Internal Reference", "A short, unique code your company gives a product so it is easy to find and order. In this system it is the *Internal Reference*, for example *MED-INSULIN* for Insulin Vial 10ml or *CON-GLOVES* for Surgical Gloves."],
+        ["Lot / Batch", "A group of identical items that were produced or received together and share one number and one expiry date. Example: lot *LOT-GULF-01* of Insulin expiring on 2027-06-09. Tracking by lot lets you trace exactly which batch a customer received."],
+        ["FEFO (First Expired, First Out)", "A rule that always picks the stock that expires soonest first, so nothing sits on the shelf until it goes out of date. The system uses FEFO when reserving goods for a delivery."],
+        ["FIFO (First In, First Out)", "A costing rule that values the goods you sell at the cost of the oldest stock you bought, so the books follow the natural order in which items arrive and leave."],
+        ["Putaway rule", "An instruction that tells the system where newly received goods should be stored, for example sending Insulin straight to *Cold Storage (2-8C)* on arrival."],
+        ["Journal", "A labelled book of accounting records. Each kind of activity has its own journal, such as *Customer Invoices*, *Vendor Bills*, *Bank of Khartoum (SDG)* or *Main Cash Safe (SDG)*."],
+        ["RFQ (Request for Quotation)", "A draft purchase order you send to a supplier to ask their price before you commit. Once you confirm it, the RFQ becomes a real Purchase Order."],
+        ["Reconciliation", "Matching your accounting records against the bank — ticking off each invoice or payment against the matching line on the bank statement — so the system's balance agrees with the bank's balance."],
+        ["Base currency", "The single currency your books are kept in. For *Sudan MedSupply Co.* the base currency is **SDG**; foreign amounts (for example a supplier billing in **USD**) are converted into SDG using the exchange rate on the document's date."],
+        ["Pricelist", "A set of selling prices that can apply to certain customers or situations, so the right price is filled in automatically on a quotation instead of being typed by hand each time."],
+        ["Receivable / Payable", "*Receivable* is money customers owe you for goods already invoiced; *Payable* is money you owe suppliers for bills you have received but not yet paid."],
+        ["Posting", "Confirming a draft invoice, bill or entry so it becomes a permanent, official accounting record and updates the company's books. A draft can still be edited; a posted document cannot simply be changed."],
+        ["Tax", "An amount added to a price and collected on behalf of the government — here the **15%** sales and purchase tax for Sudan — which the system calculates for you on each invoice and bill."],
+        ["Fiscal / Fiscal year", "Anything to do with tax and official accounting. The *fiscal year* is the 12-month period your accounts cover before they are closed and reported (the *fiscal country* here is Sudan)."]
+      ]
+    }
+  ],
+  "blocks_ar": [
+    {
+      "t": "p",
+      "text": "هذا الفصل الأخير موجَّه لمن يتولى الإشراف على النظام يومياً. يشرح كيفية إدارة الأشخاص الذين يسجّلون الدخول (**المستخدمون**) وما يُسمح لكل منهم بفعله (**صلاحيات الوصول**)، وكيفية الحفاظ على بياناتك آمنة عبر **النسخ الاحتياطي**، وكيف يمكن إعادة بناء بيانات العرض التوضيحي، والإعدادات المهمة القليلة التي يجب تأمينها قبل التشغيل الفعلي. وفي النهاية ستجد **مسرداً للمصطلحات** يشرح بلغة بسيطة كل مصطلح تجاري ومحاسبي ورد في هذا الدليل، حتى لا يبقى أي مصطلح غامضاً."
+    },
+
+    { "t": "h2", "text": "17.1 المستخدمون والوصول" },
+    {
+      "t": "p",
+      "text": "كل شخص يسجّل الدخول إلى نظام ERP للمستلزمات الطبية هو **مستخدم**. لكل مستخدم **اسم دخول (Login)** (وهو ما يكتبه لتسجيل الدخول، وعادةً ما يكون بريده الإلكتروني)، وكلمة مرور، ومجموعة من **صلاحيات الوصول** التي تحدد التطبيقات التي يستطيع فتحها وما يجوز له فعله داخلها (مثل رؤية مبيعاته الخاصة فقط، أو إدارة المستودع بالكامل). إن منح كل شخص ما يحتاجه بالضبط من صلاحيات يبقي النظام منظَّماً وبياناتك محمية. الشرح الكامل للأدوار المستخدمة في هذا العرض موجود في *الفصل 3 — المستخدمون والأدوار وتسجيل الدخول*؛ ويوضح هذا القسم أين تجدها وكيف تعدّلها."
+    },
+    {
+      "t": "p",
+      "text": "لفتح قائمة المستخدمين انتقل إلى **الإعدادات ← المستخدمون والشركات ← المستخدمون**. سترى كل حساب في النظام."
+    },
+    {
+      "t": "fig",
+      "file": "users_list.png",
+      "caption": "قائمة المستخدمين ضمن الإعدادات، وتعرض حسابات العرض الستة: المسؤول (Administrator)، أميرة حسن (موظفة المشتريات)، خالد عثمان (مندوب المبيعات)، سارة أحمد (أمينة المستودع)، محمد علي (المحاسب)، وليلى إبراهيم (المديرة العامة)."
+    },
+    {
+      "t": "p",
+      "text": "يأتي العرض التوضيحي بستة حسابات، كل منها مُعدّ بما يحتاجه فقط لأداء عمله:"
+    },
+    {
+      "t": "table",
+      "headers": ["اسم الدخول", "الاسم (الدور)", "ما يستطيع فعله"],
+      "rows": [
+        ["admin", "المسؤول (Administrator)", "وصول كامل إلى كل التطبيقات، بما في ذلك صلاحيات الوصول والإعدادات — وهو المالك التقني للنظام."],
+        ["layla", "ليلى إبراهيم (المديرة العامة)", "وصول بمستوى المسؤول عبر المبيعات والمشتريات والمخزون، إضافة إلى مستشار محاسبة والإعدادات — تستطيع رؤية كل شيء وإدارته."],
+        ["amira", "أميرة حسن (موظفة المشتريات)", "مستخدم مشتريات، ومستخدم مخزون، وفوترة — تُنشئ أوامر الشراء وتستلم البضائع."],
+        ["khalid", "خالد عثمان (مندوب المبيعات)", "مستخدم مبيعات (كل المستندات) ومستخدم مخزون — يتولى عروض الأسعار وأوامر البيع وعمليات التسليم."],
+        ["sara", "سارة أحمد (أمينة المستودع)", "مسؤول مخزون ومستخدم مخزون — تدير عمليات الاستلام والتسليم والتحويلات وجرد المخزون."],
+        ["mohammed", "محمد علي (المحاسب)", "محاسب ومدقق وفوترة في المحاسبة، إضافة إلى مشتريات ومبيعات أساسية — يرحّل الفواتير ويسجّل المدفوعات ويسوّي البنك."]
+      ]
+    },
+    {
+      "t": "p",
+      "text": "انقر على أي اسم لفتح نموذج المستخدم الخاص بذلك الشخص. يُتحكَّم بالوصول في تبويب **صلاحيات الوصول (Access Rights)**، حيث يُظهر كل تطبيق مستوىً مثل *مستخدم* أو *مسؤول* أو فراغاً (لا وصول). لتغيير ما يجوز لشخص فعله، اختر مستوىً مختلفاً من القائمة المنسدلة لذلك التطبيق ثم احفظ. يشرح *الفصل 3* كل مستوى بالتفصيل."
+    },
+    {
+      "t": "fig",
+      "file": "user_role.png",
+      "caption": "نموذج المستخدم لليلى إبراهيم (المديرة العامة) مع فتح تبويب صلاحيات الوصول (Access Rights). يُظهر كل تطبيق — المبيعات والمشتريات والمخزون والمحاسبة والإدارة — المستوى الممنوح لها، وهذه المستويات مجتمعةً هي ما يحدد دورها."
+    },
+    {
+      "t": "ol",
+      "items": [
+        "انتقل إلى **الإعدادات ← المستخدمون والشركات ← المستخدمون**.",
+        "انقر **جديد (New)** لإنشاء شخص، أو انقر على اسم موجود لتعديله.",
+        "املأ حقل **الاسم (Name)**، وعيّن **اسم الدخول (Login)** (وهو ما يكتبه لتسجيل الدخول، وعادةً ما يكون بريده الإلكتروني). يمكنك أيضاً تسجيل **البريد الإلكتروني (Email)**.",
+        "افتح تبويب **صلاحيات الوصول (Access Rights)** وحدّد المستوى لكل تطبيق (المبيعات، المشتريات، المخزون، المحاسبة، الإدارة).",
+        "انقر **حفظ (Save)**. وللمستخدم الجديد، استخدم إجراء **إرسال تعليمات إعادة تعيين كلمة المرور** ليتمكن من تعيين كلمة المرور الخاصة به."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "امنح أقل قدر مطلوب من الوصول",
+      "text": "امنح كل شخص ما يتطلبه عمله فقط من صلاحيات. نادراً ما يحتاج أمين المستودع إلى وصول محاسبي، ولا يحتاج مندوب المبيعات إلى تغيير إعدادات الشركة. صلاحيات أقل تعني أخطاء أقل وبيانات أكثر أماناً."
+    },
+    {
+      "t": "warn",
+      "title": "احمِ حساب المسؤول",
+      "text": "يستطيع حساب *admin* تغيير أي شيء، بما في ذلك صلاحيات الجميع. استخدمه فقط للإعداد والإدارة، وامنحه كلمة مرور قوية، ولا تشاركه أبداً. وللعمل اليومي، سجّل الدخول بحسابك الشخصي المُسمّى باسمك بدلاً منه."
+    },
+
+    { "t": "h2", "text": "17.2 النسخ الاحتياطي" },
+    {
+      "t": "p",
+      "text": "**النسخة الاحتياطية** هي نسخة محفوظة كاملة من قاعدة بيانات النظام — كل منتج وجهة اتصال وفاتورة ودفعة وإعداد — مأخوذة في لحظة محددة من الزمن. فإذا تعطّل حاسوب، أو محا خطأٌ السجلات، أو أردت ببساطة العودة إلى ما كانت عليه الأمور، تتيح لك النسخة الاحتياطية استعادة كل شيء. النسخ الاحتياطي هو أهم عادة منفردة لحماية أعمال الشركة."
+    },
+    {
+      "t": "p",
+      "text": "ما الذي ينبغي فعله:"
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**خذ نسخاً احتياطية بانتظام.** خذ نسخة جديدة وفق جدول ثابت — والأمثل أن تكون يومية لشركة عاملة. كلما زاد تكرار النسخ، قلّ ما يمكن أن تفقده من عمل.",
+        "**احتفظ بنسخ خارج الموقع.** خزّن نسخة حديثة واحدة على الأقل في مكان بعيد عن الخادم الرئيسي (قرص خارجي يُحفظ في مبنى آخر، أو تخزين سحابي آمن). يجب ألا يدمّر حريقٌ أو سرقةٌ النظامَ ونسخته الوحيدة معاً.",
+        "**خذ نسخة احتياطية دائماً قبل أي ترقية أو تغيير كبير.** قبل تثبيت إصدار جديد، أو إضافة وحدات، أو تشغيل سكربتات بيانات، خذ نسخة أولاً. فإن حدث خطأ ما تستطيع الاستعادة خلال دقائق.",
+        "**اختبر الاستعادة من حين لآخر.** النسخة الاحتياطية مفيدة فقط إذا كانت تُستعاد فعلاً. تأكد بين الحين والآخر من إمكانية استرجاع ملف النسخة بنجاح."
+      ]
+    },
+    {
+      "t": "note",
+      "title": "أين توجد النسخ الاحتياطية",
+      "text": "في هذا الإعداد على Odoo 18، يمكن أخذ نسخة من قاعدة البيانات واستعادتها من شاشة مدير قواعد البيانات، وقد يقوم فريق تقنية المعلومات أو مزوّد الاستضافة لديك أيضاً بنسخ احتياطية تلقائية على مستوى الخادم. اتفق على جدول واضح وموقع تخزين مع من يتولى صيانة الخادم، ودوّن ذلك."
+    },
+
+    { "t": "h2", "text": "17.3 إعادة بناء العرض التوضيحي" },
+    {
+      "t": "p",
+      "text": "تم إنشاء شركة العرض التوضيحي بالكامل — *شركة السودان للمستلزمات الطبية*، ومستودعيها، ومنتجاتها الطبية العشرة، والعملاء والموردين، والدفاتر، وكل أوامر الشراء وأوامر البيع والفواتير والمدفوعات النموذجية — تلقائياً عبر سكربتات التهيئة (seed) الخاصة بالمشروع. وهذا يعني أنه يمكن مسح العرض التوضيحي وإعادة بنائه من الصفر في أي وقت، وهو أمر مثالي للتدريب وللتجربة دون خوف."
+    },
+    {
+      "t": "ul",
+      "items": [
+        "تعيد سكربتات التهيئة إنشاء مجموعة بيانات العرض الكاملة تماماً كما هي موصوفة في هذا الدليل — نفس مراجع المنتجات (مثل *CON-GLOVES* و*MED-INSULIN*)، ونفس الدفعات (مثل *LOT-GULF-01*)، ونفس الأرصدة الافتتاحية.",
+        "إعادة البناء تمنح كل متدرب نقطة بداية نظيفة ومتطابقة، فتتصرف التمارين دائماً بالطريقة نفسها.",
+        "الإجراء الدقيق والأوامر موجودة في وثائق المشروع التي يصونها فريقك التقني."
+      ]
+    },
+    {
+      "t": "warn",
+      "title": "لا تُعِد بناء قاعدة بيانات حية أبداً",
+      "text": "إعادة بناء العرض التوضيحي تمحو البيانات وتعيد إنشاءها. شغّلها فقط على قاعدة بيانات التدريب أو العرض — وليس أبداً على قاعدة بيانات الشركة الحقيقية التي تحتوي على فواتير ومخزون فعلية. خذ نسخة احتياطية أولاً (انظر 17.2)."
+    },
+    {
+      "t": "note",
+      "title": "اتبع وثائق المشروع",
+      "text": "للحصول على تعليمات إعادة البناء خطوة بخطوة، ارجع إلى وثائق الإعداد والتهيئة الخاصة بالمشروع. لا يكرر هذا الدليل الأوامر عمداً، حتى يبقى هناك مصدر واحد محدَّث للحقيقة يصونه الفريق التقني."
+    },
+
+    { "t": "h2", "text": "17.4 تأمين بيئة الإنتاج" },
+    {
+      "t": "p",
+      "text": "يعني \"التأمين\" إغلاق الأبواب التي قد يتسلل منها مهاجم أو يقع منها خطأ، قبل استخدام النظام في الأعمال الحقيقية. لا تستغرق الإعدادات أدناه سوى دقائق لكنها ضرورية. أنجِزها جميعاً قبل أن يصبح النظام حياً، وراجعها بعد أي تغيير كبير."
+    },
+    {
+      "t": "fig",
+      "file": "settings_general.png",
+      "caption": "صفحة الإعدادات العامة في تطبيق الإعدادات، حيث تُفعَّل أو تُعطَّل الخيارات على مستوى الشركة والميزات المتعلقة بالأمان."
+    },
+    {
+      "t": "warn",
+      "title": "أكمل هذه القائمة قبل التشغيل الفعلي",
+      "text": "إلى أن تُنجز كل بند أدناه، عامِل النظام على أنه بيئة اختبار فقط. كلمة مرور افتراضية واحدة أو مدير قواعد بيانات مكشوف يمكن أن يعرّض بيانات الشركة كلها للخطر."
+    },
+    {
+      "t": "table",
+      "headers": ["خطوة التأمين", "لماذا تهم"],
+      "rows": [
+        ["تغيير كل كلمات المرور الافتراضية", "يجب تغيير كل حساب جاء بكلمة مرور معروفة أو بسيطة — خاصة حساب *admin* وكلمة المرور الرئيسية لقاعدة البيانات — إلى كلمة مرور قوية وفريدة. كلمات المرور الافتراضية هي أسهل مدخل للمهاجم."],
+        ["تعطيل مدير قواعد البيانات", "تتيح شاشة مدير قواعد البيانات لأي شخص يصل إليها إنشاء قواعد البيانات أو حذفها أو نسخها أو استعادتها. على خادم حي يجب إيقافها حتى لا يستطيع العالم الخارجي الوصول إليها."],
+        ["تفعيل HTTPS", "يشفّر HTTPS الاتصال بين المتصفح والخادم، فلا يمكن قراءة بيانات الدخول والفواتير وبيانات العملاء أو العبث بها أثناء النقل. قدّم النظام الحي دائماً عبر HTTPS، ولا تستخدم HTTP العادي أبداً."],
+        ["تقييد مرشّح قاعدة البيانات", "اقفل الخادم على تقديم قاعدة بياناتك الحقيقية الوحيدة، حتى لا تعرض شاشة الدخول قائمة بقواعد بيانات متعددة ويبقى اسم قاعدة البيانات مخفياً عن الزوار."]
+      ]
+    },
+    {
+      "t": "ul",
+      "items": [
+        "**غيّر كل كلمات المرور الافتراضية** — عيّن كلمات مرور قوية وفريدة لحساب *admin*، ولكل حساب موظف، ولكلمة المرور الرئيسية لقاعدة البيانات.",
+        "**عطّل مدير قواعد البيانات** حتى لا تكون شاشة الإنشاء/الحذف/الاستعادة قابلة للوصول من الخارج.",
+        "**فعّل HTTPS** ليكون كل تبادل بين متصفحات الموظفين والخادم مشفّراً.",
+        "**قيّد مرشّح قاعدة البيانات** بحيث تُقدَّم قاعدة بيانات الشركة الحقيقية فقط ولا يُكشف اسمها."
+      ]
+    },
+    {
+      "t": "tip",
+      "title": "استشر فريق تقنية المعلومات",
+      "text": "يُضبط تعطيل مدير قواعد البيانات وتفعيل HTTPS وتقييد مرشّح قاعدة البيانات على الخادم، وليس من داخل التطبيق. إن لم تكن أنت من يدير الخادم، فشارك هذه القائمة مع فريق تقنية المعلومات أو مزوّد الاستضافة وأكّد إنجاز كل بند."
+    },
+
+    { "t": "h2", "text": "17.5 مسرد المصطلحات" },
+    {
+      "t": "p",
+      "text": "تعريفات بلغة بسيطة للمصطلحات التجارية والمحاسبية المستخدمة في هذا الدليل. احتفظ بهذه الصفحة في متناولك إلى أن تألف هذه الكلمات."
+    },
+    {
+      "t": "table",
+      "headers": ["المصطلح", "المعنى بلغة بسيطة"],
+      "rows": [
+        ["SKU / المرجع الداخلي", "رمز قصير وفريد تمنحه شركتك للمنتج ليسهل إيجاده وطلبه. وهو في هذا النظام *المرجع الداخلي (Internal Reference)*، مثل *MED-INSULIN* لقارورة الأنسولين 10 مل أو *CON-GLOVES* للقفازات الجراحية."],
+        ["الدفعة / التشغيلة (Lot / Batch)", "مجموعة من الأصناف المتطابقة التي أُنتجت أو استُلمت معاً وتتشارك رقماً واحداً وتاريخ انتهاء واحداً. مثال: الدفعة *LOT-GULF-01* من الأنسولين تنتهي في 2027-06-09. التتبع بالدفعة يتيح لك معرفة أي دفعة بالضبط استلمها العميل."],
+        ["FEFO (الأقرب انتهاءً يخرج أولاً)", "قاعدة تختار دائماً المخزون الأقرب انتهاءً أولاً، حتى لا يبقى أي صنف على الرف إلى أن تنتهي صلاحيته. يستخدم النظام FEFO عند حجز البضائع لعملية تسليم."],
+        ["FIFO (الوارد أولاً يصرف أولاً)", "قاعدة تكلفة تُقيّم البضائع التي تبيعها بتكلفة أقدم مخزون اشتريته، فتتبع الدفاتر الترتيب الطبيعي لوصول الأصناف وخروجها."],
+        ["قاعدة التخزين (Putaway rule)", "تعليمات تُخبر النظام بالمكان الذي ينبغي تخزين البضائع المستلمة حديثاً فيه، مثل إرسال الأنسولين مباشرة إلى *التخزين البارد (2-8 درجة مئوية)* عند وصوله."],
+        ["الدفتر (Journal)", "سجل محاسبي مُعنوَن. لكل نوع من النشاط دفتره الخاص، مثل *فواتير العملاء* و*فواتير الموردين* و*بنك الخرطوم (SDG)* و*خزنة النقد الرئيسية (SDG)*."],
+        ["RFQ (طلب عرض سعر)", "أمر شراء مسودة ترسله إلى مورّد لتسأل عن سعره قبل أن تلتزم. وبمجرد تأكيده، يصبح طلب عرض السعر أمر شراء حقيقياً."],
+        ["التسوية (Reconciliation)", "مطابقة سجلاتك المحاسبية مع البنك — تأشير كل فاتورة أو دفعة مقابل السطر المطابق في كشف الحساب البنكي — حتى يتفق رصيد النظام مع رصيد البنك."],
+        ["العملة الأساس (Base currency)", "العملة الوحيدة التي تُمسك بها دفاترك. بالنسبة لـ*شركة السودان للمستلزمات الطبية*، العملة الأساس هي **SDG**؛ وتُحوَّل المبالغ الأجنبية (مثل مورّد يفوتر بالـ**USD**) إلى SDG باستخدام سعر الصرف في تاريخ المستند."],
+        ["قائمة الأسعار (Pricelist)", "مجموعة من أسعار البيع يمكن أن تنطبق على عملاء أو حالات معينة، فيُملأ السعر الصحيح تلقائياً في عرض السعر بدلاً من كتابته يدوياً في كل مرة."],
+        ["الذمم المدينة / الدائنة (Receivable / Payable)", "*الذمم المدينة* هي أموال يدين بها العملاء لك مقابل بضائع جرت فوترتها؛ و*الذمم الدائنة* هي أموال تدين بها للموردين مقابل فواتير استلمتها ولم تسددها بعد."],
+        ["الترحيل (Posting)", "تأكيد فاتورة أو فاتورة مورّد أو قيد مسودة ليصبح سجلاً محاسبياً دائماً ورسمياً ويُحدِّث دفاتر الشركة. لا تزال المسودة قابلة للتعديل؛ أما المستند المُرحَّل فلا يمكن تغييره ببساطة."],
+        ["الضريبة (Tax)", "مبلغ يُضاف إلى السعر ويُحصَّل نيابة عن الحكومة — وهنا ضريبة **15%** على المبيعات والمشتريات للسودان — يحسبها النظام لك على كل فاتورة بيع وفاتورة مورّد."],
+        ["السنة الضريبية / المالية (Fiscal)", "كل ما يتعلق بالضريبة والمحاسبة الرسمية. *السنة المالية* هي فترة الاثني عشر شهراً التي تغطيها حساباتك قبل إقفالها وتقديم تقاريرها (و*البلد الضريبي* هنا هو السودان)."]
+      ]
+    }
+  ]
+}
