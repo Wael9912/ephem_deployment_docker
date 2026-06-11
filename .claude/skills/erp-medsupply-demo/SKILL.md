@@ -167,33 +167,26 @@ Notes:
 - The manuals must **not** mention "ePHEM" (per client request) — keep `META`/content clean.
 
 ## Build the customer demo / sales deck (PDF)
-A 16:9 live-demo deck for selling the platform (audience: an Excel-only manager) lives at
-`docs/deck/Medical-Supply_ERP_Demo_Deck.{pdf,html}` (24 slides) + a presenter cheat-sheet
-`docs/deck/PRESENTER_GUIDE.md`. `scripts/build_deck.py` assembles a **self-contained** HTML
-(real EN screenshots from `docs/manual/img/en/` + the Alexandria font, all base64-inlined),
-and `scripts/build_deck_pdf.sh` renders it with **WeasyPrint inside the odoo container** (same
-renderer as the manual). One command does both:
+A **bilingual** 16:9 live-demo deck (audience: an Excel-only manager) lives at
+`docs/deck/Medical-Supply_ERP_Demo_Deck_{EN,AR}.{pdf,html}` (**15 slides**, AR is full RTL with
+Arabic screenshots) + a presenter cheat-sheet `docs/deck/PRESENTER_GUIDE.md`. `scripts/build_deck.py`
+(`en`/`ar` arg) assembles a **self-contained** HTML (real screenshots from `docs/manual/img/{en,ar}/`
++ Alexandria font, all base64-inlined); `scripts/build_deck_pdf.sh` builds both languages with
+**WeasyPrint inside the odoo container**:
 ```bash
-bash scripts/build_deck_pdf.sh   # -> docs/deck/Medical-Supply_ERP_Demo_Deck.{html,pdf}
+bash scripts/build_deck_pdf.sh   # -> docs/deck/Medical-Supply_ERP_Demo_Deck_{EN,AR}.{html,pdf}
 ```
-Story arc: problem (Excel cracks) → hidden cost → "one connected system" → 9 capability slides
-(each grounds a **real** demo number and carries a **▶ SHOW LIVE** cue with the exact click-path)
-→ major-question slides (no per-user licence fees, extensibility, Excel migration, training,
-deployment) → Excel-vs-ERP table → 4-week roadmap → CTA. **Every figure is real demo data** from
-`docs/manual/_ground_truth/demo.json` (e.g. P00002 $1,288 ⇄ 5,796,000 SDG; insulin reorder 20/80;
-dashboard 3,966,350 unpaid / 3,924,950 SDG bank), so re-verify those numbers after a reseed.
+Flow: problem → "one connected system" → **7 capability slides** (each grounds a **real** demo number
+and carries a **▶ SHOW LIVE** cue) → Excel-vs-ERP table → cost & growth → switching → 4-week roadmap →
+CTA. **Every figure is real demo data** from `docs/manual/_ground_truth/demo.json` (P00002 $1,288 ⇄
+5,796,000 SDG; insulin reorder 20/80; dashboard 3,966,350 unpaid / 3,924,950 SDG bank) — re-verify
+after a reseed.
 
-Gotchas:
-- **WeasyPrint renders `display:inline-flex` as full-width block flex** → chip/pill rows blow up to
-  one-per-line. Use `display:inline-block` + an inline-block dot (`vertical-align:middle`); keep flex
-  for fixed-size boxes only.
-- Slides are absolutely positioned on a **1280×720 canvas** (`@page size:1280px 720px`). Compute each
-  screenshot's display height from its PNG IHDR header (`png_size`/`disp_h` in the script) and place
-  captions just below — don't hardcode Y, or they collide with tall shots / the live-cue band.
-- QA: the host has **no poppler / pdftoppm** and no importable WeasyPrint, so rasterize pages **in the
-  container** (`pdftoppm -png -r 80 deck.pdf pg`) and `docker compose cp` the PNGs out to inspect.
-- Use **inline SVG line icons**, never emoji (the container has no emoji font).
-- To brand it for a specific client, edit `DATE`/the cover/footer text and drop in a logo in `build_deck.py`.
+**Deck/manual layout, RTL and WeasyPrint gotchas now live in the `manual-deck-builder` skill** —
+read it before editing either document. The headline traps: `inline-flex` renders full-width (use
+`inline-block` chips + a filled play glyph in the cue), use a real `<table dir>` for the compare
+table (flex mis-mirrors under RTL), `fit_w()` keeps captions off the cue band, and QA by rasterizing
+in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## Gotchas learned
 - **USD FX rate direction**: store the USD `res.currency.rate` as `rate = 1/N` so 1 USD = N
@@ -210,3 +203,27 @@ Gotchas:
   explicit internal transfer to land insulin in Cold Storage.
 - Inventory valuation is **manual/periodic** + FIFO costing so goods moves post without
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
+
+## UI/UX addons & custom-theme program (2026-06-11)
+
+The demo DB has two in-house UI addons installed (code lives in the **nested git repo**
+`custom-addons/` — it has its own branches/remote, separate from this repo):
+
+- **medsupply_ui_refresh** — CSS-only overlay on Spiffy: card form sheets, always-visible
+  input borders, grouped-kanban headers/lanes (sale/purchase/stock.picking get
+  `default_group_by="state"`), list polish. Depends on spiffy → cascades away if spiffy is
+  uninstalled. Branch `ui-ux-refresh`+.
+- **ui_kanban_first** — kanban is the default first view on all window actions (80 moved,
+  28 prepended). `post_init_hook` runs at install only; re-apply via odoo shell:
+  `from odoo.addons.ui_kanban_first import post_init_hook; post_init_hook(env); env.cr.commit()`.
+  Exclude models via ir.config_parameter `ui_kanban_first.exclude_models`. Branch `custom-theme`+.
+
+Install/update pattern (avoid registry races):
+`docker compose stop odoo && docker compose run --rm odoo odoo -c /etc/odoo/odoo.conf -d erpmedsupply -i <addon> --stop-after-init && docker compose up -d odoo`
+
+**Spiffy replacement ("Nile" theme)**: master plan in `docs/CUSTOM_THEME_PLAN.md`, audit with
+no-spiffy evidence in `docs/theme-audit/SPIFFY_AUDIT.md` (branch `nile-theme` in both repos).
+Any theme/UI change ⇒ the 53 manual screenshots + both decks show the old UI and need
+re-capture (`scripts/capture_screens.py en|ar`) before the next manual/deck rebuild.
+Screenshot gotchas: never wait on `networkidle` (longpolling hangs); login with
+`/web/login?db=erpmedsupply`; use absolute output paths.

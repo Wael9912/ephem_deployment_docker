@@ -1,9 +1,10 @@
 # Presenter Guide — Medical-Supply ERP Live Demo
 
-A one-page companion to **`Medical-Supply_ERP_Demo_Deck.pdf`**. The deck carries the
-story; this tells you exactly what to open in the system at each **▶ SHOW LIVE** cue,
-and the number to say out loud. Keep the PDF on screen, switch to the live system on the
-cues, then come back.
+A one-page companion to the deck — **`Medical-Supply_ERP_Demo_Deck_EN.pdf`** (English)
+and **`…_AR.pdf`** (Arabic, full RTL with Arabic screenshots). The deck (15 slides)
+carries the story; this tells you exactly what to open in the system at each
+**▶ SHOW LIVE** cue, and the number to say out loud. Keep the PDF on screen, switch to
+the live system on the cues, then come back.
 
 ## Before the meeting (pre-flight)
 - Start the stack and confirm the app is up: open **http://localhost:8069**
@@ -23,17 +24,17 @@ cues, then come back.
 | Cash position | Accounting ▸ Dashboard | **3 unpaid (3,966,350 SDG)**, **2 late**, bank **3,924,950 SDG** |
 | Roles | Settings ▸ Users ▸ **Layla (General Manager)** ▸ Access Rights | 6 users; warehouse keeper ≠ accountant access |
 
-## Slide-by-slide live cues
-- **Slide 5 — A working system:** open the **9-dot app launcher** (top-left). "These are the real apps, one login."
-- **Slide 7 — Catalogue:** *Inventory ▸ Products*, search **Insulin**, open the card. Point at **On Hand**, cost, price, 15% tax.
-- **Slide 8 — Expiry & cold chain:** *Inventory ▸ Lots/Serial Numbers*, open **LOT-GULF-01**. Show the **expiry date** and that it sits in **Cold Storage (2–8°C)**. "Find every unit of a bad batch in seconds."
-- **Slide 9 — Re-ordering:** *Inventory ▸ Operations ▸ Reordering Rules*. Point at On-Hand vs **Min/Max** and the **To-Order** column. "Insulin is set to reorder at 20."
-- **Slide 10 — Warehouses:** *Inventory ▸ Configuration ▸ Warehouses* then **Locations**. Show **Cold Storage / Quarantine / Expired**.
-- **Slide 11 — Multi-currency:** *Purchase ▸ P00002*. Show the **$1,288 total** and the **5,796,000 SDG** equivalent right beneath it.
-- **Slide 12 — Quote to cash:** *Sales ▸ S00001*, then click through to its **invoice**. Show the green **PAID** banner. "Same order, becomes the invoice — nothing re-typed."
-- **Slide 13 — Cash position:** *Accounting ▸ Dashboard*. Point at **Unpaid / Late** and the live **bank balance**. Optional: print **Aged Receivable**.
-- **Slide 14 — Roles:** *Settings ▸ Users ▸ Layla ▸ Access Rights*. "Each person sees only their part; every change is logged."
-- **Slide 15 — Arabic:** switch your user language to **Arabic** and reload (or flip to the pre-logged Arabic session). Show the same screen **right-to-left**.
+## Slide-by-slide live cues (15-slide flow)
+- **Slide 3 — One connected system:** open the **9-dot app launcher** (top-left). "These are the real apps, one login, one database."
+- **Slide 4 — Catalogue:** *Inventory ▸ Products*, search **Insulin**, open the card. Point at **On Hand**, cost, price, 15% tax.
+- **Slide 5 — Expiry & cold chain:** *Inventory ▸ Lots/Serial Numbers*, open **LOT-GULF-01**. Show the **expiry date** and that it sits in **Cold Storage (2–8°C)**. "Find every unit of a bad batch in seconds."
+- **Slide 6 — Re-ordering:** *Inventory ▸ Operations ▸ Reordering Rules*. Point at On-Hand vs **Min/Max** and the **To-Order** column. "Insulin is set to reorder at 20."
+- **Slide 7 — Multi-currency:** *Purchase ▸ P00002*. Show the **$1,288 total** and the **5,796,000 SDG** equivalent right beneath it.
+- **Slide 8 — Quote to cash:** *Sales ▸ S00001*, then click through to its **invoice**. Show the green **PAID** banner. "Same order, becomes the invoice — nothing re-typed."
+- **Slide 9 — Cash position:** *Accounting ▸ Dashboard*. Point at **Unpaid / Late** and the live **bank balance**. Optional: print **Aged Receivable**.
+- **Slide 10 — Roles & Arabic:** *Settings ▸ Users ▸ Layla ▸ Access Rights* — "each person sees only their part; every change is logged." Then **switch your user language to Arabic and reload** (or flip to a pre-logged Arabic session) to show the same screen right-to-left.
+
+Slides 11–15 are discussion (Excel-vs-ERP, cost & growth, switching, 4-week roadmap, next steps) — no live cues. For an Arabic-speaking room, present from **`…_AR.pdf`**; the cues above are the same.
 
 ## If asked (quick answers)
 - **"How much?"** → No per-user licence fees. Built on Odoo 18 **Community** + open-source (OCA). You pay for setup, training and support — not seats. You own your data.
@@ -48,4 +49,5 @@ cues, then come back.
 - If the live system hiccups, the deck screenshot is the same data — keep talking, recover quietly.
 
 ---
-*Rebuild the deck after any data change:* `bash scripts/build_deck_pdf.sh`
+*Rebuild both language decks after any data change:* `bash scripts/build_deck_pdf.sh`
+(see the **manual-deck-builder** skill for layout/RTL gotchas).
