@@ -13,7 +13,9 @@ backups/*.gz
 backups/*.log
 backups/*.dump
 backups/*.sql.gz
-custom-addons/
+# Third-party addons stay out of Git, but in-house addons are tracked below
+custom-addons/*
+!custom-addons/medsupply_ui_refresh/
 
 # NGINX HTTP-only backup (created by ssl-setup.sh)
 nginx/active.conf
