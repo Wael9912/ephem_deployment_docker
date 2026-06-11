@@ -117,7 +117,12 @@ wkhtmltopdf for Arabic**. Manuals must not mention "ePHEM".
 
 ## Capturing/refreshing screenshots
 Owned by the demo skill (`scripts/capture_screens.py {en|ar}`, Spiffy theme,
-`docker compose restart odoo` before each capture so the worker picks up the lang). Both
+`docker compose restart odoo` before each capture so the worker picks up the lang).
+**Heads-up:** the Nile theme program (Phase 0 done 2026-06-12, see
+`docs/theme-audit/phase0-spike/README.md`) will replace Spiffy in Phase 1 — that switchover
+forces a full EN+AR re-capture and an `intro`/`interface` chapter rewrite (the app launcher
+becomes the `web_responsive` full-screen drawer; `capture_screens.py`'s Spiffy
+`a.appDrawerToggle` opener must change to `button.o_grid_apps_menu__button`). Both
 languages produce the **same filenames** — that's what lets the deck/manual switch the
 image set by language with one flag. After a reseed, record IDs shift → update the `ID`
 dict in `capture_screens.py` before recapturing.

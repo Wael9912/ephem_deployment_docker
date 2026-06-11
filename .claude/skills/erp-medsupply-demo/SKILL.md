@@ -227,3 +227,19 @@ Any theme/UI change ⇒ the 53 manual screenshots + both decks show the old UI a
 re-capture (`scripts/capture_screens.py en|ar`) before the next manual/deck rebuild.
 Screenshot gotchas: never wait on `networkidle` (longpolling hangs); login with
 `/web/login?db=erpmedsupply`; use absolute output paths.
+
+**Phase 0 done (2026-06-12)** — ratified: shell = OCA `web_responsive`, default chatter =
+bottom (`web_chatter_position`), prefix `nile_`. Evidence + EN/AR shell-comparison gallery:
+`docs/theme-audit/phase0-spike/README.md` (capture via
+`scripts/spike_capture.py {spiffy|core|responsive} {en|ar}` against the throwaway copy DB
+`erpmedsupply_nile`, which is in the local `odoo.conf` dbfilter). Empty-addon scaffold repo:
+`~/Documents/odoo-nile-theme` (branch `18.0`, no remote yet; CI skeleton + CLEAN_ROOM/AGPL docs).
+Gotchas to remember:
+- OCA `web_responsive` is vendored in `custom-addons/` with a **2-line local patch**
+  (`apps_menu.xml`: core renamed `this.ui.isSmall` → `env.isSmall` in 18.0-20260324; unpatched
+  it blank-screens the web client). Re-verify on every Odoo image bump; candidate upstream PR.
+- Odoo 18 RTL bundles use a `.rtl.` **filename suffix**, not a `/rtl/` URL path — assert either.
+- Spiffy's `backend_config` rows die on uninstall: reinstalling returns factory-teal, NOT the
+  demo look. **Snapshot `erpmedsupply` before any switchover; restore is the only rollback**
+  (the `backups/spiffy/spiffy_theme.sql` dump from the rebuild section is the config seed).
+- Lang flips via SQL are invisible to a running server (ormcache) — restart odoo before captures.
