@@ -203,3 +203,27 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
   explicit internal transfer to land insulin in Cold Storage.
 - Inventory valuation is **manual/periodic** + FIFO costing so goods moves post without
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
+
+## UI/UX addons & custom-theme program (2026-06-11)
+
+The demo DB has two in-house UI addons installed (code lives in the **nested git repo**
+`custom-addons/` — it has its own branches/remote, separate from this repo):
+
+- **medsupply_ui_refresh** — CSS-only overlay on Spiffy: card form sheets, always-visible
+  input borders, grouped-kanban headers/lanes (sale/purchase/stock.picking get
+  `default_group_by="state"`), list polish. Depends on spiffy → cascades away if spiffy is
+  uninstalled. Branch `ui-ux-refresh`+.
+- **ui_kanban_first** — kanban is the default first view on all window actions (80 moved,
+  28 prepended). `post_init_hook` runs at install only; re-apply via odoo shell:
+  `from odoo.addons.ui_kanban_first import post_init_hook; post_init_hook(env); env.cr.commit()`.
+  Exclude models via ir.config_parameter `ui_kanban_first.exclude_models`. Branch `custom-theme`+.
+
+Install/update pattern (avoid registry races):
+`docker compose stop odoo && docker compose run --rm odoo odoo -c /etc/odoo/odoo.conf -d erpmedsupply -i <addon> --stop-after-init && docker compose up -d odoo`
+
+**Spiffy replacement ("Nile" theme)**: master plan in `docs/CUSTOM_THEME_PLAN.md`, audit with
+no-spiffy evidence in `docs/theme-audit/SPIFFY_AUDIT.md` (branch `nile-theme` in both repos).
+Any theme/UI change ⇒ the 53 manual screenshots + both decks show the old UI and need
+re-capture (`scripts/capture_screens.py en|ar`) before the next manual/deck rebuild.
+Screenshot gotchas: never wait on `networkidle` (longpolling hangs); login with
+`/web/login?db=erpmedsupply`; use absolute output paths.
