@@ -1,6 +1,12 @@
 # Custom Backend Theme Master Plan — Replacing Spiffy (OPL-1) with an In-House LGPL-3 Theme
 
-**Status:** Proposed | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+**Status:** Phase 0 complete (2026-06-12) | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+
+> **Phase 0 decisions (ratified 2026-06-12, spike evidence in [theme-audit/phase0-spike/](theme-audit/phase0-spike/README.md)):**
+> shell base = OCA `web_responsive` (one 2-line xpath patch for Odoo 18.0-20260324, candidate upstream PR);
+> default chatter position = **bottom** (per-user switchable via `web_chatter_position`);
+> naming `nile_` ratified. Scaffold repo: `~/Documents/odoo-nile-theme` (branch `18.0`).
+> Plan-§6 correction from the spike: Odoo 18 RTL bundles carry a `.rtl.` filename suffix, not a `/rtl/` URL path — QA assertions must match either.
 
 ---
 
