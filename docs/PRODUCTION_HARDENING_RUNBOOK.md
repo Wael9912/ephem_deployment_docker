@@ -12,7 +12,7 @@ deliberately.** Nothing here was executed automatically.
 > | Postgres container | `ephem-db`   |
 > | Odoo container     | `ephem-app`  |
 > | Postgres role      | `odoo`       |
-> | Live database      | `ephem_uganda` |
+> | Live database      | `erpmedsupply` |
 > | Repo path          | `/opt/ephem-deploy` (adjust) |
 
 ---
@@ -31,8 +31,10 @@ deliberately.** Nothing here was executed automatically.
   created and syntax-checked.
 
 > The new local secrets are already in `.env` / `odoo.conf`. Treat those files as
-> sensitive; they are gitignored. The *old leaked* secret that must be purged from
-> history is: `***REMOVED***`.
+> sensitive; they are gitignored. The *old leaked* secret that had to be purged from
+> history is written here as `<OLD-PASSWORD-REDACTED>` (the literal value is
+> deliberately not repeated in this document; it was purged from git history on
+> 2026-06-13 — see §2).
 
 ---
 
@@ -82,12 +84,57 @@ docker compose ps
 curl -sI http://localhost:8069/web/login | head -1   # expect 200/303
 ```
 
+### 1e. Rotate Odoo LOGIN credentials at DEPLOY time (admin + demo users)
+
+§1a–1d rotate the *infrastructure* secrets (Postgres role password and the Odoo
+master password). The **application logins** are a separate rotation and must be done
+the moment a seeded database lands on a real server:
+
+- `admin` / `admin` — the Odoo administrator login.
+- The five demo users seeded by `scripts/seed_more.py`: `amira`, `khalid`, `sara`,
+  `mohammed`, `layla` — all with password `demo1234`.
+
+Rotate all six in one shot via the Odoo shell (prints the new passwords once — store
+them in a password manager immediately):
+
+```bash
+docker exec -i ephem-app odoo shell -d erpmedsupply --no-http <<'PY'
+import secrets
+for login in ['admin', 'amira', 'khalid', 'sara', 'mohammed', 'layla']:
+    user = env['res.users'].search([('login', '=', login)])
+    if user:
+        new_pwd = secrets.token_urlsafe(16)
+        user.password = new_pwd
+        print(f"{login}: {new_pwd}")
+    else:
+        print(f"{login}: NOT FOUND (ok if not seeded)")
+env.cr.commit()
+PY
+```
+
+Alternatively, deactivate the demo users instead of rotating them if production does
+not need them (Settings → Users → Archive). Verify afterwards that `admin/admin` and
+`<user>/demo1234` are rejected on the login page.
+
 ---
 
-## 2. Purge the leaked secret from git history
+## 2. Purge the leaked secret from git history — DONE 2026-06-13
 
-`odoo.conf` was committed with the password `***REMOVED***`. Removing it from the
-index (already done) does NOT remove it from past commits. You must rewrite history.
+> **STATUS: COMPLETED on 2026-06-13.** The history purge was executed with
+> `git filter-repo --replace-text` (Option A below), replacing every occurrence of the
+> old password with `REDACTED` across all commits. Verified clean with:
+>
+> ```bash
+> git log --all -p | grep -c '<OLD-PASSWORD-REDACTED>'   # printed 0
+> ```
+>
+> (substitute the literal old password — written as `<OLD-PASSWORD-REDACTED>`
+> throughout this document — when re-running the check). The steps below are kept as
+> the record of what was done and as the procedure for any future leak.
+
+`odoo.conf` was committed with the old password (`<OLD-PASSWORD-REDACTED>`). Removing
+it from the index (already done) does NOT remove it from past commits — history had to
+be rewritten.
 
 > **This rewrites every commit hash and requires a force-push.** Coordinate with anyone
 > who has a clone — they must re-clone or hard-reset afterward. Do a mirror backup first.
@@ -114,8 +161,9 @@ Create a replacement rules file and run it:
 cd /opt/ephem-deploy
 
 cat > /tmp/secrets.txt <<'EOF'
-***REMOVED***==>REDACTED
+<OLD-PASSWORD-REDACTED>==>REDACTED
 EOF
+# (put the literal old password before the ==>, one rule per line)
 
 git filter-repo --replace-text /tmp/secrets.txt
 
@@ -135,7 +183,7 @@ rm -f /tmp/secrets.txt
 
 ```bash
 cd /opt
-echo '***REMOVED***' > replacements.txt   # one secret per line
+echo '<OLD-PASSWORD-REDACTED>' > replacements.txt   # the literal old password, one secret per line
 java -jar bfg.jar --replace-text replacements.txt ephem-deploy/.git
 java -jar bfg.jar --delete-files odoo.conf    ephem-deploy/.git
 cd ephem-deploy
@@ -147,13 +195,14 @@ rm -f /opt/replacements.txt
 
 ```bash
 cd /opt/ephem-deploy
-git log --all -p | grep -c '***REMOVED***'   # MUST print 0
+git log --all -p | grep -c '<OLD-PASSWORD-REDACTED>'   # MUST print 0 (use the literal old password)
 git push origin --force --all
 git push origin --force --tags
 ```
 
-> Even after purging history, treat `***REMOVED***` as permanently compromised.
-> §1 already rotated it to a fresh value — do not reuse the old one anywhere.
+> Even after purging history, treat the old password (`<OLD-PASSWORD-REDACTED>`) as
+> permanently compromised. §1 already rotated it to a fresh value — do not reuse the
+> old one anywhere.
 
 ---
 
@@ -176,7 +225,7 @@ systemctl list-timers ephem-backup.timer
 cd /opt/ephem-deploy
 bash scripts/backup_db.sh
 tail -n 5 backups/backup.log
-ls -lh backups/ephem_uganda_*.dump.gz | tail -1
+ls -lh backups/erpmedsupply_*.dump.gz | tail -1
 ```
 
 ### 3c. TESTED restore procedure (restore into a SCRATCH db — non-destructive)
@@ -185,7 +234,7 @@ Never test a restore by overwriting the live DB. Use a scratch target:
 
 ```bash
 cd /opt/ephem-deploy
-LATEST="$(ls -1t backups/ephem_uganda_*.dump.gz | head -1)"
+LATEST="$(ls -1t backups/erpmedsupply_*.dump.gz | head -1)"
 echo "Restoring: $LATEST"
 
 # Restore into ephem_restore_test (created/dropped automatically by the script):
@@ -235,3 +284,64 @@ docker compose logs --tail=30 odoo
 
 Confirm in the running config that `proxy_mode=True`, `list_db=False`, and there is
 **no** `dev_mode` line.
+
+---
+
+## 5. Minimal addon set for production (med-supply ERP)
+
+The production server must **NOT** ship all ~120 dirs under `custom-addons/` — the
+unused ePHEM/EOC/CMP/OpenEducat/Spiffy modules are pure attack surface (see the
+readiness review). The live `erpmedsupply` database was queried on 2026-06-13:
+
+```bash
+docker exec ephem-db psql -U odoo -d erpmedsupply -tAc \
+  "SELECT name FROM ir_module_module WHERE state='installed' ORDER BY name"
+```
+
+Of the 85 installed modules, all but the 19 below are **core Odoo** — they ship with
+the `odoo:18` image and must not be copied. Build the server's addons mounts from
+exactly these directories:
+
+### From `custom-addons/` (this repo, 14 dirs)
+
+| Group | Directories |
+|---|---|
+| OCA bank-reconcile stack | `account_reconcile_model_oca`, `account_reconcile_oca`, `account_statement_base` |
+| Odoo Mates accounting | `accounting_pdf_reports`, `om_account_accountant`, `om_account_asset`, `om_account_budget`, `om_account_daily_reports`, `om_account_followup`, `om_fiscal_year`, `om_recurring_payments` |
+| OCA web UX | `web_responsive`, `web_chatter_position` |
+| Local UX tweak | `ui_kanban_first` |
+
+### From the `odoo-nile-theme` repo (5 dirs)
+
+The `nile_*` addons live in their own repo —
+`github.com/Wael9912/odoo-nile-theme`, branch `18.0` — not in `custom-addons/`.
+Clone that repo on the server and mount (or copy) only:
+
+- `nile_core`
+- `nile_shell`
+- `nile_components`
+- `nile_config`
+- `nile_brand_medsupply`
+
+Do **not** ship `nile_brand_cmp` / `nile_brand_ephem` (other-product brand packs,
+not installed in `erpmedsupply`).
+
+### Explicitly excluded
+
+Everything else under `custom-addons/` — all `cmp_*`, `eoc_*`, `ephem_*`,
+`openeducat_*`, `spiffy_theme_backend` (replaced by Nile; contains 31 public routes
+and a bundled Firebase key), `medsupply_ui_refresh` (Spiffy-era overlay, superseded),
+`bank-payment-18.0` (no module from it is installed), and the misc dirs
+(`auditlog`, `dms`, `helpdesk_mgmt`, `payroll`, debranding modules, etc.). None of
+these are installed in `erpmedsupply`.
+
+### Re-verify before each deploy
+
+Re-run the query above after any module install/uninstall and diff against this list;
+anything new that is not a core-image module must be added to the copy set:
+
+```bash
+docker exec ephem-db psql -U odoo -d erpmedsupply -tAc \
+  "SELECT name FROM ir_module_module WHERE state='installed' ORDER BY name" \
+  | comm -23 - <(docker exec ephem-app ls /usr/lib/python3/dist-packages/odoo/addons | sort)
+```

@@ -53,6 +53,6 @@ list_db = False
 
 ; Pin the active database so the app auto-loads and the selector is never
 ; reachable. Adjust to your live DB name.
-dbfilter = ^ephem_uganda$
+dbfilter = ^erpmedsupply$
 
 ; NOTE: no dev_mode line in this template — dev_mode is for odoo.conf.dev only.

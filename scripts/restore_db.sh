@@ -11,7 +11,7 @@
 #    bash scripts/restore_db.sh <dump.gz> --yes            # skip confirmation
 #
 #  Env overrides (same defaults as backup_db.sh):
-#    DB_CONTAINER (ephem-db)  DB_USER (odoo)  DB_NAME (ephem_uganda)
+#    DB_CONTAINER (ephem-db)  DB_USER (odoo)  DB_NAME (erpmedsupply)
 #    ODOO_CONTAINER (ephem-app) — stopped during restore so it can't reconnect.
 # ──────────────────────────────────────────────────────────────────────────
 set -euo pipefail
@@ -21,7 +21,7 @@ DB_USER="${DB_USER:-odoo}"
 ODOO_CONTAINER="${ODOO_CONTAINER:-ephem-app}"
 
 DUMP=""
-TARGET="${DB_NAME:-ephem_uganda}"
+TARGET="${DB_NAME:-erpmedsupply}"
 ASSUME_YES="no"
 
 while [ $# -gt 0 ]; do

@@ -40,6 +40,6 @@ log_level = info
 
 ; === Security ===========================================================
 list_db = False
-dbfilter = ^ephem_uganda$
+dbfilter = ^erpmedsupply$
 
 ; (no dev_mode — production)

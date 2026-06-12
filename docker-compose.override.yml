@@ -10,6 +10,7 @@ services:
       - odoo-data:/var/lib/odoo
       - ./custom-addons:/mnt/extra-addons:rw
       - /Users/waelabdalla/Documents/Projects/cmp/cmp:/mnt/extra-addons/cmp:rw
+      - /Users/waelabdalla/Documents/Projects/cmp/cmp_core:/mnt/extra-addons/cmp_core:ro
       - /Users/waelabdalla/Documents/odoo-nile-theme:/mnt/nile-theme:rw
       - ./odoo.conf:/etc/odoo/odoo.conf
     ports:

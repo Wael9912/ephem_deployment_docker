@@ -8,7 +8,8 @@
 #
 #   0 2 * * *  cd /opt/ephem-deploy && /usr/bin/env bash scripts/backup_db.sh >> backups/cron.log 2>&1
 #
-#   (runs every night at 02:00, keeps newest 14 dumps by default)
+#   (runs every night at 02:00; backs up BOTH the pg_dump and the Odoo
+#    filestore tgz per database, keeping the newest 14 of each by default)
 #
 #
 # ── Option B: systemd service + timer (preferred on systemd hosts) ─────────
@@ -25,7 +26,7 @@
 #   ExecStart=/usr/bin/env bash /opt/ephem-deploy/scripts/backup_db.sh
 #   # Optional tuning:
 #   # Environment=RETENTION=30
-#   # Environment=DB_NAME=ephem_uganda
+#   # Environment=DB_NAME=erpmedsupply
 #
 # Create /etc/systemd/system/ephem-backup.timer :
 #

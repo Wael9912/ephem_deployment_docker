@@ -12,17 +12,17 @@ Reviewed captured screens (app launcher, Inventory overview, Accounting dashboar
 
 ## Production blockers (must fix before deploying)
 
-1. **Mac-only paths in `docker-compose.yml:38-39`** — `/Users/waelabdalla/Documents/Projects/cmp/...` volume mounts will fail on any Linux server. Remove them (the med-supply solution doesn't use CMP at all).
+1. **Mac-only paths in `docker-compose.yml:38-39`** — `/Users/waelabdalla/Documents/Projects/cmp/...` volume mounts will fail on any Linux server. *Update: fixed 2026-06-13 — all host-specific dev mounts moved to `docker-compose.override.yml` (dev-only, gitignored); the base compose file is now portable.*
 
-2. **`dbfilter` mismatch** — `odoo.conf.prod:43` and `.env.example:39` pin `^ephem_uganda$`. Following the runbook (`cp odoo.conf.prod odoo.conf`) would make the `erpmedsupply` database unreachable. Change to `^erpmedsupply$`.
+2. **`dbfilter` mismatch** — `odoo.conf.prod` and `.env.example` pinned `^ephem_uganda$`, which would have made the `erpmedsupply` database unreachable. *Update: fixed 2026-06-13 — both now pin `^erpmedsupply$`, and the backup/restore scripts' default `DB_NAME` was aligned to `erpmedsupply` as well.*
 
-3. **Old secret in git history** — the password `***REMOVED***` (old `admin_passwd`/`db_password`) appears in ~10 commits. Purge with `git filter-repo` (runbook §2 documents this) **before** pushing the repo to any server or remote.
+3. **Old secret in git history** — the old `admin_passwd`/`db_password` (written here as `<OLD-PASSWORD-REDACTED>`) appeared in ~10 commits. Purge with `git filter-repo` (runbook §2 documents this) **before** pushing the repo to any server or remote. *Update: purge completed 2026-06-13 — see runbook §2.*
 
 4. **~120 unrelated addons = real attack surface.** All ePHEM/EOC/CMP/OpenEducat modules are mounted alongside the med-supply ones, and some contain serious vulnerabilities if ever installed:
    - `eoc_base/controllers/api_proxy_controller.py:7` — unauthenticated open SSRF proxy (`auth='public'`, `cors='*'`, fetches any URL passed to it).
    - `eoc_base/controllers/geojson_controller.py` — public endpoints that **write files into the addons directory** (runtime code modification → RCE).
    - `spiffy_theme_backend/controllers/main.py` — **31 `auth='public'` routes** using `.sudo()`.
-   - These routes only activate if the module is installed in the DB, but the safe move is: build the production `custom-addons/` with **only** what `erpmedsupply` needs — the OCA reconcile modules (`account_reconcile_oca`, `account_statement_base`, `account_reconcile_model_oca`), `bank-payment-18.0`, the Odoo Mates accounting modules (`om_account_accountant` + deps), and `spiffy_theme_backend`.
+   - These routes only activate if the module is installed in the DB, but the safe move is: build the production `custom-addons/` with **only** what `erpmedsupply` needs. The authoritative, DB-verified list (queried from the live database 2026-06-13, after the Nile theme replaced Spiffy) is in `docs/PRODUCTION_HARDENING_RUNBOOK.md` §5 "Minimal addon set for production": 14 dirs from `custom-addons/` (OCA reconcile stack, Odoo Mates accounting, `web_responsive`, `web_chatter_position`, `ui_kanban_first`) plus 5 `nile_*` dirs from the `odoo-nile-theme` repo. `spiffy_theme_backend` and `bank-payment-18.0` are **no longer** part of the set.
    - Spiffy also ships a **Firebase service-account private key** in `static/description/firebase-key/` — delete that file regardless (and consider the key compromised).
 
 5. **Demo credentials in the database** — `admin/admin` plus five users (amira/khalid/sara/mohammed/layla) all with password `demo1234` (`scripts/seed_more.py:97`). If going live from this seeded DB, reset every password first and decide what demo transactional data (fake invoices, DEMO-AGED-* records, hardcoded 2,400→4,500 FX history) stays or gets archived. Cleanest path: keep `erpmedsupply` as the demo, seed a fresh production DB with only master data (products, partners, warehouses, users) — no fake transactions.
@@ -64,7 +64,7 @@ Install the cron from `scripts/backup_db.cron.example` (after adding filestore b
 - [ ] `list_db = False`, `dbfilter = ^erpmedsupply$`, no `dev_mode`
 - [ ] `workers` tuned to server cores
 - [ ] All passwords rotated (admin, demo users, Postgres, master password)
-- [ ] Old secret purged from git history (`git log --all -p | grep ***REMOVED***` → 0 hits)
+- [ ] Old secret purged from git history (`git log --all -p | grep '<OLD-PASSWORD-REDACTED>'` → 0 hits; use the literal old password — done 2026-06-13, re-check before push)
 - [ ] `custom-addons` trimmed to med-supply modules only; Firebase key deleted
 - [ ] `certbot renew --dry-run` passes
 - [ ] Backup cron installed (DB + filestore), offsite sync configured, restore tested
