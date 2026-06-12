@@ -36,6 +36,7 @@ DRAWER_SEL = {
     "spiffy":     ["a.appDrawerToggle"],
     "core":       [".o_navbar_apps_menu button", ".o_menu_toggle"],
     "responsive": ["button.o_grid_apps_menu__button"],
+    "nile":       ["button.o_grid_apps_menu__button"],  # Phase 1: full Nile stack
 }
 
 KILL_OVERLAYS = """() => {
