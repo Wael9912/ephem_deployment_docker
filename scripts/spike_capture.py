@@ -14,7 +14,7 @@ import sys
 from playwright.sync_api import sync_playwright
 
 BASE = "http://localhost:8069"
-DB = "erpmedsupply_nile"
+DB = os.environ.get("SPIKE_DB", "erpmedsupply_nile")
 USER, PWD = "admin", "admin"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VARIANT = sys.argv[1]
