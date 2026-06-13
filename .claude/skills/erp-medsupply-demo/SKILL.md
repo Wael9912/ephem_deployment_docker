@@ -12,9 +12,14 @@ inventory + warehousing + procurement + sales + accounting, multi-currency
 ## Prerequisites
 - Docker Desktop running (`docker info` succeeds). If down, the user must start it
   manually — `open -a Docker` is unreliable here.
-- `addons_path` in `odoo.conf` / `odoo.conf.prod` must include
-  `/mnt/extra-addons/bank-payment-18.0` (it is **not** recursive). Already patched.
-- `dbfilter` in `odoo.conf` allows `erpmedsupply` (currently `^(ephem_uganda|erpmedsupply)$`).
+- **Addons come from two mounts now** (the ERP is decoupled from the `borse/ePHEM`
+  monorepo — see the UI/theme section): `/mnt/extra-addons` = ERP addons,
+  `/mnt/nile-theme` = the `nile_*` backend theme. The dev `odoo.conf` `addons_path`
+  lists both (plus `/mnt/extra-addons/bank-payment-18.0`, which is **not** recursive).
+  In **dev** the `docker-compose.override.yml` mounts the full borse checkout at
+  `/mnt/extra-addons` and `~/Documents/odoo-nile-theme` at `/mnt/nile-theme`; in **prod**
+  the base compose mounts the two dedicated repos instead.
+- `dbfilter` in dev `odoo.conf` allows `erpmedsupply` (and the throwaway `erpmedsupply_nile`).
 
 ## 1. Start Postgres
 ```bash
@@ -28,13 +33,23 @@ docker inspect -f '{{.State.Health.Status}}' ephem-db
 docker compose run --rm -T odoo odoo -d erpmedsupply \
   -i account,contacts,stock,purchase,sale_management,product_expiry,stock_landed_costs,\
 om_account_accountant,account_reconcile_oca,account_statement_base,account_reconcile_model_oca,\
-spiffy_theme_backend \
+ui_kanban_first,web_responsive,web_chatter_position,\
+nile_core,nile_components,nile_shell,nile_config,nile_brand_medsupply \
   --without-demo=all --stop-after-init --log-level=warn
 ```
 `stock_account`, `purchase_stock`, `sale_stock` auto-install; `om_account_accountant`
 pulls the full accounting suite. `generic_coa` chart loads from `account` (no separate
-`l10n_generic_coa` module in this image). **`spiffy_theme_backend`** is the active backend
-theme used in all screenshots — keep it in the install list.
+`l10n_generic_coa` module in this image).
+
+**Theme = Nile (Spiffy is retired/deleted as of 2026-06-13).** The active backend look is the
+in-house `nile_*` stack on the OCA `web_responsive` shell, with `nile_brand_medsupply` supplying
+the MedSupply logo/login/favicon. The `nile_*` addons resolve via the `/mnt/nile-theme` mount
+(repo `Wael9912/odoo-nile-theme`, branch `18.0`). After install, set the per-user chatter default
+to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (commit). Company
+branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
+(`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
+install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
+is `nile_config` (palette presets + per-user font/density/chatter).
 
 ## 3. Seed master data + transactions
 ```bash
@@ -78,22 +93,21 @@ Verification snippet (counts, stock math, FEFO lots, cold-storage location, invo
 currency = SDG, USD rate history) is in the transcript; rerun via
 `docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http < /tmp/verify_medsupply.py`.
 
-## Rebuild from scratch (preserves the Spiffy theme + Alexandria font)
+## Rebuild from scratch (Nile theme is code, not DB config — no backup/restore dance)
 The economy is built at the **real 1 USD = 4,500 SDG** (SDG prices are scaled to match in
 `seed_medsupply.py`/`seed_more.py`, so rate and prices move together — don't change one alone).
+Unlike Spiffy (whose look lived in fragile `backend_config` DB rows), the Nile theme is entirely
+in addon code, so a rebuild just reinstalls the `nile_*` addons — nothing to snapshot/restore.
 ```bash
-# 0. back up the Spiffy theme (so the exact teal/dark palette + Alexandria font survive the drop)
-docker compose exec -T db pg_dump -U odoo -d erpmedsupply --data-only --column-inserts \
-  --table=backend_config --table=google_font_family > backups/spiffy/spiffy_theme.sql
-# 1. drop + reinstall (step 2 list, incl. spiffy_theme_backend) + seed (step 3: medsupply, more)
+# 1. drop + reinstall (step 2 list, incl. the nile stack) + seed (step 3: medsupply, more)
 docker compose stop odoo
 docker compose exec -T db psql -U odoo -d postgres -c "DROP DATABASE IF EXISTS erpmedsupply WITH (FORCE);"
 #    ...run step 2 install, then seed_medsupply.py + seed_more.py...
-# 2. restore the theme + select Alexandria + activate Arabic (ORM is safer than truncate:
-#    res_users.backend_theme_config FKs backend_config, so TRUNCATE CASCADE would delete users).
-#    Re-apply the saved backend.config field values to every backend.config row and create a
-#    google.font.family(name='Alexandria', is_selected=True) per user's config; then run the
-#    Arabic language-install wizard. (See the session transcript / restore_theme_lang.py.)
+# 2. re-apply the small DB-side branding the addons can't carry, then activate Arabic:
+#    - chatter default bottom: env['ir.default'].set('res.users','chatter_position','bottom')
+#    - company logo + nile_menubar_logo from nile_brand_medsupply/static/img (base64); tab name
+#    - verify ICP nile.tab_name / nile.favicon_url / nile.login_background_url (brand pack sets these)
+#    - run the Arabic language-install wizard (see below)
 docker compose up -d odoo
 ```
 Gotchas:
@@ -117,12 +131,19 @@ PY
 ```
 The app name "Sales" stays English (Odoo default); everything else translates.
 
-## Capture real screenshots (EN + AR) — Spiffy theme
-The UI now runs the **Spiffy backend theme** (`spiffy_theme_backend`, dark navbar, a 9-dot app
-launcher, a vertical quick-action rail). `scripts/capture_screens.py` drives headless Chromium
-(Playwright) over a **~53-shot manifest** covering every module, key forms (it opens specific
-notebook tabs by index — language-independent — e.g. product Inventory=3, Purchase=2; partner
-Sales&Purchase=1, Accounting=3), lists, dashboards and functions → `docs/manual/img/{en,ar}/`.
+## Capture real screenshots (EN + AR) — ⚠️ PIPELINE NOT YET UPDATED FOR NILE
+> **DEFERRED Phase-1 doc task (as of 2026-06-13):** the live UI now runs the **Nile theme**
+> (`web_responsive` shell), but `scripts/capture_screens.py` and the committed screenshots
+> (`docs/manual/img/{en,ar}/`) + both decks **still show the dead Spiffy UI**. Before re-capture
+> someone must update the script's chrome selectors for `web_responsive` (the Spiffy app-launcher
+> selector `a.appDrawerToggle` and the quick-action rail no longer exist; web_responsive uses its
+> own apps-menu/burger). Until then, **do not run a capture against the nile DB expecting the old
+> shots** — the manual/decks are knowingly stale. See the UI/theme section + memory `erp-custom-theme`.
+
+`scripts/capture_screens.py` drives headless Chromium (Playwright) over a **~53-shot manifest**
+covering every module, key forms (it opens specific notebook tabs by index — language-independent —
+e.g. product Inventory=3, Purchase=2; partner Sales&Purchase=1, Accounting=3), lists, dashboards
+and functions → `docs/manual/img/{en,ar}/`.
 ```bash
 pip3 install --user playwright && python3 -m playwright install chromium   # host, once
 # EN: set admin lang en_US, RESTART odoo, capture
@@ -137,8 +158,9 @@ python3 scripts/capture_screens.py ar
 Gotchas:
 - `dbfilter` matches >1 DB → log in via `/web/login?db=erpmedsupply`; Odoo holds a long-poll
   socket so after login wait on `.o_main_navbar`, never `networkidle`.
-- **App launcher (apps_home)**: the Spiffy toggle is `a.appDrawerToggle` and Playwright's normal
-  click is intercepted — open it with `page.eval_on_selector("a.appDrawerToggle","e=>e.click()")`.
+- **App launcher (apps_home)**: the old Spiffy toggle `a.appDrawerToggle` is GONE — `web_responsive`
+  renders its own apps menu (burger / `.o_menu_apps`). This is the main selector to re-map when
+  updating the script for Nile.
 - The worker **caches user lang + FX rates** — `docker compose restart odoo` before each capture.
 - The script removes onboarding/tour overlays (`.o_onboarding_container`, etc.) via JS before each shot.
 
@@ -154,8 +176,8 @@ Chapter order is the `CHAPTER_ORDER` list in `build_manual.py`.
 ## Build the manual (Word + PDF, EN + AR)
 `scripts/build_manual.py` assembles `docs/manual/_content/*.json` (falls back to the legacy
 `fill_en/fill_ar` only if `_content` is empty), renders DOCX (python-docx) and HTML (images
-base64-inlined). Arabic is RTL and uses **Alexandria** — the same Arabic font applied to the system
-via Spiffy (`scripts/fonts/Alexandria-{Regular,Bold}.ttf`, `@font-face` at `file:///tmp/fonts/...`).
+base64-inlined). Arabic is RTL and uses **Alexandria** — the same Arabic font self-hosted in the
+system UI by `nile_core` (`scripts/fonts/Alexandria-{Regular,Bold}.ttf`, `@font-face` at `file:///tmp/fonts/...`).
 WeasyPrint in the container renders correct Arabic bidi (never wkhtmltopdf for AR) — but a container
 recreate loses it, so reinstall if `No module named weasyprint` (see the Rebuild gotchas). One command
 does it all:
@@ -204,42 +226,41 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 - Inventory valuation is **manual/periodic** + FIFO costing so goods moves post without
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
 
-## UI/UX addons & custom-theme program (2026-06-11)
+## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
 
-The demo DB has two in-house UI addons installed (code lives in the **nested git repo**
-`custom-addons/` — it has its own branches/remote, separate from this repo):
+**Repo layout (the ERP is decoupled from `borse/ePHEM`):**
+- `Wael9912/ephem_deployment_docker` (this repo) — deployment: compose, configs, scripts, docs. Branch `nile-theme`.
+- `Wael9912/erpmedsupply-addons` (`main`) — the **14 ERP addons** (OCA/OdooMates accounting,
+  `web_responsive` [with the `env.isSmall` 18.0 patch], `web_chatter_position`, original
+  `ui_kanban_first`). Mounted at `/mnt/extra-addons` in prod. Dependency-closure verified.
+- `Wael9912/odoo-nile-theme` (`18.0`) — the `nile_*` theme stack (ship 5 for ERP: `nile_core`,
+  `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`). Mounted at `/mnt/nile-theme`.
+- `borse/ePHEM` checkout (`custom-addons/`) — the 121-addon platform monorepo, now **DEV-ONLY**
+  (mounted only by `docker-compose.override.yml`). Do **not** ship it or push ERP changes to it.
 
-- **medsupply_ui_refresh** — CSS-only overlay on Spiffy: card form sheets, always-visible
-  input borders, grouped-kanban headers/lanes (sale/purchase/stock.picking get
-  `default_group_by="state"`), list polish. Depends on spiffy → cascades away if spiffy is
-  uninstalled. Branch `ui-ux-refresh`+.
-- **ui_kanban_first** — kanban is the default first view on all window actions (80 moved,
-  28 prepended). `post_init_hook` runs at install only; re-apply via odoo shell:
-  `from odoo.addons.ui_kanban_first import post_init_hook; post_init_hook(env); env.cr.commit()`.
-  Exclude models via ir.config_parameter `ui_kanban_first.exclude_models`. Branch `custom-theme`+.
+**`ui_kanban_first`** — kanban is the default first view on all window actions (80 moved, 28
+prepended). `post_init_hook` runs at install only; re-apply via odoo shell:
+`from odoo.addons.ui_kanban_first import post_init_hook; post_init_hook(env); env.cr.commit()`.
+Exclude models via ir.config_parameter `ui_kanban_first.exclude_models`.
 
-Install/update pattern (avoid registry races):
-`docker compose stop odoo && docker compose run --rm odoo odoo -c /etc/odoo/odoo.conf -d erpmedsupply -i <addon> --stop-after-init && docker compose up -d odoo`
+**Nile theme** — built in-house to replace Spiffy. Master plan `docs/CUSTOM_THEME_PLAN.md`; QA
+audit `docs/theme-audit/QA_AUDIT_2026-06-13.md`. Layers: `nile_core` (design tokens, fonts,
+SCSS knobs) → `nile_components` (absorbed the old `medsupply_ui_refresh` overlay, `--msr-*`→`--nile-*`)
+→ `nile_shell` (logo/login/favicon on `web_responsive`) + `nile_config` (runtime theme dialog) →
+brand pack `nile_brand_medsupply`. Live on `erpmedsupply` since the 2026-06-12 switchover;
+`nile_config` + the QA fixes (reduced-motion dropdown bug, 13px base) shipped 2026-06-13.
 
-**Spiffy replacement ("Nile" theme)**: master plan in `docs/CUSTOM_THEME_PLAN.md`, audit with
-no-spiffy evidence in `docs/theme-audit/SPIFFY_AUDIT.md` (branch `nile-theme` in both repos).
-Any theme/UI change ⇒ the 53 manual screenshots + both decks show the old UI and need
-re-capture (`scripts/capture_screens.py en|ar`) before the next manual/deck rebuild.
-Screenshot gotchas: never wait on `networkidle` (longpolling hangs); login with
-`/web/login?db=erpmedsupply`; use absolute output paths.
+**Retired & DELETED 2026-06-13** (uninstalled in every DB, then `git rm`'d from `custom-addons`):
+`spiffy_theme_backend` (with its bundled third-party **Firebase key** — a Bizople vendor key, not
+ours; closed a prod-readiness blocker), `medsupply_ui_refresh` (superseded by `nile_components`),
+`eoc_theme_backend`. Don't reference these as installable.
 
-**Phase 0 done (2026-06-12)** — ratified: shell = OCA `web_responsive`, default chatter =
-bottom (`web_chatter_position`), prefix `nile_`. Evidence + EN/AR shell-comparison gallery:
-`docs/theme-audit/phase0-spike/README.md` (capture via
-`scripts/spike_capture.py {spiffy|core|responsive} {en|ar}` against the throwaway copy DB
-`erpmedsupply_nile`, which is in the local `odoo.conf` dbfilter). Empty-addon scaffold repo:
-`~/Documents/odoo-nile-theme` (branch `18.0`, no remote yet; CI skeleton + CLEAN_ROOM/AGPL docs).
-Gotchas to remember:
-- OCA `web_responsive` is vendored in `custom-addons/` with a **2-line local patch**
-  (`apps_menu.xml`: core renamed `this.ui.isSmall` → `env.isSmall` in 18.0-20260324; unpatched
-  it blank-screens the web client). Re-verify on every Odoo image bump; candidate upstream PR.
-- Odoo 18 RTL bundles use a `.rtl.` **filename suffix**, not a `/rtl/` URL path — assert either.
-- Spiffy's `backend_config` rows die on uninstall: reinstalling returns factory-teal, NOT the
-  demo look. **Snapshot `erpmedsupply` before any switchover; restore is the only rollback**
-  (the `backups/spiffy/spiffy_theme.sql` dump from the rebuild section is the config seed).
-- Lang flips via SQL are invisible to a running server (ormcache) — restart odoo before captures.
+Install/update pattern (avoid registry races; a live DB needs `update_list()` first if the nile/OCA
+addons are new to it): `docker compose stop odoo && docker compose run --rm odoo odoo -c /etc/odoo/odoo.conf -d erpmedsupply -i <addon> --stop-after-init && docker compose up -d odoo`
+
+**Docs lag the UI:** the 53 manual screenshots + both decks still show the dead Spiffy UI — see the
+⚠️ note in the capture section (deferred Phase-1 task). Screenshot gotchas that still hold: never
+wait on `networkidle` (longpolling hangs); login with `/web/login?db=erpmedsupply`; absolute output
+paths; restart odoo after SQL lang flips (ormcache). RTL bundles use a `.rtl.` **filename suffix**,
+not a `/rtl/` path. The `nile_core` `web_responsive` patch (`apps_menu.xml`: `this.ui.isSmall`→`env.isSmall`)
+must be re-checked on every Odoo image bump — it now lives in `erpmedsupply-addons/web_responsive`.

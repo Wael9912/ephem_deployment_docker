@@ -1,6 +1,13 @@
 # Custom Backend Theme Master Plan — Replacing Spiffy (OPL-1) with an In-House LGPL-3 Theme
 
-**Status:** Phase 0 complete (2026-06-12) | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+**Status:** Phases 0–2 DONE (2026-06-13) — only the Phase-1 doc re-capture is deferred; Phases 3–4 remain | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+
+> **CURRENT STATE (2026-06-13):** Nile is live and Spiffy is retired/deleted everywhere. Three repos:
+> `Wael9912/ephem_deployment_docker` (deploy), `Wael9912/erpmedsupply-addons` (the 14 ERP addons, decoupled
+> from `borse/ePHEM`), `Wael9912/odoo-nile-theme` (the `nile_*` stack, branch `18.0`, all 7 addons incl.
+> `nile_brand_{medsupply,cmp,ephem}`). `nile_config` Theme Settings dialog shipped. **Remaining:** the deferred
+> Phase-1 doc re-capture (manual + both decks still show dead Spiffy UI), then Phase 3 (real dark skin — Community
+> has no core dark CSS) and Phase 4 (Hoot tests, CI tour matrix, submodule pinning, version tags).
 
 > **Phase 0 decisions (ratified 2026-06-12, spike evidence in [theme-audit/phase0-spike/](theme-audit/phase0-spike/README.md)):**
 > shell base = OCA `web_responsive` (one 2-line xpath patch for Odoo 18.0-20260324, candidate upstream PR);
@@ -171,13 +178,13 @@ Two axes, deliberately small:
 
 | Phase | Scope | Effort (person-days) | Exit criteria |
 |---|---|---|---|
-| **0 — Foundations** | Repo `odoo-nile-theme` scaffold + CI skeleton; clean-room protocol signed; AGPL policy doc; delete `ephem_theme_backend`/`ephem_theme_push` stubs; spike: `web_responsive` + `web_chatter_position` on a copy of `erpmedsupply` in EN+AR (validates shell choice & RTL before we build on it); rtlcss confirmed in all images | **4 pd** | Spike DB screenshots approved by designer in both languages; CI runs install+lint on empty addons; naming `nile_` ratified |
-| **1 — Spiffy-free ERP demo** | `nile_core` (tokens, fonts, dark variables file), `nile_components` (absorb medsupply_ui_refresh, one opinionated style per widget, login page), `nile_shell` (logo/favicon/tab-title/login on `web_responsive`), `nile_brand_medsupply`; switchover on demo DB; endpoint scan; full EN+AR re-capture; manual `intro`/`interface` rewrite; both decks rebuilt; SKILL.md updates | **10 pd** (6 build, 4 docs/QA) | **`erpmedsupply` runs with Spiffy and `medsupply_ui_refresh` uninstalled and looks demo-grade, not broken**, in EN and AR; visual-regression baselines recorded; all inventoried Spiffy public endpoints return 404; manual + decks rebuilt and proofed; Spiffy dir removable |
-| **2 — Configurator + multi-product** | `nile_config` (runtime palette via `:root` injection, ≤6 presets, density modes, ≤8 controls hard cap), `nile_brand_cmp` + CMP rollout, `nile_brand_ephem` + ePHEM staging rollout, retire `eoc_theme_backend` | **9 pd** | Palette switch is instant (no recompile) and company-scoped; CMP + ePHEM staging pass tour/visual matrix; uninstall tests green for all addons |
-| **3 — Dark mode + a11y polish** | Dark toggle in user menu (core `web.assets_web_dark` + `color_scheme` cookie), dark token pass on all components, contrast audit (4.5:1 assertions), focus-visible pass, reduced-motion rule, compact density QA | **7 pd** | Dark × RTL × both densities pass the visual matrix on all three brands; WCAG AA contrast assertions in CI |
+| **0 — Foundations** ✅ DONE 2026-06-12 | Repo `odoo-nile-theme` scaffold + CI skeleton; clean-room protocol signed; AGPL policy doc; delete `ephem_theme_backend`/`ephem_theme_push` stubs; spike: `web_responsive` + `web_chatter_position` on a copy of `erpmedsupply` in EN+AR (validates shell choice & RTL before we build on it); rtlcss confirmed in all images | **4 pd** | Spike DB screenshots approved by designer in both languages; CI runs install+lint on empty addons; naming `nile_` ratified |
+| **1 — Spiffy-free ERP demo** ✅ CODE+SWITCHOVER DONE 2026-06-12; ⏳ DOCS DEFERRED | `nile_core` (tokens, fonts, dark variables file), `nile_components` (absorb medsupply_ui_refresh, one opinionated style per widget, login page), `nile_shell` (logo/favicon/tab-title/login on `web_responsive`), `nile_brand_medsupply`; switchover on demo DB; endpoint scan; full EN+AR re-capture; manual `intro`/`interface` rewrite; both decks rebuilt; SKILL.md updates | **10 pd** (6 build, 4 docs/QA) | DONE: `erpmedsupply` runs Spiffy-free, demo-grade in EN+AR; endpoint scan PASS. **STILL OPEN: the EN+AR re-capture + manual/deck rewrite (deferred by user — docs still show dead Spiffy UI).** Spiffy dir was deleted 2026-06-13. |
+| **2 — Configurator + multi-product** ✅ DONE 2026-06-13 | `nile_config` (runtime palette via `:root` injection, ≤6 presets, density modes, ≤8 controls hard cap), `nile_brand_cmp` + CMP rollout, `nile_brand_ephem` + ePHEM staging rollout, retire `eoc_theme_backend` | **9 pd** | DONE: `nile_config` shipped 2026-06-13; brand packs built + rolled out to cmp_dev/cmp_dev_backup/cmp_rigid (CMP) + ephem_qa (ePHEM); `eoc_theme_backend` retired/deleted; round-trip uninstall clean. |
+| **3 — Dark mode + a11y polish** ⏳ NEXT | Dark toggle in user menu (core `web.assets_web_dark` + `color_scheme` cookie), dark token pass on all components, contrast audit (4.5:1 assertions), focus-visible pass, reduced-motion rule, compact density QA | **7 pd** | Dark × RTL × both densities pass the visual matrix on all three brands; WCAG AA contrast assertions in CI. **Note: reduced-motion rule already shipped via the 2026-06-13 dropdown bugfix; dark toggle parked because Community has NO core dark stylesheets — Phase 3 must ship a real dark skin, not just a cookie.** |
 | **4 — Hardening & distribution** | Hoot unit tests, tour matrix EN/AR per brand in CI, uninstall-test automation, git-submodule consumption wiring for the three deployments, version tagging, core-touchpoint inventory finalized, 19.0-readiness notes, maintainer README per addon | **6 pd** | All deployments consume pinned submodule tags; CI fully green incl. uninstall + RTL bundle check; a second engineer has merged a change to every layer |
 
-**Total: ~36 person-days.** Phase 1 is the only hard-deadline-sensitive phase; phases 2–4 can interleave with product work.
+**Total: ~36 person-days.** Phases 0–2 are DONE (except the deferred Phase-1 doc re-capture). Phases 3–4 remain and can interleave with product work.
 
 ---
 
