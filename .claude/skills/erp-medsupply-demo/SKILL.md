@@ -49,7 +49,11 @@ to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (com
 branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
-is `nile_config` (palette presets + per-user font/density/**dark mode**/chatter).
+is `nile_config` — a **tabbed panel (Brand / Typography / Display)**: company palette presets + a
+custom color with an **inline HSV picker** + a **company Google-Fonts link** (Brand, admin-only);
+per-user font/size (Typography); density / **dark mode** / chatter position (Display). A separate
+**systray globe** switches the UI language (writes `res.users.lang` + reload). Adds DB fields
+`res.company.nile_font_url/nile_font_name` → needs `-u nile_config` on an existing DB.
 
 **Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_components/dark.scss`
 (Community has no core dark CSS). It's **off by default** — demos run in light. Toggle via the
@@ -244,18 +248,25 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
 
-**Phase 3 (dark skin) DONE** on `odoo-nile-theme` branch **`phase3-dark-skin`** (pushed; not yet
-merged to `18.0`): real dark skin + neutral-dark navbar + dark toggle + WCAG contrast gate + a11y
-focus pass. Off by default. See memory `erp-custom-theme` and `docs/CUSTOM_THEME_PLAN.md` (Phases
-0–3 done; Phase 4 + the deferred Phase-1 doc re-capture remain).
+**Phases 0–4 (high-value) DONE; merged + tagged `v18.0.1.1.0` (2026-06-13).** `phase3-dark-skin`
+was merged into **`18.0`** (merge `1c69960`) and tagged. It carries: the Phase-3 real dark skin +
+neutral-dark navbar + dark toggle + WCAG contrast gate + a11y; a **UI refinement pass** (palette-
+follow extended so the company color reaches the statusbar / settings rail / view-switcher /
+notebook; grouped-kanban count-chip corner fix; stronger elevation + focus ring); the
+**comprehensive tabbed Theme Settings panel** (inline HSV picker, company Google-Fonts link,
+systray globe language switcher); and a **Hoot JS test scaffold + CI `js-tests` lane**. Dark is off
+by default. See memory `erp-custom-theme` and `docs/CUSTOM_THEME_PLAN.md`. Remaining: the deferred
+Phase-1 doc re-capture (this section) + the Phase-4 "everything" tier (EN/AR tour matrix in CI,
+19.0-readiness notes).
 
 **Repo layout (the ERP is decoupled from `borse/ePHEM`):**
 - `Wael9912/ephem_deployment_docker` (this repo) — deployment: compose, configs, scripts, docs. Branch `nile-theme`.
 - `Wael9912/erpmedsupply-addons` (`main`) — the **14 ERP addons** (OCA/OdooMates accounting,
   `web_responsive` [with the `env.isSmall` 18.0 patch], `web_chatter_position`, original
   `ui_kanban_first`). Mounted at `/mnt/extra-addons` in prod. Dependency-closure verified.
-- `Wael9912/odoo-nile-theme` (`18.0`) — the `nile_*` theme stack (ship 5 for ERP: `nile_core`,
-  `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`). Mounted at `/mnt/nile-theme`.
+- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.1.0`**) — the `nile_*` theme stack
+  (ship 5 for ERP: `nile_core`, `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`).
+  Mounted at `/mnt/nile-theme`. Prod clones are pinned to tags — see `docs/DEPLOY_PINS.md`.
 - `borse/ePHEM` checkout (`custom-addons/`) — the 121-addon platform monorepo, now **DEV-ONLY**
   (mounted only by `docker-compose.override.yml`). Do **not** ship it or push ERP changes to it.
 

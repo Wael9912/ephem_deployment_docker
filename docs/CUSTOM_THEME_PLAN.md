@@ -1,8 +1,8 @@
 # Custom Backend Theme Master Plan — Replacing Spiffy (OPL-1) with an In-House LGPL-3 Theme
 
-**Status:** Phases 0–3 DONE (Phase 3 2026-06-13) — only the Phase-1 doc re-capture is deferred; Phase 4 remains | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+**Status:** Phases 0–4 (high-value subset) DONE (2026-06-13) — merged to `18.0` + tagged `v18.0.1.1.0`; deferred: Phase-1 doc re-capture + Phase-4 "everything" tier (EN/AR tour matrix, 19.0 notes) | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
 
-> **CURRENT STATE (2026-06-13):** Nile is live and Spiffy is retired/deleted everywhere. Three repos:
+> **CURRENT STATE (2026-06-13):** Phases 0–4 (high-value subset) DONE — `phase3-dark-skin` **merged into `18.0`** (`1c69960`) + tagged **`v18.0.1.1.0`**; a 2026-06-13 UI refinement pass (palette-follow to statusbar/settings-rail/view-switcher/notebook, grouped-kanban count-chip fix, elevation/focus polish) + a comprehensive **tabbed Theme Settings panel** (inline HSV picker, company Google-Fonts link, systray globe language switcher) + a Hoot JS test scaffold/CI lane all shipped. Nile is live and Spiffy is retired/deleted everywhere. Three repos:
 > `Wael9912/ephem_deployment_docker` (deploy), `Wael9912/erpmedsupply-addons` (the 14 ERP addons, decoupled
 > from `borse/ePHEM`), `Wael9912/odoo-nile-theme` (the `nile_*` stack, branch `18.0`, all 7 addons incl.
 > `nile_brand_{medsupply,cmp,ephem}`). `nile_config` Theme Settings dialog shipped. **Phase 3 DONE** (branch
@@ -10,8 +10,9 @@
 > tokens — Community ships none), neutral-dark navbar, dark-mode toggle wired into the dialog + prefs, a11y
 > focus-visible pass, and a full compile-time WCAG contrast gate (`contrast.scss` + `tests/test_contrast.py`).
 > Verified light/dark × EN/AR via `scripts/qa_dark_sweep.py`. **Remaining:** the deferred Phase-1 doc re-capture
-> (manual + both decks still show dead Spiffy UI) and Phase 4 (Hoot tests, CI tour matrix, submodule pinning,
-> version tags).
+> (manual + both decks still show dead Spiffy UI) and the Phase-4 "everything" tier (EN/AR tour matrix in CI,
+> 19.0-readiness notes). The Phase-4 high-value subset (Hoot JS tests + CI lane, version tag `v18.0.1.1.0`,
+> tag-based deploy pinning via `docs/DEPLOY_PINS.md`) shipped 2026-06-13.
 
 > **Phase 0 decisions (ratified 2026-06-12, spike evidence in [theme-audit/phase0-spike/](theme-audit/phase0-spike/README.md)):**
 > shell base = OCA `web_responsive` (one 2-line xpath patch for Odoo 18.0-20260324, candidate upstream PR);
@@ -186,9 +187,9 @@ Two axes, deliberately small:
 | **1 — Spiffy-free ERP demo** ✅ CODE+SWITCHOVER DONE 2026-06-12; ⏳ DOCS DEFERRED | `nile_core` (tokens, fonts, dark variables file), `nile_components` (absorb medsupply_ui_refresh, one opinionated style per widget, login page), `nile_shell` (logo/favicon/tab-title/login on `web_responsive`), `nile_brand_medsupply`; switchover on demo DB; endpoint scan; full EN+AR re-capture; manual `intro`/`interface` rewrite; both decks rebuilt; SKILL.md updates | **10 pd** (6 build, 4 docs/QA) | DONE: `erpmedsupply` runs Spiffy-free, demo-grade in EN+AR; endpoint scan PASS. **STILL OPEN: the EN+AR re-capture + manual/deck rewrite (deferred by user — docs still show dead Spiffy UI).** Spiffy dir was deleted 2026-06-13. |
 | **2 — Configurator + multi-product** ✅ DONE 2026-06-13 | `nile_config` (runtime palette via `:root` injection, ≤6 presets, density modes, ≤8 controls hard cap), `nile_brand_cmp` + CMP rollout, `nile_brand_ephem` + ePHEM staging rollout, retire `eoc_theme_backend` | **9 pd** | DONE: `nile_config` shipped 2026-06-13; brand packs built + rolled out to cmp_dev/cmp_dev_backup/cmp_rigid (CMP) + ephem_qa (ePHEM); `eoc_theme_backend` retired/deleted; round-trip uninstall clean. |
 | **3 — Dark mode + a11y polish** ✅ DONE 2026-06-13 (branch `phase3-dark-skin`) | Real dark skin (`nile_components/dark.scss` recolours core chrome from `--nile-*` dark tokens — Community ships none; bridges Odoo's un-prefixed BS vars), **neutral-dark navbar**, dark toggle in the Theme dialog + prefs form (`color_scheme` cookie, pre-set in `save()` for a one-hop reload), full compile-time WCAG contrast gate (`contrast.scss` `@error` + `tests/test_contrast.py` CI lane), focus-visible pass (`70_a11y.scss`), reduced-motion (already shipped), compact-density QA | **7 pd** | DONE: dark × RTL × both densities verified via `scripts/qa_dark_sweep.py` (luminance gap-finder, 0 findings) on `erpmedsupply` EN+AR; light theme no-regression; WCAG AA gate green for teal + indigo brands (ePHEM green 5.1:1 computed); install matrix + clean uninstall pass. **Note: Community has NO core dark stylesheets, so this shipped a *real* dark skin, not just a cookie.** |
-| **4 — Hardening & distribution** | Hoot unit tests, tour matrix EN/AR per brand in CI, uninstall-test automation, git-submodule consumption wiring for the three deployments, version tagging, core-touchpoint inventory finalized, 19.0-readiness notes, maintainer README per addon | **6 pd** | All deployments consume pinned submodule tags; CI fully green incl. uninstall + RTL bundle check; a second engineer has merged a change to every layer |
+| **4 — Hardening & distribution** 🟡 **HIGH-VALUE SUBSET DONE 2026-06-13.** DONE: Hoot JS unit-test scaffold (`nile_config/static/tests/color_picker.test.js` + `web.assets_unit_tests`, 12/12 in the in-browser runner) + CI `js-tests` lane (`.github/scripts/run_hoot.py`); version bump → `18.0.1.1.0`; release tag `v18.0.1.1.0`; tag-based deploy pinning (`erpmedsupply-addons` `v18.0.1.0.0` + `docs/DEPLOY_PINS.md` + runbook §5). REMAINING: EN/AR tour matrix per brand in CI, 19.0-readiness notes, per-addon maintainer READMEs | **6 pd** | Subset met: prod clones consume pinned tags; install + contrast CI green; JS CI lane added (pending first GitHub-Actions run) |
 
-**Total: ~36 person-days.** Phases 0–3 are DONE (except the deferred Phase-1 doc re-capture). Phase 4 remains and can interleave with product work.
+**Total: ~36 person-days.** Phases 0–3 are DONE (except the deferred Phase-1 doc re-capture). Phase 4 high-value subset DONE 2026-06-13 (merged + tagged `v18.0.1.1.0`); only the EN/AR tour matrix + 19.0-readiness notes remain.
 
 ---
 
