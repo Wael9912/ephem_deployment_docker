@@ -9,7 +9,23 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.1.1` | `ffb4b55` | the `nile_*` theme stack → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.2.0` | `1ccea43` | the `nile_*` theme stack → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.1.2.0` (2026-06-14)
+
+Feature release (only `nile_config` changed → only it gets `-u` on deploy; a new
+`res.company` column is added, so the upgrade is **not** asset-only).
+
+- **App-launcher (9-dots) background is now palette-following + customizable.**
+  New `res.company.nile_appmenu_bg` (hex). The drawer was web_responsive's
+  compiled brand (ignoring the runtime palette); it now follows the Nile palette
+  by default and admins can override the base hue from the Theme dialog
+  (Brand tab → "App Menu Background": Follow palette / Custom).
+- Fixed the Google-Fonts help text never rendering in Arabic (inline `<b>`
+  + wording drift made it miss its `.po` msgid).
+- Deploy note: the recreate must run `-u nile_config` (new DB column), not just
+  an asset recompile. Verified live (EN+AR, light+dark) via
+  `scripts/qa_test_appmenu_bg.py` (9/9, incl. dark-mode regression).
 
 ## odoo-nile-theme `v18.0.1.1.1` (2026-06-14)
 

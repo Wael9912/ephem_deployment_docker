@@ -258,7 +258,10 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.1.1.1` (2026-06-14).** It carries: the Phase-3 real
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.1.2.0` (2026-06-14).** Latest (`v18.0.1.2.0`): the
+app-launcher (9-dots) background follows the Nile palette and is admin-customizable from the Theme
+dialog (Brand tab → "App Menu Background"); plus the Arabic Google-Fonts help-text now renders. It also
+carries: the Phase-3 real
 dark skin + neutral-dark navbar + dark toggle + WCAG contrast gate + a11y; a **UI refinement pass**
 (palette-follow extended so the company color reaches the statusbar / settings rail / view-switcher /
 notebook; grouped-kanban count-chip corner fix; stronger elevation + focus ring); the
@@ -275,7 +278,7 @@ remaining plan item: the deferred Phase-1 doc re-capture (this section), ON HOLD
 - `Wael9912/erpmedsupply-addons` (`main`) — the **14 ERP addons** (OCA/OdooMates accounting,
   `web_responsive` [with the `env.isSmall` 18.0 patch], `web_chatter_position`, original
   `ui_kanban_first`). Mounted at `/mnt/extra-addons` in prod. Dependency-closure verified.
-- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.1.1`**) — the `nile_*` theme stack
+- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.2.0`**) — the `nile_*` theme stack
   (ship 5 for ERP: `nile_core`, `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`).
   Mounted at `/mnt/nile-theme`. Prod clones are pinned to tags — see `docs/DEPLOY_PINS.md`.
 - `borse/ePHEM` checkout (`custom-addons/`) — the 121-addon platform monorepo, now **DEV-ONLY**
