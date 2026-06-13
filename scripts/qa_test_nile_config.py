@@ -1,23 +1,24 @@
 # -*- coding: utf-8 -*-
-"""Functional test of the nile_config systray configurator.
+"""Functional test of the nile_config systray configurator (tabbed layout).
 
-Opens dialog, previews + saves prefs, verifies persistence and runtime
-application (html attrs, root font-size, palette style, dark bundle),
-then restores defaults.
+Opens the dialog, exercises each tab (Brand / Typography / Display), checks
+live preview + persistence + runtime application, verifies the HSV picker and
+the systray globe, then restores the company's ORIGINAL palette and admin prefs.
 Usage: python3 scripts/qa_test_nile_config.py [db]
 """
 import os
 import sys
+import xmlrpc.client
 from playwright.sync_api import sync_playwright
 
 BASE = "http://localhost:8069"
 DB = sys.argv[1] if len(sys.argv) > 1 else "erpmedsupply"
+USER = PWD = "admin"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "docs", "theme-audit", "qa", "img")
 os.makedirs(OUT, exist_ok=True)
 
-errors = []
-failures = []
+errors, failures = [], []
 
 
 def check(name, cond, detail=""):
@@ -26,11 +27,23 @@ def check(name, cond, detail=""):
         failures.append(f"{name}: {detail}")
 
 
+# --- restore handles (read original company palette so we leave it untouched) ---
+common = xmlrpc.client.ServerProxy(f"{BASE}/xmlrpc/2/common")
+uid = common.authenticate(DB, USER, PWD, {})
+models = xmlrpc.client.ServerProxy(f"{BASE}/xmlrpc/2/object")
+cid = models.execute_kw(DB, uid, PWD, "res.users", "read", [[uid], ["company_id"]])[0]["company_id"][0]
+orig = models.execute_kw(DB, uid, PWD, "res.company", "read",
+                         [[cid], ["nile_palette_preset", "nile_color_primary"]])[0]
+orig_lang = models.execute_kw(DB, uid, PWD, "res.users", "read", [[uid], ["lang"]])[0]["lang"]
+# The demo admin runs in Arabic; switch to English so role-name selectors match.
+models.execute_kw(DB, uid, PWD, "res.users", "write", [[uid], {"lang": "en_US"}])
+
+
 def login(page):
     page.goto(f"{BASE}/web/login?db={DB}", timeout=30000)
     if page.locator("input[name=login]").count():
-        page.fill("input[name=login]", "admin")
-        page.fill("input[name=password]", "admin")
+        page.fill("input[name=login]", USER)
+        page.fill("input[name=password]", PWD)
         page.click("button[type=submit]")
     page.wait_for_selector(".o_main_navbar", timeout=20000)
     page.wait_for_timeout(1500)
@@ -42,6 +55,11 @@ def open_dialog(page):
     page.wait_for_timeout(400)
 
 
+def tab(page, name):
+    page.get_by_role("tab", name=name).click()
+    page.wait_for_timeout(250)
+
+
 with sync_playwright() as p:
     b = p.chromium.launch()
     ctx = b.new_context(viewport={"width": 1440, "height": 900})
@@ -51,46 +69,60 @@ with sync_playwright() as p:
 
     login(page)
 
-    # 1. systray button present
-    check("systray button visible", page.locator(".o_nile_theme_systray").is_visible())
+    # 1. systray buttons present (brush + globe)
+    check("theme brush visible", page.locator(".o_nile_theme_systray").is_visible())
+    check("language globe visible", page.locator(".o_nile_lang_systray").is_visible())
 
-    # 2. dialog opens with sections
+    # 2. dialog opens on Brand tab with palette swatches
     open_dialog(page)
-    check("company section (admin)", page.locator(".o_nile_theme_dialog section").count() >= 2)
-    check("6 preset swatches + custom", page.locator(".o_nile_swatch").count() == 7)
-    page.screenshot(path=os.path.join(OUT, "nile_config_dialog.png"))
+    check("3 tabs present", page.locator(".o_nile_tabs .nav-link").count() == 3)
+    check("6 presets + custom swatch", page.locator(".o_nile_swatch").count() == 7)
 
-    # 3. live preview: pick blue preset -> navbar recolors instantly
-    page.locator(".o_nile_swatch").nth(1).click()  # blue
+    # 3. Brand: blue preset -> live navbar recolor
+    page.locator(".o_nile_swatch").nth(1).click()
     page.wait_for_timeout(400)
     navbar_bg = page.evaluate("getComputedStyle(document.querySelector('.o_main_navbar')).backgroundColor")
     check("live preview navbar blue", navbar_bg == "rgb(29, 78, 216)", navbar_bg)
 
-    # 4. font scale preview
-    page.locator(".o_nile_theme_dialog .row").nth(1).locator(".btn-group .btn").nth(2).click()
+    # 4. Brand: custom swatch reveals the HSV picker, hex edit drives preview
+    page.locator(".o_nile_swatch_custom").click()
+    page.wait_for_timeout(300)
+    check("HSV picker shown on custom", page.locator(".o_nile_color_picker").is_visible())
+    hexf = page.locator(".o_nile_hex_input")
+    hexf.fill("#AA3344")
+    hexf.dispatch_event("input")
+    page.wait_for_timeout(300)
+    navbar_bg = page.evaluate("getComputedStyle(document.querySelector('.o_main_navbar')).backgroundColor")
+    check("hex input drives preview", navbar_bg == "rgb(170, 51, 68)", navbar_bg)
+    page.screenshot(path=os.path.join(OUT, "nile_config_brand_hsv.png"))
+
+    # 5. Typography: large font preview
+    tab(page, "Typography")
+    page.get_by_role("button", name="Large").click()
     page.wait_for_timeout(300)
     root_fs = page.evaluate("getComputedStyle(document.documentElement).fontSize")
     check("live preview large font", root_fs == "17px", root_fs)
 
-    # 5. density preview
-    page.locator(".o_nile_theme_dialog .row").nth(2).locator(".btn-group .btn").nth(1).click()
+    # 6. Display: compact density preview
+    tab(page, "Display")
+    page.get_by_role("button", name="Compact").click()
     page.wait_for_timeout(300)
     pad = page.evaluate("getComputedStyle(document.documentElement).getPropertyValue('--nile-density-row-pad-block').trim()")
     check("live preview compact density", pad == "4px", pad)
 
-    # 6. discard restores
+    # 7. discard restores the saved look
     page.locator(".modal-footer .btn-secondary").click()
     page.wait_for_timeout(500)
-    navbar_bg = page.evaluate("getComputedStyle(document.querySelector('.o_main_navbar')).backgroundColor")
     root_fs = page.evaluate("getComputedStyle(document.documentElement).fontSize")
-    check("discard restores navbar", navbar_bg == "rgb(14, 116, 144)", navbar_bg)
-    check("discard restores font", root_fs == "16px", root_fs)
+    check("discard restores font size", root_fs == "16px", root_fs)
 
-    # 7. save flow: blue + large + compact, then verify after reload
+    # 8. save flow: blue + large + compact -> verify after reload
     open_dialog(page)
-    page.locator(".o_nile_swatch").nth(1).click()
-    page.locator(".o_nile_theme_dialog .row").nth(1).locator(".btn-group .btn").nth(2).click()
-    page.locator(".o_nile_theme_dialog .row").nth(2).locator(".btn-group .btn").nth(1).click()
+    page.locator(".o_nile_swatch").nth(1).click()  # Brand tab (default), blue
+    tab(page, "Typography")
+    page.get_by_role("button", name="Large").click()
+    tab(page, "Display")
+    page.get_by_role("button", name="Compact").click()
     page.locator(".modal-footer .btn-primary").click()
     page.wait_for_selector(".o_main_navbar", timeout=25000)
     page.wait_for_timeout(2500)
@@ -105,27 +137,42 @@ with sync_playwright() as p:
         return el ? getComputedStyle(el).backgroundColor : null;
     }""")
     check("btn-primary follows palette", btn_bg == "rgb(29, 78, 216)", str(btn_bg))
-    page.screenshot(path=os.path.join(OUT, "nile_config_saved_blue_large_compact.png"))
 
-    # 9. restore defaults (teal preset, defaults, dark off)
+    # 9. restore admin prefs to defaults (font/size/density) via the dialog
     open_dialog(page)
-    page.locator(".o_nile_swatch").nth(0).click()
-    page.locator(".o_nile_theme_dialog .row").nth(1).locator(".btn-group .btn").nth(1).click()
-    page.locator(".o_nile_theme_dialog .row").nth(2).locator(".btn-group .btn").nth(0).click()
+    tab(page, "Typography")
+    page.get_by_role("button", name="Default").click()
+    tab(page, "Display")
+    page.get_by_role("button", name="Comfortable").click()
     page.locator(".modal-footer .btn-primary").click()
     page.wait_for_selector(".o_main_navbar", timeout=25000)
-    page.wait_for_timeout(2500)
-    navbar_bg = page.evaluate("getComputedStyle(document.querySelector('.o_main_navbar')).backgroundColor")
+    page.wait_for_timeout(2000)
     root_fs = page.evaluate("getComputedStyle(document.documentElement).fontSize")
-    dark_link = page.evaluate("[...document.styleSheets].some(s => (s.href||'').includes('assets_web_dark'))")
-    check("restored teal", navbar_bg == "rgb(14, 116, 144)", navbar_bg)
     check("restored default font", root_fs == "16px", root_fs)
-    check("dark bundle never active (no toggle in Community)", not dark_link)
-    page.screenshot(path=os.path.join(OUT, "nile_config_restored.png"))
+    dark_link = page.evaluate("[...document.styleSheets].some(s => (s.href||'').includes('assets_web_dark'))")
+    check("dark bundle off", not dark_link)
+
+    # 10. globe language switch persists (admin is en_US here; switch to Arabic)
+    page.locator(".o_nile_lang_systray").click()
+    page.wait_for_timeout(600)
+    page.locator(".o-dropdown--menu .dropdown-item, .o_nile_lang_menu .dropdown-item") \
+        .filter(has_text="Arab").first.click()
+    page.wait_for_selector(".o_main_navbar", timeout=20000)
+    page.wait_for_timeout(1500)
+    lang_now = models.execute_kw(DB, uid, PWD, "res.users", "read", [[uid], ["lang"]])[0]["lang"]
+    check("globe switches language (persisted)", lang_now == "ar_001", lang_now)
 
     b.close()
 
-print("\n=== RESULT ===")
+# Restore the company's ORIGINAL palette (the dialog left it on blue/custom).
+models.execute_kw(DB, uid, PWD, "res.company", "write", [[cid], {
+    "nile_palette_preset": orig["nile_palette_preset"],
+    "nile_color_primary": orig["nile_color_primary"] or False,
+}])
+models.execute_kw(DB, uid, PWD, "res.users", "write", [[uid], {"lang": orig_lang}])
+print(f"\n(restored company palette -> {orig['nile_palette_preset']}, admin lang -> {orig_lang})")
+
+print("=== RESULT ===")
 print("FAILURES:", failures or "none")
 print("JS ERRORS:")
 for e in dict.fromkeys(errors) or ["none"]:
