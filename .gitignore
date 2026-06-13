@@ -37,3 +37,4 @@ docs/manual/_preview_*.png
 # Python
 __pycache__/
 *.pyc
+backups/*.tgz
