@@ -41,7 +41,12 @@ services:
       PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
     volumes:
       - odoo-data:/var/lib/odoo
-      - ./custom-addons:/mnt/extra-addons:ro
+      # Production ERP addons: the dedicated, borse/ePHEM-decoupled repo
+      # (github.com/Wael9912/erpmedsupply-addons) cloned beside this file.
+      - ./erpmedsupply-addons:/mnt/extra-addons:ro
+      # Nile backend theme (github.com/Wael9912/odoo-nile-theme).
+      - ./odoo-nile-theme:/mnt/nile-theme:ro
+      # Dev overrides this mount with the full borse/ePHEM checkout — see docker-compose.override.yml.
       - ./odoo.conf:/etc/odoo/odoo.conf
     networks:
       - ephem-internal

@@ -14,6 +14,9 @@ backups/*.log
 backups/*.dump
 backups/*.sql.gz
 custom-addons/
+# Dedicated addon repos cloned beside this file on the server (own git repos):
+erpmedsupply-addons/
+odoo-nile-theme/
 
 # NGINX HTTP-only backup (created by ssl-setup.sh)
 nginx/active.conf

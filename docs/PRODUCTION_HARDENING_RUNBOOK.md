@@ -289,20 +289,24 @@ Confirm in the running config that `proxy_mode=True`, `list_db=False`, and there
 
 ## 5. Minimal addon set for production (med-supply ERP)
 
-The production server must **NOT** ship all ~120 dirs under `custom-addons/` — the
-unused ePHEM/EOC/CMP/OpenEducat/Spiffy modules are pure attack surface (see the
-readiness review). The live `erpmedsupply` database was queried on 2026-06-13:
+The med-supply ERP runs from **two dedicated, self-contained repos** — it no longer
+depends on the `borse/ePHEM` platform monorepo. The production server clones exactly
+these two beside `docker-compose.yml`; the base compose mounts them at
+`/mnt/extra-addons` and `/mnt/nile-theme`:
+
+| Repo | Mount | Contents |
+|---|---|---|
+| [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) (`main`) | `/mnt/extra-addons` | the 14 ERP addons (below) |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) (`18.0`) | `/mnt/nile-theme` | the `nile_*` theme stack |
 
 ```bash
-docker exec ephem-db psql -U odoo -d erpmedsupply -tAc \
-  "SELECT name FROM ir_module_module WHERE state='installed' ORDER BY name"
+cd /opt/ephem-deploy            # or wherever docker-compose.yml lives
+git clone https://github.com/Wael9912/erpmedsupply-addons.git
+git clone -b 18.0 https://github.com/Wael9912/odoo-nile-theme.git
+docker compose up -d            # base compose, NO override → ERP-only topology
 ```
 
-Of the 85 installed modules, all but the 19 below are **core Odoo** — they ship with
-the `odoo:18` image and must not be copied. Build the server's addons mounts from
-exactly these directories:
-
-### From `custom-addons/` (this repo, 14 dirs)
+### `erpmedsupply-addons` (14 addons)
 
 | Group | Directories |
 |---|---|
@@ -311,29 +315,22 @@ exactly these directories:
 | OCA web UX | `web_responsive`, `web_chatter_position` |
 | Local UX tweak | `ui_kanban_first` |
 
-### From the `odoo-nile-theme` repo (5 dirs)
+Dependency closure was verified: every module these depend on resolves to **core
+Odoo**, one of the 14, or a `nile_*` module. Nothing reaches into `borse/ePHEM`.
 
-The `nile_*` addons live in their own repo —
-`github.com/Wael9912/odoo-nile-theme`, branch `18.0` — not in `custom-addons/`.
-Clone that repo on the server and mount (or copy) only:
+### `odoo-nile-theme` — ship only these 5
 
-- `nile_core`
-- `nile_shell`
-- `nile_components`
-- `nile_config`
-- `nile_brand_medsupply`
+`nile_core`, `nile_shell`, `nile_components`, `nile_config`, `nile_brand_medsupply`.
+Do **not** ship `nile_brand_cmp` / `nile_brand_ephem` (other-product brand packs, not
+installed in `erpmedsupply`).
 
-Do **not** ship `nile_brand_cmp` / `nile_brand_ephem` (other-product brand packs,
-not installed in `erpmedsupply`).
+### Decoupled from borse/ePHEM
 
-### Explicitly excluded
-
-Everything else under `custom-addons/` — all `cmp_*`, `eoc_*`, `ephem_*`,
-`openeducat_*`, `spiffy_theme_backend` (replaced by Nile; contains 31 public routes
-and a bundled Firebase key), `medsupply_ui_refresh` (Spiffy-era overlay, superseded),
-`bank-payment-18.0` (no module from it is installed), and the misc dirs
-(`auditlog`, `dms`, `helpdesk_mgmt`, `payroll`, debranding modules, etc.). None of
-these are installed in `erpmedsupply`.
+The local `custom-addons/` checkout of `borse/ePHEM` (all `cmp_*`, `eoc_*`, `ephem_*`,
+`openeducat_*`, the retired `spiffy_theme_backend` / `medsupply_ui_refresh` /
+`eoc_theme_backend`, `bank-payment-18.0`, and misc `auditlog`/`dms`/`payroll`/etc.) is
+**dev-only** — it is mounted exclusively by `docker-compose.override.yml` for
+multi-product development. None of it ships to the ERP server.
 
 ### Re-verify before each deploy
 
