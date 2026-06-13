@@ -49,7 +49,16 @@ to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (com
 branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
-is `nile_config` (palette presets + per-user font/density/chatter).
+is `nile_config` (palette presets + per-user font/density/**dark mode**/chatter).
+
+**Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_components/dark.scss`
+(Community has no core dark CSS). It's **off by default** — demos run in light. Toggle via the
+Theme dialog (Dark Mode → On → Save) or `res.users.nile_dark_mode`; it loads `web.assets_web_dark`
+via the `color_scheme` cookie. A compile-time WCAG-AA gate (`nile_core/contrast.scss`) breaks the
+build on a failing palette — hard-tested by `nile_core/tests/test_contrast.py` (`--test-enable`).
+**Local SCSS-change gotcha:** dev `odoo.conf` has no `assets` dev flag, so bundles are cached by
+checksum — to see a `.scss` edit you must `docker compose restart odoo` (clears the ormcache) **and**
+purge `text/css` `ir.attachment`s, else you'll get stale CSS.
 
 ## 3. Seed master data + transactions
 ```bash
@@ -92,6 +101,13 @@ docker compose up -d odoo
 Verification snippet (counts, stock math, FEFO lots, cold-storage location, invoice
 currency = SDG, USD rate history) is in the transcript; rerun via
 `docker compose run --rm -T odoo odoo shell -d erpmedsupply --no-http < /tmp/verify_medsupply.py`.
+
+**Theme/UI verification:** `python3 scripts/qa_dark_sweep.py erpmedsupply` screenshots
+{light,dark}×{en_US,ar_001} of the main views into `docs/theme-audit/qa/dark-sweep/` and runs a
+luminance gap-finder (flags any surface still light in dark mode), overflow/broken-img/font checks,
+and JS-error capture — expect **0 findings**. Older light-only sweep: `scripts/qa_visual_sweep.py`.
+WCAG contrast gate: `docker compose exec -T odoo odoo -d erpmedsupply -u nile_core --test-enable
+--test-tags /nile_core --http-port=8999 --gevent-port=8998 --stop-after-init` (expect `0 failed`).
 
 ## Rebuild from scratch (Nile theme is code, not DB config — no backup/restore dance)
 The economy is built at the **real 1 USD = 4,500 SDG** (SDG prices are scaled to match in
@@ -227,6 +243,11 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
+
+**Phase 3 (dark skin) DONE** on `odoo-nile-theme` branch **`phase3-dark-skin`** (pushed; not yet
+merged to `18.0`): real dark skin + neutral-dark navbar + dark toggle + WCAG contrast gate + a11y
+focus pass. Off by default. See memory `erp-custom-theme` and `docs/CUSTOM_THEME_PLAN.md` (Phases
+0–3 done; Phase 4 + the deferred Phase-1 doc re-capture remain).
 
 **Repo layout (the ERP is decoupled from `borse/ePHEM`):**
 - `Wael9912/ephem_deployment_docker` (this repo) — deployment: compose, configs, scripts, docs. Branch `nile-theme`.
