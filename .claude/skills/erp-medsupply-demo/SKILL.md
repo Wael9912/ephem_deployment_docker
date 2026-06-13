@@ -117,6 +117,11 @@ luminance gap-finder (flags any surface still light in dark mode), overflow/brok
 and JS-error capture — expect **0 findings**. Older light-only sweep: `scripts/qa_visual_sweep.py`.
 WCAG contrast gate: `docker compose exec -T odoo odoo -d erpmedsupply -u nile_core --test-enable
 --test-tags /nile_core --http-port=8999 --gevent-port=8998 --stop-after-init` (expect `0 failed`).
+**Critical-flow tour (EN+AR smoke):** `python3 ~/Documents/odoo-nile-theme/.github/scripts/run_tours.py
+http://localhost:8069 erpmedsupply en_US` (then `ar_001`) walks login→app launcher→list→form→create+
+save and asserts the bundle flips to RTL in Arabic + Alexandria renders. **Non-destructive** (creates+
+unlinks a "Nile Tour Probe" contact, restores the admin lang) so it's safe on the live demo DB. This is
+the same script the theme repo's CI `tours` lane runs per brand.
 
 ## Rebuild from scratch (Nile theme is code, not DB config — no backup/restore dance)
 The economy is built at the **real 1 USD = 4,500 SDG** (SDG prices are scaled to match in
@@ -253,23 +258,24 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
 
-**Phases 0–4 (high-value) DONE; merged + tagged `v18.0.1.1.0` (2026-06-13).** `phase3-dark-skin`
-was merged into **`18.0`** (merge `1c69960`) and tagged. It carries: the Phase-3 real dark skin +
-neutral-dark navbar + dark toggle + WCAG contrast gate + a11y; a **UI refinement pass** (palette-
-follow extended so the company color reaches the statusbar / settings rail / view-switcher /
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.1.1.1` (2026-06-14).** It carries: the Phase-3 real
+dark skin + neutral-dark navbar + dark toggle + WCAG contrast gate + a11y; a **UI refinement pass**
+(palette-follow extended so the company color reaches the statusbar / settings rail / view-switcher /
 notebook; grouped-kanban count-chip corner fix; stronger elevation + focus ring); the
 **comprehensive tabbed Theme Settings panel** (inline HSV picker, company Google-Fonts link,
-systray globe language switcher); and a **Hoot JS test scaffold + CI `js-tests` lane**. Dark is off
-by default. See memory `erp-custom-theme` and `docs/CUSTOM_THEME_PLAN.md`. Remaining: the deferred
-Phase-1 doc re-capture (this section) + the Phase-4 "everything" tier (EN/AR tour matrix in CI,
-19.0-readiness notes).
+systray globe language switcher); a **Hoot JS test scaffold + CI `js-tests` lane**; the **2026-06-13b
+bug-fix pass** (first-reload RTL flip, submenu palette-follow, dark Discuss, dark kanban/text, font→
+Typography tab → `v18.0.1.1.1`); and the **Phase-4 "everything" tier** (`28c97b2`: EN/AR critical-flow
+tour matrix in CI via `.github/scripts/run_tours.py`, `UPGRADE_19.md` 19.0 port checklist, per-addon
+READMEs). Dark is off by default. See memory `erp-custom-theme` and `docs/CUSTOM_THEME_PLAN.md`. **Only
+remaining plan item: the deferred Phase-1 doc re-capture (this section), ON HOLD until the user asks.**
 
 **Repo layout (the ERP is decoupled from `borse/ePHEM`):**
 - `Wael9912/ephem_deployment_docker` (this repo) — deployment: compose, configs, scripts, docs. Branch `nile-theme`.
 - `Wael9912/erpmedsupply-addons` (`main`) — the **14 ERP addons** (OCA/OdooMates accounting,
   `web_responsive` [with the `env.isSmall` 18.0 patch], `web_chatter_position`, original
   `ui_kanban_first`). Mounted at `/mnt/extra-addons` in prod. Dependency-closure verified.
-- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.1.0`**) — the `nile_*` theme stack
+- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.1.1`**) — the `nile_*` theme stack
   (ship 5 for ERP: `nile_core`, `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`).
   Mounted at `/mnt/nile-theme`. Prod clones are pinned to tags — see `docs/DEPLOY_PINS.md`.
 - `borse/ePHEM` checkout (`custom-addons/`) — the 121-addon platform monorepo, now **DEV-ONLY**
