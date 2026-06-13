@@ -124,10 +124,11 @@ the deferred Phase-1 doc task: `capture_screens.py` must be updated for `web_res
 first — the Spiffy app-launcher opener `a.appDrawerToggle` no longer exists; web_responsive uses
 `button.o_grid_apps_menu__button` (verify against the live DB). The switchover also requires an
 `intro`/`interface` chapter rewrite (de-Spiffy terminology + document the new **Theme Settings**
-dialog = `nile_config`, now a tabbed panel (Brand / Typography / Display) with palette presets, an
-inline **HSV color picker**, a company **Google-Fonts link**, per-user font/size/density/**dark
-mode**/chatter, plus a **systray globe language switcher** — capture in light;
-mention dark exists). Both languages produce the **same filenames** — that's what lets the
+dialog = `nile_config`, now a tabbed panel (Brand / Typography / Display): palette presets + an
+inline **HSV color picker** on Brand; per-user font/size + the company **Google-Fonts link** on
+Typography (the font upload moved here from Brand on 2026-06-13b); density/**dark mode**/chatter on
+Display; plus a **systray globe language switcher** that flips LTR↔RTL on the first reload —
+capture in light; mention dark exists). Both languages produce the **same filenames** — that's what lets the
 deck/manual switch the image set by language with one flag. After a reseed, record IDs shift →
 update the `ID` dict in `capture_screens.py` before recapturing.
 

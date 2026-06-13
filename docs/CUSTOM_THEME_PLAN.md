@@ -1,6 +1,6 @@
 # Custom Backend Theme Master Plan — Replacing Spiffy (OPL-1) with an In-House LGPL-3 Theme
 
-**Status:** Phases 0–4 (high-value subset) DONE (2026-06-13) — merged to `18.0` + tagged `v18.0.1.1.0`; deferred: Phase-1 doc re-capture + Phase-4 "everything" tier (EN/AR tour matrix, 19.0 notes) | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
+**Status:** Phases 0–4 (high-value subset) DONE — `18.0` tagged **`v18.0.1.1.1`** (`ffb4b55`, the 2026-06-14 bug-fix pass: RTL flip / submenu palette-follow / Discuss dark / dark-text+kanban numbers / font-tab move — committed, pushed, deploy re-pinned; prior `v18.0.1.1.0` was the comprehensive theme panel + real dark skin); deferred: Phase-1 doc re-capture + Phase-4 "everything" tier (EN/AR tour matrix, 19.0 notes) | **Date:** 2026-06-11 | **Targets:** Odoo 18.0 Community | **Products:** Sudan Medical-Supply ERP demo (`erpmedsupply`, Arabic-first EN/AR), CMP, ePHEM
 
 > **CURRENT STATE (2026-06-13):** Phases 0–4 (high-value subset) DONE — `phase3-dark-skin` **merged into `18.0`** (`1c69960`) + tagged **`v18.0.1.1.0`**; a 2026-06-13 UI refinement pass (palette-follow to statusbar/settings-rail/view-switcher/notebook, grouped-kanban count-chip fix, elevation/focus polish) + a comprehensive **tabbed Theme Settings panel** (inline HSV picker, company Google-Fonts link, systray globe language switcher) + a Hoot JS test scaffold/CI lane all shipped. Nile is live and Spiffy is retired/deleted everywhere. Three repos:
 > `Wael9912/ephem_deployment_docker` (deploy), `Wael9912/erpmedsupply-addons` (the 14 ERP addons, decoupled
@@ -9,10 +9,20 @@
 > `phase3-dark-skin`): real dark skin (`nile_components/dark.scss` recolours core chrome from `--nile-*` dark
 > tokens — Community ships none), neutral-dark navbar, dark-mode toggle wired into the dialog + prefs, a11y
 > focus-visible pass, and a full compile-time WCAG contrast gate (`contrast.scss` + `tests/test_contrast.py`).
-> Verified light/dark × EN/AR via `scripts/qa_dark_sweep.py`. **Remaining:** the deferred Phase-1 doc re-capture
-> (manual + both decks still show dead Spiffy UI) and the Phase-4 "everything" tier (EN/AR tour matrix in CI,
-> 19.0-readiness notes). The Phase-4 high-value subset (Hoot JS tests + CI lane, version tag `v18.0.1.1.0`,
-> tag-based deploy pinning via `docs/DEPLOY_PINS.md`) shipped 2026-06-13.
+> Verified light/dark × EN/AR via `scripts/qa_dark_sweep.py`. The Phase-4 high-value subset (Hoot JS tests +
+> CI lane, version tag `v18.0.1.1.0`, tag-based deploy pinning via `docs/DEPLOY_PINS.md`) shipped 2026-06-13.
+>
+> **BUG-FIX PASS 2026-06-13b (fixed, live-verified, committed + tagged `v18.0.1.1.1` `ffb4b55`, deploy re-pinned — 5 files in `odoo-nile-theme` `18.0`):**
+> (1) language switch now flips LTR↔RTL on the first reload — `lang_menu.js` refreshes the session context
+> (`/web/session/get_session_info`) before reloading, since Odoo renders direction from the session-context
+> lang; (2) navbar menu-section toggles (submenus) now follow the company palette — `theme_runtime.scss` sets
+> the BASE `--NavBar-entry-backgroundColor` (was falling back to compiled teal); (3) the **Discuss** app is now
+> dark — `dark.scss` reties the sidebar/header/thread/composer; (4) black kanban column counters + grayscale
+> `.text-{900..600,muted,dark,black}` utilities now readable in dark — `dark.scss` remap; (5) the Custom-Font
+> upload moved from the Brand tab to the **Typography** tab. **Done 2026-06-14:** committed (`ffb4b55`), versions
+> bumped to `18.0.1.1.1` (core/components/config), tagged `v18.0.1.1.1` + pushed, deploy re-pinned
+> (`DEPLOY_PINS.md` + runbook §5). **Remaining:** the deferred Phase-1 doc re-capture (manual + both decks still
+> show dead Spiffy UI); and the Phase-4 "everything" tier (EN/AR tour matrix in CI, 19.0-readiness notes).
 
 > **Phase 0 decisions (ratified 2026-06-12, spike evidence in [theme-audit/phase0-spike/](theme-audit/phase0-spike/README.md)):**
 > shell base = OCA `web_responsive` (one 2-line xpath patch for Odoo 18.0-20260324, candidate upstream PR);

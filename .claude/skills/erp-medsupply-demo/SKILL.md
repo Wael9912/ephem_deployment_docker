@@ -50,9 +50,11 @@ branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
 is `nile_config` — a **tabbed panel (Brand / Typography / Display)**: company palette presets + a
-custom color with an **inline HSV picker** + a **company Google-Fonts link** (Brand, admin-only);
-per-user font/size (Typography); density / **dark mode** / chatter position (Display). A separate
-**systray globe** switches the UI language (writes `res.users.lang` + reload). Adds DB fields
+custom color with an **inline HSV picker** (Brand, admin-only); per-user font/size **plus the
+company Google-Fonts link** (Typography — the font upload moved here from Brand on 2026-06-13b,
+admin-only); density / **dark mode** / chatter position (Display). A separate **systray globe**
+switches the UI language (writes `res.users.lang`, refreshes the session context, then reloads so
+the LTR↔RTL flip lands on the FIRST reload). Adds DB fields
 `res.company.nile_font_url/nile_font_name` → needs `-u nile_config` on an existing DB.
 
 **Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_components/dark.scss`
@@ -60,6 +62,9 @@ per-user font/size (Typography); density / **dark mode** / chatter position (Dis
 Theme dialog (Dark Mode → On → Save) or `res.users.nile_dark_mode`; it loads `web.assets_web_dark`
 via the `color_scheme` cookie. A compile-time WCAG-AA gate (`nile_core/contrast.scss`) breaks the
 build on a failing palette — hard-tested by `nile_core/tests/test_contrast.py` (`--test-enable`).
+A 2026-06-13b pass extended the dark skin to the **Discuss** app (sidebar/header/thread/composer)
+and fixed dark-on-dark text — notably the **black kanban column counter** (`.text-900`) and the
+grayscale text utilities `.text-{900,800,700,600,muted,dark,black}`, which compile to fixed grays.
 **Local SCSS-change gotcha:** dev `odoo.conf` has no `assets` dev flag, so bundles are cached by
 checksum — to see a `.scss` edit you must `docker compose restart odoo` (clears the ormcache) **and**
 purge `text/css` `ir.attachment`s, else you'll get stale CSS.
