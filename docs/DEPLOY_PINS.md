@@ -9,7 +9,33 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.0.0` | `8d09cf5` | the `nile_*` theme stack (now 1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.1.0` | `377680c` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.1.0` (2026-06-14) — tag `377680c`
+
+**Quiet-Elevation depth system + 6 customization knobs + rod-of-Asclepius logo.**
+Adds schema (new `res.company`/`res.users` Selection fields) → **not asset-only**.
+
+- **Deploy:** `-u nile_theme,nile_brand_medsupply --i18n-overwrite`, then
+  **restart** the Odoo server. The `--i18n-overwrite` is REQUIRED to import the
+  new Arabic strings on an existing DB (plain `-u` skips them). The restart is
+  REQUIRED so the new `ir.http.session_info` keys (corner/card/accent/input/
+  sticky + `navbar_logo_url`) and the per-process UI-translation cache reload.
+  A brand-pack migration (`nile_brand_medsupply/migrations/18.0.1.1.0/`) repoints
+  the favicon ICP `.png → .svg` (its record shipped under `noupdate="1"`, so `-u`
+  alone won't move it).
+- **New:** elevation/depth tokens (light + dark, dark = 1px ring + inner
+  highlight), shared `--nile-card-*` recipe, kanban D1 (dark column/header
+  corners) + D2 (accent strip 3px→2px inset) fixes, recessed light inputs; a
+  **Style** tab (corner-style / card-style / kanban accent-strip — company) +
+  Input-Style / Sticky-List-Header / deepened density (per-user); rod-of-
+  Asclepius SVG navbar/primary logos + pill favicon, served via
+  `nile.navbar_logo_url` (no manual upload needed; a per-company
+  `nile_menubar_logo` Binary still overrides).
+- **RTL:** the HSV color picker is now physical end-to-end (position +
+  centering), so it cannot mirror in Arabic.
+- Verified on `erpmedsupply_nile`: assets compiled, WCAG gate `0 failed`, light +
+  dark + EN + AR screenshots, adversarial review (8 low/nit findings fixed).
 
 ## odoo-nile-theme `v18.0.2.0.0` (2026-06-14) — tag `8d09cf5`
 
