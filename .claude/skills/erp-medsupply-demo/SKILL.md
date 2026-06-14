@@ -49,13 +49,18 @@ to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (com
 branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
-is part of `nile_theme` — a **tabbed panel (Brand / Typography / Display)**: company palette presets + a
-custom color with an **inline HSV picker** (Brand, admin-only); per-user font/size **plus the
-company Google-Fonts link** (Typography — the font upload moved here from Brand on 2026-06-13b,
-admin-only); density / **dark mode** / chatter position (Display). A separate **systray globe**
-switches the UI language (writes `res.users.lang`, refreshes the session context, then reloads so
-the LTR↔RTL flip lands on the FIRST reload). Adds DB fields
-`res.company.nile_font_url/nile_font_name` → needs `-u nile_theme` on an existing DB.
+is part of `nile_theme` — a **tabbed panel (Brand / Style / Typography / Display)**: company palette
+presets + a custom color with an **inline HSV picker** (Brand, admin-only); a **Style** tab (added
+2026-06-14, admin-only) = corner-style (square/standard/rounded) · card-style (outlined/elevated/flat)
+· kanban accent-strip weight; per-user font/size **plus the company Google-Fonts link** (Typography —
+the font upload moved here from Brand on 2026-06-13b, admin-only); density / **input-style**
+(bordered/underline/borderless) / **sticky list header** / **dark mode** / chatter position (Display).
+A separate **systray globe** switches the UI language (writes `res.users.lang`, refreshes the session
+context, then reloads so the LTR↔RTL flip lands on the FIRST reload). Adds DB fields (palette/font +
+the corner/card/accent/input/sticky Selections) → on an existing DB upgrade with
+**`-u nile_theme,nile_brand_medsupply --i18n-overwrite` THEN restart Odoo** (`--i18n-overwrite` is
+required for the new Arabic strings; the restart reloads `session_info` + the per-process UI-translation
+cache).
 
 **Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_theme/static/src/scss/dark.scss`
 (Community has no core dark CSS). It's **off by default** — demos run in light. Toggle via the
@@ -256,9 +261,18 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 - Inventory valuation is **manual/periodic** + FIFO costing so goods moves post without
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
 
-## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-13)
+## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-14)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.1.2.1` (2026-06-14).** Latest (`v18.0.1.2.1`): the top-menu
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.1.0` (2026-06-14).** Latest (`v18.0.2.1.0`, `377680c` — live
+on `erpmedsupply`): the **"Quiet Elevation" UX depth upgrade** — layered light+dark elevation (dark depth =
+1px ring + inner-top highlight), a shared `--nile-card-*` recipe, recessed light inputs; the **dark-kanban
+corner fix** + lighter **stage-card stroke** (3px→2px inset); **6 new customization knobs** (a **Style** tab
+= corner / card / kanban-accent, company-admin; input-style / sticky-header / deepened density, per-user);
+and the **rod-of-Asclepius logo** (replaced the generic `+` cross) + pill favicon, served via
+`nile.navbar_logo_url` (shows with no manual upload). Adds res.company/res.users Selection fields →
+deploy with `-u nile_theme,nile_brand_medsupply --i18n-overwrite` **then restart Odoo**. Reviewed via a
+19-agent adversarial workflow (8 low/nit findings fixed). `v18.0.2.0.0`: four-into-one module consolidation +
+RTL color-picker fix. `v18.0.1.2.1`: the top-menu
 (navbar) bottom border/stroke now follows the company palette (was a compiled darkened-teal). `v18.0.1.2.0`:
 the app-launcher (9-dots) background follows the Nile palette and is admin-customizable from the Theme
 dialog (Brand tab → "App Menu Background"); plus the Arabic Google-Fonts help-text now renders. It also
