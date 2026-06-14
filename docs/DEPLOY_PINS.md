@@ -9,7 +9,35 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.1.0` | `377680c` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.2.0` | `239ad45` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.2.0` (2026-06-14) — tag `239ad45`
+
+**Production UX/QA pass** (6-expert adversarial review over live light/dark/RTL
+screenshots; 30 verified findings). No schema change → **asset-only recompile**,
+BUT `--i18n-overwrite` is still required (the `ar.po` was re-attributed from the
+retired `nile_config` module to `nile_theme`).
+
+- **Deploy:** `-u nile_theme,nile_brand_medsupply --i18n-overwrite`, then **restart**
+  the Odoo server. ALSO clear any stale per-company `nile_menubar_logo` Binary so
+  the rod-of-Asclepius SVG shows (the old `+`-cross raster was shadowing it):
+  `env['res.company'].browse(cid).nile_menubar_logo = False` (commit).
+- **Dark mode:** every Owl dialog / popover rendered as a white island — Bootstrap
+  declares `--modal-bg`/`--popover-bg` ON `.modal`/`.popover` (compiled light),
+  shadowing the `:root` dark overrides. Now set on the element + content/input/
+  close-glyph recolor + deeper scrim. (the "config tab unreadable in dark" report)
+- **Corner knob** now reaches the whole control family (`.btn-secondary`, inputs,
+  dropdowns were frozen at 0px compiled literals) via `--nile-control-radius` with
+  RTL-safe btn-group seam handling.
+- **Configurator polish:** equal-width segmented controls (no more text-ragged
+  "cheap" look), real tab `:hover`, active tab via `--nile-color-link` (readable in
+  dark), Google-Fonts inputs forced `dir=ltr`.
+- **Kanban accent-strip** now visible in dark (new `--nile-color-accent-strip`
+  token, lightened in the dark bundle).
+- Removed `web_responsive`'s stray `AppMenuTheme` systray (unbranded water-drop +
+  caret). Dropped the obsolete `+`-cross raster logo lockups (SVGs are canonical).
+- Verified live on `erpmedsupply`: EN+AR critical-flow tours PASS (ltr/rtl,
+  Alexandria); corner-knob probe 6/1/8px; dark dialog + LTR font input by screenshot.
 
 ## odoo-nile-theme `v18.0.2.1.0` (2026-06-14) — tag `377680c`
 

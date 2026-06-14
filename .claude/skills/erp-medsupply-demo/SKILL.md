@@ -46,7 +46,8 @@ in-house `nile_*` stack on the OCA `web_responsive` shell, with `nile_brand_meds
 the MedSupply logo/login/favicon. The `nile_*` addons resolve via the `/mnt/nile-theme` mount
 (repo `Wael9912/odoo-nile-theme`, branch `18.0`). After install, set the per-user chatter default
 to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (commit). Company
-branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
+branding (company `logo`, tab name; NOT `nile_menubar_logo` — leave it empty so the
+brand-pack rod-of-Asclepius SVG drives the navbar) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
 is part of `nile_theme` — a **tabbed panel (Brand / Style / Typography / Display)**: company palette
@@ -140,7 +141,11 @@ docker compose exec -T db psql -U odoo -d postgres -c "DROP DATABASE IF EXISTS e
 #    ...run step 2 install, then seed_medsupply.py + seed_more.py...
 # 2. re-apply the small DB-side branding the addons can't carry, then activate Arabic:
 #    - chatter default bottom: env['ir.default'].set('res.users','chatter_position','bottom')
-#    - company logo + nile_menubar_logo from nile_brand_medsupply/static/img (base64); tab name
+#    - company logo ONLY from nile_brand_medsupply/static/img (base64); tab name.
+#      Do NOT seed nile_menubar_logo — leaving it empty lets the brand-pack
+#      rod-of-Asclepius SVG (ICP nile.navbar_logo_url) drive the navbar. Seeding
+#      the legacy raster there shadows the rod fix (a per-company Binary upload
+#      wins over the static URL in navbar_logo.js).
 #    - verify ICP nile.tab_name / nile.favicon_url / nile.login_background_url (brand pack sets these)
 #    - run the Arabic language-install wizard (see below)
 docker compose up -d odoo
@@ -263,7 +268,14 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-14)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.1.0` (2026-06-14).** Latest (`v18.0.2.1.0`, `377680c` — live
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.2.0` (2026-06-14).** LATEST (`v18.0.2.2.0`, `239ad45`): a
+**production UX/QA pass** (6-expert adversarial review over live light/dark/RTL screenshots) — fixes the
+**white-island dialogs/popovers in dark mode**, makes the **corner knob reach all controls** (secondary
+buttons / inputs / dropdowns were frozen square), **equal-width segmented controls** + tab `:hover` in the
+configurator, **rod logo now visible** (the old `+`-cross was still uploaded to `nile_menubar_logo` and
+shadowed it — clear that Binary on deploy, and this skill no longer seeds it), removes the stray
+`web_responsive` water-drop systray, makes the **kanban accent strip visible in dark**, and `dir=ltr` on the
+Google-Fonts inputs. Deploy `-u nile_theme,nile_brand_medsupply --i18n-overwrite` **then restart**. Prior (`v18.0.2.1.0`, `377680c` — live
 on `erpmedsupply`): the **"Quiet Elevation" UX depth upgrade** — layered light+dark elevation (dark depth =
 1px ring + inner-top highlight), a shared `--nile-card-*` recipe, recessed light inputs; the **dark-kanban
 corner fix** + lighter **stage-card stroke** (3px→2px inset); **6 new customization knobs** (a **Style** tab
