@@ -301,13 +301,13 @@ moving branch. The current pinned set lives in [`DEPLOY_PINS.md`](DEPLOY_PINS.md
 | Repo | Pinned tag | Mount | Contents |
 |---|---|---|---|
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `/mnt/extra-addons` | the 14 ERP addons (below) |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.2.1` | `/mnt/nile-theme` | the `nile_*` theme stack |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.0.0` | `/mnt/nile-theme` | the `nile_*` theme stack (1 theme module + brand packs) |
 
 ```bash
 cd /opt/ephem-deploy            # or wherever docker-compose.yml lives
 # Pinned tags (see DEPLOY_PINS.md). Use --branch <tag> for a detached, reproducible checkout.
 git clone -b v18.0.1.0.0 https://github.com/Wael9912/erpmedsupply-addons.git
-git clone -b v18.0.1.2.1 https://github.com/Wael9912/odoo-nile-theme.git
+git clone -b v18.0.2.0.0 https://github.com/Wael9912/odoo-nile-theme.git
 docker compose up -d            # base compose, NO override → ERP-only topology
 ```
 
@@ -323,11 +323,12 @@ docker compose up -d            # base compose, NO override → ERP-only topolog
 Dependency closure was verified: every module these depend on resolves to **core
 Odoo**, one of the 14, or a `nile_*` module. Nothing reaches into `borse/ePHEM`.
 
-### `odoo-nile-theme` — ship only these 5
+### `odoo-nile-theme` — ship only these 2
 
-`nile_core`, `nile_shell`, `nile_components`, `nile_config`, `nile_brand_medsupply`.
-Do **not** ship `nile_brand_cmp` / `nile_brand_ephem` (other-product brand packs, not
-installed in `erpmedsupply`).
+`nile_theme` (the whole backend theme, one module) + `nile_brand_medsupply`.
+(As of `v18.0.2.0.0` the former `nile_core`/`nile_components`/`nile_shell`/`nile_config`
+were folded into `nile_theme`.) Do **not** ship `nile_brand_cmp` / `nile_brand_ephem`
+(other-product brand packs, not installed in `erpmedsupply`).
 
 ### Decoupled from borse/ePHEM
 

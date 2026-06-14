@@ -9,7 +9,31 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.2.1` | `5537a4d` | the `nile_*` theme stack → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.0.0` | `8d09cf5` | the `nile_*` theme stack (now 1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.0.0` (2026-06-14) — tag `8d09cf5`
+
+**Single-module consolidation + RTL color-picker fix.** Structural change, so the
+deploy is **not** asset-only.
+
+- The four theme modules (`nile_core` → `nile_components` → `nile_shell` →
+  `nile_config`) were folded into one addon **`nile_theme`** (history preserved
+  via `git mv`; asset-injection order preserved as one flattened list). Brand
+  packs (`nile_brand_*`) now `depend` on `nile_theme` and prepend before
+  `nile_theme/static/src/scss/primary_variables.scss`. **Install is now 2 modules
+  for the ERP: `nile_theme,nile_brand_medsupply`.**
+- Fixed: the HSV color picker (Brand custom color + App-Menu Background) was
+  **mirrored in Arabic/RTL** — `rtlcss` flipped its `linear-gradient(to right…)`
+  to `to left` in the RTL bundle while the click math stayed physical-left, so a
+  pick on the left applied the color from the right. The two gradients now carry
+  `/*rtl:ignore*/`. Verified in the real compiled `.rtl` backend bundle.
+- **Deploy note (clean break — chosen strategy):** on an existing DB, update the
+  module list, **uninstall** `nile_core,nile_components,nile_shell,nile_config`,
+  then install `nile_theme` (`-i nile_theme,nile_brand_medsupply`). Company/user
+  theme prefs (palette/font/density/dark) reset to defaults and are re-picked in
+  the Theme dialog. Fresh installs just install the two modules. Verified: clean
+  install of `nile_theme,nile_brand_ephem` on an empty DB — 28 modules loaded,
+  WCAG gate `0 failed`.
 
 ## odoo-nile-theme `v18.0.1.2.1` (2026-06-14)
 

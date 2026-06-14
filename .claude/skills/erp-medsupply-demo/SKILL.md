@@ -34,7 +34,7 @@ docker compose run --rm -T odoo odoo -d erpmedsupply \
   -i account,contacts,stock,purchase,sale_management,product_expiry,stock_landed_costs,\
 om_account_accountant,account_reconcile_oca,account_statement_base,account_reconcile_model_oca,\
 ui_kanban_first,web_responsive,web_chatter_position,\
-nile_core,nile_components,nile_shell,nile_config,nile_brand_medsupply \
+nile_theme,nile_brand_medsupply \
   --without-demo=all --stop-after-init --log-level=warn
 ```
 `stock_account`, `purchase_stock`, `sale_stock` auto-install; `om_account_accountant`
@@ -49,19 +49,19 @@ to bottom: `env['ir.default'].set('res.users','chatter_position','bottom')` (com
 branding (logo, `nile_menubar_logo`, tab name) + the anon-page ICP keys
 (`nile.tab_name` / `nile.favicon_url` / `nile.login_background_url`) are set by the brand pack on
 install — verify rather than re-do. The end-user **Theme Settings** dialog (systray paint-brush)
-is `nile_config` — a **tabbed panel (Brand / Typography / Display)**: company palette presets + a
+is part of `nile_theme` — a **tabbed panel (Brand / Typography / Display)**: company palette presets + a
 custom color with an **inline HSV picker** (Brand, admin-only); per-user font/size **plus the
 company Google-Fonts link** (Typography — the font upload moved here from Brand on 2026-06-13b,
 admin-only); density / **dark mode** / chatter position (Display). A separate **systray globe**
 switches the UI language (writes `res.users.lang`, refreshes the session context, then reloads so
 the LTR↔RTL flip lands on the FIRST reload). Adds DB fields
-`res.company.nile_font_url/nile_font_name` → needs `-u nile_config` on an existing DB.
+`res.company.nile_font_url/nile_font_name` → needs `-u nile_theme` on an existing DB.
 
-**Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_components/dark.scss`
+**Dark mode (Phase 3, 2026-06-13):** a real dark skin ships in `nile_theme/static/src/scss/dark.scss`
 (Community has no core dark CSS). It's **off by default** — demos run in light. Toggle via the
 Theme dialog (Dark Mode → On → Save) or `res.users.nile_dark_mode`; it loads `web.assets_web_dark`
-via the `color_scheme` cookie. A compile-time WCAG-AA gate (`nile_core/contrast.scss`) breaks the
-build on a failing palette — hard-tested by `nile_core/tests/test_contrast.py` (`--test-enable`).
+via the `color_scheme` cookie. A compile-time WCAG-AA gate (`nile_theme/static/src/scss/contrast.scss`) breaks the
+build on a failing palette — hard-tested by `nile_theme/tests/test_contrast.py` (`--test-enable`).
 A 2026-06-13b pass extended the dark skin to the **Discuss** app (sidebar/header/thread/composer)
 and fixed dark-on-dark text — notably the **black kanban column counter** (`.text-900`) and the
 grayscale text utilities `.text-{900,800,700,600,muted,dark,black}`, which compile to fixed grays.
@@ -115,8 +115,8 @@ currency = SDG, USD rate history) is in the transcript; rerun via
 {light,dark}×{en_US,ar_001} of the main views into `docs/theme-audit/qa/dark-sweep/` and runs a
 luminance gap-finder (flags any surface still light in dark mode), overflow/broken-img/font checks,
 and JS-error capture — expect **0 findings**. Older light-only sweep: `scripts/qa_visual_sweep.py`.
-WCAG contrast gate: `docker compose exec -T odoo odoo -d erpmedsupply -u nile_core --test-enable
---test-tags /nile_core --http-port=8999 --gevent-port=8998 --stop-after-init` (expect `0 failed`).
+WCAG contrast gate: `docker compose exec -T odoo odoo -d erpmedsupply -u nile_theme --test-enable
+--test-tags /nile_theme --http-port=8999 --gevent-port=8998 --stop-after-init` (expect `0 failed`).
 **Critical-flow tour (EN+AR smoke):** `python3 ~/Documents/odoo-nile-theme/.github/scripts/run_tours.py
 http://localhost:8069 erpmedsupply en_US` (then `ar_001`) walks login→app launcher→list→form→create+
 save and asserts the bundle flips to RTL in Arabic + Alexandria renders. **Non-destructive** (creates+
@@ -279,8 +279,9 @@ remaining plan item: the deferred Phase-1 doc re-capture (this section), ON HOLD
 - `Wael9912/erpmedsupply-addons` (`main`) — the **14 ERP addons** (OCA/OdooMates accounting,
   `web_responsive` [with the `env.isSmall` 18.0 patch], `web_chatter_position`, original
   `ui_kanban_first`). Mounted at `/mnt/extra-addons` in prod. Dependency-closure verified.
-- `Wael9912/odoo-nile-theme` (`18.0`, pinned tag **`v18.0.1.2.1`**) — the `nile_*` theme stack
-  (ship 5 for ERP: `nile_core`, `nile_components`, `nile_shell`, `nile_config`, `nile_brand_medsupply`).
+- `Wael9912/odoo-nile-theme` (`18.0`) — the `nile_*` theme stack. **As of the
+  consolidation, ship 2 for ERP: `nile_theme` (the whole theme, one module) + `nile_brand_medsupply`.**
+  (Was four modules `nile_core`/`nile_components`/`nile_shell`/`nile_config`, folded into `nile_theme`.)
   Mounted at `/mnt/nile-theme`. Prod clones are pinned to tags — see `docs/DEPLOY_PINS.md`.
 - `borse/ePHEM` checkout (`custom-addons/`) — the 121-addon platform monorepo, now **DEV-ONLY**
   (mounted only by `docker-compose.override.yml`). Do **not** ship it or push ERP changes to it.
@@ -291,11 +292,12 @@ prepended). `post_init_hook` runs at install only; re-apply via odoo shell:
 Exclude models via ir.config_parameter `ui_kanban_first.exclude_models`.
 
 **Nile theme** — built in-house to replace Spiffy. Master plan `docs/CUSTOM_THEME_PLAN.md`; QA
-audit `docs/theme-audit/QA_AUDIT_2026-06-13.md`. Layers: `nile_core` (design tokens, fonts,
-SCSS knobs) → `nile_components` (absorbed the old `medsupply_ui_refresh` overlay, `--msr-*`→`--nile-*`)
-→ `nile_shell` (logo/login/favicon on `web_responsive`) + `nile_config` (runtime theme dialog) →
-brand pack `nile_brand_medsupply`. Live on `erpmedsupply` since the 2026-06-12 switchover;
-`nile_config` + the QA fixes (reduced-motion dropdown bug, 13px base) shipped 2026-06-13.
+audit `docs/theme-audit/QA_AUDIT_2026-06-13.md`. **Now one module `nile_theme`** (design tokens +
+fonts + SCSS knobs, the component skin that absorbed the old `medsupply_ui_refresh` overlay
+[`--msr-*`→`--nile-*`], logo/login/favicon on `web_responsive`, and the runtime theme dialog) +
+the brand pack `nile_brand_medsupply`. Live on `erpmedsupply` since the 2026-06-12 switchover;
+the runtime configurator + QA fixes (reduced-motion dropdown bug, 13px base) shipped 2026-06-13;
+the four-into-one consolidation + an RTL color-picker fix shipped 2026-06-14.
 
 **Retired & DELETED 2026-06-13** (uninstalled in every DB, then `git rm`'d from `custom-addons`):
 `spiffy_theme_backend` (with its bundled third-party **Firebase key** — a Bizople vendor key, not
@@ -309,5 +311,5 @@ addons are new to it): `docker compose stop odoo && docker compose run --rm odoo
 ⚠️ note in the capture section (deferred Phase-1 task). Screenshot gotchas that still hold: never
 wait on `networkidle` (longpolling hangs); login with `/web/login?db=erpmedsupply`; absolute output
 paths; restart odoo after SQL lang flips (ormcache). RTL bundles use a `.rtl.` **filename suffix**,
-not a `/rtl/` path. The `nile_core` `web_responsive` patch (`apps_menu.xml`: `this.ui.isSmall`→`env.isSmall`)
+not a `/rtl/` path. The `web_responsive` patch (`apps_menu.xml`: `this.ui.isSmall`→`env.isSmall`)
 must be re-checked on every Odoo image bump — it now lives in `erpmedsupply-addons/web_responsive`.
