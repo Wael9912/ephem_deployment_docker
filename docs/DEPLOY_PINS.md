@@ -9,7 +9,15 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.2.0` | `1ccea43` | the `nile_*` theme stack → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.1.2.1` | `5537a4d` | the `nile_*` theme stack → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.1.2.1` (2026-06-14)
+
+Asset-only bug-fix over `v18.0.1.2.0` (no schema change → deploy recreate just
+recompiles assets). The top-menu (navbar) **bottom border/stroke** now follows
+the company palette — it was core's compiled `$o-navbar-border-bottom` (a fixed
+darkened teal) and stayed teal under every other palette. Tied to the
+darkened-brand token; dark mode unaffected (retinted to `--nile-color-border`).
 
 ## odoo-nile-theme `v18.0.1.2.0` (2026-06-14)
 
