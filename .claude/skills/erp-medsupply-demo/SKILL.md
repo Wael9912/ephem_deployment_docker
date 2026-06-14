@@ -266,9 +266,20 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 - Inventory valuation is **manual/periodic** + FIFO costing so goods moves post without
   configuring valuation GL accounts. Switch to Automated after setting category accounts.
 
-## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-14)
+## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-15)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.2.0` (2026-06-14).** LATEST (`v18.0.2.2.0`, `239ad45`): a
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.3.0` (2026-06-15).** LATEST (`v18.0.2.3.0`, `1b3f498`): two
+user-reported fixes + a no-code branding affordance. (1) **Navbar/primary logo no longer clipped** — the
+"Sudan MedSupply" wordmark was live SVG `<text>` in Alexandria, but an SVG used as `<img>` can't load the page
+webfont so the wider fallback overflowed the viewBox and cut the trailing "y"; both `nile_brand_medsupply`
+SVGs are now **outlined paths** (Alexandria 700 via fontTools), identical on every client. (2) **Kanban column
+count readable on dark palettes** — the count chip rode `--nile-color-text-inverse`, which Bootstrap's
+`.text-900{color:#212529!important}` overrode → near-black on a dark brand chip (e.g. **Slate**); now
+`--nile-color-on-brand` (white) `+ !important`. (3) **Admin no-code logo upload** — navbar logo / favicon /
+tab name now on **Settings → General Settings → "Nile Theme"** (`res.config.settings` related fields); an
+uploaded `nile_menubar_logo` overrides the brand SVG, `object-fit:contain` keeps any aspect ratio uncropped.
+Deploy `-u nile_theme,nile_brand_medsupply` (no `--i18n-overwrite`) **then restart**. Prior (`v18.0.2.2.0`,
+`239ad45`): a
 **production UX/QA pass** (6-expert adversarial review over live light/dark/RTL screenshots) — fixes the
 **white-island dialogs/popovers in dark mode**, makes the **corner knob reach all controls** (secondary
 buttons / inputs / dropdowns were frozen square), **equal-width segmented controls** + tab `:hover` in the

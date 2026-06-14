@@ -9,7 +9,37 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.2.0` | `239ad45` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.3.0` | `1b3f498` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.3.0` (2026-06-15) — tag `1b3f498`
+
+Two user-reported fixes + a no-code branding affordance. Adds a transient model
+(`res.config.settings` inherit) and a view but **no new DB column** → effectively
+an asset+view recompile; plain `-u nile_theme` (no `--i18n-overwrite` — no new
+strings), **then restart** so the registry picks up the new transient model.
+
+- **Logo no longer clipped.** The navbar/primary "Sudan MedSupply" wordmarks were
+  live SVG `<text>` in Alexandria; an SVG used as `<img>` can't load the page
+  webfont, so the wider fallback overflowed `viewBox="0 0 452 96"` and clipped the
+  trailing "y". Both `nile_brand_medsupply` SVGs are now **outlined paths**
+  (Alexandria 700 via fontTools) with a recomputed viewBox — identical on every
+  client. (Sibling `nile_brand_cmp`/`nile_brand_ephem` lockups still use `<text>`:
+  same latent bug, not deployed.)
+- **Kanban count readable on dark palettes.** The column count chip rode
+  `--nile-color-text-inverse`, which Bootstrap's `.text-900{color:#212529!important}`
+  (in BOTH bundles) overrode → near-black on a dark brand chip (e.g. the **Slate**
+  palette), unreadable. Now `--nile-color-on-brand` (white in light AND dark)
+  `+ !important`, won back by selector specificity. The light progress bar (the
+  "column indicator") is untouched.
+- **Admin no-code logo upload.** The company branding fields (navbar logo /
+  favicon / tab name) are now on **Settings → General Settings → "Nile Theme"**
+  (`res.config.settings` related fields), so an admin swaps the navbar logo with
+  no code. An uploaded `nile_menubar_logo` already takes precedence over the brand
+  SVG; `object-fit: contain` renders any aspect ratio uncropped. (The same fields
+  still live on the Companies form's "Nile Theme" tab.)
+- **Deploy:** `-u nile_theme,nile_brand_medsupply`, then **restart** Odoo.
+- Verified live on `erpmedsupply` (Slate palette): logo full + uncropped, count
+  white on slate, the General Settings "Nile Theme" block renders.
 
 ## odoo-nile-theme `v18.0.2.2.0` (2026-06-14) — tag `239ad45`
 

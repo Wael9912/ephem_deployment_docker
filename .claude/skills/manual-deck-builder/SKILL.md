@@ -129,10 +129,13 @@ inline **HSV color picker** on Brand; corner/card/kanban-accent styles on **Styl
 per-user font/size + the company **Google-Fonts link** on Typography (the font upload moved here from
 Brand on 2026-06-13b); input-style/sticky-header/density/**dark mode**/chatter on Display; plus a
 **systray globe language switcher** that flips LTR↔RTL on the first reload — capture in light; mention
-dark exists). The live look is now the **"Quiet Elevation" depth** theme (`v18.0.2.2.0`, 2026-06-14)
+dark exists). The live look is now the **"Quiet Elevation" depth** theme (`v18.0.2.3.0`, 2026-06-15)
 with the **rod-of-Asclepius logo** (the old `+` cross is gone — its raster upload was cleared in
 v18.0.2.2.0; dark dialogs, the corner knob and the configurator's segmented controls were also fixed
-that release) — re-capture must reflect both. Both languages produce the **same filenames** — that's what lets the
+that release). As of `v18.0.2.3.0` the **navbar wordmark is outlined paths** (renders crisp/uncropped on
+every client — the old `<text>` version clipped the trailing "y"), the **kanban column count is white on
+dark palettes** (was near-black on Slate), and the **navbar logo is admin-uploadable with no code**
+(Settings → General Settings → "Nile Theme") — re-capture must reflect all of it. Both languages produce the **same filenames** — that's what lets the
 deck/manual switch the image set by language with one flag. After a reseed, record IDs shift →
 update the `ID` dict in `capture_screens.py` before recapturing.
 
