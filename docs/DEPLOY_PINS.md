@@ -9,7 +9,38 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.3.0` | `1b3f498` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.4.0` | `71c7d1c` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.4.0` (2026-06-15) — tag `71c7d1c`
+
+Two user-reported fixes + one new configurator knob. Adds **one stored column**
+(`res.company.nile_kanban_gap`) → a real schema change, plus a new `ar.po`
+string, so deploy is `-u nile_theme,nile_brand_medsupply --i18n-overwrite`,
+**then restart** Odoo. No business data is touched (existing companies get the
+field default `separated`).
+
+- **Arabic dashboard graphs now flip RTL.** The Accounting dashboard journal
+  cards render their bar/line graphs through core's `web` `dashboard_graph` field
+  (`JournalDashboardGraphField`), which builds Chart.js configs with **no
+  direction awareness** — so in Arabic the axis labels translated but the chart
+  never mirrored (bars/time ran left→right, tooltip stayed LTR). New
+  `static/src/webclient/dashboard_graph_rtl.js` patches the two config getters to
+  stamp `options.rtl` + `scales.x.reverse` when `localization.direction === "rtl"`
+  (pure no-op in LTR). The generic Graph **reporting** view shares the same core
+  gap — not patched here (out of scope; available on request).
+- **Grouped kanban cards now read as separate rounded tiles.** Core stacks
+  records with `margin: 0 0 -1px` (adjacent 1px borders collapse) and never
+  rounds them, so cards looked like one attached block and the Corner knob never
+  reached them. Grouped records now bind `border-radius` to the corner knob and
+  use a real gutter; ungrouped dashboard tiles round all four corners (was
+  top-only).
+- **New "Kanban Cards" spacing knob** on the configurator Style tab + Companies
+  → Nile Theme form: `nile_kanban_gap` = Attached (restores the flush core
+  stack) / Separated (default — gutter + rounded) / Spaced (wider gutter). Wired
+  through `res.company` → `ir_http` session → `data-nile-kanban-gap` attr →
+  `theme_runtime.scss`, mirroring the `accent_strip` knob.
+- **Deploy:** `-u nile_theme,nile_brand_medsupply --i18n-overwrite`, then
+  **restart** Odoo.
 
 ## odoo-nile-theme `v18.0.2.3.0` (2026-06-15) — tag `1b3f498`
 

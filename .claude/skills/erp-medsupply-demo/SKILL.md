@@ -53,7 +53,8 @@ install — verify rather than re-do. The end-user **Theme Settings** dialog (sy
 is part of `nile_theme` — a **tabbed panel (Brand / Style / Typography / Display)**: company palette
 presets + a custom color with an **inline HSV picker** (Brand, admin-only); a **Style** tab (added
 2026-06-14, admin-only) = corner-style (square/standard/rounded) · card-style (outlined/elevated/flat)
-· kanban accent-strip weight; per-user font/size **plus the company Google-Fonts link** (Typography —
+· kanban accent-strip weight · **kanban-card spacing** (attached/separated/spaced — added v18.0.2.4.0);
+per-user font/size **plus the company Google-Fonts link** (Typography —
 the font upload moved here from Brand on 2026-06-13b, admin-only); density / **input-style**
 (bordered/underline/borderless) / **sticky list header** / **dark mode** / chatter position (Display).
 A separate **systray globe** switches the UI language (writes `res.users.lang`, refreshes the session
@@ -268,7 +269,18 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-15)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.3.0` (2026-06-15).** LATEST (`v18.0.2.3.0`, `1b3f498`): two
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.4.0` (2026-06-15).** LATEST (`v18.0.2.4.0`, `71c7d1c`): two
+user-reported fixes + one configurator knob. (1) **Arabic dashboard graphs flip RTL** — the Accounting
+journal-card bar/line graphs ride core's `web` `dashboard_graph` field, which builds Chart.js configs with
+no direction awareness, so in Arabic the labels translated but the chart never mirrored; new
+`dashboard_graph_rtl.js` patches the config getters to stamp `options.rtl` + `scales.x.reverse` under
+`localization.direction==="rtl"` (no-op in LTR). (2) **Grouped kanban cards separate + round** — core stacks
+records with `margin:0 0 -1px` (collapsed borders) and no radius, so they read as one attached block and the
+corner knob never reached them; records now bind `border-radius` to the corner knob + a real gutter, ungrouped
+dashboard tiles round all four corners. (3) **New "Kanban Cards" spacing knob** (`nile_kanban_gap`:
+attached/separated/spaced, default separated) on the Style tab + Companies form. Adds one stored column
+(`nile_kanban_gap`). **Deploy:** `-u nile_theme,nile_brand_medsupply --i18n-overwrite`, then restart. PRIOR
+(`v18.0.2.3.0`, `1b3f498`): two
 user-reported fixes + a no-code branding affordance. (1) **Navbar/primary logo no longer clipped** — the
 "Sudan MedSupply" wordmark was live SVG `<text>` in Alexandria, but an SVG used as `<img>` can't load the page
 webfont so the wider fallback overflowed the viewBox and cut the trailing "y"; both `nile_brand_medsupply`
