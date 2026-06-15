@@ -301,13 +301,13 @@ moving branch. The current pinned set lives in [`DEPLOY_PINS.md`](DEPLOY_PINS.md
 | Repo | Pinned tag | Mount | Contents |
 |---|---|---|---|
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `/mnt/extra-addons` | the 14 ERP addons (below) |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.3.0` | `/mnt/nile-theme` | the `nile_*` theme stack (1 theme module + brand packs) |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.5.0` | `/mnt/nile-theme` | the `nile_*` theme stack (1 theme module + brand packs) |
 
 ```bash
 cd /opt/ephem-deploy            # or wherever docker-compose.yml lives
 # Pinned tags (see DEPLOY_PINS.md). Use --branch <tag> for a detached, reproducible checkout.
 git clone -b v18.0.1.0.0 https://github.com/Wael9912/erpmedsupply-addons.git
-git clone -b v18.0.2.3.0 https://github.com/Wael9912/odoo-nile-theme.git
+git clone -b v18.0.2.5.0 https://github.com/Wael9912/odoo-nile-theme.git
 # Existing DB upgrade: -u nile_theme,nile_brand_medsupply, then restart Odoo (see DEPLOY_PINS.md).
 docker compose up -d            # base compose, NO override → ERP-only topology
 ```

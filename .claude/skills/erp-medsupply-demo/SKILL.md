@@ -269,7 +269,20 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-15)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.4.0` (2026-06-15).** LATEST (`v18.0.2.4.0`, `71c7d1c`): two
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.5.0` (2026-06-15).** LATEST (`v18.0.2.5.0`, `5341fee`):
+finishes the Arabic-RTL chart pass (v18.0.2.4.0 fixed only the Accounting dashboard) + a contact-card fix.
+(1) **Reporting graph view mirrors in Arabic** — Sales/Purchase/Invoices Analysis (any `graph` view) ride
+core's `GraphRenderer`, a *different* component from the dashboard field, with no direction awareness;
+`GraphRenderer.prepareOptions` is now wrapped to stamp `rtl`+`scales.x.reverse`+`scales.y.position:"right"`
+under RTL (covers bar/line/pie; drill-down onClick unaffected — Chart.js hit-tests by data index). (2)
+**Inventory Overview bars mirror** — the operation cards use stock's `PickingTypeDashboardGraphField`, which
+subclasses the dashboard field but OVERRIDES `getBarChartConfig` (shadowed the parent patch); now patched too,
+**via the field registry** (not `import "@stock/..."`) so the generic theme stays installable without
+Inventory. (3) **Contact card top stroke no longer hidden by the avatar** — full-bleed `.o_kanban_aside_full`
+avatars had square corners proud of the card's rounded border; their leading corners now round to the card
+radius + clip (logical props → correct LTR/RTL). `dashboard_graph_rtl.js` renamed `chart_rtl.js`, helper
+generalized + reused; JS/SCSS only — no schema, no new strings. **Deploy:** `-u nile_theme`, then restart.
+PRIOR (`v18.0.2.4.0`, `71c7d1c`): two
 user-reported fixes + one configurator knob. (1) **Arabic dashboard graphs flip RTL** — the Accounting
 journal-card bar/line graphs ride core's `web` `dashboard_graph` field, which builds Chart.js configs with
 no direction awareness, so in Arabic the labels translated but the chart never mirrored; new

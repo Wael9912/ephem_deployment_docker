@@ -9,7 +9,44 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.4.0` | `71c7d1c` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.5.0` | `5341fee` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.5.0` (2026-06-15) — tag `5341fee`
+
+Finishes the Arabic-RTL chart pass started in `v18.0.2.4.0` (which fixed only the
+Accounting dashboard graphs) and fixes a contact-card paint defect. Assets/JS +
+SCSS only — **no schema change, no new strings** → deploy is plain `-u nile_theme`
+(no `--i18n-overwrite`), **then restart** Odoo. No business data touched.
+
+- **Reporting graph view now mirrors in Arabic.** Sales/Purchase/Invoices
+  Analysis (and any `graph` view) render through core's `GraphRenderer`, a
+  *different* component from the dashboard field — it built Chart.js `options`
+  with no direction awareness, so categories/time ran left→right and the value
+  axis sat on the left. `GraphRenderer.prepareOptions` is now wrapped to stamp
+  `rtl` + `scales.x.reverse` + `scales.y.position:"right"` under RTL (one wrap
+  covers bar/line/pie). Drill-down `onClick` is unaffected (Chart.js hit-tests by
+  data index, which `reverse` preserves).
+- **Inventory Overview bar widgets now mirror in Arabic.** The operation-type
+  cards use stock's `PickingTypeDashboardGraphField`, which subclasses the
+  dashboard field but **overrides `getBarChartConfig`** — so it shadowed the
+  parent patch and stayed LTR. Now patched too, **via the field registry** (not
+  `import "@stock/..."`) so the generic theme stays installable on DBs without
+  Inventory; a hard stock import would brick the whole backend bundle there.
+- **Contact card top stroke no longer hidden by the avatar.** Full-bleed contact
+  avatars (`.o_kanban_aside_full`) had square corners that sat proud of the
+  card's rounded border, clipping the top/bottom "stroke" on the picture's side
+  (only on cards *with* an avatar — hence "sometimes"). The avatar's leading
+  (start) corners now round to the card radius + clip (logical props → correct in
+  LTR and RTL).
+- Mechanics: `static/src/webclient/dashboard_graph_rtl.js` renamed to
+  `chart_rtl.js`; the RTL helper (`nileFlipChartForRtl`) is generalized and reused
+  by all three chart patches. The dashboard graphs are unchanged (the helper still
+  reverses their x-axis; the new y-axis-right is a no-op on their hidden axes).
+- **Deploy:** `-u nile_theme`, then **restart** Odoo.
+- Verified live on `erpmedsupply` (Arabic): graph view → `rtl:true, x.reverse,
+  y on right`, dates newest-left/oldest-right; all 6 Inventory Overview bars
+  mirror; contact avatars round on the leading edge. Pivot + KPI numbers already
+  correct in core (numeric cells are `rtl:ignore` LTR by design).
 
 ## odoo-nile-theme `v18.0.2.4.0` (2026-06-15) — tag `71c7d1c`
 
