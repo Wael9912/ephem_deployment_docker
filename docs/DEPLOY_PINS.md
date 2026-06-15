@@ -7,9 +7,16 @@ every release, then re-tag the repos to match.
 
 | Repo | Pinned tag | Commit | Role |
 |---|---|---|---|
-| [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
+| [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `erp-deployed` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
 | [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.5.1` | `310a2c2` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+> **Deployment branch (2026-06-15):** the go-to branch for a fresh server is now
+> **`erp-deployed`** (was `nile-theme`). It carries the latest theme work plus the
+> customer-provisioning tooling (`scripts/new-tenant.sh`) and the beginner/onboarding/
+> hosting guides under `docs/`. Clone it on the server:
+> `git clone -b erp-deployed https://github.com/Wael9912/ephem_deployment_docker.git ephem-deploy`.
+> See `docs/First_Server_Setup_Hetzner.pdf` for the full first-time walkthrough.
 
 ## odoo-nile-theme `v18.0.2.5.1` (2026-06-15) — tag `310a2c2`
 
