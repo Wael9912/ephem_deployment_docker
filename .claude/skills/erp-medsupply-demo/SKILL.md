@@ -269,7 +269,12 @@ in the container (`pdftoppm`) since the host has no poppler/WeasyPrint.
 
 ## UI/theme: Nile is live; Spiffy is retired (current as of 2026-06-15)
 
-**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.5.0` (2026-06-15).** LATEST (`v18.0.2.5.0`, `5341fee`):
+**Phases 0–4 ALL DONE; `18.0` tagged `v18.0.2.5.1` (2026-06-15).** LATEST (`v18.0.2.5.1`, `310a2c2`) =
+hotfix of `v18.0.2.5.0`: that release imported GraphRenderer (a LAZY-bundle module) into `chart_rtl.js`,
+which made the whole module lazy → the eager dashboard/inventory patches stopped loading off the graph page
+(regressed the v18.0.2.4.0 dashboard fix). Fix = split the GraphRenderer patch into its own
+`graph_view_rtl.js`; `chart_rtl.js` keeps only eager imports. Verified live (deployed bundle): dashboard +
+inventory + graph view all RTL, 0 JS errors. v18.0.2.5.0 itself:
 finishes the Arabic-RTL chart pass (v18.0.2.4.0 fixed only the Accounting dashboard) + a contact-card fix.
 (1) **Reporting graph view mirrors in Arabic** — Sales/Purchase/Invoices Analysis (any `graph` view) ride
 core's `GraphRenderer`, a *different* component from the dashboard field, with no direction awareness;

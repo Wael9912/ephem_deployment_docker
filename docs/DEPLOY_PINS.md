@@ -9,9 +9,29 @@ every release, then re-tag the repos to match.
 |---|---|---|---|
 | [`Wael9912/ephem_deployment_docker`](https://github.com/Wael9912/ephem_deployment_docker) | `nile-theme` branch | — | deployment (compose, configs, scripts, docs) |
 | [`Wael9912/erpmedsupply-addons`](https://github.com/Wael9912/erpmedsupply-addons) | `v18.0.1.0.0` | `0a5b028` | the 14 ERP addons → `/mnt/extra-addons` |
-| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.5.0` | `5341fee` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+| [`Wael9912/odoo-nile-theme`](https://github.com/Wael9912/odoo-nile-theme) | `v18.0.2.5.1` | `310a2c2` | the `nile_*` theme stack (1 theme module `nile_theme` + brand packs) → `/mnt/nile-theme` |
+
+## odoo-nile-theme `v18.0.2.5.1` (2026-06-15) — tag `310a2c2`
+
+**Hotfix for `v18.0.2.5.0`.** That release put the GraphRenderer patch in
+`chart_rtl.js`, which statically imports `@web/views/graph/graph_renderer` — a
+module in a **lazy** sub-bundle that only loads with the graph view. That import
+made the *whole* `chart_rtl.js` module lazy, so on every non-graph page (incl. the
+Accounting dashboard and Inventory Overview) it never executed → the dashboard RTL
+fix that shipped in `v18.0.2.4.0` silently stopped applying and the new inventory
+patch never ran (live-confirmed: `@nile_theme/webclient/chart_rtl` was absent from
+the loader on the dashboard page). Fix = move the GraphRenderer patch to its own
+`graph_view_rtl.js` (still lazy, which is correct — it's only needed when a graph
+renders); `chart_rtl.js` now imports only eager modules so the dashboard +
+inventory patches load on every backend page again. **Verified live on
+`erpmedsupply` (Arabic) reading the DEPLOYED bundle:** dashboard 5 charts +
+inventory 6 bars + graph view all `rtl:true` / `x.reverse` / y-axis right; 0 JS
+errors. **Deploy:** `-u nile_theme`, then **restart** Odoo (same as 2.5.0).
 
 ## odoo-nile-theme `v18.0.2.5.0` (2026-06-15) — tag `5341fee`
+
+> ⚠️ Superseded by `v18.0.2.5.1` — do not pin 2.5.0 (the graph-view patch's lazy
+> import deferred the eager dashboard/inventory patches; see the hotfix above).
 
 Finishes the Arabic-RTL chart pass started in `v18.0.2.4.0` (which fixed only the
 Accounting dashboard graphs) and fixes a contact-card paint defect. Assets/JS +
