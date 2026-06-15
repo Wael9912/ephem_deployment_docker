@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<title>دليل البدء السريع — نظام ERP</title>
+<style>
+  @font-face { font-family:'Tajawal'; font-weight:400;
+    src:url('file:///Users/waelabdalla/Documents/ephem-deploy/scripts/fonts/Tajawal-Regular.ttf'); }
+  @font-face { font-family:'Tajawal'; font-weight:700;
+    src:url('file:///Users/waelabdalla/Documents/ephem-deploy/scripts/fonts/Tajawal-Bold.ttf'); }
+  @page { size: A4; margin: 15mm 15mm 16mm 15mm; }
+  :root { --ink:#1f2a5b; --brand2:#3550c8; --accent:#12bcd8; }
+  * { box-sizing:border-box; }
+  body { font-family:'Tajawal', sans-serif; direction:rtl; text-align:right;
+         color:#1f2933; font-size:11pt; line-height:1.65; margin:0; }
+  .brandbar { display:flex; justify-content:space-between; align-items:center;
+              border-bottom:3px solid var(--accent); padding-bottom:9px; margin-bottom:4px; }
+  .dtmark { display:inline-flex; align-items:center; background:linear-gradient(135deg,var(--ink),var(--brand2));
+            color:#fff; font-family:Arial,sans-serif; font-weight:800; font-size:15pt; letter-spacing:.5px;
+            padding:5px 13px; border-radius:9px; direction:ltr; }
+  .dtmark .plus { color:var(--accent); margin-inline-start:1px; }
+  .brandbar .tag { color:var(--ink); font-weight:700; font-size:10.5pt; }
+  h1 { font-size:22pt; color:var(--ink); margin:14px 0 2px; }
+  .sub { color:#52606d; font-size:11.5pt; margin:0 0 14px; }
+  .step { display:flex; align-items:center; gap:10px; margin:18px 0 6px; page-break-after:avoid; }
+  .step .num { flex:none; width:30px; height:30px; border-radius:50%;
+       background:var(--ink); color:#fff; font-weight:700; font-size:13pt; font-family:Arial,sans-serif;
+       display:flex; align-items:center; justify-content:center; }
+  h2 { font-size:13.5pt; color:var(--ink); margin:0; }
+  p { margin:5px 0 7px; }
+  ul, ol { margin:5px 0 8px; padding-inline-start:22px; }
+  li { margin:3px 0; }
+  .does { color:#52606d; margin:2px 0 7px; }
+  .box { background:#eef3fb; border:1px solid #cdd9f1; border-inline-start:4px solid var(--brand2);
+         border-radius:7px; padding:10px 15px; margin:8px 0; }
+  .box b { color:var(--ink); }
+  .tip { background:#e9fbfd; border:1px solid #bfeef4; border-inline-start:4px solid var(--accent);
+         border-radius:7px; padding:9px 14px; margin:8px 0; font-size:10.6pt; }
+  table { border-collapse:collapse; width:100%; margin:6px 0 10px; font-size:10.5pt; }
+  th, td { border:1px solid #d7deea; padding:6px 10px; text-align:right; vertical-align:top; }
+  th { background:var(--ink); color:#fff; font-weight:700; }
+  tr:nth-child(even) td { background:#f5f7fc; }
+  .menu { background:#eef3fb; color:var(--ink); padding:1px 7px; border-radius:5px;
+          font-size:10pt; white-space:nowrap; }
+  .avoid { page-break-inside:avoid; }
+  .foot { margin-top:18px; padding-top:9px; border-top:1px solid #d7deea; color:#7b8794; font-size:9pt;
+          display:flex; justify-content:space-between; }
+  .foot .b { color:var(--ink); font-weight:700; }
+</style>
+</head>
+<body>
+
+<div class="brandbar">
+  <span class="dtmark">DT<span class="plus">+</span></span>
+  <span class="tag">التحوّل الرقمي</span>
+</div>
+
+<h1>دليل البدء السريع</h1>
+<p class="sub">نظام تخطيط موارد المؤسسة (ERP) — للمستخدمين الجدد بكل أدوارهم</p>
+
+<div class="box">
+  <b>ما هذا الدليل؟</b> نظام تخطيط موارد المؤسسة (ERP) نظامٌ موحّد يجمع المشتريات والمخزون والمبيعات
+  والمحاسبة في مكانٍ واحد. يأخذك هذا الدليل من تسجيل الدخول حتى تنفيذ أولى مهامك خلال دقائق.
+  لتفاصيل أوسع، راجع «دليل المستخدم المختصر».
+</div>
+
+<div class="step"><div class="num">1</div><h2>تسجيل الدخول</h2></div>
+<ul>
+  <li>افتح الرابط الذي زوّدك به مسؤول النظام (يبدأ بـ <b>https://</b>).</li>
+  <li>أدخل <b>اسم المستخدم</b> (بريدك الإلكتروني عادةً) و<b>كلمة المرور</b>.</li>
+  <li>عند أول دخول، غيّر كلمة المرور من: <span class="menu">قائمة حسابك (أعلى اليسار) ← التفضيلات</span>.</li>
+  <li>لتغيير اللغة أو المنطقة الزمنية: <span class="menu">التفضيلات ← اللغة / المنطقة الزمنية</span>.</li>
+</ul>
+
+<div class="step"><div class="num">2</div><h2>التعرّف على الشاشة الرئيسية</h2></div>
+<table class="avoid">
+  <tr><th>العنصر</th><th>وظيفته</th></tr>
+  <tr><td>شريط التطبيقات العلوي</td><td>التنقّل بين الوحدات (المخزون، المشتريات، المبيعات، المحاسبة…)</td></tr>
+  <tr><td>زر التطبيقات (المربّعات)</td><td>يفتح قائمة بكل التطبيقات المتاحة لك</td></tr>
+  <tr><td>شريط البحث</td><td>البحث، والتصفية، والتجميع داخل أي شاشة</td></tr>
+  <tr><td>الجرس (الإشعارات)</td><td>الرسائل والمهام المُسندة إليك</td></tr>
+  <tr><td>قائمة حسابك</td><td>التفضيلات، تبديل الشركة، تسجيل الخروج</td></tr>
+</table>
+
+<div class="step"><div class="num">3</div><h2>التنقّل وأنماط العرض</h2></div>
+<p class="does">تُعرض البيانات بطرقٍ متعددة؛ بدّل بينها من أيقونات أعلى يسار القائمة.</p>
+<ul>
+  <li><b>عرض القائمة:</b> صفوفٌ متعددة لنظرةٍ شاملة وسريعة.</li>
+  <li><b>عرض النموذج:</b> سجلٌّ واحد بكامل تفاصيله.</li>
+  <li><b>عرض كانبان:</b> بطاقاتٌ مرتّبة حسب المراحل.</li>
+  <li>اضغط <b>«جديد»</b> لإنشاء سجل، ثم <b>«حفظ»</b> (أيقونة ✓/السحابة) لحفظه.</li>
+</ul>
+
+<div class="step"><div class="num">4</div><h2>أوّل خمسة إجراءات</h2></div>
+<ol>
+  <li>أنشئ جهة اتصال: <span class="menu">جهات الاتصال ← جديد</span> (عميل أو مورّد).</li>
+  <li>أنشئ منتجًا: <span class="menu">المخزون ← المنتجات ← جديد</span>.</li>
+  <li>أنشئ أمر شراء: <span class="menu">المشتريات ← جديد</span> ← أضف المورّد والمنتجات ← <b>تأكيد</b>.</li>
+  <li>استلم البضاعة: <span class="menu">المخزون ← الاستلامات</span> ← <b>تحقّق</b>.</li>
+  <li>أصدر فاتورة بيع: <span class="menu">المبيعات ← جديد</span> ← <b>تأكيد</b> ← <b>إنشاء فاتورة</b>.</li>
+</ol>
+
+<div class="step"><div class="num">5</div><h2>البحث والتصفية</h2></div>
+<ul>
+  <li>اكتب في شريط البحث ثم اضغط <b>Enter</b>.</li>
+  <li>استخدم <b>«عوامل التصفية»</b> لعرض حالاتٍ بعينها (مثل: غير مدفوعة)، و<b>«تجميع حسب»</b> لتقسيم النتائج.</li>
+  <li>اضغط <b>النجمة ⭐</b> لحفظ بحثٍ مفضّل تعود إليه لاحقًا.</li>
+</ul>
+
+<div class="step"><div class="num">6</div><h2>الحصول على المساعدة</h2></div>
+<ul>
+  <li><b>سجلّ المتابعة</b> أسفل كل سجل: لكتابة الملاحظات، وإرفاق الملفات، وتتبّع كل التغييرات.</li>
+  <li>تواصل مع <b>مسؤول النظام</b> لأي مشكلة في الدخول أو الصلاحيات.</li>
+</ul>
+
+<div class="tip"><b>نصيحة:</b> لا تترك سجلًّا غير محفوظ قبل الانتقال لغيره — ابحث عن مؤشّر «تغييرات غير محفوظة» أعلى السجل.</div>
+
+<div class="foot">
+  <span><span class="b">DT+</span> · التحوّل الرقمي</span>
+  <span>دليل البدء السريع — نظام ERP</span>
+</div>
+
+</body>
+</html>
