@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hosting Guide — DigitalOcean vs Hetzner &amp; Sizing</title>
+<style>
+  @page { size: A4; margin: 15mm 14mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+         color: #1f2933; font-size: 10.4pt; line-height: 1.42; margin: 0; }
+  h1 { font-size: 21pt; color: #0d6e6e; margin: 0 0 2px; letter-spacing: -.3px; }
+  .sub { color: #52606d; font-size: 10.5pt; margin: 0 0 14px; }
+  h2 { font-size: 12.4pt; color: #0d6e6e; margin: 18px 0 6px; padding-bottom: 3px;
+       border-bottom: 2px solid #d6e6e6; page-break-after: avoid; }
+  h2 .n { display: inline-block; min-width: 22px; color: #b08400; font-weight: 700; }
+  p { margin: 4px 0 6px; }
+  ul { margin: 4px 0 8px; padding-left: 20px; }
+  li { margin: 2px 0; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt;
+         background: #f0f2f5; padding: 1px 5px; border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 9.5pt; }
+  th, td { border: 1px solid #d9e2e1; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #0d6e6e; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f6f9f9; }
+  .win { color: #0a7d4d; font-weight: 700; }
+  .cost-hi { color: #b1442f; font-weight: 700; }
+  .verdict { background: #f5faf9; border: 1px solid #cfe3e1; border-left: 4px solid #0d6e6e;
+             border-radius: 6px; padding: 12px 16px; margin: 0 0 14px; }
+  .verdict .t { font-weight: 700; color: #0d6e6e; font-size: 11.5pt; }
+  .pros { display: flex; gap: 12px; margin: 6px 0 10px; }
+  .pros > div { flex: 1; border: 1px solid #d9e2e1; border-radius: 6px; padding: 8px 12px; }
+  .pros h3 { margin: 0 0 4px; font-size: 10.6pt; }
+  .pros ul { font-size: 9.4pt; padding-left: 16px; margin: 2px 0; }
+  .pro { color: #0a7d4d; } .con { color: #b1442f; }
+  .foot { margin-top: 16px; padding-top: 8px; border-top: 1px solid #d9e2e1; color: #7b8794; font-size: 8.4pt; }
+  .avoid { page-break-inside: avoid; }
+  small { color: #7b8794; }
+</style>
+</head>
+<body>
+
+<h1>Hosting Guide — DigitalOcean vs Hetzner</h1>
+<p class="sub">Where to host, what it costs, and how big a server you need for 5–20 medical-supply customers.</p>
+
+<div class="verdict">
+  <div class="t">The quick verdict</div>
+  <p style="margin:6px 0 0"><strong>Host on Hetzner.</strong> For the same (or better) hardware it costs roughly
+  <strong>4–5&times; less</strong> than DigitalOcean, and its German/Finnish data centres give good latency to Sudan.
+  Choose <strong>DigitalOcean</strong> only if you specifically want its <em>managed database</em> (it handles Postgres
+  backups and failover for you) and the most beginner-friendly control panel — and you accept paying several times more.</p>
+</div>
+
+<h2><span class="n">1</span> Head to head — same specs, real prices</h2>
+<p>Comparing equivalent <strong>dedicated-CPU</strong> servers (no noisy neighbours), at the specs each customer tier needs:</p>
+<table class="avoid">
+  <tr><th>You need</th><th>Hetzner (dedicated vCPU)</th><th>DigitalOcean (General Purpose)</th><th>You save with Hetzner</th></tr>
+  <tr><td>4 vCPU / 16 GB</td><td><span class="win">CCX23 — €24.49 (~$26)/mo</span><br><small>160 GB SSD, 20 TB traffic</small></td><td><span class="cost-hi">$126/mo</span><br><small>50 GB SSD</small></td><td>~$100/mo</td></tr>
+  <tr><td>8 vCPU / 32 GB</td><td><span class="win">CCX33 — €48.49 (~$52)/mo</span><br><small>240 GB SSD, 30 TB traffic</small></td><td><span class="cost-hi">$252/mo</span><br><small>100 GB SSD</small></td><td>~$200/mo</td></tr>
+  <tr><td>16 vCPU / 64 GB</td><td><span class="win">CCX43 — €96.49 (~$104)/mo</span><br><small>360 GB SSD, 40 TB traffic</small></td><td><span class="cost-hi">$504/mo</span><br><small>200 GB SSD</small></td><td>~$400/mo</td></tr>
+</table>
+<p><small>Note: DigitalOcean's General Purpose plans also include <strong>much less disk</strong> than Hetzner, so you'd add block
+storage (~$0.10/GB/mo) on top. DigitalOcean's cheaper "Basic" tiers (e.g. 16 GB / 8 vCPU for $96/mo) use <em>shared</em> CPU —
+fine for light use, but a busy neighbour can slow you down.</small></p>
+
+<h2><span class="n">2</span> Strengths &amp; trade-offs</h2>
+<div class="pros avoid">
+  <div>
+    <h3>Hetzner</h3>
+    <ul>
+      <li class="pro">4–5&times; cheaper for equal/better specs</li>
+      <li class="pro">Dedicated AMD EPYC CPU + more disk &amp; bandwidth included</li>
+      <li class="pro">EU data centres (Falkenstein, Helsinki) close to Sudan</li>
+      <li class="con">Fewer global regions; plainer control panel</li>
+      <li class="con">You run &amp; back up PostgreSQL yourself</li>
+      <li class="con">Email-based support (no phone)</li>
+    </ul>
+  </div>
+  <div>
+    <h3>DigitalOcean</h3>
+    <ul>
+      <li class="pro">Easiest console + best tutorials for non-experts</li>
+      <li class="pro">Managed PostgreSQL (auto backups, failover, patching)</li>
+      <li class="pro">Spaces (S3-style) storage for offsite backups; 1-click apps</li>
+      <li class="pro">More global regions</li>
+      <li class="con">3–5&times; the price</li>
+      <li class="con">Less disk per plan; "Basic" tiers share CPU</li>
+    </ul>
+  </div>
+</div>
+
+<h2><span class="n">3</span> What it costs as you grow</h2>
+<table class="avoid">
+  <tr><th>Customers</th><th>Server size</th><th>Hetzner / month</th><th>DigitalOcean / month</th></tr>
+  <tr><td>5</td><td>4 vCPU / 16 GB</td><td class="win">~$26 (CCX23)</td><td class="cost-hi">~$126</td></tr>
+  <tr><td>10</td><td>8 vCPU / 32 GB</td><td class="win">~$52 (CCX33)</td><td class="cost-hi">~$252</td></tr>
+  <tr><td>20</td><td>16 vCPU / 64 GB</td><td class="win">~$104 (CCX43)</td><td class="cost-hi">~$504</td></tr>
+</table>
+<p><strong>Over a year at 20 customers:</strong> Hetzner ≈ <span class="win">$1,250</span> vs DigitalOcean ≈ <span class="cost-hi">$6,050</span>
+— a difference of roughly <strong>$4,800 per year</strong> for the same capacity.</p>
+
+<h2><span class="n">4</span> How big a server do I rent?</h2>
+<p>Rule of thumb: <strong>~3 GB RAM and ~30 GB disk per 5–10-user company.</strong> Add them up, add ~20% headroom, round up.</p>
+<table class="avoid">
+  <tr><th>Companies</th><th>vCPU</th><th>RAM</th><th>Disk (SSD)</th><th>Example (Hetzner)</th></tr>
+  <tr><td>5</td><td>4</td><td>16 GB</td><td>~160 GB</td><td>CCX23</td></tr>
+  <tr><td>10</td><td>8</td><td>32 GB</td><td>~320 GB</td><td>CCX33 + small volume</td></tr>
+  <tr><td>20</td><td>16</td><td>64 GB</td><td>~640 GB</td><td>CCX43 + volume, or 2 servers</td></tr>
+</table>
+<ul>
+  <li><strong>Save RAM at scale:</strong> run <strong>one shared PostgreSQL</strong> with a database per customer, while keeping a separate Odoo container per customer — cuts memory use noticeably at 15–20 tenants.</li>
+  <li><strong>At 20 customers, split across two servers</strong> so one failure never takes everyone down.</li>
+  <li><strong>Start small and resize up</strong> — on both hosts, growing a server is a few clicks plus a reboot.</li>
+</ul>
+
+<h2><span class="n">5</span> Every server needs this (whichever host)</h2>
+<ul>
+  <li><strong>OS &amp; firewall:</strong> Ubuntu 24.04 LTS; open only ports <strong>22 (SSH, key-only), 80, 443</strong>; install <code>fail2ban</code>; deploy as a non-root user in the <code>docker</code> group.</li>
+  <li><strong>Backups:</strong> nightly <code>scripts/backup_db.sh</code> per database (it saves the database <em>and</em> the uploaded files).</li>
+  <li><strong>Offsite copy:</strong> sync backups off the server daily (<code>rclone</code> to Backblaze B2 or DigitalOcean Spaces). A backup on the same server is not a backup.</li>
+  <li><strong>Restore drill:</strong> test a restore once a quarter — an untested backup is just a hope.</li>
+  <li><strong>TLS:</strong> certificates auto-renew (already built into the stack).</li>
+  <li><strong>Monitoring:</strong> watch memory/disk with <code>docker stats</code>; add an uptime check.</li>
+  <li><strong>Versions:</strong> keep the pinned releases in <code>docs/DEPLOY_PINS.md</code>.</li>
+</ul>
+
+<h2><span class="n">6</span> Region &amp; latency for Sudan</h2>
+<p>Both hosts have European data centres that serve Sudan well (~80–120 ms). Pick the closest EU region:</p>
+<ul>
+  <li><strong>Hetzner:</strong> Falkenstein / Nuremberg (Germany), Helsinki (Finland).</li>
+  <li><strong>DigitalOcean:</strong> Frankfurt (Germany), Amsterdam, London.</li>
+</ul>
+
+<div class="verdict avoid">
+  <div class="t">Bottom line</div>
+  <p style="margin:6px 0 0">For 5–20 medical-supply customers, <strong>rent a Hetzner CCX server in Frankfurt or Helsinki</strong>,
+  size it at ~3 GB RAM + 30 GB disk per company, and turn on nightly backups with an offsite copy. You'll get dedicated CPU
+  and save thousands per year versus DigitalOcean. Reach for DigitalOcean only if you'd rather pay a premium to have its
+  managed database and hand-holding console do more of the work for you.</p>
+</div>
+
+<div class="foot">
+  Prices verified June 2026 (Hetzner CCX post-April-2026 list prices, EUR; DigitalOcean General Purpose, USD). Currency ~€1 = $1.08.
+  Confirm current rates at hetzner.com/cloud and digitalocean.com/pricing before committing.
+</div>
+
+</body>
+</html>

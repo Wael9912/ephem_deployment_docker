@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Your First Customer on Hetzner — Beginner's Guide</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 15mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+         color: #1f2933; font-size: 10.6pt; line-height: 1.5; margin: 0; }
+  h1 { font-size: 22pt; color: #0d6e6e; margin: 0 0 2px; letter-spacing: -.3px; }
+  .sub { color: #52606d; font-size: 11pt; margin: 0 0 14px; }
+  h2 { font-size: 13pt; color: #0d6e6e; margin: 20px 0 8px; page-break-after: avoid; }
+  .step { display: flex; align-items: center; gap: 10px; margin: 22px 0 8px; page-break-after: avoid; page-break-inside: avoid; break-inside: avoid; }
+  .step .num { flex: none; width: 30px; height: 30px; border-radius: 50%; background: #0d6e6e;
+       color: #fff; font-weight: 700; font-size: 13pt; display: flex; align-items: center; justify-content: center; }
+  .step h2 { margin: 0; border: none; }
+  p { margin: 5px 0 7px; }
+  .does { color: #52606d; font-style: italic; margin: 2px 0 7px; }
+  pre { background: #1f2933; color: #e8eef0; font-family: "SF Mono", Menlo, Consolas, monospace;
+        font-size: 9pt; line-height: 1.5; padding: 9px 12px; border-radius: 6px; margin: 6px 0 8px;
+        white-space: pre-wrap; word-break: break-word; }
+  pre .c { color: #8aa0a0; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9.2pt;
+         background: #eef2f4; padding: 1px 5px; border-radius: 4px; }
+  .tip { background: #f5faf9; border: 1px solid #cfe3e1; border-left: 4px solid #0d6e6e;
+         border-radius: 6px; padding: 8px 13px; margin: 8px 0; font-size: 9.8pt; }
+  .warn { background: #fdf3ef; border: 1px solid #f3cdbf; border-left: 4px solid #c0492c;
+          border-radius: 6px; padding: 8px 13px; margin: 8px 0; font-size: 9.8pt; }
+  .tip b, .warn b { color: #0d6e6e; } .warn b { color: #c0492c; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 9.8pt; }
+  th, td { border: 1px solid #d9e2e1; padding: 5px 9px; text-align: left; vertical-align: top; }
+  th { background: #0d6e6e; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f6f9f9; }
+  .intro { background: #eef4f4; border-radius: 8px; padding: 12px 16px; margin: 0 0 8px; }
+  .intro b { color: #0d6e6e; }
+  .avoid { page-break-inside: avoid; }
+  .foot { margin-top: 18px; padding-top: 8px; border-top: 1px solid #d9e2e1; color: #7b8794; font-size: 8.6pt; }
+</style>
+</head>
+<body>
+
+<h1>Your First Customer on Hetzner</h1>
+<p class="sub">A beginner's step-by-step guide. No experience needed — just copy and paste.</p>
+
+<div class="intro">
+  <p style="margin:2px 0"><b>What you'll have at the end:</b> your medical-supply ERP running on the internet, with your
+  first customer logged in at their own secure web address (e.g. <code>https://acme.example.com</code>).</p>
+  <p style="margin:6px 0 2px"><b>Before you begin, get these 3 things:</b></p>
+  <p style="margin:2px 0">1. A free <b>Hetzner</b> account &nbsp;·&nbsp; 2. A <b>domain name</b> (a web address — buy one for ~$10/year at Namecheap or Cloudflare) &nbsp;·&nbsp; 3. About <b>1 hour</b>.</p>
+</div>
+
+<div class="tip avoid">
+  <b>How to follow this guide.</b> You'll type commands into a "terminal" — a black window where you type instructions.
+  Copy each grey box, paste it in, and press <b>Enter</b>. Do them in order. Words in CAPITALS are things <b>you</b> must
+  swap for your own details (see the table below). If anything fails, jump to <b>"If something goes wrong"</b> at the end.
+</div>
+
+<table class="avoid">
+  <tr><th>When you see…</th><th>Replace it with…</th><th>Example</th></tr>
+  <tr><td><code>acme</code></td><td>Your customer's short name (lowercase, no spaces)</td><td><code>sudanmed</code></td></tr>
+  <tr><td><code>example.com</code></td><td>Your domain name</td><td><code>mycompany.com</code></td></tr>
+  <tr><td><code>YOUR_SERVER_IP</code></td><td>The number Hetzner gives your server</td><td><code>91.99.12.34</code></td></tr>
+  <tr><td><code>you@example.com</code></td><td>Your email address</td><td><code>me@gmail.com</code></td></tr>
+</table>
+
+<div class="step"><div class="num">1</div><h2>Rent the computer (the "server")</h2></div>
+<p class="does">A server is just a computer you rent that stays on 24/7 in a data centre.</p>
+<p>Go to <b>console.hetzner.cloud</b>, sign up, and create a <b>New Project</b> called <code>medsupply</code>. Then click <b>Add Server</b> and choose:</p>
+<ul>
+  <li><b>Location:</b> Falkenstein or Helsinki (closest to Sudan = faster)</li>
+  <li><b>Image:</b> Ubuntu 24.04</li>
+  <li><b>Type:</b> <b>CPX31</b> (4 CPU / 8 GB / 160 GB, about €14/month) — plenty for your first customer</li>
+  <li><b>SSH Key:</b> click <b>Add SSH Key</b>. On your own laptop, open a terminal and run the line below, copy the whole result, and paste it into Hetzner:</li>
+</ul>
+<pre><span class="c"># If it says "No such file", first run:  ssh-keygen -t ed25519  (press Enter a few times)</span>
+cat ~/.ssh/id_ed25519.pub</pre>
+<p>Create the server, then <b>copy the IP address</b> Hetzner shows you. That's your <code>YOUR_SERVER_IP</code>.</p>
+
+<div class="step"><div class="num">2</div><h2>Connect your domain (web address)</h2></div>
+<p class="does">This tells the internet that your web address should lead to your new server.</p>
+<p>Log in to where you bought your domain, find the <b>DNS</b> settings, and add one <b>A record</b>:</p>
+<table class="avoid">
+  <tr><th>Type</th><th>Name</th><th>Value</th></tr>
+  <tr><td>A</td><td><code>acme</code></td><td><code>YOUR_SERVER_IP</code></td></tr>
+</table>
+<p>This makes <code>acme.example.com</code> point at your server. It can take a few minutes to an hour to start working.</p>
+<div class="warn"><b>Important:</b> do this now and let it settle. Step 8 (the security padlock) will fail if the web address isn't pointing at the server yet.</div>
+
+<div class="step"><div class="num">3</div><h2>Log in to the server &amp; lock the doors</h2></div>
+<p class="does">We connect to the server, then close every entrance except the ones we need.</p>
+<p>On your laptop terminal, connect to the server (type <code>yes</code> if it asks to trust it):</p>
+<pre>ssh root@YOUR_SERVER_IP</pre>
+<p>Now you're <b>on the server</b>. Run these to update it and switch on the firewall:</p>
+<pre>apt update && apt upgrade -y
+apt install -y ufw fail2ban git
+ufw allow 22 && ufw allow 80 && ufw allow 443
+ufw --force enable</pre>
+<p class="does">This blocks everything except logging in (22), and web traffic (80 and 443).</p>
+
+<div class="step"><div class="num">4</div><h2>Install Docker (the engine)</h2></div>
+<p class="does">Docker is the engine that runs the ERP. One command installs it.</p>
+<pre>curl -fsSL https://get.docker.com | sh
+docker --version   <span class="c"># should print a version number</span></pre>
+
+<div class="step"><div class="num">5</div><h2>Download the system</h2></div>
+<p class="does">We copy your ERP code and add-ons onto the server.</p>
+<pre>git clone -b nile-ux-upgrade https://github.com/Wael9912/ephem_deployment_docker.git ephem-deploy
+cd ephem-deploy
+git clone -b v18.0.1.0.0 https://github.com/Wael9912/erpmedsupply-addons.git erpmedsupply-addons
+git clone -b v18.0.2.5.1 https://github.com/Wael9912/odoo-nile-theme.git   odoo-nile-theme</pre>
+<div class="tip"><b>If it asks for a username and password:</b> your code is private. Go to github.com/settings/tokens, create a token (classic, tick <code>repo</code>), then use your GitHub username and paste the token where it asks for the password.</div>
+
+<div class="step"><div class="num">6</div><h2>Set your two passwords</h2></div>
+<p class="does">The system needs two passwords: one for the database, one "master" password for managing it.</p>
+<p>First, make two strong passwords — run this <b>twice</b> and keep both results somewhere safe:</p>
+<pre>openssl rand -base64 24</pre>
+<p><b>a) The settings file.</b> Open it:</p>
+<pre>cp .env.example .env
+nano .env</pre>
+<p>Find the line starting with <code>POSTGRES_PASSWORD=</code> and put your <b>first</b> password after the <code>=</code>.
+Save with <b>Ctrl+O</b> then <b>Enter</b>, and exit with <b>Ctrl+X</b>.</p>
+<p><b>b) The Odoo config.</b> Open it:</p>
+<pre>cp odoo.conf.prod odoo.conf
+nano odoo.conf</pre>
+<p>Change these four lines, then save the same way (Ctrl+O, Enter, Ctrl+X):</p>
+<pre>admin_passwd = your_SECOND_password
+db_password  = your_FIRST_password
+dbfilter     = ^%d$
+list_db      = False</pre>
+<div class="warn"><b>The most common beginner mistake:</b> <code>db_password</code> here must be <b>exactly the same</b> as <code>POSTGRES_PASSWORD</code> in the <code>.env</code> file. Copy-paste it to be sure.</div>
+<p><b>c) Prepare the web server:</b></p>
+<pre>cp nginx/default.conf nginx/active.conf</pre>
+
+<div class="step"><div class="num">7</div><h2>Switch it on</h2></div>
+<pre>docker compose up -d
+docker compose ps   <span class="c"># everything should say "Up" (the database says "healthy")</span></pre>
+<p class="does">The first time, this downloads about 1 GB — give it a couple of minutes.</p>
+
+<div class="step"><div class="num">8</div><h2>Add the security padlock (HTTPS)</h2></div>
+<p class="does">This gives your site a free certificate so the address starts with a secure <code>https://</code>. It renews itself forever.</p>
+<pre>bash scripts/ssl-setup.sh acme.example.com you@example.com</pre>
+
+<div class="step"><div class="num">9</div><h2>Create your customer</h2></div>
+<p class="does">One command builds the customer's database and installs everything — inventory, purchasing, sales, accounting, and your Nile theme.</p>
+<pre>bash scripts/new-tenant.sh acme acme.example.com you@example.com --no-ssl</pre>
+<p>When it finishes, open <b>https://acme.example.com</b> in your browser, log in as <code>admin</code>, and
+<b>set a strong password right away</b>. 🎉 Your customer is live!</p>
+<p>Now follow the <b>Customer Onboarding Checklist</b> (the other PDF) to set up their company, users, products, and so on.</p>
+
+<div class="step"><div class="num">10</div><h2>Turn on backups</h2></div>
+<p class="does">This is medical data — never run without backups. This makes an automatic copy every night.</p>
+<pre>crontab -e   <span class="c"># if it asks which editor, choose nano (option 1)</span></pre>
+<p>Paste this line at the bottom, then save (Ctrl+O, Enter, Ctrl+X):</p>
+<pre>0 2 * * * cd /root/ephem-deploy && DB_NAME=acme bash scripts/backup_db.sh >> backups/cron.log 2>&1</pre>
+<div class="tip"><b>One more step soon:</b> copy those backups <b>off</b> the server too (e.g. to a Hetzner Storage Box or Backblaze B2). A backup that only lives on the same server is lost if the server dies. Ask for help setting up <code>rclone</code> when you're ready.</div>
+
+<h2>If something goes wrong</h2>
+<table class="avoid">
+  <tr><th>Problem</th><th>What to do</th></tr>
+  <tr><td>The website won't open</td><td>Run <code>docker compose ps</code>, then <code>docker compose logs --tail=30 odoo</code> to see the error</td></tr>
+  <tr><td>The padlock (Step 8) failed</td><td>Your domain isn't pointing yet. Run <code>dig +short acme.example.com</code> — if it doesn't show your server IP, wait and try Step 8 again</td></tr>
+  <tr><td>"Database not found"</td><td>Normal until Step 9 finishes. After that, refresh the page</td></tr>
+  <tr><td>Login or database errors</td><td>The two passwords don't match. Re-check Step 6: <code>db_password</code> = <code>POSTGRES_PASSWORD</code></td></tr>
+</table>
+
+<h2>Adding your next customer (later)</h2>
+<p>Much quicker — just two things: add a new DNS A record (Step 2) for the new name, then run one command:</p>
+<pre>bash scripts/new-tenant.sh beta beta.example.com you@example.com</pre>
+<p>That one command handles the database, the security padlock, and the routing all at once.</p>
+
+<div class="foot">
+  Medical-Supply ERP (Odoo 18) on Hetzner · Companion docs: Customer_Onboarding_Checklist.pdf ·
+  Hosting_Guide_DigitalOcean_vs_Hetzner.pdf
+</div>
+
+</body>
+</html>

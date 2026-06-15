@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Customer Onboarding &amp; Go-Live Checklist</title>
+<style>
+  @page { size: A4; margin: 15mm 14mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+         color: #1f2933; font-size: 10.4pt; line-height: 1.42; margin: 0; }
+  h1 { font-size: 21pt; color: #0d6e6e; margin: 0 0 2px; letter-spacing: -.3px; }
+  .sub { color: #52606d; font-size: 10.5pt; margin: 0 0 14px; }
+  h2 { font-size: 12.4pt; color: #0d6e6e; margin: 18px 0 6px; padding-bottom: 3px;
+       border-bottom: 2px solid #d6e6e6; page-break-after: avoid; }
+  h2 .n { display: inline-block; min-width: 22px; color: #b08400; font-weight: 700; }
+  p { margin: 4px 0 6px; }
+  ul.check { list-style: none; padding-left: 2px; margin: 4px 0 6px; }
+  ul.check li { position: relative; padding-left: 22px; margin: 3px 0; page-break-inside: avoid; }
+  ul.check li::before { content: "\2610"; position: absolute; left: 0; top: -1px;
+       color: #0d6e6e; font-size: 13pt; line-height: 1; }
+  ul.sub2 { list-style: none; margin: 2px 0 2px 22px; padding: 0; }
+  ul.sub2 li { position: relative; padding-left: 14px; color: #3e4c59; font-size: 9.8pt; margin: 1px 0; }
+  ul.sub2 li::before { content: "\2013"; position: absolute; left: 0; color: #9aa5b1; }
+  .menu { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 8.8pt;
+          background: #eef4f4; color: #0d6e6e; padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+  code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 9pt;
+         background: #f0f2f5; padding: 1px 5px; border-radius: 4px; }
+  .box { background: #f5faf9; border: 1px solid #cfe3e1; border-left: 4px solid #0d6e6e;
+         border-radius: 6px; padding: 10px 14px; margin: 8px 0 12px; }
+  .box .t { font-weight: 700; color: #0d6e6e; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 9.6pt; }
+  th, td { border: 1px solid #d9e2e1; padding: 5px 8px; text-align: left; vertical-align: top; }
+  th { background: #0d6e6e; color: #fff; font-weight: 600; }
+  tr:nth-child(even) td { background: #f6f9f9; }
+  .lead { background: #fff8e8; border: 1px solid #f0dca6; border-radius: 6px; padding: 10px 14px; margin: 0 0 14px; }
+  .foot { margin-top: 16px; padding-top: 8px; border-top: 1px solid #d9e2e1; color: #7b8794; font-size: 8.6pt; }
+  .avoid { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>Customer Onboarding &amp; Go-Live Checklist</h1>
+<p class="sub">Medical-Supply ERP on Odoo 18 — taking a new customer from empty database to running the business.</p>
+
+<div class="lead">
+  <strong>How to use this:</strong> work top to bottom and tick each box. Steps 0–1 are technical (done once per customer);
+  steps 2–13 are configuration inside Odoo. A typical 5–10 user company takes about <strong>1–2 hours</strong> end to end.
+  Menu paths are shown like <span class="menu">Settings &rsaquo; Users</span>.
+</div>
+
+<h2><span class="n">0</span> Before you start — gather this from the customer</h2>
+<ul class="check">
+  <li>Legal company name, full address, phone, email, and tax / VAT ID</li>
+  <li>Company logo (PNG or SVG) and a square favicon</li>
+  <li>Base currency (SDG) and any foreign currencies they buy/sell in (USD, EUR)</li>
+  <li>User list — name, email, and role for each of the 5–10 people</li>
+  <li>Bank account details — bank name, account number, and currency for each account</li>
+  <li>Product / item catalogue (or a representative sample to start)</li>
+  <li>Warehouse / branch list and storage areas</li>
+  <li>Opening balances — stock on hand (with expiry), customer &amp; vendor balances, bank balances</li>
+</ul>
+
+<h2><span class="n">1</span> Provision the instance (one command)</h2>
+<ul class="check">
+  <li>Create a DNS <strong>A record</strong> for the subdomain (e.g. <code>acme.yourdomain.com</code>) pointing to the server IP</li>
+  <li>Run: <code>./scripts/new-tenant.sh acme acme.yourdomain.com admin@yourdomain.com</code></li>
+  <li>Confirm <code>https://acme.yourdomain.com</code> opens the login page with a valid padlock</li>
+</ul>
+<div class="box"><span class="t">What this does:</span> creates the customer's own database, installs the medical-supply
+module set, gets the SSL certificate, and routes the subdomain to their database. Their data is fully isolated from every other customer.</div>
+
+<h2><span class="n">2</span> Secure the admin account</h2>
+<ul class="check">
+  <li>Log in as <code>admin</code> and immediately set a <strong>strong password</strong></li>
+  <li>Set language to <strong>Arabic</strong> and the correct timezone — <span class="menu">Settings &rsaquo; Users &rsaquo; admin &rsaquo; Preferences</span></li>
+  <li>Confirm the database manager is hidden (<code>list_db = False</code>) so no one can see other databases</li>
+</ul>
+
+<h2><span class="n">3</span> Company profile</h2>
+<p><span class="menu">Settings &rsaquo; Companies</span></p>
+<ul class="check">
+  <li>Company name, logo, full address, phone, email, tax ID</li>
+  <li>Set base currency <strong>SDG</strong>; enable <strong>multi-currency</strong> and an exchange-rate source if they import or price in USD/EUR</li>
+  <li>Set the fiscal year and lock dates — <span class="menu">Accounting &rsaquo; Configuration &rsaquo; Settings</span></li>
+  <li>Configure the document layout (letterhead, colours, footer) used on invoices &amp; purchase orders</li>
+</ul>
+
+<h2><span class="n">4</span> Users &amp; access rights</h2>
+<p><span class="menu">Settings &rsaquo; Users &amp; Companies &rsaquo; Users</span> — create one per person, set language Arabic, send the invite.</p>
+<table class="avoid">
+  <tr><th>Role</th><th>Typical access rights to grant</th></tr>
+  <tr><td>Warehouse / Inventory</td><td>Inventory: User or Manager</td></tr>
+  <tr><td>Procurement / Buyer</td><td>Purchase: User or Manager</td></tr>
+  <tr><td>Sales</td><td>Sales: User; Invoicing: read</td></tr>
+  <tr><td>Finance / Accountant</td><td>Accounting: Accountant or Adviser</td></tr>
+  <tr><td>Owner / Manager</td><td>Settings (Administration) — limit to 1–2 people only</td></tr>
+</table>
+
+<h2><span class="n">5</span> Contacts (vendors &amp; customers)</h2>
+<p><span class="menu">Contacts</span></p>
+<ul class="check">
+  <li>Add <strong>vendors / suppliers</strong> with their payment terms and currency</li>
+  <li>Add <strong>customers</strong> (clinics, hospitals, pharmacies) with payment terms and delivery addresses</li>
+  <li>Tag / categorise them (e.g. Supplier, Hospital, Pharmacy) for easy filtering and reporting</li>
+</ul>
+
+<h2><span class="n">6</span> Bank &amp; payment setup</h2>
+<p><span class="menu">Accounting &rsaquo; Configuration &rsaquo; Journals / Bank Accounts</span></p>
+<ul class="check">
+  <li>Add the company's <strong>bank account(s)</strong> — one per account/currency</li>
+  <li>Create the matching <strong>Bank journal(s)</strong>; add a <strong>Cash journal</strong> if they handle cash</li>
+  <li>Define <strong>payment terms</strong> (e.g. Immediate, 15 days, 30 days)</li>
+  <li>Confirm bank reconciliation is ready (the OCA reconciliation module is installed)</li>
+</ul>
+
+<h2><span class="n">7</span> Chart of accounts &amp; taxes</h2>
+<p><span class="menu">Accounting &rsaquo; Configuration</span></p>
+<ul class="check">
+  <li>Confirm or import the <strong>chart of accounts</strong></li>
+  <li>Configure <strong>taxes</strong> (VAT rate / exempt) and set the default sale &amp; purchase tax</li>
+  <li>Set default income, expense, and inventory accounts</li>
+</ul>
+
+<h2><span class="n">8</span> Warehouses &amp; locations</h2>
+<p><span class="menu">Inventory &rsaquo; Configuration</span></p>
+<ul class="check">
+  <li>Define the <strong>warehouse(s) / branches</strong></li>
+  <li>Set up internal <strong>locations</strong> (storage, quarantine, expired/damaged)</li>
+  <li>In Inventory Settings, enable <strong>Lots &amp; Serial Numbers</strong> and <strong>Expiration Dates</strong></li>
+  <li>Set removal strategy to <strong>FEFO</strong> (First Expiry, First Out) so near-expiry stock ships first</li>
+</ul>
+
+<h2><span class="n">9</span> Products / items</h2>
+<p><span class="menu">Inventory &rsaquo; Products</span></p>
+<ul class="check">
+  <li>Create product <strong>categories</strong> (e.g. Pharmaceuticals, Devices, Consumables)</li>
+  <li>Set <strong>units of measure</strong> (box, strip, vial, piece) and pack conversions</li>
+  <li>Create products as <strong>Storable</strong>, tracked <strong>by Lot</strong>, with <strong>expiration tracking on</strong></li>
+  <li>Enter cost price, sales price, taxes, and an internal reference / barcode</li>
+  <li>Add <strong>reordering rules</strong> (min / max) per product and warehouse</li>
+  <li>Add <strong>vendor pricelists</strong> (purchase price and lead time per supplier)</li>
+</ul>
+
+<h2><span class="n">10</span> Opening balances &amp; initial stock</h2>
+<ul class="check">
+  <li><strong>Stock on hand:</strong> run an Inventory Adjustment to load quantities <em>with lot numbers and expiry dates</em> — <span class="menu">Inventory &rsaquo; Operations &rsaquo; Physical Inventory</span></li>
+  <li><strong>Opening receivables/payables:</strong> enter open customer invoices &amp; vendor bills, or a single opening journal entry</li>
+  <li><strong>Opening bank/cash balances:</strong> post via journal entry and reconcile the opening statement</li>
+</ul>
+
+<h2><span class="n">11</span> Branding</h2>
+<p><span class="menu">Settings &rsaquo; General Settings &rsaquo; Nile Theme</span></p>
+<ul class="check">
+  <li>Upload the navbar logo and favicon; set the browser-tab name</li>
+  <li>Pick the colour palette; confirm Arabic / RTL layout looks right</li>
+</ul>
+
+<h2><span class="n">12</span> Go-live verification — the "ready for business" gate</h2>
+<ul class="check">
+  <li><strong>Run one full cycle end to end:</strong> Purchase Order &rarr; Receive (with lot &amp; expiry) &rarr; Sales Order &rarr; Delivery &rarr; Customer Invoice &rarr; Register Payment &rarr; Reconcile</li>
+  <li>Check an inventory report shows correct quantities and expiry dates</li>
+  <li>Check an Aged Receivable / Aged Payable report is correct</li>
+  <li>Nightly backup scheduled (<code>DB_NAME=acme bash scripts/backup_db.sh</code>) + offsite copy + one test restore done</li>
+  <li>SSL padlock valid; only 1–2 people have Settings (admin) rights</li>
+  <li>Delete any demo / test records created during setup</li>
+</ul>
+
+<h2><span class="n">13</span> Handover</h2>
+<ul class="check">
+  <li>Deliver credentials <strong>securely</strong> (password manager or sealed handover — never plain email)</li>
+  <li>Run a short training session per role (warehouse, buying, sales, finance)</li>
+  <li>Share the user manual — <span class="menu">docs/manual</span> (EN/AR)</li>
+</ul>
+
+<div class="foot">
+  Medical-Supply ERP (Odoo 18 Community) · Provision with <code>scripts/new-tenant.sh</code> ·
+  Hosting &amp; server sizing: <em>Hosting_Guide_DigitalOcean_vs_Hetzner.pdf</em>
+</div>
+
+</body>
+</html>
