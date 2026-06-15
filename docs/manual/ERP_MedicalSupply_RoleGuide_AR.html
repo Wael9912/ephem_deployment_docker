@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<title>دليل الأدوار ورحلات الاستخدام — نظام ERP للتوريدات الطبية</title>
+<style>
+  @font-face { font-family:'Tajawal'; font-weight:400;
+    src:url('file:///Users/waelabdalla/Documents/ephem-deploy/scripts/fonts/Tajawal-Regular.ttf'); }
+  @font-face { font-family:'Tajawal'; font-weight:700;
+    src:url('file:///Users/waelabdalla/Documents/ephem-deploy/scripts/fonts/Tajawal-Bold.ttf'); }
+  @page { size: A4; margin: 13mm 13mm 14mm 13mm; }
+  :root { --ink:#1f2a5b; --brand2:#3550c8; --accent:#12bcd8;
+          --warehouse:#0a7d52; --procure:#b5651d; --sales:#1f6feb; --account:#7a3ea3; --manager:#b1442f; }
+  * { box-sizing:border-box; }
+  body { font-family:'Tajawal', sans-serif; direction:rtl; text-align:right;
+         color:#1f2933; font-size:10.6pt; line-height:1.6; margin:0; }
+  /* brand + headings */
+  .brandbar { display:flex; justify-content:space-between; align-items:center;
+              border-bottom:3px solid var(--accent); padding-bottom:9px; margin-bottom:6px; }
+  .dtmark { display:inline-flex; align-items:center; background:linear-gradient(135deg,var(--ink),var(--brand2));
+            color:#fff; font-family:Arial,sans-serif; font-weight:800; font-size:15pt; letter-spacing:.5px;
+            padding:5px 13px; border-radius:9px; direction:ltr; }
+  .dtmark .plus { color:var(--accent); margin-inline-start:1px; }
+  .brandbar .tag { color:var(--ink); font-weight:700; font-size:10.5pt; }
+  h1 { font-size:22pt; color:var(--ink); margin:14px 0 2px; line-height:1.25; }
+  .sub { color:#52606d; font-size:11.5pt; margin:0 0 12px; }
+  h2 { font-size:14pt; color:var(--ink); margin:18px 0 8px; padding-bottom:4px;
+       border-bottom:2px solid #d7deea; page-break-after:avoid; }
+  p { margin:5px 0 7px; }
+  ul { margin:5px 0 8px; padding-inline-start:22px; } li { margin:3px 0; }
+  .box { background:#eef3fb; border:1px solid #cdd9f1; border-inline-start:4px solid var(--brand2);
+         border-radius:8px; padding:11px 16px; margin:8px 0; }
+  .box b { color:var(--ink); }
+  /* big-picture flow */
+  .bigflow { display:flex; align-items:stretch; gap:0; margin:10px 0 6px; }
+  .bigflow .node { flex:1; background:#fff; border:1.6px solid var(--ink); border-radius:10px;
+                   padding:9px 6px; text-align:center; }
+  .bigflow .node .t { font-weight:700; color:var(--ink); font-size:10.4pt; }
+  .bigflow .node .d { font-size:8.4pt; color:#52606d; }
+  .bigflow .arr { display:flex; align-items:center; color:var(--brand2); font-weight:800; padding:0 4px; }
+  .acct-band { background:linear-gradient(135deg,#7a3ea3,#9a5bc0); color:#fff; border-radius:8px;
+               text-align:center; padding:6px; margin:6px 0 2px; font-weight:700; font-size:10pt; }
+  /* role cards */
+  .roles { display:flex; flex-wrap:wrap; gap:8px; margin:8px 0; }
+  .rcard { flex:1 1 30%; min-width:30%; border:1px solid #d7deea; border-radius:10px; overflow:hidden;
+           page-break-inside:avoid; }
+  .rcard .rh { color:#fff; padding:7px 11px; font-weight:700; font-size:11pt; }
+  .rcard .rb { padding:8px 11px; font-size:9.4pt; }
+  .rcard .rb .lbl { color:#7b8794; font-size:8.4pt; }
+  /* role section */
+  .role { page-break-before:always; }
+  .rolehdr { color:#fff; border-radius:10px; padding:11px 16px; margin:6px 0 8px; }
+  .rolehdr .nm { font-size:15pt; font-weight:700; }
+  .rolehdr .ms { font-size:9.8pt; opacity:.95; }
+  .path { background:#f5f7fc; border:1px solid #d7deea; border-radius:8px; padding:8px 12px;
+          margin:6px 0 10px; font-weight:700; color:var(--ink); text-align:center; font-size:10pt; }
+  .path .a { color:var(--brand2); padding:0 5px; }
+  /* journey step */
+  .jstep { page-break-inside:avoid; margin:12px 0 16px; }
+  .jhead { display:flex; gap:9px; align-items:center; margin-bottom:5px; }
+  .jhead .num { flex:none; width:27px; height:27px; border-radius:50%; color:#fff; font-weight:700;
+                font-size:12pt; font-family:Arial,sans-serif; display:flex; align-items:center; justify-content:center; }
+  .jhead h3 { margin:0; font-size:12pt; color:var(--ink); }
+  .shot { border:1px solid #d7deea; border-radius:9px; overflow:hidden; box-shadow:0 2px 9px rgba(31,42,91,.10); }
+  .shot img { width:100%; height:auto; display:block; }
+  .do { margin:6px 2px 0; }
+  .do .k { color:var(--ink); font-weight:700; }
+  .menu { background:#eef3fb; color:var(--ink); padding:1px 7px; border-radius:5px; font-size:9.6pt; white-space:nowrap; }
+  .tip { background:#e9fbfd; border:1px solid #bfeef4; border-inline-start:4px solid var(--accent);
+         border-radius:7px; padding:8px 13px; margin:8px 0; font-size:10pt; }
+  table { border-collapse:collapse; width:100%; margin:6px 0 10px; font-size:10pt; }
+  th, td { border:1px solid #d7deea; padding:6px 10px; text-align:right; vertical-align:top; }
+  th { background:var(--ink); color:#fff; font-weight:700; }
+  tr:nth-child(even) td { background:#f5f7fc; }
+  .foot { margin-top:16px; padding-top:9px; border-top:1px solid #d7deea; color:#7b8794; font-size:9pt;
+          display:flex; justify-content:space-between; }
+  .foot .b { color:var(--ink); font-weight:700; }
+  .avoid { page-break-inside:avoid; }
+</style>
+</head>
+<body>
+
+<div class="brandbar">
+  <span class="dtmark">DT<span class="plus">+</span></span>
+  <span class="tag">التحوّل الرقمي</span>
+</div>
+
+<h1>نظام ERP لشركات التوريدات الطبية<br>دليل الأدوار ورحلات الاستخدام</h1>
+<p class="sub">دليلٌ عملي مُصوَّر — لكل مستخدمٍ دوره، ولكل دورٍ رحلته خطوةً بخطوة على شاشات النظام الحقيقية.</p>
+
+<div class="box">
+  <b>لماذا هذا الدليل؟</b> بدل شرحٍ نظري طويل، نأخذ كل موظّف في <b>رحلة عمله اليومية</b> كما تظهر فعليًا على
+  النظام: من أين يبدأ، وأي زرٍّ يضغط، وما الذي يراه في كل خطوة. اعثر على دورك في الصفحة التالية، واتبع رحلتك فقط.
+  <br><span style="color:#7b8794;font-size:9pt">ملاحظة: الشاشات في هذا الدليل ملتقطة من نظامٍ حقيقي لشركة توريدات طبية تجريبية (العملة: الجنيه السوداني)، وهي مطابقة لما ستراه.</span>
+</div>
+
+<h2>الصورة الكبيرة: كيف تسير البضاعة والمال في الشركة</h2>
+<div class="bigflow avoid">
+  <div class="node"><div class="t">المورّدون</div><div class="d">مصانع ووكلاء الأدوية</div></div>
+  <div class="arr">←</div>
+  <div class="node"><div class="t">المشتريات</div><div class="d">طلب وتوريد الأصناف</div></div>
+  <div class="arr">←</div>
+  <div class="node"><div class="t">المخزون</div><div class="d">استلام · تخزين · دفعات وصلاحية</div></div>
+  <div class="arr">←</div>
+  <div class="node"><div class="t">المبيعات</div><div class="d">بيع وتسليم للعملاء</div></div>
+  <div class="arr">←</div>
+  <div class="node"><div class="t">العملاء</div><div class="d">مستشفيات · صيدليات</div></div>
+</div>
+<div class="acct-band">المحاسبة تُسجّل الجانب المالي عبر الدورة كاملة: فواتير الموردين والعملاء، المدفوعات، والتسويات</div>
+
+<h2>الأدوار: من يفعل ماذا؟</h2>
+<div class="roles">
+  <div class="rcard">
+    <div class="rh" style="background:var(--warehouse)">أمين المستودع</div>
+    <div class="rb"><div class="lbl">المسؤولية</div>استلام الأدوية، التخزين، تتبّع الدفعات وتواريخ الصلاحية، الجرد.
+    <div class="lbl" style="margin-top:5px">التطبيق</div>المخزون</div>
+  </div>
+  <div class="rcard">
+    <div class="rh" style="background:var(--procure)">موظّف المشتريات</div>
+    <div class="rb"><div class="lbl">المسؤولية</div>طلب الأسعار، إصدار أوامر الشراء، متابعة الموردين والفواتير.
+    <div class="lbl" style="margin-top:5px">التطبيق</div>المشتريات</div>
+  </div>
+  <div class="rcard">
+    <div class="rh" style="background:var(--sales)">موظّف المبيعات</div>
+    <div class="rb"><div class="lbl">المسؤولية</div>عروض الأسعار، أوامر البيع، التسليم، فواتير العملاء.
+    <div class="lbl" style="margin-top:5px">التطبيق</div>المبيعات</div>
+  </div>
+  <div class="rcard">
+    <div class="rh" style="background:var(--account)">المحاسب</div>
+    <div class="rb"><div class="lbl">المسؤولية</div>الفواتير، تسجيل المدفوعات، التسوية البنكية، التقارير المالية.
+    <div class="lbl" style="margin-top:5px">التطبيق</div>المحاسبة</div>
+  </div>
+  <div class="rcard">
+    <div class="rh" style="background:var(--manager)">المدير</div>
+    <div class="rb"><div class="lbl">المسؤولية</div>متابعة الأداء عبر اللوحات، التقارير، الموافقات، وإدارة الصلاحيات.
+    <div class="lbl" style="margin-top:5px">التطبيق</div>الكل + لوحات المعلومات</div>
+  </div>
+  <div class="rcard" style="background:#f5f7fc">
+    <div class="rh" style="background:var(--ink)">يبدأ الجميع من هنا</div>
+    <div class="rb">تسجيل الدخول بالرابط واسم المستخدم وكلمة المرور، ثم اختيار التطبيق الخاص بدورك من الشريط العلوي.</div>
+  </div>
+</div>
+
+<div class="tip avoid"><b>قبل أن تبدأ رحلتك:</b> سجّل الدخول مرّة واحدة. هذه شاشة الدخول المشتركة لكل الأدوار:</div>
+<div class="jstep avoid">
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/login.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> أدخل اسم المستخدم وكلمة المرور اللذين زوّدك بهما المدير، ثم اضغط «تسجيل الدخول». غيّر كلمة المرور من <span class="menu">قائمة حسابك ← التفضيلات</span> عند أول دخول.</p>
+</div>
+
+<!-- ============ WAREHOUSE ============ -->
+<div class="role">
+<div class="rolehdr" style="background:linear-gradient(135deg,var(--warehouse),#0fa86e)">
+  <div class="nm">رحلة أمين المستودع</div>
+  <div class="ms">استلام الأدوية وتخزينها وتتبّع كل دفعة بتاريخ صلاحيتها — قلب شركة التوريدات الطبية.</div>
+</div>
+<div class="path">استلام الشحنة <span class="a">←</span> تسجيل الدفعة والصلاحية <span class="a">←</span> التخزين <span class="a">←</span> متابعة الأرصدة</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--warehouse)">1</div><h3>نظرة عامة على المخزون</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/inventory_overview.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> افتح تطبيق <span class="menu">المخزون</span>. ترى بطاقات العمليات: الاستلامات الواردة من الموردين، والتسليمات الصادرة للعملاء، مع عدد ما ينتظر التنفيذ.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--warehouse)">2</div><h3>استلام شحنة من المورّد</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/receipt_form.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> افتح إذن الاستلام، تحقّق من الأصناف والكميات الواردة (مثل المحاليل والأقراص والكبسولات)، ثم اضغط <span class="menu">تحقّق</span> لإدخالها للمخزون. سجّل <b>رقم الدفعة</b> و<b>تاريخ الصلاحية</b> لكل صنف عند الاستلام.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--warehouse)">3</div><h3>تتبّع الدفعة وتاريخ الصلاحية</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/lot_insulin.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> لكل دفعة سجلٌّ مستقل برقمها وتاريخ انتهائها. يستخدم النظام هذه التواريخ لتطبيق قاعدة <b>«الأقرب انتهاءً يُصرف أولًا» (FEFO)</b> فلا تتراكم الأدوية قرب انتهائها.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--warehouse)">4</div><h3>متابعة الكميات المتوفّرة</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/onhand_quants.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> راجع الرصيد الحالي لكل صنف حسب الموقع والدفعة. تساعدك هذه الشاشة على معرفة ما يجب إعادة طلبه قبل نفاده.</p>
+</div>
+
+<div class="tip">نصيحة للمستودع الطبي: افصل مواقع <b>التخزين</b> عن <b>الحجر الصحي</b> و<b>التالف/منتهي الصلاحية</b> حتى لا تُصرف الأدوية غير الصالحة بالخطأ.</div>
+</div>
+
+<!-- ============ PROCUREMENT ============ -->
+<div class="role">
+<div class="rolehdr" style="background:linear-gradient(135deg,var(--procure),#d98324)">
+  <div class="nm">رحلة موظّف المشتريات</div>
+  <div class="ms">توفير الأدوية من الموردين بأفضل سعرٍ وفي الوقت المناسب.</div>
+</div>
+<div class="path">طلب عرض سعر <span class="a">←</span> تأكيد أمر الشراء <span class="a">←</span> الاستلام <span class="a">←</span> فاتورة المورّد</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--procure)">1</div><h3>إنشاء طلب عرض سعر (RFQ)</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/po_rfq.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> من تطبيق <span class="menu">المشتريات ← جديد</span>، اختر المورّد وأضف الأصناف والكميات المطلوبة. هذه مرحلة «طلب عرض السعر» قبل الالتزام.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--procure)">2</div><h3>تأكيد أمر الشراء</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/po_usd.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> بعد الموافقة، اضغط <span class="menu">تأكيد</span> ليتحوّل الطلب إلى <b>أمر شراء</b> رسمي. يدعم النظام الشراء بعملةٍ أجنبية (مثل الدولار) مع سعر صرفٍ مؤرَّخ — مفيدٌ للأدوية المستوردة.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--procure)">3</div><h3>استلام البضاعة (بالتنسيق مع المستودع)</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/receipt_form.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> يفتح أمر الشراء إذن استلامٍ في المخزون. يستلم أمين المستودع البضاعة ويسجّل الدفعات والصلاحية. تابع حالة الاستلام من أمر الشراء نفسه.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--procure)">4</div><h3>تسجيل فاتورة المورّد</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/vendor_bill_usd.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> اضغط <span class="menu">إنشاء فاتورة</span> لتسجيل فاتورة المورّد، وطابقها مع الكميات المستلمة فعليًا قبل اعتمادها لتفادي الفروقات.</p>
+</div>
+</div>
+
+<!-- ============ SALES ============ -->
+<div class="role">
+<div class="rolehdr" style="background:linear-gradient(135deg,var(--sales),#3a8bff)">
+  <div class="nm">رحلة موظّف المبيعات</div>
+  <div class="ms">بيع الأدوية والمستلزمات للمستشفيات والصيدليات وتسليمها وفوترتها.</div>
+</div>
+<div class="path">عرض سعر <span class="a">←</span> تأكيد أمر البيع <span class="a">←</span> التسليم <span class="a">←</span> فاتورة العميل</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--sales)">1</div><h3>إنشاء عرض سعر</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/sale_quotation_draft.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> من تطبيق <span class="menu">المبيعات ← جديد</span>، اختر العميل (مستشفى/صيدلية) وأضف الأصناف والكميات والأسعار. أرسل العرض للعميل من داخل النظام.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--sales)">2</div><h3>تأكيد أمر البيع</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/sale_order.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> عند موافقة العميل اضغط <span class="menu">تأكيد</span>. يحسب النظام الضريبة والإجمالي بالجنيه السوداني، ويُنشئ إذن التسليم تلقائيًا.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--sales)">3</div><h3>تسليم البضاعة</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/delivery_form.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> ينفّذ المستودع التسليم بصرف الدفعات الأقرب انتهاءً أولًا (FEFO). اضغط <span class="menu">تحقّق</span> لتأكيد خروج البضاعة.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--sales)">4</div><h3>إصدار فاتورة العميل</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/customer_invoice.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> اضغط <span class="menu">إنشاء فاتورة</span> ثم <b>ترحيل</b>. تنتقل الفاتورة إلى المحاسب للتحصيل والمتابعة.</p>
+</div>
+</div>
+
+<!-- ============ ACCOUNTANT ============ -->
+<div class="role">
+<div class="rolehdr" style="background:linear-gradient(135deg,var(--account),#9a5bc0)">
+  <div class="nm">رحلة المحاسب</div>
+  <div class="ms">تحويل العمليات إلى أرقامٍ سليمة: الفواتير، التحصيل، التسوية، والتقارير.</div>
+</div>
+<div class="path">لوحة المحاسبة <span class="a">←</span> الفواتير <span class="a">←</span> تسجيل الدفعة <span class="a">←</span> التسوية البنكية <span class="a">←</span> التقارير</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--account)">1</div><h3>لوحة المحاسبة</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/accounting_dashboard.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> افتح تطبيق <span class="menu">المحاسبة</span>. تعرض اللوحة اليوميات (المبيعات، المشتريات، البنك) وما يحتاج إلى إجراء.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--account)">2</div><h3>مراجعة فاتورة العميل</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/customer_invoice.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> تأكّد من بنود الفاتورة والضريبة، ثم <b>رحّلها</b> لتصبح ذمّةً مدينة على العميل.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--account)">3</div><h3>تسجيل دفعة</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/payment_form.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> من الفاتورة اضغط <span class="menu">تسجيل دفعة</span> (سند قبض للعميل أو صرف للمورّد)، وحدّد البنك أو الصندوق والمبلغ.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--account)">4</div><h3>متابعة المدفوعات والتسوية البنكية</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/payments_list.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> تابع كل المدفوعات (قبض من العملاء وصرف للموردين) من قائمةٍ واحدة، ثم طابِق حركات كشف الحساب البنكي مع المسجّل في النظام عبر شاشة <span class="menu">التسوية البنكية</span> لإغلاق الفروقات أوّلًا بأوّل.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--account)">5</div><h3>تقرير أعمار الذمم</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/report_aged_receivable.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> استخرج تقرير <b>أعمار الذمم المدينة</b> لمعرفة العملاء المتأخرين عن السداد ومتابعة التحصيل.</p>
+</div>
+</div>
+
+<!-- ============ MANAGER ============ -->
+<div class="role">
+<div class="rolehdr" style="background:linear-gradient(135deg,var(--manager),#d35f47)">
+  <div class="nm">رحلة المدير</div>
+  <div class="ms">رؤيةٌ شاملة لأداء الشركة، وضبطٌ للصلاحيات، وقراراتٌ مبنيّة على الأرقام.</div>
+</div>
+<div class="path">لوحات الأداء <span class="a">←</span> تفادي النقص <span class="a">←</span> التقارير <span class="a">←</span> الصلاحيات</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--manager)">1</div><h3>لوحة المبيعات</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/sales_dashboard.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> تابع عروض الأسعار وأوامر البيع وأهم المؤشرات من تطبيق <span class="menu">المبيعات</span>.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--manager)">2</div><h3>تفادي نقص الأصناف الحرجة</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/reordering_rules.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> راجع <b>قواعد إعادة الطلب</b> (حد أدنى/أقصى) لكل دواء، فيُنبّه النظام أو يطلب تلقائيًا قبل النفاد — حاسمٌ للأصناف المنقذة للحياة.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--manager)">3</div><h3>التقارير المالية</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/report_balance_sheet.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> استعرض الميزانية والتقارير المالية، وصدّرها إلى Excel عند الحاجة لمشاركتها أو التحليل.</p>
+</div>
+
+<div class="jstep">
+  <div class="jhead"><div class="num" style="background:var(--manager)">4</div><h3>المستخدمون والصلاحيات</h3></div>
+  <div class="shot"><img src="file:///Users/waelabdalla/Documents/ephem-deploy/docs/manual/img/ar/users_list.png"></div>
+  <p class="do"><span class="k">ماذا تفعل:</span> أنشئ المستخدمين وامنح كلٌّ صلاحيات دوره فقط. <b>لا تمنح صلاحية «الإعدادات» إلا لشخصٍ أو شخصين.</b></p>
+</div>
+</div>
+
+<!-- ============ REFERENCE ============ -->
+<div class="role">
+<h2>مرجع سريع لكل المستخدمين</h2>
+<table class="avoid">
+  <tr><th>العنصر</th><th>أين تجده / ماذا يعني</th></tr>
+  <tr><td>الشريط العلوي</td><td>التنقّل داخل التطبيق (نظرة عامة، العمليات، التقارير، التهيئة)</td></tr>
+  <tr><td>زر «جديد»</td><td>إنشاء سجلٍّ جديد (أمر، فاتورة، منتج…)</td></tr>
+  <tr><td>زر «تأكيد» / «تحقّق»</td><td>اعتماد المستند ونقله للمرحلة التالية</td></tr>
+  <tr><td>شريط الحالة (أعلى)</td><td>مرحلة المستند: مسودة ← مؤكَّد ← منتهٍ</td></tr>
+  <tr><td>سجلّ المتابعة (أسفل السجل)</td><td>الملاحظات، المرفقات، وتاريخ كل تغيير</td></tr>
+  <tr><td>شريط البحث</td><td>بحث + «عوامل التصفية» + «تجميع حسب»</td></tr>
+</table>
+<div class="tip"><b>قاعدة ذهبية لشركات التوريدات الطبية:</b> لا تُدخل أو تصرف أي دواء دون تسجيل <b>رقم الدفعة وتاريخ الصلاحية</b> — فهي أساس السلامة، والتتبّع، وتفادي الخسائر.</div>
+
+<div class="foot">
+  <span><span class="b">DT+</span> · التحوّل الرقمي</span>
+  <span>نظام ERP للتوريدات الطبية — دليل الأدوار ورحلات الاستخدام</span>
+</div>
+</div>
+
+</body>
+</html>
