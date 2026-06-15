@@ -274,7 +274,12 @@ hotfix of `v18.0.2.5.0`: that release imported GraphRenderer (a LAZY-bundle modu
 which made the whole module lazy → the eager dashboard/inventory patches stopped loading off the graph page
 (regressed the v18.0.2.4.0 dashboard fix). Fix = split the GraphRenderer patch into its own
 `graph_view_rtl.js`; `chart_rtl.js` keeps only eager imports. Verified live (deployed bundle): dashboard +
-inventory + graph view all RTL, 0 JS errors. v18.0.2.5.0 itself:
+inventory + graph view all RTL, 0 JS errors. **NOT RTL-fixable (user accepted LTR 2026-06-15):** the
+top-level **"Dashboards" app** (لوحات البيانات, `/odoo/dashboards` = `spreadsheet_dashboard*`) is rendered by
+o-spreadsheet — its KPI scorecards, pivot tables, AND charts are all `<canvas>` pixels with no RTL support in
+Odoo (CSS `direction:rtl` has zero effect; proven). Fully RTL-ing it = rewriting the canvas engine →
+infeasible at theme level; the user chose to leave that one app LTR. The genuinely-RTL dashboards are the
+Accounting `لوحة البيانات` + Reporting graph/pivot. v18.0.2.5.0 itself:
 finishes the Arabic-RTL chart pass (v18.0.2.4.0 fixed only the Accounting dashboard) + a contact-card fix.
 (1) **Reporting graph view mirrors in Arabic** — Sales/Purchase/Invoices Analysis (any `graph` view) ride
 core's `GraphRenderer`, a *different* component from the dashboard field, with no direction awareness;
