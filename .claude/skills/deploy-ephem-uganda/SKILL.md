@@ -5,7 +5,8 @@ description: >-
   (ephem-app container) and troubleshooting the ePHEM Analytics dashboard
   builder. Use when asked to deploy, upgrade, or fix ephem_analytics /
   ephem_bridge / ephem_connect (or any module) on ephem_uganda, when dashboards
-  won't load/edit, or when widgets show errors. Encodes the exact upgrade +
+  won't load/edit, when widgets show errors, or when the whole web client
+  white-screens (blank /odoo) after a deploy/HUP. Encodes the exact upgrade +
   live-worker code-reload + cross-module-asset + access-group gotchas learned
   the hard way.
 ---
@@ -75,8 +76,15 @@ This is Odoo's "phoenix" re-exec: it reuses PID 1's exact current `--db_password
 argv and does NOT re-run the entrypoint, so it bypasses the documented
 password-drift restart risk. (The drift is not currently in effect — the env
 password is valid — so `docker restart ephem-app` also works; restart policy is
-`unless-stopped`.) Static assets (CSS/JS under `/<module>/static/...`) do NOT
-need this — they're served live from disk; a browser hard-refresh suffices.
+`unless-stopped`.) Static files served DIRECTLY (via `loadJS()`/`loadCSS()` or
+`<img src>`, e.g. the leaflet libs) do NOT need this — they're read live from
+disk; a browser hard-refresh suffices. **BUT files inside an asset bundle**
+(`web.assets_backend`/`_lazy`/`web.assets_web`) are compiled+cached as
+`ir_attachment` and, in production (no `--dev=assets`), only regenerate on
+HUP / `docker restart` / `-u` / an `ir.asset` change — a bare file edit does NOT
+trigger it. So after editing bundled JS/SCSS or a manifest `assets` block, HUP
+and let the first `/odoo` request recompile the bundle (its content-hash version
+changes → new bundle).
 
 ### 4. Verify
 ```bash
@@ -99,6 +107,73 @@ Then hard-refresh the browser (Cmd+Shift+R) and open a dashboard.
   `/eoc_base/static/src/lib/...` paths. The deployed eoc_base must carry them:
   `git checkout ephem-ai -- eoc_base/static/src/lib/leaflet-geoman` (leaflet/ +
   geojson/ are usually already present). Static files → hard-refresh only.
+
+## ⚠️ Blank / white web client (whole `/odoo` is blank) — CRITICAL
+
+A blank `/odoo` while the server returns **all 200s** (login, /odoo, load_menus,
+every bundle) is a **client-side asset-bundle abort**, not a server error: one
+module in `web.assets_backend` throws at bundle eval and the web client never
+mounts. Don't theorize from server logs (they're all 200) — **capture the real
+browser error**.
+
+### Step 1 — get the real console error (the only reliable first move)
+Drive a headless browser, log in, open `/odoo`, dump uncaught errors + console +
+a screenshot. The URL is **`http://localhost:8069`** (nginx :80/:443 are DOWN when
+`.env DOMAIN=` is empty — SSL was never set up). Multi-DB + no dbfilter means the
+bundle URL 404s without a session, so you MUST log in (admin/admin on the demo box):
+```bash
+npm i playwright@1.61.0 && npx playwright install chromium   # one-time
+```
+```js
+// diag.mjs — node diag.mjs  (EPHEM_PASSWORD=… EPHEM_LOGIN=admin)
+import { chromium } from 'playwright';
+const b = await chromium.launch(); const p = await (await b.newContext()).newPage();
+const errs=[]; p.on('pageerror',e=>errs.push('UNCAUGHT '+e.message));
+p.on('console',m=>m.type()==='error'&&errs.push(m.text()));
+await p.goto('http://localhost:8069/web/login?db=ephem_uganda');
+await p.fill('input[name=login]',process.env.EPHEM_LOGIN||'admin');
+await p.fill('input[name=password]',process.env.EPHEM_PASSWORD);
+await Promise.all([p.waitForNavigation().catch(()=>{}),p.click('button[type=submit]')]);
+await p.goto('http://localhost:8069/odoo',{waitUntil:'domcontentloaded'}); await p.waitForTimeout(6000);
+console.log(JSON.stringify(await p.evaluate(()=>({webClient:!!document.querySelector('.o_web_client'),navbar:!!document.querySelector('.o_main_navbar')}))));
+await p.screenshot({path:'/tmp/odoo.png'}); console.log(errs.join('\n')); await b.close();
+```
+Ignore extension/tracker noise (`contentScript.bundle`, `cdn.segment.com`,
+google-analytics). The first real red line names the file → fix it.
+
+Read-only DB inspection (NOT psql-gated for SELECTs — uses the container's own
+creds, never prints the password):
+```bash
+docker exec ephem-db sh -c 'psql -U "$POSTGRES_USER" -d ephem_uganda -c "SELECT …"'
+```
+
+### Known cause #1 — leaflet-geoman bundled before leaflet ("L is not defined")
+`Error while loading "@eoc_base/lib/leaflet-geoman/leaflet-geoman.min": ReferenceError: L is not defined`
+→ eoc_base's glob `eoc_base/static/src/**/*.js` bundles
+`lib/leaflet-geoman/leaflet-geoman.min.js` **before** `lib/leaflet/leaflet.js`
+("leaflet-geoman/" sorts before "leaflet/" because '-' < '/'), so the Leaflet
+global `L` is undefined when geoman runs → the WHOLE backend bundle aborts → blank.
+Triggered by any `kill -HUP 1` that regenerates the bundle from a stale eoc_base
+(`nile-theme` lacked the fix; `ephem-ai` has it). **Fix** — in
+`eoc_base/__manifest__.py` `web.assets_backend`, right after the `**/*.js` glob:
+```python
+('remove', 'eoc_base/static/src/lib/leaflet-geoman/leaflet-geoman.min.js'),
+```
+geoman is lazy-loaded at runtime AFTER leaflet.js via `loadJS()` in
+`ephem_analytics/static/src/js/widgets/map_widget.js`, so removing it from the
+bundle is safe. Manifest assets are NOT mirrored to `ir.asset` (0 rows) → one
+**HUP** applies it; **no `-u eoc_base`** (forbidden). Do NOT also `('remove', …)`
+a path that doesn't exist on disk (e.g. leaflet-draw on nile-theme) — that can
+raise "could not remove". (Fixed 2026-06-17, custom-addons `f59a48c`.)
+
+### Known cause #2 — an eager file importing a LAZY view renderer (non-fatal)
+`@web/views/graph/graph_renderer … not defined` → `@nile_theme/webclient/graph_view_rtl … unmet dependencies`
+→ an EAGER module imports a renderer that ships only in `web.assets_backend_lazy`
+(graph/pivot/calendar/map renderers are lazy). App still renders, but the patch
+silently never applies + console noise on every page. **Fix**: declare the patch
+file in `web.assets_backend_lazy`, not `web.assets_backend`. (Fixed in nile_theme
+v18.0.2.5.2, `odoo-nile-theme` `3b37b42`.) Rule: a patch of a lazy renderer must
+live in the lazy bundle.
 
 ## Commit
 After verifying, commit in `custom-addons` scoped to just the touched paths
